@@ -1,0 +1,10 @@
+2024-10-02 18:42:17.6425 ERROR Something went wrong in the GetAllPharmacies service method AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+List`1 -> IEnumerable`1
+System.Collections.Generic.List`1[[Entities.Models.Pharmacy, Entities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.IEnumerable`1[[Shared.DataTransferObjects.PharmacyDto, Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+ ---> System.ArgumentException: Shared.DataTransferObjects.PharmacyDto needs to have a constructor with 0 args or only optional args. Validate your configuration for details. (Parameter 'type')
+   at lambda_method41(Closure , Object , IEnumerable`1 , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method41(Closure , Object , IEnumerable`1 , ResolutionContext )
+   at Service.PharmacyService.GetAllPharmacies(Boolean trackChanges) in D:\Practice\Service\PharmacyService.cs:line 30
