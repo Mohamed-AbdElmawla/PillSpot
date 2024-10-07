@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PharmacyLocator.Presentation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2aca508b1a78cdc552e42704633095be9d02eeb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+308751b1ab617b979f9955ab0f61bb339d3bc748")]
 [assembly: System.Reflection.AssemblyProductAttribute("PharmacyLocator.Presentation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PharmacyLocator.Presentation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

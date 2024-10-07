@@ -220,7 +220,7 @@ namespace PharmacyLocator.Migrations
                         new
                         {
                             Id = 1,
-                            LastUpdated = new DateTime(2024, 9, 30, 14, 14, 42, 901, DateTimeKind.Utc).AddTicks(3504),
+                            LastUpdated = new DateTime(2024, 10, 7, 12, 16, 18, 138, DateTimeKind.Utc).AddTicks(8588),
                             MedicineId = 1,
                             PharmacyId = 1,
                             Price = 4.99m,
@@ -229,7 +229,7 @@ namespace PharmacyLocator.Migrations
                         new
                         {
                             Id = 2,
-                            LastUpdated = new DateTime(2024, 9, 30, 14, 14, 42, 901, DateTimeKind.Utc).AddTicks(3507),
+                            LastUpdated = new DateTime(2024, 10, 7, 12, 16, 18, 138, DateTimeKind.Utc).AddTicks(8597),
                             MedicineId = 2,
                             PharmacyId = 1,
                             Price = 5.49m,
@@ -238,7 +238,7 @@ namespace PharmacyLocator.Migrations
                         new
                         {
                             Id = 3,
-                            LastUpdated = new DateTime(2024, 9, 30, 14, 14, 42, 901, DateTimeKind.Utc).AddTicks(3508),
+                            LastUpdated = new DateTime(2024, 10, 7, 12, 16, 18, 138, DateTimeKind.Utc).AddTicks(8599),
                             MedicineId = 1,
                             PharmacyId = 2,
                             Price = 4.99m,

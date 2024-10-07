@@ -10,6 +10,8 @@ namespace Contracts
     {
         IEnumerable<Pharmacy> GetAllPharmacies(bool trackChanges);
         Pharmacy GetPharmacy(int pharmacyId, bool trackChanges);
+        void CreatePharmacy(Pharmacy pharmacy);
+        IEnumerable<Pharmacy> GetByIds(IEnumerable<int> ids, bool trackChanges);
     }
 }
 

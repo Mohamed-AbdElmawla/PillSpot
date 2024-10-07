@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -42,6 +43,29 @@ namespace Service
                 throw new MedicineNotFoundException(medicineId);
             var medicineDto = _mapper.Map<PharmacyMedicineDto>(medicine);
             return medicineDto;
+        }
+
+        public PharmacyMedicineDto CreatePharmacyMedicine(int pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges)
+        {
+            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+
+            if (pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            var medicine = _repository.Medicine.GetMedicine(pharmacyMedicineCreationDto.MedicineId, trackChanges);
+
+            if (medicine is null)
+                throw new MedicineNotFoundException(pharmacyMedicineCreationDto.MedicineId);
+
+            var pharmacyMedicine = _mapper.Map<PharmacyMedicine>(pharmacyMedicineCreationDto);
+
+            _repository.PharmacyMedicine.CreatePharmacyMedicine(pharmacyId, pharmacyMedicine);
+
+            _repository.Save();
+
+            var pharmacyMedicineToReturn = _mapper.Map<PharmacyMedicineDto>(pharmacyMedicine);
+
+            return pharmacyMedicineToReturn;
         }
     }
 }

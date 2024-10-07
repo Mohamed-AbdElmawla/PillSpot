@@ -19,5 +19,11 @@ namespace Repository
             => FindByCondition(md=>md.PharmacyId.Equals(pharmacyId), trackChanges).ToList();
         public PharmacyMedicine GetMedicine(int pharmacyId, int medicineId, bool trackChanges)
             =>FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefault();
+
+        public void CreatePharmacyMedicine(int pharmacyId, PharmacyMedicine pharmacyMedicine)
+        {
+            pharmacyMedicine.PharmacyId = pharmacyId;
+            Create(pharmacyMedicine);
+        }
     }
 }

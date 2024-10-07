@@ -11,6 +11,7 @@ namespace Contracts
     {
         IPharmacyMedicineRepository PharmacyMedicine { get; }
         IPharmacyRepository Pharmacy { get; }
+        IMedicineRepository Medicine { get; }
         void Save();
     }
 }

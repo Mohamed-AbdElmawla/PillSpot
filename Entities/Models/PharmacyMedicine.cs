@@ -31,7 +31,7 @@ namespace Entities.Models
         public decimal Price { get; set; }
 
         [Required]
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         // Navigation properties
         public Pharmacy Pharmacy { get; set; }
