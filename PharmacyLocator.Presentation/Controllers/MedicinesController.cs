@@ -35,5 +35,11 @@ namespace PharmacyLocator.Presentation.Controllers
 
             return CreatedAtRoute("GetMedicineForPharmacy", new { pharmacyId, medicineId = pharmacyMedicineToReturn.MedicineId }, pharmacyMedicineToReturn);
         }
+        [HttpDelete("{medicineId:int}")]
+        public IActionResult DeletePharmacyMedicine(int pharmacyId, int medicineId)
+        {
+            _service.PharmacyMedicineService.DeletePharmacyMedicine(pharmacyId, medicineId, trackChanges: false);
+            return NoContent();
+        }
     }
 }

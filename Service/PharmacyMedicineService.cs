@@ -67,5 +67,20 @@ namespace Service
 
             return pharmacyMedicineToReturn;
         }
+
+        public void DeletePharmacyMedicine(int pharmacyId, int medicineId, bool trackChanges)
+        {
+            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+
+            if (pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            var medicine = _repository.PharmacyMedicine.GetMedicine(pharmacyId, medicineId, trackChanges);
+
+            if (medicine is null)
+                throw new MedicineNotFoundException(medicineId);
+            _repository.PharmacyMedicine.DeletePharmacyMedicine(medicine);
+            _repository.Save();
+        }
     }
 }
