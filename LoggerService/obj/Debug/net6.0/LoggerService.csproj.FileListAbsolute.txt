@@ -16,3 +16,6 @@ D:\Practice\LoggerService\obj\Debug\net6.0\LoggerService.pdb
 D:\Practice\LoggerService\obj\Debug\net6.0\ref\LoggerService.dll
 D:\Practice\LoggerService\bin\Debug\net6.0\Entities.dll
 D:\Practice\LoggerService\bin\Debug\net6.0\Entities.pdb
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\LoggerService\obj\Debug\net6.0\LoggerService.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\LoggerService\obj\Debug\net6.0\refint\LoggerService.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\LoggerService\obj\Debug\net6.0\LoggerService.pdb

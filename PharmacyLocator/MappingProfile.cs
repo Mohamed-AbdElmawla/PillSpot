@@ -9,7 +9,7 @@ namespace PharmacyLocator
     {
         public MappingProfile()
         {
-            CreateMap<Pharmacy, PharmacyDto>().ForMember(ph=> ph.FullAddress,opt => opt.MapFrom(x => string.Join(' ', x.Address, x.City)));
+          //  CreateMap<Pharmacy, PharmacyDto>().ForMember(ph=> ph.FullAddress,opt => opt.MapFrom(x => string.Join(' ', x.Address, x.City)));
 
             CreateMap<PharmacyMedicine, PharmacyMedicineDto>();
 

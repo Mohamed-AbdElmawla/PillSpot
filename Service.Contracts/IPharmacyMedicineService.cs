@@ -12,5 +12,6 @@ namespace Service.Contracts
         IEnumerable<PharmacyMedicineDto> GetMedicines(int pharmacyId, bool trackChanges);
         PharmacyMedicineDto GetMedicine(int pharmacyId, int medicineId, bool trackChanges);
         PharmacyMedicineDto CreatePharmacyMedicine(int pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges);
+        void DeletePharmacyMedicine(int pharmacyId, int pharmacyMedicineId, bool trackChanges);
     }
 }

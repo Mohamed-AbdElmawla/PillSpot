@@ -20,3 +20,6 @@ D:\Practice\Service\bin\Debug\net6.0\Entities.dll
 D:\Practice\Service\bin\Debug\net6.0\Entities.pdb
 D:\Practice\Service\bin\Debug\net6.0\Shared.dll
 D:\Practice\Service\bin\Debug\net6.0\Shared.pdb
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Service\obj\Debug\net6.0\Service.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Service\obj\Debug\net6.0\refint\Service.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Service\obj\Debug\net6.0\Service.pdb

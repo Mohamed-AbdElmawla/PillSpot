@@ -25,5 +25,6 @@ namespace Repository
             pharmacyMedicine.PharmacyId = pharmacyId;
             Create(pharmacyMedicine);
         }
+        public void DeletePharmacyMedicine(PharmacyMedicine pharmacyMedicine) => Delete(pharmacyMedicine);
     }
 }

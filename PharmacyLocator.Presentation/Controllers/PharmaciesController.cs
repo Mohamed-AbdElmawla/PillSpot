@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PharmacyLocator.Presentation.ModelBinders;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -38,7 +39,7 @@ namespace PharmacyLocator.Presentation.Controllers
             return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.Id},createdPharmacy);
         }
         [HttpGet("collection/({ids})",Name = "PharmacyCollection")]
-        public IActionResult GetPharmacyCollection(IEnumerable<int> ids)
+        public IActionResult GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
         {
             var pharmacies = _service.PharmacyService.GetByIds(ids,trackChanges: false);
             return Ok(pharmacies);

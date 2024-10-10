@@ -12,5 +12,6 @@ namespace Contracts
         IEnumerable<PharmacyMedicine> GetMedicines(int pharmacyId, bool trackChanges);
         PharmacyMedicine GetMedicine(int pharmacyId, int medicineId, bool trackChanges);
         void CreatePharmacyMedicine(int pharmacyId, PharmacyMedicine pharmacyMedicine);
+        void DeletePharmacyMedicine(PharmacyMedicine pharmacyMedicine);
     }
 }
