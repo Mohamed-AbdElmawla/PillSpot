@@ -10,3 +10,11 @@ D:\Practice\Entities\obj\Debug\net6.0\Entities.dll
 D:\Practice\Entities\obj\Debug\net6.0\refint\Entities.dll
 D:\Practice\Entities\obj\Debug\net6.0\Entities.pdb
 D:\Practice\Entities\obj\Debug\net6.0\ref\Entities.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.AssemblyInfoInputs.cache
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.AssemblyInfo.cs
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.csproj.CoreCompileInputs.cache
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.sourcelink.json
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\refint\Entities.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Entities\obj\Debug\net6.0\Entities.pdb

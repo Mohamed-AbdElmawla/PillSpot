@@ -1,32 +1,38 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repository.Configuration;
 
+
 namespace Repository
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
-        public RepositoryContext(DbContextOptions options):base(options) { }
+        public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<PharmacyMedicine> PharmacyMedicines { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<SearchHistory> SearchHistories { get; set; }
-
+        public DbSet<Government> Governments { get; set; }
+        public DbSet<City> Cities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure many-to-many relationship between Pharmacy and Medicine
-            modelBuilder.Entity<PharmacyMedicine>()
-                .HasOne(pm => pm.Pharmacy)
-                .WithMany(p => p.PharmacyMedicines)
-                .HasForeignKey(pm => pm.PharmacyId);
+            base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<PharmacyMedicine>()
-                .HasOne(pm => pm.Medicine)
-                .WithMany(m => m.PharmacyMedicines)
-                .HasForeignKey(pm => pm.MedicineId);
-            modelBuilder.ApplyConfiguration(new PharmacyConfiguration());
-            modelBuilder.ApplyConfiguration(new PharmacyMedicineConfiguration());
-            modelBuilder.ApplyConfiguration(new MedicineConfiguration());
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MessageConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GovernementeConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(PharmacyMedicineConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SearchHistoryConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         }
     }
 }

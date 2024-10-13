@@ -16,3 +16,6 @@ D:\Practice\Repository\obj\Debug\net6.0\Repository.pdb
 D:\Practice\Repository\obj\Debug\net6.0\ref\Repository.dll
 D:\Practice\Repository\bin\Debug\net6.0\Contracts.dll
 D:\Practice\Repository\bin\Debug\net6.0\Contracts.pdb
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Repository\obj\Debug\net6.0\Repository.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Repository\obj\Debug\net6.0\refint\Repository.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\Repository\obj\Debug\net6.0\Repository.pdb

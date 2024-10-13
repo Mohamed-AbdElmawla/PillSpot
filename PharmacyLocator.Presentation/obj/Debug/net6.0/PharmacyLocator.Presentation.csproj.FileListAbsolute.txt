@@ -16,3 +16,6 @@ D:\Practice\PharmacyLocator.Presentation\obj\Debug\net6.0\PharmacyLocator.Presen
 D:\Practice\PharmacyLocator.Presentation\obj\Debug\net6.0\ref\PharmacyLocator.Presentation.dll
 D:\Practice\PharmacyLocator.Presentation\bin\Debug\net6.0\Shared.dll
 D:\Practice\PharmacyLocator.Presentation\bin\Debug\net6.0\Shared.pdb
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\PharmacyLocator.Presentation\obj\Debug\net6.0\PharmacyLocator.Presentation.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\PharmacyLocator.Presentation\obj\Debug\net6.0\refint\PharmacyLocator.Presentation.dll
+C:\Users\Khaled Ibrahem\source\repos\PharmacyLocatorPractice\PharmacyLocator.Presentation\obj\Debug\net6.0\PharmacyLocator.Presentation.pdb

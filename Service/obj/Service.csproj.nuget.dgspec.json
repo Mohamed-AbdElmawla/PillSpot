@@ -1,35 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Practice\\Service\\Service.csproj": {}
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service\\Service.csproj": {}
   },
   "projects": {
-    "D:\\Practice\\Contracts\\Contracts.csproj": {
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Practice\\Contracts\\Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\Contracts.csproj",
         "projectName": "Contracts",
-        "projectPath": "D:\\Practice\\Contracts\\Contracts.csproj",
-        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
-        "outputPath": "D:\\Practice\\Contracts\\obj\\",
+        "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\Contracts.csproj",
+        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Practice\\Entities\\Entities.csproj": {
-                "projectPath": "D:\\Practice\\Entities\\Entities.csproj"
+              "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\Entities.csproj"
               }
             }
           }
@@ -38,11 +39,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -59,33 +65,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Practice\\Entities\\Entities.csproj": {
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Practice\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "D:\\Practice\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
-        "outputPath": "D:\\Practice\\Entities\\obj\\",
+        "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -93,11 +100,22 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -114,36 +132,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Practice\\Service.Contracts\\Service.Contracts.csproj": {
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\Service.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Practice\\Service.Contracts\\Service.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\Service.Contracts.csproj",
         "projectName": "Service.Contracts",
-        "projectPath": "D:\\Practice\\Service.Contracts\\Service.Contracts.csproj",
-        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
-        "outputPath": "D:\\Practice\\Service.Contracts\\obj\\",
+        "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\Service.Contracts.csproj",
+        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Practice\\Shared\\Shared.csproj": {
-                "projectPath": "D:\\Practice\\Shared\\Shared.csproj"
+              "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\Shared.csproj": {
+                "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\Shared.csproj"
               }
             }
           }
@@ -152,11 +171,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -173,39 +197,40 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Practice\\Service\\Service.csproj": {
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Practice\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "D:\\Practice\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
-        "outputPath": "D:\\Practice\\Service\\obj\\",
+        "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Practice\\Contracts\\Contracts.csproj": {
-                "projectPath": "D:\\Practice\\Contracts\\Contracts.csproj"
+              "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\Contracts.csproj": {
+                "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Contracts\\Contracts.csproj"
               },
-              "D:\\Practice\\Service.Contracts\\Service.Contracts.csproj": {
-                "projectPath": "D:\\Practice\\Service.Contracts\\Service.Contracts.csproj"
+              "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\Service.Contracts.csproj": {
+                "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Service.Contracts\\Service.Contracts.csproj"
               }
             }
           }
@@ -214,11 +239,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
@@ -241,33 +271,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Practice\\Shared\\Shared.csproj": {
+    "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Practice\\Shared\\Shared.csproj",
+        "projectUniqueName": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\Shared.csproj",
         "projectName": "Shared",
-        "projectPath": "D:\\Practice\\Shared\\Shared.csproj",
-        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
-        "outputPath": "D:\\Practice\\Shared\\obj\\",
+        "projectPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\Shared.csproj",
+        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Khaled Ibrahem\\source\\repos\\PharmacyLocatorPractice\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -275,11 +306,16 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "imports": [
             "net461",
             "net462",
@@ -296,7 +332,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
