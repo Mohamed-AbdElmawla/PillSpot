@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace PharmacyLocator.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241013195640_edit in models")]
+    partial class editinmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,7 +401,7 @@ namespace PharmacyLocator.Migrations
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
@@ -428,8 +431,12 @@ namespace PharmacyLocator.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PrescriptionId")
+                    b.Property<int>("PrescriptionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SOSNumber")
                         .HasColumnType("nvarchar(max)");
@@ -488,25 +495,25 @@ namespace PharmacyLocator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "88f54e08-20ed-4524-956b-5b05b60dbe55",
+                            Id = "9d231d02-584d-4031-86e6-032886282679",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b78dd4d7-8fcf-4e70-83dd-25aa47a9140d",
+                            Id = "e87753fc-4e0a-4186-8862-669847a2f4de",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "27b57876-2d18-42c1-b865-38e819c5b4c2",
+                            Id = "6d33f2b5-b3c4-4949-b089-d50eab856006",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "09c15af0-2c81-4a39-9e59-74f12c9dc1db",
+                            Id = "c6bd9113-6d05-4919-b320-fd7874655a28",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -753,7 +760,9 @@ namespace PharmacyLocator.Migrations
                 {
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Users")
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Location");
                 });
