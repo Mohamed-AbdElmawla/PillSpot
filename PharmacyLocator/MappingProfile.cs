@@ -15,6 +15,8 @@ namespace PharmacyLocator
 
             CreateMap<PharmacyForCreationDto, Pharmacy>();
             CreateMap<PharmacyMedicineForCreationDto, PharmacyMedicine>();
+
+            CreateMap<UserForRegistrationDto, User>();
         }
     }
 }

@@ -26,13 +26,6 @@ namespace Repository
 
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MessageConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GovernementeConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(NotificationConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderItemConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(PharmacyMedicineConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SearchHistoryConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         }
     }
 }

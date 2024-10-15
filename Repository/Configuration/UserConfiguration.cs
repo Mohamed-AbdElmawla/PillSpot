@@ -17,7 +17,7 @@ namespace Repository.Configuration
                 .HasMany(u => u.SentMessages)
                 .WithOne(m => m.Sender)
                 .HasForeignKey(m => m.SenderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); 
 
             builder
                 .HasMany(u => u.ReceivedMessages)
@@ -34,6 +34,7 @@ namespace Repository.Configuration
                 .HasMany(u => u.Orders)
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId);
+
         }
     }
 }
