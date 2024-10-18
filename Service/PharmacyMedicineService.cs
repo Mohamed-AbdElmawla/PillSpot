@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -15,9 +16,9 @@ namespace Service
     internal sealed class PharmacyMedicineService : IPharmacyMedicineService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger<IServiceManager> _logger;
         private readonly IMapper _mapper;
-        public PharmacyMedicineService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public PharmacyMedicineService(IRepositoryManager repository, ILogger<IServiceManager> logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;

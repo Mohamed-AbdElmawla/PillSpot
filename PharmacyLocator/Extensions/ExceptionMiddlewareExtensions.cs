@@ -2,6 +2,7 @@
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Service.Contracts;
 using System.Net;
 
 namespace PharmacyLocator.Extensions
@@ -9,7 +10,7 @@ namespace PharmacyLocator.Extensions
     public static class ExceptionMiddlewareExtensions
     {
         public static void ConfigureExceptionHandler(this WebApplication app,
-       ILoggerManager logger)
+       ILogger<IServiceManager> logger)
         {
             app.UseExceptionHandler(appError =>
             {

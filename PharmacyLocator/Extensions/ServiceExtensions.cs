@@ -1,5 +1,4 @@
-﻿using LoggerService;
-using Contracts;
+﻿using Contracts;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -32,9 +31,6 @@ namespace PharmacyLocator.Extensions
 
             });
         }
-
-        public static void ConfigureLoggerService(this IServiceCollection services) =>
-        services.AddSingleton<ILoggerManager, LoggerManager>();
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();

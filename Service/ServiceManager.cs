@@ -3,6 +3,7 @@ using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Service
         private readonly Lazy<IPharmacyService> _PharmacyService;
         private readonly Lazy<IPharmacyMedicineService> _PharmacyMedicineService;
         private readonly Lazy<IAuthenticationService> _authentication;
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger, UserManager<User> userManager,IConfiguration configuration, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager,IConfiguration configuration, IMapper mapper)
         {
             _PharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, logger,mapper));
             _PharmacyMedicineService = new Lazy<IPharmacyMedicineService>(() => new PharmacyMedicineService(repositoryManager, logger,mapper));
