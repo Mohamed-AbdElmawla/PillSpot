@@ -8,10 +8,10 @@ namespace Contracts
 {
     public interface IPharmacyRepository
     {
-        IEnumerable<Pharmacy> GetAllPharmacies(bool trackChanges);
-        Pharmacy GetPharmacy(int pharmacyId, bool trackChanges);
+        Task<IEnumerable<Pharmacy>> GetAllPharmaciesAsync(bool trackChanges);
+        Task<Pharmacy> GetPharmacyAsync(int pharmacyId, bool trackChanges);
         void CreatePharmacy(Pharmacy pharmacy);
-        IEnumerable<Pharmacy> GetByIds(IEnumerable<int> ids, bool trackChanges);
+        Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
     }
 }
 

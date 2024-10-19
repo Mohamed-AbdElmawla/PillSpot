@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace Repository
 
         }
 
-        public Medicine GetMedicine(int medicineId, bool trackChanges) => FindByCondition(md => md.Id.Equals(medicineId), trackChanges).SingleOrDefault();
+        public async Task<Medicine> GetMedicineAsync(int medicineId, bool trackChanges) => await FindByCondition(md => md.Id.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
     }
 }
