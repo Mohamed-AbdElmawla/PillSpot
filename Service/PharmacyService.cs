@@ -27,16 +27,16 @@ namespace Service
 
     
 
-        public PharmacyDto CreatePharmacy(PharmacyForCreationDto pharmacy)
+        public async Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy)
         {
             var pharmacyEntitiy = _mapper.Map<Pharmacy>(pharmacy);
             _repository.Pharmacy.CreatePharmacy(pharmacyEntitiy);
-            _repository.Save();
+            await _repository.SaveAsync();
             var pharmacyToReturn = _mapper.Map<PharmacyDto>(pharmacyEntitiy);
             return pharmacyToReturn;
         }
 
-        public (IEnumerable<PharmacyDto> pharmacies, string ids) CreatePharmacyCollection(IEnumerable<PharmacyForCreationDto> pharmacyCollection)
+        public async Task<(IEnumerable<PharmacyDto> pharmacies, string ids)> CreatePharmacyCollectionAsync(IEnumerable<PharmacyForCreationDto> pharmacyCollection)
         {
             if (pharmacyCollection is null)
                 throw new PharmacyCollectionBadRequest();
@@ -45,33 +45,33 @@ namespace Service
             {
                 _repository.Pharmacy.CreatePharmacy(pharmacy);
             }
-            _repository.Save();
+            await _repository.SaveAsync();
             var pharmacyCollectionToReturn = _mapper.Map<IEnumerable<PharmacyDto>>(pharmaciesEntities);
             var ids = string.Join(",", pharmacyCollectionToReturn.Select(ph => ph.Id));
             return (pharmacies: pharmacyCollectionToReturn, ids: ids);
         }
 
-        public IEnumerable<PharmacyDto> GetAllPharmacies(bool trackChanges)
+        public async Task<IEnumerable<PharmacyDto>> GetAllPharmaciesAsync(bool trackChanges)
         {
-            var pharmacies = _repository.Pharmacy.GetAllPharmacies(trackChanges);
+            var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(trackChanges);
             var pharmaciesDto = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacies);
             return pharmaciesDto;
         }
 
-        public IEnumerable<PharmacyDto> GetByIds(IEnumerable<int> ids, bool trackChanges)
+        public async Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
         {
             if(ids is null)
                 throw new IdParametersBadRequestException();
-            var pharmacies = _repository.Pharmacy.GetByIds(ids, trackChanges);
+            var pharmacies = await _repository.Pharmacy.GetByIdsAsync(ids, trackChanges);
             if (ids.Count() != pharmacies.Count())
                 throw new CollectionByIdsBadRequestException();
             var pharmaciesToReturn = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacies);
             return pharmaciesToReturn;
         }
 
-        public PharmacyDto GetPharmacy(int pharmacyId, bool trackChanges)
+        public async Task<PharmacyDto> GetPharmacyAsync(int pharmacyId, bool trackChanges)
         {
-            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);

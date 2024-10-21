@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace Repository
             
         }
 
-        public IEnumerable<PharmacyMedicine> GetMedicines(int pharmacyId, bool trackChanges) 
-            => FindByCondition(md=>md.PharmacyId.Equals(pharmacyId), trackChanges).ToList();
-        public PharmacyMedicine GetMedicine(int pharmacyId, int medicineId, bool trackChanges)
-            =>FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefault();
+        public async Task<IEnumerable<PharmacyMedicine>> GetMedicinesAsync(int pharmacyId, bool trackChanges) 
+            => await FindByCondition(md=>md.PharmacyId.Equals(pharmacyId), trackChanges).ToListAsync();
+        public async Task<PharmacyMedicine> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
+            =>await FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
 
         public void CreatePharmacyMedicine(int pharmacyId, PharmacyMedicine pharmacyMedicine)
         {

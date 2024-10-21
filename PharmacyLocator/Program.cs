@@ -1,8 +1,10 @@
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PharmacyLocator.Extensions;
 using PharmacyLocator.Presentation.ActionFilters;
+using Service.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,9 +32,9 @@ builder.Services.AddControllers(config => {
 }).AddXmlDataContractSerializerFormatters()
 .AddCustomCSVFormatter()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly); ;
-
 var app = builder.Build();
 
+app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<IServiceManager>>());
 
 if (app.Environment.IsProduction())
     app.UseHsts();

@@ -25,35 +25,35 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<PharmacyMedicineDto> GetMedicines(int pharmacyId, bool trackChanges)
+        public async Task<IEnumerable<PharmacyMedicineDto>> GetMedicinesAsync(int pharmacyId, bool trackChanges)
         {
-            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
-            var medicines = _repository.PharmacyMedicine.GetMedicines(pharmacyId, trackChanges);
+            var medicines = await _repository.PharmacyMedicine.GetMedicinesAsync(pharmacyId, trackChanges);
             var medicinesDto = _mapper.Map<IEnumerable<PharmacyMedicineDto>>(medicines);
             return medicinesDto;
         }
-        public PharmacyMedicineDto GetMedicine(int pharmacyId, int medicineId, bool trackChanges)
+        public async Task<PharmacyMedicineDto> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
         {
-            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
-            var medicine = _repository.PharmacyMedicine.GetMedicine(pharmacyId, medicineId, trackChanges);
+            var medicine = await _repository.PharmacyMedicine.GetMedicineAsync(pharmacyId, medicineId, trackChanges);
             if (medicine is null)
                 throw new MedicineNotFoundException(medicineId);
             var medicineDto = _mapper.Map<PharmacyMedicineDto>(medicine);
             return medicineDto;
         }
 
-        public PharmacyMedicineDto CreatePharmacyMedicine(int pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges)
+        public async Task<PharmacyMedicineDto> CreatePharmacyMedicineAsync(int pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges)
         {
-            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
 
-            var medicine = _repository.Medicine.GetMedicine(pharmacyMedicineCreationDto.MedicineId, trackChanges);
+            var medicine = await _repository.Medicine.GetMedicineAsync(pharmacyMedicineCreationDto.MedicineId, trackChanges);
 
             if (medicine is null)
                 throw new MedicineNotFoundException(pharmacyMedicineCreationDto.MedicineId);
@@ -62,26 +62,26 @@ namespace Service
 
             _repository.PharmacyMedicine.CreatePharmacyMedicine(pharmacyId, pharmacyMedicine);
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var pharmacyMedicineToReturn = _mapper.Map<PharmacyMedicineDto>(pharmacyMedicine);
 
             return pharmacyMedicineToReturn;
         }
 
-        public void DeletePharmacyMedicine(int pharmacyId, int medicineId, bool trackChanges)
+        public async Task DeletePharmacyMedicine(int pharmacyId, int medicineId, bool trackChanges)
         {
-            var pharmacy = _repository.Pharmacy.GetPharmacy(pharmacyId, trackChanges);
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
 
-            var medicine = _repository.PharmacyMedicine.GetMedicine(pharmacyId, medicineId, trackChanges);
+            var medicine = await _repository.PharmacyMedicine.GetMedicineAsync(pharmacyId, medicineId, trackChanges);
 
             if (medicine is null)
                 throw new MedicineNotFoundException(medicineId);
             _repository.PharmacyMedicine.DeletePharmacyMedicine(medicine);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }
