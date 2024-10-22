@@ -10,5 +10,6 @@ namespace Contracts
     public interface IMedicineRepository
     {
         Task<Medicine> GetMedicineAsync(int medicineId, bool trackChanges);
+        void CreateMedicine(Medicine medicine);
     }
 }

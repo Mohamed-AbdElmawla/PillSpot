@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 namespace PharmacyLocator.Presentation.Controllers
 {
     [Route("api/pharmacies/{pharmacyId}/medicines")]
-    public class MedicinesController : ControllerBase
+    public class PharmacyMedicineController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public MedicinesController(IServiceManager service)=> _service = service;
+        public PharmacyMedicineController(IServiceManager service)=> _service = service;
 
         [HttpGet]
         public async Task<IActionResult> GetMedicinesForPharmacy(int pharmacyId)

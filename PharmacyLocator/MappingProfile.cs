@@ -13,7 +13,12 @@ namespace PharmacyLocator
 
             CreateMap<PharmacyMedicine, PharmacyMedicineDto>();
 
+            CreateMap<Medicine, MedicineDto>();
+
+            CreateMap<MedicineForCreationDto, Medicine>();
+
             CreateMap<PharmacyForCreationDto, Pharmacy>();
+
             CreateMap<PharmacyMedicineForCreationDto, PharmacyMedicine>();
 
             CreateMap<UserForRegistrationDto, User>();
