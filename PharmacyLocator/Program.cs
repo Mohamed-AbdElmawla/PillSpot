@@ -20,6 +20,8 @@ builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddScoped<ValidationFilterAttribute>();
+builder.Services.ConfigureSwagger();
+
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -32,7 +34,17 @@ builder.Services.AddControllers(config => {
 }).AddXmlDataContractSerializerFormatters()
 .AddCustomCSVFormatter()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly); ;
+
+
 var app = builder.Build();
+
+app.UseSwagger();
+
+app.UseSwaggerUI(s =>
+{
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "PharmacyLocator API v1");
+    s.RoutePrefix = string.Empty;
+});
 
 app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<IServiceManager>>());
 
