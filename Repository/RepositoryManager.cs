@@ -26,7 +26,10 @@ namespace Repository
         public IPharmacyRepository Pharmacy => _pharmacyRepository.Value;
         public IPharmacyMedicineRepository PharmacyMedicine => _pharmacyMedicineRepository.Value;
         public IMedicineRepository Medicine => _medicineRepository.Value;
+
         public IOrderRepository Order => _orderRepository.Value;
-        public void Save() => _repositoryContext.SaveChanges();
+
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+
     }
 }

@@ -2,6 +2,7 @@
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Service.Contracts;
 using System.Net;
 
 namespace PharmacyLocator.Extensions
@@ -9,7 +10,7 @@ namespace PharmacyLocator.Extensions
     public static class ExceptionMiddlewareExtensions
     {
         public static void ConfigureExceptionHandler(this WebApplication app,
-       ILoggerManager logger)
+       ILogger<IServiceManager> logger)
         {
             app.UseExceptionHandler(appError =>
             {
@@ -20,18 +21,32 @@ namespace PharmacyLocator.Extensions
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        context.Response.StatusCode = contextFeature.Error switch
+                        if (app.Environment.IsProduction())
                         {
-                            NotFoundException => StatusCodes.Status404NotFound,
-                            BadRequestException => StatusCodes.Status400BadRequest,
-                            _ => StatusCodes.Status500InternalServerError
-                        };
-                        logger.LogError($"Something went wrong: {contextFeature.Error}");
-                        await context.Response.WriteAsync(new ErrorDetails()
+                            await context.Response.WriteAsync(new ErrorDetails()
+                            {
+                                StatusCode = StatusCodes.Status500InternalServerError,
+                                Message = "Internal server error",
+                                Details = "We face some problems when try handle your request"
+                            }.ToString());
+                        }
+                        else
                         {
-                            StatusCode = context.Response.StatusCode,
-                            Message = contextFeature.Error.Message,
-                        }.ToString());
+                            context.Response.StatusCode = contextFeature.Error switch
+                            {
+                                NotFoundException => StatusCodes.Status404NotFound,
+                                BadRequestException => StatusCodes.Status400BadRequest,
+                                _ => StatusCodes.Status500InternalServerError
+                            };
+
+                            await context.Response.WriteAsync(new ErrorDetails()
+                            {
+                                StatusCode = context.Response.StatusCode,
+                                Message = contextFeature.Error.Message,
+                                Details = contextFeature.Error.ToString()
+                            }.ToString());
+                        }
+
                     }
                 });
             });

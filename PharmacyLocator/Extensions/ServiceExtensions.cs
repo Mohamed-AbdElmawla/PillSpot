@@ -1,5 +1,4 @@
-﻿using LoggerService;
-using Contracts;
+﻿using Contracts;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -10,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
 
 namespace PharmacyLocator.Extensions
 {
@@ -32,9 +32,6 @@ namespace PharmacyLocator.Extensions
 
             });
         }
-
-        public static void ConfigureLoggerService(this IServiceCollection services) =>
-        services.AddSingleton<ILoggerManager, LoggerManager>();
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();
@@ -79,5 +76,42 @@ namespace PharmacyLocator.Extensions
                 };
             });
         }
+
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "PharmacyLocator API",
+                    Version = "v1"
+                });
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer"
+                });
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                 {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                 });
+            });
+        }
+
+
     }
 }

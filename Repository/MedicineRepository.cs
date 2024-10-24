@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Repository
     {
         public MedicineRepository(RepositoryContext repositoryContext) :base(repositoryContext){ }
 
-        public Medicine GetMedicine(int medicineId, bool trackChanges) => FindByCondition(md => md.Id.Equals(medicineId), trackChanges).SingleOrDefault();
+        public void CreateMedicine(Medicine medicine) => Create(medicine);
+
+        public async Task<Medicine> GetMedicineAsync(int medicineId, bool trackChanges) => await FindByCondition(md => md.Id.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
     }
 }

@@ -10,30 +10,32 @@ using System.Threading.Tasks;
 namespace PharmacyLocator.Presentation.Controllers
 {
     [Route("api/pharmacies/{pharmacyId}/medicines")]
-    public class MedicinesController : ControllerBase
+    public class PharmacyMedicineController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public MedicinesController(IServiceManager service)=> _service = service;
-        public IActionResult GetMedicinesForPharmacy(int pharmacyId)
+        public PharmacyMedicineController(IServiceManager service)=> _service = service;
+
+        [HttpGet]
+        public async Task<IActionResult> GetMedicinesForPharmacy(int pharmacyId)
         {
-            var medicines = _service.PharmacyMedicineService.GetMedicines(pharmacyId,false);
+            var medicines = await _service.PharmacyMedicineService.GetMedicinesAsync(pharmacyId,false);
             return Ok(medicines);
         }
 
         [HttpGet("{medicineId:int}", Name = "GetMedicineForPharmacy")]
-        public IActionResult GetMedicineForPharmacy(int pharmacyId, int medicineId)
+        public async Task<IActionResult> GetMedicineForPharmacy(int pharmacyId, int medicineId)
         {
-            var medicine = _service.PharmacyMedicineService.GetMedicine(pharmacyId, medicineId, false);
+            var medicine = await _service.PharmacyMedicineService.GetMedicineAsync(pharmacyId, medicineId, false);
             return Ok(medicine);
         }
 
         [HttpPost]
-        public IActionResult CreatePharmacyMedicine(int pharmacyId, [FromBody] PharmacyMedicineForCreationDto pharmacyMedicine)
+        public async Task<IActionResult> CreatePharmacyMedicine(int pharmacyId, [FromBody] PharmacyMedicineForCreationDto pharmacyMedicine)
         {
             if (pharmacyMedicine is null)
                 return BadRequest("PharmacyMedicineForCreationDto object is null");
 
-            var pharmacyMedicineToReturn = _service.PharmacyMedicineService.CreatePharmacyMedicine(pharmacyId, pharmacyMedicine, trackChanges: false);
+            var pharmacyMedicineToReturn = await _service.PharmacyMedicineService.CreatePharmacyMedicineAsync(pharmacyId, pharmacyMedicine, trackChanges: false);
 
             return CreatedAtRoute("GetMedicineForPharmacy", new { pharmacyId, medicineId = pharmacyMedicineToReturn.MedicineId }, pharmacyMedicineToReturn);
         }

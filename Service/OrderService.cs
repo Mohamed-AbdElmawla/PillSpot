@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace Service
     internal sealed class OrderService : IOrderService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILoggerManager _logger;
+        private readonly ILogger<IServiceManager> _logger;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public OrderService(IRepositoryManager repository, ILogger<IServiceManager> logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
@@ -49,7 +50,7 @@ namespace Service
             }
 
             _repository.Order.CreateOrder(orderEntity);
-            _repository.Save();
+            _repository.SaveAsync();
 
             var orderToReturn = _mapper.Map<OrderDto>(orderEntity);
             return orderToReturn;
@@ -71,7 +72,7 @@ namespace Service
                 orderEntity.OrderItems.Add(orderItemEntity);
             }
 
-            _repository.Save();
+            _repository.SaveAsync();
         }
 
         public void DeleteOrder(int orderId, bool trackChanges)
@@ -81,7 +82,7 @@ namespace Service
                 throw new OrderNotFoundException(orderId);
 
             _repository.Order.DeleteOrder(orderEntity);
-            _repository.Save();
+            _repository.SaveAsync();
         }
     }
 }

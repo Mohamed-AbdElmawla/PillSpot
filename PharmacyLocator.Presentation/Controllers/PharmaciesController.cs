@@ -20,38 +20,38 @@ namespace PharmacyLocator.Presentation.Controllers
         public PharmaciesController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public IActionResult GetPharmacies()
+        public async Task<IActionResult> GetPharmacies()
         {
-            var pharmacies = _service.PharmacyService.GetAllPharmacies(true);
+            var pharmacies = await _service.PharmacyService.GetAllPharmaciesAsync(true);
             return Ok(pharmacies);
         }
         [HttpGet("{id:int}",Name ="PharmacyById")]
-        public IActionResult GetPharmacy(int Id)
+        public async Task<IActionResult> GetPharmacy(int Id)
         {
-            var pharmacy = _service.PharmacyService.GetPharmacy(Id, true);
+            var pharmacy = await _service.PharmacyService.GetPharmacyAsync(Id, true);
             return Ok(pharmacy);
         }
         [HttpPost]
-        public IActionResult CreatePharmacy([FromBody] PharmacyForCreationDto pharmacy)
+        public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacy)
         {
             if( pharmacy is null)
             {
                 return BadRequest("PharmacyForCreationDto object is null");
             }
-            var createdPharmacy = _service.PharmacyService.CreatePharmacy(pharmacy);
+            var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacy);
             return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.Id},createdPharmacy);
         }
         [HttpGet("collection/({ids})",Name = "PharmacyCollection")]
-        public IActionResult GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
+        public async Task<IActionResult> GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
         {
-            var pharmacies = _service.PharmacyService.GetByIds(ids,trackChanges: false);
+            var pharmacies = await _service.PharmacyService.GetByIdsAsync(ids,trackChanges: false);
             return Ok(pharmacies);
         }
 
         [HttpPost("collection")]
-        public IActionResult CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacyCollection)
+        public async Task<IActionResult> CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacyCollection)
         {
-            var result = _service.PharmacyService.CreatePharmacyCollection(pharmacyCollection);
+            var result = await _service.PharmacyService.CreatePharmacyCollectionAsync(pharmacyCollection);
             return CreatedAtRoute("PharmacyCollection", new { result.ids }, result.pharmacies);
         }
     }

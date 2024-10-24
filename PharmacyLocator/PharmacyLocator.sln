@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmacyLocator", "PharmacyLocator.csproj", "{CC8703EF-AFB9-48EC-925B-B36649C53EC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "..\LoggerService\LoggerService.csproj", "{99EF762B-C3C5-447F-910E-3CD66E2FC158}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "..\Contracts\Contracts.csproj", "{19F40EF7-C0E0-4D5D-99EA-BB6997C1EE10}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "..\Entities\Entities.csproj", "{0FFAA4E4-5909-4567-B60E-E298B5597CAC}"
@@ -31,10 +29,6 @@ Global
 		{CC8703EF-AFB9-48EC-925B-B36649C53EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC8703EF-AFB9-48EC-925B-B36649C53EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC8703EF-AFB9-48EC-925B-B36649C53EC4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99EF762B-C3C5-447F-910E-3CD66E2FC158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99EF762B-C3C5-447F-910E-3CD66E2FC158}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99EF762B-C3C5-447F-910E-3CD66E2FC158}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99EF762B-C3C5-447F-910E-3CD66E2FC158}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19F40EF7-C0E0-4D5D-99EA-BB6997C1EE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19F40EF7-C0E0-4D5D-99EA-BB6997C1EE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F40EF7-C0E0-4D5D-99EA-BB6997C1EE10}.Release|Any CPU.ActiveCfg = Release|Any CPU

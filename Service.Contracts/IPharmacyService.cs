@@ -9,10 +9,10 @@ namespace Service.Contracts
 {
     public interface IPharmacyService
     {
-        IEnumerable<PharmacyDto> GetAllPharmacies(bool trackChanges);
-        PharmacyDto GetPharmacy(int pharmacyId, bool trackChanges);
-        PharmacyDto CreatePharmacy(PharmacyForCreationDto pharmacy);
-        IEnumerable<PharmacyDto> GetByIds(IEnumerable<int> ids, bool trackChanges);
-        (IEnumerable<PharmacyDto> pharmacies, string ids) CreatePharmacyCollection(IEnumerable<PharmacyForCreationDto> pharmacyCollection);
+        Task<IEnumerable<PharmacyDto>> GetAllPharmaciesAsync(bool trackChanges);
+        Task<PharmacyDto> GetPharmacyAsync(int pharmacyId, bool trackChanges);
+        Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy);
+        Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+        Task<(IEnumerable<PharmacyDto> pharmacies, string ids)> CreatePharmacyCollectionAsync(IEnumerable<PharmacyForCreationDto> pharmacyCollection);
     }
 }
