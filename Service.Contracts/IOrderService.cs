@@ -9,10 +9,10 @@ namespace Service.Contracts
 {
     public interface IOrderService
     {
-        IEnumerable<OrderDto> GetOrders(bool trackChanges);
-        OrderDto GetOrder(int orderId, bool trackChanges);
-        OrderDto CreateOrder(OrderForCreationDto orderForCreationDto, bool trackChanges);
-        void UpdateOrder(int orderId, OrderForCreationDto orderForCreationDto, bool trackChanges);
-        void DeleteOrder(int orderId, bool trackChanges);
+        Task<IEnumerable<OrderDto>> GetOrdersAsync(bool trackChanges);
+        Task<OrderDto> GetOrderAsync(int orderId, bool trackChanges);
+        Task<OrderDto> CreateOrderAsync(OrderForCreationDto orderForCreationDto, bool trackChanges);
+        Task UpdateOrderAsync(int orderId, OrderForCreationDto orderForCreationDto, bool trackChanges);
+        Task DeleteOrderAsync(int orderId, bool trackChanges);
     }
 }

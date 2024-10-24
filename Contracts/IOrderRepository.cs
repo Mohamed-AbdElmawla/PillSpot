@@ -9,8 +9,8 @@ namespace Contracts
 {
     public interface IOrderRepository
     {
-        IEnumerable<Order> GetOrders(bool trackChanges);
-        Order GetOrder(int orderId, bool trackChanges);
+        Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges);
+        Task<Order> GetOrderAsync(int orderId, bool trackChanges);
         void CreateOrder(Order order);
         void DeleteOrder(Order order);
     }

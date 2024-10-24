@@ -15,49 +15,49 @@ namespace PharmacyLocator.Presentation.Controllers
 
         
         [HttpGet]
-        public IActionResult GetOrders()
+        public async Task<IActionResult> GetOrders()
         {
-            var orders = _service.OrderService.GetOrders(trackChanges: false);
+            var orders = await _service.OrderService.GetOrdersAsync(trackChanges: false);
             return Ok(orders);
         }
 
         
         [HttpGet("{id}", Name = "GetOrder")]
-        public IActionResult GetOrder(int id)
+        public async Task<IActionResult> GetOrder(int id)
         {
-            var order = _service.OrderService.GetOrder(id, trackChanges: false);
+            var order = await _service.OrderService.GetOrderAsync(id, trackChanges: false);
             return Ok(order);
         }
 
 
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] OrderForCreationDto orderDto)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderForCreationDto orderDto)
         {
             if (orderDto is null)
                 return BadRequest("OrderForCreationDto object is null");
 
-            var orderToReturn = _service.OrderService.CreateOrder(orderDto, trackChanges: false);
+            var orderToReturn = await _service.OrderService.CreateOrderAsync(orderDto, trackChanges: false);
             return CreatedAtRoute("GetOrder", new { id = orderToReturn.Id }, orderToReturn);
         }
 
         
         [HttpPut("{id}")]
-        public IActionResult UpdateOrder(int id, [FromBody] OrderForCreationDto orderDto)
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderForCreationDto orderDto)
         {
             if (orderDto == null)
             {
                 return BadRequest("OrderForUpdateDto object is null");
             }
 
-            _service.OrderService.UpdateOrder(id, orderDto, trackChanges: true);
+            await _service.OrderService.UpdateOrderAsync(id, orderDto, trackChanges: true);
             return NoContent();
         }
 
         
         [HttpDelete("{id}")]
-        public IActionResult DeleteOrder(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
-            _service.OrderService.DeleteOrder(id, trackChanges: false);
+            await _service.OrderService.DeleteOrderAsync(id, trackChanges: false);
             return NoContent();
         }
     }
