@@ -19,12 +19,14 @@ namespace PharmacyLocator.Presentation.Controllers
             var medicines = _service.PharmacyMedicineService.GetMedicines(pharmacyId,false);
             return Ok(medicines);
         }
+
         [HttpGet("{medicineId:int}", Name = "GetMedicineForPharmacy")]
         public IActionResult GetMedicineForPharmacy(int pharmacyId, int medicineId)
         {
             var medicine = _service.PharmacyMedicineService.GetMedicine(pharmacyId, medicineId, false);
             return Ok(medicine);
         }
+
         [HttpPost]
         public IActionResult CreatePharmacyMedicine(int pharmacyId, [FromBody] PharmacyMedicineForCreationDto pharmacyMedicine)
         {
