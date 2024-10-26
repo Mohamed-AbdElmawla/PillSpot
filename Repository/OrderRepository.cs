@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace Repository
         public OrderRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges) => FindAll(trackChanges).OrderBy(o => o.OrderedAt).ToList();
+        public async Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges) => await FindAll(trackChanges).OrderBy(o => o.OrderedAt).ToListAsync();
 
-        public async Task<Order> GetOrderAsync(int orderId, bool trackChanges) => FindByCondition(o => o.Id.Equals(orderId), trackChanges).SingleOrDefault();
+        public async Task<Order> GetOrderAsync(int orderId, bool trackChanges) => await FindByCondition(o => o.Id.Equals(orderId), trackChanges).SingleOrDefaultAsync();
 
         public void CreateOrder(Order order) => Create(order);
 
