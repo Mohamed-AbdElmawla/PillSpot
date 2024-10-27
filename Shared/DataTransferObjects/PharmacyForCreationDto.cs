@@ -19,6 +19,7 @@ namespace Shared.DataTransferObjects
          string ContactNumber,
          string OpeningHours ,
          bool IsOpen24Hours,
+         string logo,
          IEnumerable<PharmacyMedicineForCreationDto> PharmacyMedicines
    );
 }

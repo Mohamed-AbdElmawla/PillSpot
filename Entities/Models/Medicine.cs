@@ -8,6 +8,8 @@
         public string ActiveIngredient { get; set; }
         public string Dosage { get; set; }
         public string Brand { get; set; }
+        public string Logo { get; set; }
+
 
         public ICollection<PharmacyMedicine> PharmacyMedicine { get; set; }
     }

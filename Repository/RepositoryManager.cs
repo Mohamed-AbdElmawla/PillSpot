@@ -14,16 +14,21 @@ namespace Repository
         private readonly Lazy<IPharmacyRepository> _pharmacyRepository;
         private readonly Lazy<IPharmacyMedicineRepository> _pharmacyMedicineRepository;
         private readonly Lazy<IMedicineRepository> _medicineRepository;
+        private readonly Lazy<IOrderRepository> _orderRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
             _pharmacyRepository = new Lazy<IPharmacyRepository>(() => new PharmacyRepository(repositoryContext));
             _pharmacyMedicineRepository = new Lazy<IPharmacyMedicineRepository>(() => new PharmacyMedicineRepository(repositoryContext));
             _medicineRepository = new Lazy<IMedicineRepository>(() => new MedicineRepository(repositoryContext));
+            _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(repositoryContext));
         }
         public IPharmacyRepository Pharmacy => _pharmacyRepository.Value;
         public IPharmacyMedicineRepository PharmacyMedicine => _pharmacyMedicineRepository.Value;
         public IMedicineRepository Medicine => _medicineRepository.Value;
+        public IOrderRepository Order => _orderRepository.Value;
+
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+
     }
 }

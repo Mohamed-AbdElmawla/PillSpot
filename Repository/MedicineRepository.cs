@@ -11,10 +11,7 @@ namespace Repository
 {
     public class MedicineRepository : RepositoryBase<Medicine>, IMedicineRepository
     {
-        public MedicineRepository(RepositoryContext repositoryContext) :base(repositoryContext)
-        {
-
-        }
+        public MedicineRepository(RepositoryContext repositoryContext) :base(repositoryContext){ }
 
         public void CreateMedicine(Medicine medicine) => Create(medicine);
 

@@ -5,11 +5,7 @@ using Entities.Models;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Service
 {
@@ -24,10 +20,9 @@ namespace Service
             _logger = logger;
             _mapper = mapper;
         }
-
     
-
         public async Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy)
+
         {
             var pharmacyEntitiy = _mapper.Map<Pharmacy>(pharmacy);
             _repository.Pharmacy.CreatePharmacy(pharmacyEntitiy);

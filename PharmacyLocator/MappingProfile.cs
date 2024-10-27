@@ -17,10 +17,14 @@ namespace PharmacyLocator
 
             CreateMap<MedicineForCreationDto, Medicine>();
 
+            CreateMap<Order, OrderDto>();
+            CreateMap<OrderForCreationDto, Order>();
+            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItemForCreationDto, OrderItem>();
+
             CreateMap<PharmacyForCreationDto, Pharmacy>();
 
             CreateMap<PharmacyMedicineForCreationDto, PharmacyMedicine>();
-
             CreateMap<UserForRegistrationDto, User>();
         }
     }

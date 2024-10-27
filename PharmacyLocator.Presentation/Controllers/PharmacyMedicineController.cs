@@ -21,12 +21,14 @@ namespace PharmacyLocator.Presentation.Controllers
             var medicines = await _service.PharmacyMedicineService.GetMedicinesAsync(pharmacyId,false);
             return Ok(medicines);
         }
+
         [HttpGet("{medicineId:int}", Name = "GetMedicineForPharmacy")]
         public async Task<IActionResult> GetMedicineForPharmacy(int pharmacyId, int medicineId)
         {
             var medicine = await _service.PharmacyMedicineService.GetMedicineAsync(pharmacyId, medicineId, false);
             return Ok(medicine);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreatePharmacyMedicine(int pharmacyId, [FromBody] PharmacyMedicineForCreationDto pharmacyMedicine)
         {
