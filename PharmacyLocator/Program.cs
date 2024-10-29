@@ -1,6 +1,7 @@
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using PharmacyLocator.Extensions;
 using PharmacyLocator.Presentation.ActionFilters;
@@ -44,6 +45,13 @@ app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "PharmacyLocator API v1");
     s.RoutePrefix = string.Empty;
+});
+
+var staticFilesPath = Path.Combine(Environment.CurrentDirectory, "Images");
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(staticFilesPath),
+    RequestPath = "/Images"
 });
 
 app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<IServiceManager>>());
