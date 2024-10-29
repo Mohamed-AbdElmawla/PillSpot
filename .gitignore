@@ -40,3 +40,5 @@ Service.Contracts/obj
 Shared/.vs
 Shared/bin
 Shared/obj
+
+PharmacyLocator/Images/*

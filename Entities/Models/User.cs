@@ -16,7 +16,9 @@ namespace Entities.Models
         public Gender? Gender { get; set; }
         public int? PrescriptionId { get; set; }
         public DateTime CreatedAt { get; set; }
-
+        public string? RefreshToken { get; set; }
+        public string? PhotoUrl { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
         public Location Location { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Order> Orders { get; set; }

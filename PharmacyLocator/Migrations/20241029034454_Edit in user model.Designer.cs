@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace PharmacyLocator.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241029034454_Edit in user model")]
+    partial class Editinusermodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -436,9 +439,6 @@ namespace PharmacyLocator.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("PrescriptionId")
                         .HasColumnType("int");
 
@@ -505,25 +505,25 @@ namespace PharmacyLocator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0e6ed3e-6a5d-4e5f-b336-cb570b860e6b",
+                            Id = "3798348a-188e-4fe6-8208-293e39e50763",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "01e1e085-6458-40e6-a54c-19020732b4c9",
+                            Id = "55329e53-4533-43fb-a5eb-7097c22c131b",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "1b5ce77a-76f8-417c-8b90-96bcff3211d0",
+                            Id = "2519e081-a3c0-4222-8ce8-96f40a0c3225",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "732e5901-8798-4c75-bd3d-22caa46a4d1d",
+                            Id = "70276ea3-af95-474a-8966-17afa8173e08",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
