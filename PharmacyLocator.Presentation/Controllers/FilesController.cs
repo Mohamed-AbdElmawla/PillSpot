@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PharmacyLocator.Presentation.Controllers
 {
-    [Route("api/authentication")]
+    [Route("api/Files")]
     [ApiController]
     public class FilesController : ControllerBase
     {
@@ -17,7 +17,6 @@ namespace PharmacyLocator.Presentation.Controllers
         {
             #region Checking Extension
             var extension = Path.GetExtension(file.FileName);
-            //TODO: It's better to be part of appsettings.json
             var allowedExtenstions = new string[]
             {
             ".png",
