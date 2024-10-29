@@ -44,8 +44,16 @@ namespace PharmacyLocator.Presentation.Controllers
             return Ok(new
             {
                 Token = await _service
-            .AuthenticationService.CreateToken()
+            .AuthenticationService.CreateToken(true, user.rememberMe)
             });
+        }
+
+        [HttpPost("refresh")]
+        [ValidationFilterAttribute]
+        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
+        {
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
+            return Ok(tokenDtoToReturn);
         }
     }
 }
