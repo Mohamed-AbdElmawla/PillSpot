@@ -8,7 +8,7 @@
         public int LocationId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
-
+        public Medicine Medicine { get; set; }
         public Order Order { get; set; }
     }
 }

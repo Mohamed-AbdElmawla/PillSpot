@@ -6,7 +6,6 @@ namespace Repository.Configuration
 {
     public class PharmacyMedicineConfiguration : IEntityTypeConfiguration<PharmacyMedicine>
     {
-
         public void Configure(EntityTypeBuilder<PharmacyMedicine> builder)
         {
             builder.ToTable("PharmacyMedicines");

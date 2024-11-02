@@ -8,17 +8,27 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder
-            .HasOne(o => o.User)
-            .WithMany(u => u.Orders)
-            .HasForeignKey(o => o.UserId);
+            builder.ToTable("Orders");
 
-            builder
-              .HasOne(o => o.Location)
-              .WithMany(l => l.Orders)
-              .HasForeignKey(o => o.LocationId)
-              .OnDelete(DeleteBehavior.NoAction);
+            builder.HasKey(o => o.Id);
+
+            builder.Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
+            builder.Property(o => o.Status)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(o => o.Location)
+                .WithMany(l => l.Orders)
+                .HasForeignKey(o => o.LocationId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
-
 }

@@ -8,10 +8,26 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder
-              .HasOne(oi => oi.Order)
-              .WithMany(o => o.OrderItems)
-              .HasForeignKey(oi => oi.OrderId);
+            builder.ToTable("OrderItems");
+
+            builder.HasKey(oi => oi.OrderItemId);
+
+            builder.Property(oi => oi.UnitPrice)
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
+            builder.Property(oi => oi.Quantity)
+                .IsRequired();
+
+            builder.HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(oi => oi.Medicine)
+                .WithMany()
+                .HasForeignKey(oi => oi.MedicineId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

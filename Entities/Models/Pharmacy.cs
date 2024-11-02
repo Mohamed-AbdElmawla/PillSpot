@@ -23,7 +23,6 @@ namespace Entities.Models
         public bool IsOpen24Hours { get; set; }
         public DateTime CreatedAt { get; set; }
         public string LicenseId { get; set; }
-
         public Location Location { get; set; }
         public ICollection<PharmacyMedicine> PharmacyMedicines { get; set; }
     }

@@ -9,7 +9,6 @@
         public decimal TotalPrice { get; set; }
         public string Status { get; set; }
         public int PharmacyId { get; set; }
-
         public User User { get; set; }
         public Location Location { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }

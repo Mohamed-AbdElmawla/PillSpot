@@ -1,11 +1,6 @@
 ﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Repository.Configuration
 {
@@ -41,7 +36,7 @@ namespace Repository.Configuration
                 .HasMaxLength(50);
 
             builder.HasOne(p => p.Location)
-                .WithMany()
+                .WithMany(l => l.Pharmacies)
                 .HasForeignKey(p => p.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
