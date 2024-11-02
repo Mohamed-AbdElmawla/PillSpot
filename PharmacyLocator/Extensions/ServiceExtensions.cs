@@ -50,9 +50,10 @@ namespace PharmacyLocator.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<User, IdentityRole>()
-            .AddEntityFrameworkStores<RepositoryContext>()
-            .AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(o =>
+            {
+                o.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<RepositoryContext>().AddDefaultTokenProviders();
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
