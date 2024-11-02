@@ -8,12 +8,12 @@ namespace Shared.DataTransferObjects
 {
     public class OrderForCreationDto
     {
-        public string UserId { get; set; }
-        public int LocationId { get; set; }
-        public DateTime OrderedAt { get; set; } = DateTime.Now;
-        public decimal TotalPrice { get; set; }
-        public string Status { get; set; }
-        public int PharmacyId { get; set; }
-        public IEnumerable<OrderItemForCreationDto> OrderItems { get; set; }
+        public string UserId { get; init; }
+        public int LocationId { get; init; }
+        public DateTime OrderedAt { get; init; } = DateTime.Now;
+        public decimal TotalPrice { get; init; }
+        public string Status { get; init; }
+        public int PharmacyId { get; init; }
+        public IEnumerable<OrderItemForCreationDto> OrderItems { get; init; }
     }
 }

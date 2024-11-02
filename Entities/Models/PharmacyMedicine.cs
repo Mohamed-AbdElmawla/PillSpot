@@ -6,7 +6,6 @@
         public int MedicineId { get; set; }
         public decimal Price { get; set; }
         public DateTime LastUpdated { get; set; }
-
         public Pharmacy Pharmacy { get; set; }
         public Medicine Medicine { get; set; }
     }

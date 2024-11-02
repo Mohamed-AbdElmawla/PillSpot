@@ -42,7 +42,7 @@ namespace PharmacyLocator.OutputFormatter
         }
         private static void FormatCsv(StringBuilder buffer, PharmacyDto pharmacy)
         {
-            buffer.AppendLine($"{pharmacy.Id},\"{pharmacy.Name},\"{pharmacy.FullAddress}\"");
+            buffer.AppendLine($"{pharmacy.Id},\"{pharmacy.Name},\"{pharmacy.Address}\"");
         }
     }
 }

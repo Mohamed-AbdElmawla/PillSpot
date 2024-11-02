@@ -17,7 +17,7 @@ namespace Repository
         public async Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges) => await FindAll(trackChanges).OrderBy(o => o.OrderedAt).ToListAsync();
 
         public async Task<Order> GetOrderAsync(int orderId, bool trackChanges) => await FindByCondition(o => o.Id.Equals(orderId), trackChanges).SingleOrDefaultAsync();
-
+        public async Task<IEnumerable<Order>> GetOrdersByStatusAsync(string status, bool trackChanges) => await FindByCondition(o => o.Status == status, trackChanges).ToListAsync();
         public void CreateOrder(Order order) => Create(order);
 
         public void DeleteOrder(Order order) => Delete(order);

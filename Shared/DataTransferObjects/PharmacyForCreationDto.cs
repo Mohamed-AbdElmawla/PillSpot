@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-   public record PharmacyForCreationDto
+    public record PharmacyForCreationDto
     (
-        string Name ,
-         string Address ,
-         string City ,
-         string State ,
-         string ZipCode ,
-         decimal Latitude ,
-         decimal Longitude , 
-         string ContactNumber,
-         string OpeningHours ,
-         bool IsOpen24Hours,
-         string logo,
-         IEnumerable<PharmacyMedicineForCreationDto> PharmacyMedicines
-   );
+        string Name,
+        string Address,
+        string City,
+        string State,
+        string ZipCode,
+        decimal Latitude,
+        decimal Longitude,
+        string ContactNumber,
+        string OpeningHours,
+        bool IsOpen24Hours,
+        string? Logo, 
+        IEnumerable<PharmacyMedicineForCreationDto> PharmacyMedicines
+    );
 }
