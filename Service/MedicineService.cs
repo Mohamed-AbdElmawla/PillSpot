@@ -42,5 +42,15 @@ namespace Service
             var medicineDto = _mapper.Map<MedicineDto>(medicine);
             return medicineDto;
         }
+
+        public async Task DeleteMedicine(int medicineId, bool trackChanges)
+        {
+            var medicine = await _repository.Medicine.GetMedicineAsync(medicineId, trackChanges);
+
+            if (medicine is null)
+                throw new MedicineNotFoundException(medicineId);
+            _repository.Medicine.DeleteMedicine(medicine);
+            await _repository.SaveAsync();
+        }
     }
 }

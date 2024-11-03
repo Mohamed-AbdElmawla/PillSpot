@@ -11,5 +11,6 @@ namespace Service.Contracts
     {
         Task<MedicineDto> CreateMedicineAsync(MedicineForCreationDto medicine);
         Task<MedicineDto> GetMedicineAsync(int medicineId, bool trackChanges);
+        Task DeleteMedicine(int medicineId, bool trackChanges);
     }
 }

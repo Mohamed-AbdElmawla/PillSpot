@@ -33,5 +33,11 @@ namespace PharmacyLocator.Presentation.Controllers
             var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicine);
             return CreatedAtRoute("MedicineById", new { Id = createdMedicine.Id }, createdMedicine);
         }
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteMedicine(int Id)
+        {
+            _service.MedicineService.DeleteMedicine(Id, trackChanges: false);
+            return NoContent();
+        }
     }
 }
