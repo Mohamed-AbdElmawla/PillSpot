@@ -28,7 +28,6 @@ namespace Service
             var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
             return ordersDto;
         }
-
         public async Task<OrderDto> GetOrderAsync(int orderId, bool trackChanges)
         {
             var order = await _repository.Order.GetOrderAsync(orderId, trackChanges);
@@ -38,7 +37,6 @@ namespace Service
             var orderDto = _mapper.Map<OrderDto>(order);
             return orderDto;
         }
-
         public async Task<OrderDto> CreateOrderAsync(OrderForCreationDto orderForCreationDto, bool trackChanges)
         {
             var orderEntity = _mapper.Map<Order>(orderForCreationDto);
@@ -55,7 +53,6 @@ namespace Service
             var orderToReturn = _mapper.Map<OrderDto>(orderEntity);
             return orderToReturn;
         }
-
         public async Task UpdateOrderAsync(int orderId, OrderForCreationDto orderForCreationDto, bool trackChanges)
         {
             var orderEntity = await _repository.Order.GetOrderAsync(orderId, trackChanges);
@@ -74,7 +71,6 @@ namespace Service
 
             _repository.SaveAsync();
         }
-
         public async Task DeleteOrderAsync(int orderId, bool trackChanges)
         {
             var orderEntity = await _repository.Order.GetOrderAsync(orderId, trackChanges);
@@ -84,5 +80,17 @@ namespace Service
             _repository.Order.DeleteOrder(orderEntity);
             _repository.SaveAsync();
         }
+        public async Task<IEnumerable<OrderDto>> GetOrdersByStatusAsync(string status, bool trackChanges)
+        {
+            var orders = await _repository.Order.GetOrdersByStatusAsync(status, trackChanges);
+            
+            //if (orders == null || !orders.Any())
+            //    throw new OrdersNotFoundException(status);
+
+            var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
+
+            return ordersDto;
+        }
+
     }
 }

@@ -41,6 +41,7 @@ namespace PharmacyLocator.Presentation.Controllers
             var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacy);
             return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.Id},createdPharmacy);
         }
+
         [HttpGet("collection/({ids})",Name = "PharmacyCollection")]
         public async Task<IActionResult> GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
         {

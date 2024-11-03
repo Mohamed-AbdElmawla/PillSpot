@@ -4,6 +4,7 @@
     {
         public int CityId { get; set; }
         public int GovernmenteId { get; set; }
+        public int LocationId { get; set; }
         public string City_Name_AR { get; set; }
         public string City_Name_EN { get; set; }
 

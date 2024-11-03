@@ -20,6 +20,7 @@ namespace Service
         private readonly Lazy<IMedicineService> _MedicineService;
         private readonly Lazy<IAuthenticationService> _authentication;
         private readonly Lazy<IOrderService> _orderService;
+        private readonly Lazy<IDeliveryService> _deliveryService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager,IConfiguration configuration, IMapper mapper)
         {
@@ -27,16 +28,15 @@ namespace Service
             _PharmacyMedicineService = new Lazy<IPharmacyMedicineService>(() => new PharmacyMedicineService(repositoryManager, logger,mapper));
             _authentication = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
             _MedicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, logger, mapper));
-
             _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, logger, mapper));
+            _deliveryService = new Lazy<IDeliveryService>(() => new DeliveryService(repositoryManager, logger, mapper));
         }
         public IPharmacyService PharmacyService => _PharmacyService.Value;
         public IPharmacyMedicineService PharmacyMedicineService => _PharmacyMedicineService.Value;
         public IOrderService OrderService => _orderService.Value;
-        
         public IMedicineService MedicineService => _MedicineService.Value;
-
         public IAuthenticationService AuthenticationService => _authentication.Value;
+        public IDeliveryService DeliveryService => _deliveryService.Value;
 
     }
 }

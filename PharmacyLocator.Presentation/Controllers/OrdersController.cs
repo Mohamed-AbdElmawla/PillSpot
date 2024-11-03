@@ -60,5 +60,12 @@ namespace PharmacyLocator.Presentation.Controllers
             await _service.OrderService.DeleteOrderAsync(id, trackChanges: false);
             return NoContent();
         }
+
+        [HttpGet("status/{status}")]
+        public async Task<IActionResult> GetOrdersByStatusAsync(string status)
+        {
+            var orders = await _service.OrderService.GetOrdersByStatusAsync(status, trackChanges: false);
+            return Ok(orders);
+        }
     }
 }

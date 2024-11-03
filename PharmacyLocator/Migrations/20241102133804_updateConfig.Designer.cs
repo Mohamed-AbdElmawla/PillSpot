@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace PharmacyLocator.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241102133804_updateConfig")]
+    partial class updateConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,13 +35,11 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("City_Name_AR")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City_Name_EN")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GovernmenteId")
                         .HasColumnType("int");
@@ -50,7 +51,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Entities.Models.Government", b =>
@@ -66,13 +67,11 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Governmente_Name_AR")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Governmente_Name_EN")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
@@ -83,7 +82,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Governments", (string)null);
+                    b.ToTable("Governments");
                 });
 
             modelBuilder.Entity("Entities.Models.Location", b =>
@@ -96,8 +95,7 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("AdditionalInfo")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -113,7 +111,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasKey("LocationId");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Entities.Models.Medicine", b =>
@@ -169,8 +167,7 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ReadAt")
                         .HasColumnType("datetime2");
@@ -192,7 +189,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
@@ -204,9 +201,7 @@ namespace PharmacyLocator.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsNotified")
                         .HasColumnType("bit");
@@ -228,7 +223,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Entities.Models.Order", b =>
@@ -250,8 +245,7 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -266,7 +260,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Entities.Models.OrderItem", b =>
@@ -294,11 +288,9 @@ namespace PharmacyLocator.Migrations
 
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("MedicineId");
-
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Entities.Models.Pharmacy", b =>
@@ -333,6 +325,9 @@ namespace PharmacyLocator.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Logo")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -349,6 +344,8 @@ namespace PharmacyLocator.Migrations
                     b.HasKey("PharmacyId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("LocationId1");
 
                     b.ToTable("Pharmacies", (string)null);
                 });
@@ -386,13 +383,10 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("SearchTerm")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SearchedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -402,7 +396,7 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SearchHistories", (string)null);
+                    b.ToTable("SearchHistories");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -444,8 +438,7 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -477,8 +470,7 @@ namespace PharmacyLocator.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SOSNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -502,7 +494,7 @@ namespace PharmacyLocator.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -534,25 +526,25 @@ namespace PharmacyLocator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4c23c965-7d7e-4759-81a0-cdd7f221691d",
+                            Id = "702e1866-fcd4-4740-96eb-19db81deb8de",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ec660400-3a0e-4172-856f-626036f0842a",
+                            Id = "851d903e-e0e2-4eed-b8d7-bab7bca31db6",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "9916847b-15ef-4a35-b9a7-45f87c4e1dcf",
+                            Id = "815bfbb1-4064-40b9-aa7c-e5ee03a1406d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "daec7da7-8900-4e22-bc3f-a9d194328a34",
+                            Id = "051607bc-ba54-4727-a6b4-991b7434c6b0",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -669,7 +661,7 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Cities")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -680,13 +672,13 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.City", "City")
                         .WithMany("Governments")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Governments")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -729,13 +721,13 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Orders")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -745,19 +737,11 @@ namespace PharmacyLocator.Migrations
 
             modelBuilder.Entity("Entities.Models.OrderItem", b =>
                 {
-                    b.HasOne("Entities.Models.Medicine", "Medicine")
-                        .WithMany()
-                        .HasForeignKey("MedicineId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Medicine");
 
                     b.Navigation("Order");
                 });
@@ -765,10 +749,14 @@ namespace PharmacyLocator.Migrations
             modelBuilder.Entity("Entities.Models.Pharmacy", b =>
                 {
                     b.HasOne("Entities.Models.Location", "Location")
-                        .WithMany("Pharmacies")
+                        .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Entities.Models.Location", null)
+                        .WithMany("Pharmacies")
+                        .HasForeignKey("LocationId1");
 
                     b.Navigation("Location");
                 });
@@ -807,8 +795,7 @@ namespace PharmacyLocator.Migrations
                 {
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Users")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
                 });

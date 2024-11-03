@@ -8,14 +8,20 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Message> builder)
         {
-            builder
-           .HasOne(m => m.Sender)
-           .WithMany(u => u.SentMessages)
-           .HasForeignKey(m => m.SenderId)
-           .OnDelete(DeleteBehavior.Restrict);
+            builder.ToTable("Messages");
 
-            builder
-                .HasOne(m => m.Receiver)
+            builder.HasKey(m => m.MessageId);
+
+            builder.Property(m => m.Content)
+                .IsRequired()
+                .HasMaxLength(1000);
+
+            builder.HasOne(m => m.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(m => m.Receiver)
                 .WithMany(u => u.ReceivedMessages)
                 .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);

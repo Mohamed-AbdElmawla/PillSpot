@@ -8,6 +8,7 @@ namespace Service.Contracts
         IPharmacyMedicineService PharmacyMedicineService { get; }
         IOrderService OrderService { get; }
         IMedicineService MedicineService { get; }
+        IDeliveryService DeliveryService { get; }
         IAuthenticationService AuthenticationService { get; }
     }
 }

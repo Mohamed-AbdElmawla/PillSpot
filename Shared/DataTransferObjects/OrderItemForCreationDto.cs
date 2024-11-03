@@ -8,8 +8,8 @@ namespace Shared.DataTransferObjects
 {
     public class OrderItemForCreationDto
     {
-        public int MedicineId { get; set; }
-        public decimal UnitPrice { get; set; }
-        public int Quantity { get; set; }
+        public int MedicineId { get; init; }
+        public decimal UnitPrice { get; init; }
+        public int Quantity { get; init; }
     }
 }

@@ -8,33 +8,28 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder
-          .HasOne(u => u.Location)
-          .WithMany(l => l.Users)
-          .HasForeignKey(u => u.LocationId);
+            builder.ToTable("Users");
 
-            builder
-                .HasMany(u => u.SentMessages)
-                .WithOne(m => m.Sender)
-                .HasForeignKey(m => m.SenderId)
-                .OnDelete(DeleteBehavior.Restrict); 
+            builder.Property(u => u.Name)
+                .HasMaxLength(100);
 
-            builder
-                .HasMany(u => u.ReceivedMessages)
-                .WithOne(m => m.Receiver)
-                .HasForeignKey(m => m.ReceiverId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(u => u.SOSNumber)
+                .HasMaxLength(20);
 
-            builder
-                .HasMany(u => u.Notifications)
+            builder.HasOne(u => u.Location)
+                .WithMany(l => l.Users)
+                .HasForeignKey(u => u.LocationId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(u => u.Notifications)
                 .WithOne(n => n.User)
-                .HasForeignKey(n => n.UserId);
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder
-                .HasMany(u => u.Orders)
+            builder.HasMany(u => u.Orders)
                 .WithOne(o => o.User)
-                .HasForeignKey(o => o.UserId);
-
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

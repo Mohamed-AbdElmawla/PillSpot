@@ -8,7 +8,21 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<SearchHistory> builder)
         {
+            builder.ToTable("SearchHistories");
+
             builder.HasKey(sh => sh.SearchId);
+
+            builder.Property(sh => sh.SearchTerm)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            builder.Property(sh => sh.SearchedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.HasOne(sh => sh.User)
+                .WithMany(u => u.SearchHistories)
+                .HasForeignKey(sh => sh.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

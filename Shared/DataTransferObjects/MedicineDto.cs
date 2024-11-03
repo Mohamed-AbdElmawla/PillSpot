@@ -14,5 +14,9 @@ namespace Shared.DataTransferObjects
         public string ActiveIngredient { get; init; }
         public string Dosage { get; init; }
         public string Brand { get; init; }
+        public string Logo { get; init; }
+        public string Manufacturer { get; init; }
+        public decimal Price { get; init; }
+
     }
 }

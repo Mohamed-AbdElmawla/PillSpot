@@ -53,7 +53,6 @@ namespace Service
             return IdentityResult.Success;
         }
 
-
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByEmailAsync(userForAuth.Email);

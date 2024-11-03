@@ -8,15 +8,14 @@ namespace Shared.DataTransferObjects
 {
     public class OrderDto
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public int LocationId { get; set; }
-        public DateTime OrderedAt { get; set; }
-        public decimal TotalPrice { get; set; }
-        public string Status { get; set; }
-        public int PharmacyId { get; set; }
+        public int Id { get; init; }
+        public string UserId { get; init; }
+        public int LocationId { get; init; }
+        public DateTime OrderedAt { get; init; }
+        public decimal TotalPrice { get; init; }
+        public string Status { get; init; }
+        public int PharmacyId { get; init; }
 
-        // Optionally include related data like OrderItems
-        public IEnumerable<OrderItemDto> OrderItems { get; set; }
+        public IEnumerable<OrderItemDto> OrderItems { get; init; }
     }
 }

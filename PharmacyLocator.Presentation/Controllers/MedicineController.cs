@@ -15,6 +15,7 @@ namespace PharmacyLocator.Presentation.Controllers
     {
         private readonly IServiceManager _service;
         public MedicineController(IServiceManager service) => _service = service;
+
         [HttpGet("{id:int}", Name = "MedicineById")]
         public async Task<IActionResult> GetMedicine(int id)
         {

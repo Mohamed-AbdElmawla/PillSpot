@@ -8,5 +8,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-   public record PharmacyMedicineForCreationDto(int MedicineId, int StockQuantity, decimal Price);
+   public record PharmacyMedicineForCreationDto(
+        int MedicineId,
+        decimal Price,
+        DateTime LastUpdated 
+    );
 }
