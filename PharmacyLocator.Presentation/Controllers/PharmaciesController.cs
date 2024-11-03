@@ -55,5 +55,12 @@ namespace PharmacyLocator.Presentation.Controllers
             var result = await _service.PharmacyService.CreatePharmacyCollectionAsync(pharmacyCollection);
             return CreatedAtRoute("PharmacyCollection", new { result.ids }, result.pharmacies);
         }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult DeletePharmacy(int Id)
+        {
+            _service.PharmacyService.DeletePharmacy(Id, trackChanges: false);
+            return NoContent();
+        }
     }
 }

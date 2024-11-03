@@ -16,5 +16,7 @@ namespace Repository
         public void CreateMedicine(Medicine medicine) => Create(medicine);
 
         public async Task<Medicine> GetMedicineAsync(int medicineId, bool trackChanges) => await FindByCondition(md => md.Id.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
+
+        public void DeleteMedicine(Medicine Medicine) => Delete(Medicine);
     }
 }

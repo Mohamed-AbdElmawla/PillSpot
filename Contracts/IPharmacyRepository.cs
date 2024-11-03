@@ -12,6 +12,7 @@ namespace Contracts
         Task<Pharmacy> GetPharmacyAsync(int pharmacyId, bool trackChanges);
         void CreatePharmacy(Pharmacy pharmacy);
         Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+        void DeletePharmacy(Pharmacy pharmacy);
     }
 }
 

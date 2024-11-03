@@ -46,6 +46,17 @@ namespace Service
             return (pharmacies: pharmacyCollectionToReturn, ids: ids);
         }
 
+        public async Task DeletePharmacy(int pharmacyId, bool trackChanges)
+        {
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
+
+            if (pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            _repository.Pharmacy.DeletePharmacy(pharmacy);
+            await _repository.SaveAsync();
+        }
+
         public async Task<IEnumerable<PharmacyDto>> GetAllPharmaciesAsync(bool trackChanges)
         {
             var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(trackChanges);

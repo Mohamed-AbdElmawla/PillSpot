@@ -11,5 +11,6 @@ namespace Contracts
     {
         Task<Medicine> GetMedicineAsync(int medicineId, bool trackChanges);
         void CreateMedicine(Medicine medicine);
+        void DeleteMedicine(Medicine Medicine);
     }
 }
