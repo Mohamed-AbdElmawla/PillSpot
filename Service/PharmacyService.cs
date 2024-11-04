@@ -83,5 +83,17 @@ namespace Service
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
             return pharmacyDto;
         }
+
+        public async Task UpdatePharmacy(int pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges)
+        {
+            var pharmacyEntity = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
+
+            if (pharmacyEntity is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            _mapper.Map(pharmacyForUpdate, pharmacyEntity);
+
+            await _repository.SaveAsync();
+        }
     }
 }

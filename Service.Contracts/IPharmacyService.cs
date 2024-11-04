@@ -15,5 +15,6 @@ namespace Service.Contracts
         Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
         Task<(IEnumerable<PharmacyDto> pharmacies, string ids)> CreatePharmacyCollectionAsync(IEnumerable<PharmacyForCreationDto> pharmacyCollection);
         Task DeletePharmacy(int pharmacyId, bool trackChanges);
+        Task UpdatePharmacy(int pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges);
     }
 }

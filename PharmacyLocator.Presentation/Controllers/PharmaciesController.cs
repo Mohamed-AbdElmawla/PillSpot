@@ -62,5 +62,16 @@ namespace PharmacyLocator.Presentation.Controllers
             _service.PharmacyService.DeletePharmacy(Id, trackChanges: false);
             return NoContent();
         }
+
+        [HttpPut("{id:int}")]
+        public IActionResult UpdatePharmacy(int id, [FromBody] PharmacyForUpdateDto pharmacy)
+        {
+            if (pharmacy is null)
+                return BadRequest("PharmacyForUpdateDto object is null");
+
+            _service.PharmacyService.UpdatePharmacy(id, pharmacy, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }
