@@ -45,5 +45,16 @@ namespace PharmacyLocator.Presentation.Controllers
             _service.PharmacyMedicineService.DeletePharmacyMedicine(pharmacyId, medicineId, trackChanges: false);
             return NoContent();
         }
+
+        [HttpPut("{medicineId:int}")]
+        public async Task<IActionResult> UpdatePharmaycMedicineForPharmacy(int pharmacyId, int medicineId,
+        [FromBody] PharmacyMedicineForUpdateDto pharmaycMedicine)
+        {
+            if (pharmaycMedicine is null)
+                return BadRequest("PharmacyMedicineForUpdateDto object is null");
+            await _service.PharmacyMedicineService.UpdatePharmacyMedicine(pharmacyId, medicineId, pharmaycMedicine,
+            phTrackChanges: false, phMedTrackChanges: true);
+            return NoContent();
+        }
     }
 }

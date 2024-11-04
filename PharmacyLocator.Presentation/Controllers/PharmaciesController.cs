@@ -57,9 +57,20 @@ namespace PharmacyLocator.Presentation.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult DeletePharmacy(int Id)
+        public async Task<IActionResult> DeletePharmacy(int Id)
         {
-            _service.PharmacyService.DeletePharmacy(Id, trackChanges: false);
+            await _service.PharmacyService.DeletePharmacy(Id, trackChanges: false);
+            return NoContent();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyForUpdateDto pharmacy)
+        {
+            if (pharmacy is null)
+                return BadRequest("PharmacyForUpdateDto object is null");
+
+           await _service.PharmacyService.UpdatePharmacy(id, pharmacy, trackChanges: true);
+
             return NoContent();
         }
     }

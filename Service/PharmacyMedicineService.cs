@@ -83,5 +83,22 @@ namespace Service
             _repository.PharmacyMedicine.DeletePharmacyMedicine(medicine);
             await _repository.SaveAsync();
         }
+
+        public async Task UpdatePharmacyMedicine(int pharmacyId, int medicineId, PharmacyMedicineForUpdateDto pharmacyMedicineForUpdate, bool phTrackChanges, bool phMedTrackChanges)
+        {
+            var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, phTrackChanges);
+
+            if(pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            var medicine = await _repository.PharmacyMedicine.GetMedicineAsync(pharmacyId, medicineId, phMedTrackChanges);
+
+            if (medicine is null)
+                throw new MedicineNotFoundException(medicineId);
+
+            _mapper.Map(pharmacyMedicineForUpdate, medicine);
+
+            await _repository.SaveAsync();
+        }
     }
 }

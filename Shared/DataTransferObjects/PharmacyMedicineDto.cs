@@ -10,6 +10,7 @@ namespace Shared.DataTransferObjects
     {
         public int PharmacyId { get; init; }
         public int MedicineId { get; init; }
+        public int Quantity { get; init; }
         public decimal Price { get; init; }
         public DateTime LastUpdated { get; init; }
     }
