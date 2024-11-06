@@ -10,26 +10,43 @@ namespace Repository.Configuration
         {
             builder.ToTable("Users");
 
+            builder.HasKey(u => u.Id);
+
             builder.Property(u => u.Name)
-                .HasMaxLength(100);
+                .IsRequired()
+                .HasMaxLength(255);
+
+            builder.Property(u => u.Age)
+                .IsRequired();
 
             builder.Property(u => u.SOSNumber)
                 .HasMaxLength(20);
 
+            builder.Property(u => u.PhotoUrl)
+                .HasMaxLength(255);
+
+            builder.Property(u => u.RefreshTokenExpiryTime)
+                .IsRequired();
+
             builder.HasOne(u => u.Location)
                 .WithMany(l => l.Users)
-                .HasForeignKey(u => u.LocationId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(u => u.LocationId);
 
             builder.HasMany(u => u.Notifications)
                 .WithOne(n => n.User)
-                .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(n => n.UserId);
 
             builder.HasMany(u => u.Orders)
                 .WithOne(o => o.User)
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(o => o.UserId);
+
+            builder.HasMany(u => u.SentMessages)
+                .WithOne(m => m.Sender)
+                .HasForeignKey(m => m.SenderId);
+
+            builder.HasMany(u => u.ReceivedMessages)
+                .WithOne(m => m.Receiver)
+                .HasForeignKey(m => m.ReceiverId);
         }
     }
 }

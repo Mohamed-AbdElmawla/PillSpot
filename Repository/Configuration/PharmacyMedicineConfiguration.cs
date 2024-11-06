@@ -13,22 +13,22 @@ namespace Repository.Configuration
             builder.HasKey(pm => new { pm.PharmacyId, pm.MedicineId });
 
             builder.Property(pm => pm.Price)
-                .HasColumnType("decimal(18,2)")
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            builder.Property(pm => pm.Quantity)
                 .IsRequired();
 
             builder.Property(pm => pm.LastUpdated)
-                .HasDefaultValueSql("GETUTCDATE()")
                 .IsRequired();
 
             builder.HasOne(pm => pm.Pharmacy)
                 .WithMany(p => p.PharmacyMedicines)
-                .HasForeignKey(pm => pm.PharmacyId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(pm => pm.PharmacyId);
 
             builder.HasOne(pm => pm.Medicine)
                 .WithMany(m => m.PharmacyMedicine)
-                .HasForeignKey(pm => pm.MedicineId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(pm => pm.MedicineId);
         }
     }
 }

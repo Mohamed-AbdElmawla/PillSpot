@@ -22,6 +22,7 @@ builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.ConfigureSwagger();
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>

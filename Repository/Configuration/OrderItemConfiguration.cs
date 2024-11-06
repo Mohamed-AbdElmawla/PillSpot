@@ -13,21 +13,21 @@ namespace Repository.Configuration
             builder.HasKey(oi => oi.OrderItemId);
 
             builder.Property(oi => oi.UnitPrice)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
 
             builder.Property(oi => oi.Quantity)
                 .IsRequired();
 
             builder.HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderItems)
-                .HasForeignKey(oi => oi.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(oi => oi.OrderId);
 
-            builder.HasOne(oi => oi.Medicine)
+            builder.HasOne(oi => oi.PharmacyMedicine)
                 .WithMany()
-                .HasForeignKey(oi => oi.MedicineId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId")
+                .OnDelete(DeleteBehavior.NoAction);
+           
         }
     }
 }

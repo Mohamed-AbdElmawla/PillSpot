@@ -20,15 +20,15 @@ namespace Repository.Configuration
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasOne(g => g.Location)
-               .WithMany(l => l.Cities)
-               .HasForeignKey(g => g.LocationId)
-               .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(c => c.Location)
+            //    .WithMany(l => l.Cities)
+            //    .HasForeignKey(c => c.CityId)
+            //    .OnDelete(DeleteBehavior.NoAction); 
 
-            builder.HasMany(c => c.Governments)
-                .WithOne(g => g.City)
-                .HasForeignKey(g => g.CityId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(c => c.Government)
+                .WithMany(g => g.Cities)
+                .HasForeignKey(c => c.GovernmentId)
+                .OnDelete(DeleteBehavior.Restrict); 
         }
     }
 }

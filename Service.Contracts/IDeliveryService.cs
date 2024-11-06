@@ -10,6 +10,8 @@ namespace Service.Contracts
     public interface IDeliveryService
     {
         Task<IEnumerable<OrderDto>> GetPendingDeliveriesAsync(bool trackChanges);
+        Task<IEnumerable<OrderDto>> GetReadyToDeliverOrdersAsync(bool trackChanges);
+        Task<bool> MarkOrderAsReadyToDeliverAsync(int orderId);
         Task<bool> MarkOrderAsDeliveredAsync(int orderId);
     }
 }
