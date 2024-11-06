@@ -7,6 +7,5 @@
         public string Governmente_Name_EN { get; set; }
 
         public ICollection<City> Cities { get; set; }
-        public Location Location { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PharmacyLocator.Migrations
 {
     /// <inheritdoc />
-    public partial class Edit_Models_And_Configurations : Migration
+    public partial class Update_database1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,19 +87,20 @@ namespace PharmacyLocator.Migrations
                 name: "Governments",
                 columns: table => new
                 {
-                    GovernmentId = table.Column<int>(type: "int", nullable: false),
+                    GovernmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Governmente_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Governmente_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    Governmente_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Governments", x => x.GovernmentId);
                     table.ForeignKey(
-                        name: "FK_Governments_Locations_GovernmentId",
-                        column: x => x.GovernmentId,
+                        name: "FK_Governments_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "LocationId");
                 });
 
             migrationBuilder.CreateTable(
@@ -171,10 +172,12 @@ namespace PharmacyLocator.Migrations
                 name: "Cities",
                 columns: table => new
                 {
-                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     City_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     City_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    GovernmentId = table.Column<int>(type: "int", nullable: false)
+                    GovernmentId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,8 +189,8 @@ namespace PharmacyLocator.Migrations
                         principalColumn: "GovernmentId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Cities_Locations_CityId",
-                        column: x => x.CityId,
+                        name: "FK_Cities_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId");
                 });
@@ -444,10 +447,10 @@ namespace PharmacyLocator.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1cafdae9-ed40-41cd-b9c6-e38f739eda81", null, "Admin", "ADMIN" },
-                    { "2e8eac4b-de5d-441f-97f4-5adb9c1149e0", null, "SuperAdmin", "SUPERADMIN" },
-                    { "a8ac58fe-be61-4f12-ae66-f3a469f8171c", null, "Pharmacy", "PHARMACY" },
-                    { "ffdfc236-93cf-4f09-b7ee-f1bdfe6dac7d", null, "User", "USER" }
+                    { "0bce91cd-5919-48c4-bea6-bce6f460ed9e", null, "Admin", "ADMIN" },
+                    { "0ddb724f-6883-4379-b317-bfde6af32d8c", null, "SuperAdmin", "SUPERADMIN" },
+                    { "12b69d37-1885-4a5d-b999-be27caf25831", null, "Pharmacy", "PHARMACY" },
+                    { "4bc87a3e-4278-4951-bc9f-5103db0dde9e", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -481,6 +484,16 @@ namespace PharmacyLocator.Migrations
                 name: "IX_Cities_GovernmentId",
                 table: "Cities",
                 column: "GovernmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cities_LocationId",
+                table: "Cities",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Governments_LocationId",
+                table: "Governments",
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",

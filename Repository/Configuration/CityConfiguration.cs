@@ -20,10 +20,10 @@ namespace Repository.Configuration
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasOne(c => c.Location)
-                .WithMany(l => l.Cities)
-                .HasForeignKey(c => c.CityId)
-                .OnDelete(DeleteBehavior.NoAction); 
+            //builder.HasOne(c => c.Location)
+            //    .WithMany(l => l.Cities)
+            //    .HasForeignKey(c => c.CityId)
+            //    .OnDelete(DeleteBehavior.NoAction); 
 
             builder.HasOne(c => c.Government)
                 .WithMany(g => g.Cities)

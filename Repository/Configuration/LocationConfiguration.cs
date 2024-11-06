@@ -29,13 +29,13 @@ namespace Repository.Configuration
                 .WithOne(u => u.Location)
                 .HasForeignKey(u => u.LocationId);
 
-            builder.HasMany(l => l.Cities)
-                .WithOne(c => c.Location)
-                .HasForeignKey(c => c.CityId);
+            //builder.HasMany(l => l.Cities)
+            //    .WithOne(c => c.Location)
+            //    .HasForeignKey(c => c.CityId);
 
-            builder.HasMany(l => l.Governments)
-                .WithOne(g => g.Location)
-                .HasForeignKey(g => g.GovernmentId);
+            //builder.HasMany(l => l.Governments)
+            //    .WithOne(g => g.Location)
+            //    .HasForeignKey(g => g.GovernmentId);
 
             builder.HasMany(l => l.Pharmacies)
                 .WithOne(p => p.Location)

@@ -8,6 +8,5 @@
         public int GovernmentId { get; set; }
 
         public  Government Government { get; set; }
-        public Location Location { get; set; }
     }
 }

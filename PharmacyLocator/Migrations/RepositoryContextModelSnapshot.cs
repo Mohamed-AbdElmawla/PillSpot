@@ -25,7 +25,10 @@ namespace PharmacyLocator.Migrations
             modelBuilder.Entity("Entities.Models.City", b =>
                 {
                     b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
 
                     b.Property<string>("City_Name_AR")
                         .IsRequired()
@@ -40,9 +43,14 @@ namespace PharmacyLocator.Migrations
                     b.Property<int>("GovernmentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
                     b.HasKey("CityId");
 
                     b.HasIndex("GovernmentId");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Cities", (string)null);
                 });
@@ -50,7 +58,10 @@ namespace PharmacyLocator.Migrations
             modelBuilder.Entity("Entities.Models.Government", b =>
                 {
                     b.Property<int>("GovernmentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GovernmentId"));
 
                     b.Property<string>("Governmente_Name_AR")
                         .IsRequired()
@@ -62,7 +73,12 @@ namespace PharmacyLocator.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
                     b.HasKey("GovernmentId");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Governments", (string)null);
                 });
@@ -509,25 +525,25 @@ namespace PharmacyLocator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1cafdae9-ed40-41cd-b9c6-e38f739eda81",
+                            Id = "0bce91cd-5919-48c4-bea6-bce6f460ed9e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ec660400-3a0e-4172-856f-626036f0842a",
+                            Id = "0ddb724f-6883-4379-b317-bfde6af32d8c",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "9916847b-15ef-4a35-b9a7-45f87c4e1dcf",
+                            Id = "4bc87a3e-4278-4951-bc9f-5103db0dde9e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "daec7da7-8900-4e22-bc3f-a9d194328a34",
+                            Id = "12b69d37-1885-4a5d-b999-be27caf25831",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -641,32 +657,24 @@ namespace PharmacyLocator.Migrations
 
             modelBuilder.Entity("Entities.Models.City", b =>
                 {
-                    b.HasOne("Entities.Models.Location", "Location")
-                        .WithMany("Cities")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.Government", "Government")
                         .WithMany("Cities")
                         .HasForeignKey("GovernmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Government");
+                    b.HasOne("Entities.Models.Location", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("Location");
+                    b.Navigation("Government");
                 });
 
             modelBuilder.Entity("Entities.Models.Government", b =>
                 {
-                    b.HasOne("Entities.Models.Location", "Location")
+                    b.HasOne("Entities.Models.Location", null)
                         .WithMany("Governments")
-                        .HasForeignKey("GovernmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Location");
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Entities.Models.Message", b =>
