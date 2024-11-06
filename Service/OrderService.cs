@@ -2,10 +2,12 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Service
 {
@@ -39,6 +41,7 @@ namespace Service
         }
         public async Task<OrderDto> CreateOrderAsync(OrderForCreationDto orderForCreationDto, bool trackChanges)
         {
+
             var orderEntity = _mapper.Map<Order>(orderForCreationDto);
 
             foreach (var orderItemDto in orderForCreationDto.OrderItems)
@@ -48,7 +51,7 @@ namespace Service
             }
 
             _repository.Order.CreateOrder(orderEntity);
-            _repository.SaveAsync();
+            await _repository.SaveAsync();
 
             var orderToReturn = _mapper.Map<OrderDto>(orderEntity);
             return orderToReturn;
@@ -80,17 +83,18 @@ namespace Service
             _repository.Order.DeleteOrder(orderEntity);
             _repository.SaveAsync();
         }
-        public async Task<IEnumerable<OrderDto>> GetOrdersByStatusAsync(string status, bool trackChanges)
-        {
-            var orders = await _repository.Order.GetOrdersByStatusAsync(status, trackChanges);
+
+        //public async Task<IEnumerable<OrderDto>> GetOrdersByStatusAsync(string status, bool trackChanges)
+        //{
+        //    var orders = await _repository.Order.GetOrdersByStatusAsync(status, trackChanges);
             
-            //if (orders == null || !orders.Any())
-            //    throw new OrdersNotFoundException(status);
+        //    //if (orders == null || !orders.Any())
+        //    //    throw new OrdersNotFoundException(status);
 
-            var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
+        //    var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
 
-            return ordersDto;
-        }
+        //    return ordersDto;
+        //}
 
     }
 }

@@ -14,15 +14,14 @@ namespace Repository.Configuration
 
             builder.Property(sh => sh.SearchTerm)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(sh => sh.SearchedAt)
-                .HasDefaultValueSql("GETUTCDATE()");
+                .IsRequired();
 
             builder.HasOne(sh => sh.User)
                 .WithMany(u => u.SearchHistories)
-                .HasForeignKey(sh => sh.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(sh => sh.UserId);
         }
     }
 }

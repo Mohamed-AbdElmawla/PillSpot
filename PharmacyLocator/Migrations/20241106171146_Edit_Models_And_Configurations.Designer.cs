@@ -12,8 +12,8 @@ using Repository;
 namespace PharmacyLocator.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241102161354_Update_database_and_configurations")]
-    partial class Update_database_and_configurations
+    [Migration("20241106171146_Edit_Models_And_Configurations")]
+    partial class Edit_Models_And_Configurations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,10 +28,7 @@ namespace PharmacyLocator.Migrations
             modelBuilder.Entity("Entities.Models.City", b =>
                 {
                     b.Property<int>("CityId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
 
                     b.Property<string>("City_Name_AR")
                         .IsRequired()
@@ -43,15 +40,12 @@ namespace PharmacyLocator.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("GovernmenteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LocationId")
+                    b.Property<int>("GovernmentId")
                         .HasColumnType("int");
 
                     b.HasKey("CityId");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("GovernmentId");
 
                     b.ToTable("Cities", (string)null);
                 });
@@ -59,12 +53,6 @@ namespace PharmacyLocator.Migrations
             modelBuilder.Entity("Entities.Models.Government", b =>
                 {
                     b.Property<int>("GovernmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GovernmentId"));
-
-                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Governmente_Name_AR")
@@ -77,14 +65,7 @@ namespace PharmacyLocator.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
                     b.HasKey("GovernmentId");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("LocationId");
 
                     b.ToTable("Governments", (string)null);
                 });
@@ -105,7 +86,7 @@ namespace PharmacyLocator.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GovernmenteId")
+                    b.Property<int>("GovernmentId")
                         .HasColumnType("int");
 
                     b.Property<double>("Latitude")
@@ -121,21 +102,21 @@ namespace PharmacyLocator.Migrations
 
             modelBuilder.Entity("Entities.Models.Medicine", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MedicineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineId"));
 
                     b.Property<string>("ActiveIngredient")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -144,20 +125,20 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Dosage")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Logo")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MedicineId");
 
                     b.ToTable("Medicines", (string)null);
                 });
@@ -206,21 +187,24 @@ namespace PharmacyLocator.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsNotified")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MedicineId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("NotifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PharmacyId")
+                    b.Property<int>("PharmacyMedicineMedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PharmacyMedicinePharmacyId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -231,25 +215,24 @@ namespace PharmacyLocator.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId");
+
                     b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("PharmacyId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -263,7 +246,7 @@ namespace PharmacyLocator.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderId");
 
                     b.HasIndex("LocationId");
 
@@ -280,13 +263,13 @@ namespace PharmacyLocator.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MedicineId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PharmacyMedicineMedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PharmacyMedicinePharmacyId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -297,9 +280,9 @@ namespace PharmacyLocator.Migrations
 
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("MedicineId");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId");
 
                     b.ToTable("OrderItems", (string)null);
                 });
@@ -308,8 +291,7 @@ namespace PharmacyLocator.Migrations
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("PharmacyId");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PharmacyId"));
 
@@ -319,16 +301,12 @@ namespace PharmacyLocator.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsOpen24Hours")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LicenseId")
+                    b.Property<string>("LicenseID")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -337,8 +315,7 @@ namespace PharmacyLocator.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Logo")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -347,7 +324,8 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("OpeningHours")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("PharmacyId");
 
@@ -365,12 +343,13 @@ namespace PharmacyLocator.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("PharmacyId", "MedicineId");
 
@@ -389,13 +368,11 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("SearchTerm")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("SearchedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -447,8 +424,8 @@ namespace PharmacyLocator.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -468,10 +445,8 @@ namespace PharmacyLocator.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PrescriptionId")
-                        .HasColumnType("int");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
@@ -537,25 +512,25 @@ namespace PharmacyLocator.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4c23c965-7d7e-4759-81a0-cdd7f221691d",
+                            Id = "1cafdae9-ed40-41cd-b9c6-e38f739eda81",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ec660400-3a0e-4172-856f-626036f0842a",
+                            Id = "2e8eac4b-de5d-441f-97f4-5adb9c1149e0",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "9916847b-15ef-4a35-b9a7-45f87c4e1dcf",
+                            Id = "ffdfc236-93cf-4f09-b7ee-f1bdfe6dac7d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "daec7da7-8900-4e22-bc3f-a9d194328a34",
+                            Id = "a8ac58fe-be61-4f12-ae66-f3a469f8171c",
                             Name = "Pharmacy",
                             NormalizedName = "PHARMACY"
                         });
@@ -671,28 +646,28 @@ namespace PharmacyLocator.Migrations
                 {
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Cities")
-                        .HasForeignKey("LocationId")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Government", "Government")
+                        .WithMany("Cities")
+                        .HasForeignKey("GovernmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Government");
 
                     b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Entities.Models.Government", b =>
                 {
-                    b.HasOne("Entities.Models.City", "City")
-                        .WithMany("Governments")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Governments")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("GovernmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
 
                     b.Navigation("Location");
                 });
@@ -702,13 +677,13 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.User", "Receiver")
                         .WithMany("ReceivedMessages")
                         .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "Sender")
                         .WithMany("SentMessages")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Receiver");
@@ -724,6 +699,14 @@ namespace PharmacyLocator.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Entities.Models.PharmacyMedicine", "PharmacyMedicine")
+                        .WithMany()
+                        .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("PharmacyMedicine");
+
                     b.Navigation("User");
                 });
 
@@ -732,13 +715,13 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Orders")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -748,21 +731,21 @@ namespace PharmacyLocator.Migrations
 
             modelBuilder.Entity("Entities.Models.OrderItem", b =>
                 {
-                    b.HasOne("Entities.Models.Medicine", "Medicine")
-                        .WithMany()
-                        .HasForeignKey("MedicineId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Medicine");
+                    b.HasOne("Entities.Models.PharmacyMedicine", "PharmacyMedicine")
+                        .WithMany()
+                        .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("PharmacyMedicine");
                 });
 
             modelBuilder.Entity("Entities.Models.Pharmacy", b =>
@@ -770,7 +753,7 @@ namespace PharmacyLocator.Migrations
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Pharmacies")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -810,8 +793,7 @@ namespace PharmacyLocator.Migrations
                 {
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany("Users")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
                 });
@@ -867,9 +849,9 @@ namespace PharmacyLocator.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Models.City", b =>
+            modelBuilder.Entity("Entities.Models.Government", b =>
                 {
-                    b.Navigation("Governments");
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("Entities.Models.Location", b =>

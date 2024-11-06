@@ -22,6 +22,21 @@ namespace PharmacyLocator.Presentation.Controllers
             var deliveries = await _service.DeliveryService.GetPendingDeliveriesAsync(trackChanges: false);
             return Ok(deliveries);
         }
+      
+        [HttpGet("ReadyToDeliver")]
+        public async Task<IActionResult> GetReadyToDeliverOrders()
+        {
+            var deliveries = await _service.DeliveryService.GetReadyToDeliverOrdersAsync(trackChanges: false);
+            return Ok(deliveries);
+        }
+
+        [HttpPut("{orderId}/MarkReadyToDeliver")]
+        public async Task<IActionResult> MarkOrderAsReadyToDeliver(int orderId)
+        {
+            var success = await _service.DeliveryService.MarkOrderAsReadyToDeliverAsync(orderId);
+            if (!success) return NotFound($"Order with ID {orderId} not found.");
+            return NoContent();
+        }
 
         [HttpPut("{orderId}/mark-delivered")]
         public async Task<IActionResult> MarkOrderAsDelivered(int orderId)

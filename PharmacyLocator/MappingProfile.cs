@@ -26,6 +26,7 @@ namespace PharmacyLocator
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<OrderItemForCreationDto, OrderItem>();
 
+          
             CreateMap<UserForRegistrationDto, User>();
         }
     }

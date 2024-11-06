@@ -31,7 +31,7 @@ namespace PharmacyLocator.Presentation.Controllers
                 return BadRequest("MedicineForCreationDto object is null");
             }
             var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicine);
-            return CreatedAtRoute("MedicineById", new { Id = createdMedicine.Id }, createdMedicine);
+            return CreatedAtRoute("MedicineById", new { Id = createdMedicine.MedicineId }, createdMedicine);
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteMedicine(int Id)

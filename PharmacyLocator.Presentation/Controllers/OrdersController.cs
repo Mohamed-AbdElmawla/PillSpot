@@ -37,7 +37,7 @@ namespace PharmacyLocator.Presentation.Controllers
                 return BadRequest("OrderForCreationDto object is null");
 
             var orderToReturn = await _service.OrderService.CreateOrderAsync(orderDto, trackChanges: false);
-            return CreatedAtRoute("GetOrder", new { id = orderToReturn.Id }, orderToReturn);
+            return CreatedAtRoute("GetOrder", new { id = orderToReturn.OrderId }, orderToReturn);
         }
 
         
@@ -61,11 +61,11 @@ namespace PharmacyLocator.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpGet("status/{status}")]
-        public async Task<IActionResult> GetOrdersByStatusAsync(string status)
-        {
-            var orders = await _service.OrderService.GetOrdersByStatusAsync(status, trackChanges: false);
-            return Ok(orders);
-        }
+       // [HttpGet("status/{status}")]
+        //public async Task<IActionResult> GetOrdersByStatusAsync(string status)
+        //{
+        //    var orders = await _service.OrderService.GetOrdersByStatusAsync(status, trackChanges: false);
+        //    return Ok(orders);
+        //}
     }
 }
