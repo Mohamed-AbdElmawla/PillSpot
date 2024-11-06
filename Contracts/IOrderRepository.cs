@@ -11,7 +11,7 @@ namespace Contracts
     {
         Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges);
         Task<Order>GetOrderAsync(int orderId, bool trackChanges);
-        Task<IEnumerable<Order>> GetOrdersByStatusAsync(string status, bool trackChanges);
+        //Task<IEnumerable<Order>> GetOrdersByStatusAsync(string status, bool trackChanges);
         void CreateOrder(Order order);
         void DeleteOrder(Order order);
     }

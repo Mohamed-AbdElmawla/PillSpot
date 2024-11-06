@@ -21,7 +21,8 @@ namespace PharmacyLocator
             CreateMap<OrderForCreationDto, Order>();
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<OrderItemForCreationDto, OrderItem>();
-
+            CreateMap<Pharmacy, PharmacyDto>();
+            CreateMap<PharmacyForCreationDto, Pharmacy>();
             CreateMap<PharmacyForCreationDto, Pharmacy>();
 
             CreateMap<PharmacyMedicineForCreationDto, PharmacyMedicine>();

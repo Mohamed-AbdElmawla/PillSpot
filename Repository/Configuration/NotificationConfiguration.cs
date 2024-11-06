@@ -16,12 +16,24 @@ namespace Repository.Configuration
                 .IsRequired();
 
             builder.Property(n => n.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()");
+                .IsRequired();
+
+            builder.Property(n => n.NotifiedAt)
+                .IsRequired();
+
+            builder.Property(n => n.Content)
+                .IsRequired()
+                .HasMaxLength(1000);
 
             builder.HasOne(n => n.User)
                 .WithMany(u => u.Notifications)
-                .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(n => n.UserId);
+
+            builder.HasOne(n => n.PharmacyMedicine)
+             .WithMany()
+             .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId") 
+             .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

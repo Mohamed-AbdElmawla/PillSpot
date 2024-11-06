@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities.Models;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -26,9 +20,31 @@ namespace Service
 
         public async Task<IEnumerable<OrderDto>> GetPendingDeliveriesAsync(bool trackChanges)
         {
-            var pendingOrders = await _repository.Order.GetOrdersByStatusAsync("Pending", trackChanges);
-            var ordersDto = _mapper.Map<IEnumerable<OrderDto>>(pendingOrders);
-            return ordersDto;
+            var orders = await _repository.Order.GetOrdersAsync(trackChanges);
+            var pendingOrders = orders.Where(o => o.Status == "Pending"); 
+            return _mapper.Map<IEnumerable<OrderDto>>(pendingOrders);
+        }
+
+        public async Task<IEnumerable<OrderDto>> GetReadyToDeliverOrdersAsync(bool trackChanges)
+        {
+            var orders = await _repository.Order.GetOrdersAsync(trackChanges);
+            var readyToDeliverOrders = orders.Where(o => o.Status == "ReadyToDeliver");
+
+            return _mapper.Map<IEnumerable<OrderDto>>(readyToDeliverOrders);
+        }
+
+        public async Task<bool> MarkOrderAsReadyToDeliverAsync(int orderId)
+        {
+            var order = await _repository.Order.GetOrderAsync(orderId, trackChanges: true);
+            if (order == null)
+            {
+                _logger.LogWarning($"Order with ID {orderId} not found.");
+                return false;
+            }
+
+            order.Status = "ReadyToDeliver"; 
+            await _repository.SaveAsync();
+            return true;
         }
 
         public async Task<bool> MarkOrderAsDeliveredAsync(int orderId)

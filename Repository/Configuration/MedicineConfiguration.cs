@@ -10,7 +10,7 @@ namespace Repository.Configuration
         {
             builder.ToTable("Medicines");
 
-            builder.HasKey(m => m.Id);
+            builder.HasKey(m => m.MedicineId);
 
             builder.Property(m => m.Name)
                 .IsRequired()
@@ -20,21 +20,20 @@ namespace Repository.Configuration
                 .HasMaxLength(1000);
 
             builder.Property(m => m.ActiveIngredient)
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(m => m.Dosage)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder.Property(m => m.Brand)
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.Property(m => m.Logo)
-                .HasMaxLength(500);
+                .HasMaxLength(255);
 
             builder.HasMany(m => m.PharmacyMedicine)
                 .WithOne(pm => pm.Medicine)
-                .HasForeignKey(pm => pm.MedicineId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(pm => pm.MedicineId);
         }
     }
 }

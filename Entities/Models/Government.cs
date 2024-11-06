@@ -3,14 +3,10 @@
     public class Government
     {
         public int GovernmentId { get; set; }
-        public int LocationId { get; set; }
-        public int CityId { get; set; }
-
         public string Governmente_Name_AR { get; set; }
         public string Governmente_Name_EN { get; set; }
 
-        public City City { get; set; }
+        public ICollection<City> Cities { get; set; }
         public Location Location { get; set; }
-
     }
 }

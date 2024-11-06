@@ -16,34 +16,28 @@ namespace Repository.Configuration
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(p => p.Logo)
-                .HasMaxLength(500);
-
             builder.Property(p => p.ContactNumber)
                 .IsRequired()
                 .HasMaxLength(20);
 
             builder.Property(p => p.OpeningHours)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
 
-            builder.Property(p => p.IsOpen24Hours)
-                .HasDefaultValue(false);
+            builder.Property(p => p.LicenseID)
+                .IsRequired()
+                .HasMaxLength(50);
 
             builder.Property(p => p.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()");
-
-            builder.Property(p => p.LicenseId)
-                .HasMaxLength(50);
+                .IsRequired();
 
             builder.HasOne(p => p.Location)
                 .WithMany(l => l.Pharmacies)
-                .HasForeignKey(p => p.LocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.LocationId);
 
             builder.HasMany(p => p.PharmacyMedicines)
                 .WithOne(pm => pm.Pharmacy)
-                .HasForeignKey(pm => pm.PharmacyId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(pm => pm.PharmacyId);
         }
     }
 }

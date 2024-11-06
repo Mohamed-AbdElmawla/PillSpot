@@ -21,10 +21,25 @@ namespace Repository.Configuration
             builder.Property(l => l.AdditionalInfo)
                 .HasMaxLength(1000);
 
+            builder.HasMany(l => l.Orders)
+                .WithOne(o => o.Location)
+                .HasForeignKey(o => o.LocationId);
+
+            builder.HasMany(l => l.Users)
+                .WithOne(u => u.Location)
+                .HasForeignKey(u => u.LocationId);
+
+            builder.HasMany(l => l.Cities)
+                .WithOne(c => c.Location)
+                .HasForeignKey(c => c.CityId);
+
+            builder.HasMany(l => l.Governments)
+                .WithOne(g => g.Location)
+                .HasForeignKey(g => g.GovernmentId);
+
             builder.HasMany(l => l.Pharmacies)
                 .WithOne(p => p.Location)
-                .HasForeignKey(p => p.LocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.LocationId);
         }
     }
 }

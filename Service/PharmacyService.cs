@@ -42,7 +42,7 @@ namespace Service
             }
             await _repository.SaveAsync();
             var pharmacyCollectionToReturn = _mapper.Map<IEnumerable<PharmacyDto>>(pharmaciesEntities);
-            var ids = string.Join(",", pharmacyCollectionToReturn.Select(ph => ph.Id));
+            var ids = string.Join(",", pharmacyCollectionToReturn.Select(ph => ph.PharmacyId));
             return (pharmacies: pharmacyCollectionToReturn, ids: ids);
         }
 

@@ -8,9 +8,11 @@ namespace Shared.DataTransferObjects
 {
     public record PharmacyMedicineDto
     {
-        public int PharmacyId { get; init; }
-        public int MedicineId { get; init; }
-        public decimal Price { get; init; }
-        public DateTime LastUpdated { get; init; }
+        public decimal Price { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public int Quantity { get; set; }
+        public int PharmacyId { get; set; }
+        public int MedicineId { get; set; }
+
     }
 }

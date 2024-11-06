@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 namespace Shared.DataTransferObjects
 {
     public record MedicineForCreationDto
-    (
-        string Name,
-        string Description,
-        string ActiveIngredient, 
-        string Dosage,           
-        string Brand,            
-        string Logo,             
-        string Manufacturer,     
-        decimal Price            
-    );
+    {
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public string ActiveIngredient { get; init; }
+        public string Dosage { get; init; }
+        public string Brand { get; init; }
+        public string Logo { get; init; }
+    }
 }

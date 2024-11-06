@@ -39,7 +39,7 @@ namespace PharmacyLocator.Presentation.Controllers
                 return BadRequest("PharmacyForCreationDto object is null");
             }
             var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacy);
-            return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.Id},createdPharmacy);
+            return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.PharmacyId},createdPharmacy);
         }
 
         [HttpGet("collection/({ids})",Name = "PharmacyCollection")]
