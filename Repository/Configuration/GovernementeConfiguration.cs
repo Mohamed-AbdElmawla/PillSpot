@@ -20,9 +20,6 @@ namespace Repository.Configuration
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasMany(g => g.Cities)
-                .WithOne(c => c.Government)
-                .HasForeignKey(c => c.GovernmentId);
         }
     }
 }

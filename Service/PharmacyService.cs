@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 
 namespace Service
@@ -57,12 +58,13 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<PharmacyDto>> GetAllPharmaciesAsync(bool trackChanges)
+        public async Task<(IEnumerable<PharmacyDto> Pharmacies, MetaData metaData)> GetAllPharmaciesAsync(bool trackChanges, PharmaciesParameters pharmaciesparameters)
         {
-            var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(trackChanges);
+            var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(trackChanges, pharmaciesparameters);
             var pharmaciesDto = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacies);
-            return pharmaciesDto;
+            return (Pharmacies:pharmaciesDto, pharmacies.MetaData);
         }
+
 
         public async Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
         {

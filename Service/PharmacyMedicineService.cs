@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,14 +26,14 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PharmacyMedicineDto>> GetMedicinesAsync(int pharmacyId, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyMedicineDto> Medicines, MetaData metaData)> GetMedicinesAsync(int pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
-            var medicines = await _repository.PharmacyMedicine.GetMedicinesAsync(pharmacyId, trackChanges);
+            var medicines = await _repository.PharmacyMedicine.GetMedicinesAsync(pharmacyId, pharmacyMedicineParameters, trackChanges);
             var medicinesDto = _mapper.Map<IEnumerable<PharmacyMedicineDto>>(medicines);
-            return medicinesDto;
+            return (Medicines: medicinesDto, metaData: medicines.MetaData);
         }
         public async Task<PharmacyMedicineDto> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
         {

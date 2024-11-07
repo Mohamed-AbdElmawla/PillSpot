@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Contracts
 {
     public interface IPharmacyRepository
     {
-        Task<IEnumerable<Pharmacy>> GetAllPharmaciesAsync(bool trackChanges);
+        Task<PagedList<Pharmacy>> GetAllPharmaciesAsync(bool trackChanges, PharmaciesParameters pharmaciesparameters);
         Task<Pharmacy> GetPharmacyAsync(int pharmacyId, bool trackChanges);
         void CreatePharmacy(Pharmacy pharmacy);
         Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);

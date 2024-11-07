@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,14 @@ namespace Repository
             
         }
 
-        public async Task<IEnumerable<PharmacyMedicine>> GetMedicinesAsync(int pharmacyId, bool trackChanges) 
-            => await FindByCondition(md=>md.PharmacyId.Equals(pharmacyId), trackChanges).ToListAsync();
+        public async Task<PagedList<PharmacyMedicine>> GetMedicinesAsync(int pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
+        {
+            var Medicines = await FindByCondition(md => md.PharmacyId.Equals(pharmacyId), trackChanges).Paging(pharmacyMedicineParameters.PageNumber,pharmacyMedicineParameters.PageSize).ToListAsync();
+
+            var count = await FindByCondition(m=>m.PharmacyId == pharmacyId,trackChanges).CountAsync();
+
+            return new PagedList<PharmacyMedicine>(Medicines, count, pharmacyMedicineParameters.PageNumber, pharmacyMedicineParameters.PageSize);
+        }
         public async Task<PharmacyMedicine> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
             =>await FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
 

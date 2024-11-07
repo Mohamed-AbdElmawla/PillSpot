@@ -18,7 +18,9 @@ namespace Shared.DataTransferObjects
         public string? Password { get; init; }
         [Required(ErrorMessage = "Email is required")]
         public string? Email { get; init; }
+        [Required(ErrorMessage = "PhoneNumber is required")]
         public string? PhoneNumber { get; init; }
+        [Required(ErrorMessage = "Gender is required")]
         public string? Gender { get; init; }
         public string? PhotoUrl { get; init; }
         [Required(ErrorMessage = "Roles is required")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PharmacyLocator.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace PharmacyLocator.Presentation.Controllers
 
 
         [HttpPost]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreateOrder([FromBody] OrderForCreationDto orderDto)
         {
             if (orderDto is null)

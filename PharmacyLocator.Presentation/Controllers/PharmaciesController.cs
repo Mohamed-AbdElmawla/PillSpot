@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PharmacyLocator.Presentation.ActionFilters;
 using PharmacyLocator.Presentation.ModelBinders;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PharmacyLocator.Presentation.Controllers
@@ -20,10 +23,14 @@ namespace PharmacyLocator.Presentation.Controllers
         public PharmaciesController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetPharmacies()
+        public async Task<IActionResult> GetPharmacies([FromQuery] PharmaciesParameters pharmaciesparameters)
         {
-            var pharmacies = await _service.PharmacyService.GetAllPharmaciesAsync(true);
-            return Ok(pharmacies);
+            var pagedResult = await _service.PharmacyService.GetAllPharmaciesAsync(false, pharmaciesparameters);
+
+            Response.Headers.Add("X-Pagination",
+            JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.Pharmacies);
         }
         [HttpGet("{id:int}",Name ="PharmacyById")]
         public async Task<IActionResult> GetPharmacy(int Id)
@@ -32,6 +39,7 @@ namespace PharmacyLocator.Presentation.Controllers
             return Ok(pharmacy);
         }
         [HttpPost]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacy)
         {
             if( pharmacy is null)
@@ -50,6 +58,7 @@ namespace PharmacyLocator.Presentation.Controllers
         }
 
         [HttpPost("collection")]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacyCollection)
         {
             var result = await _service.PharmacyService.CreatePharmacyCollectionAsync(pharmacyCollection);

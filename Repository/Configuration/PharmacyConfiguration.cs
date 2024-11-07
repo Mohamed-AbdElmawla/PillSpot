@@ -31,9 +31,7 @@ namespace Repository.Configuration
             builder.Property(p => p.CreatedAt)
                 .IsRequired();
 
-            builder.HasOne(p => p.Location)
-                .WithMany(l => l.Pharmacies)
-                .HasForeignKey(p => p.LocationId);
+      
 
             builder.HasMany(p => p.PharmacyMedicines)
                 .WithOne(pm => pm.Pharmacy)

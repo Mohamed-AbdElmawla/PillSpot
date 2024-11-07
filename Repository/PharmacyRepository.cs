@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Microsoft.EntityFrameworkCore;
+using Shared.RequestFeatures;
+using Repository.Extensions;
+using System.Collections.Concurrent;
 namespace Repository
 {
     public class PharmacyRepository : RepositoryBase<Pharmacy>, IPharmacyRepository
@@ -19,7 +22,17 @@ namespace Repository
 
         public void DeletePharmacy(Pharmacy pharmacy) => Delete(pharmacy);
 
-        public async Task<IEnumerable<Pharmacy>> GetAllPharmaciesAsync(bool trackChanges) => await FindAll(trackChanges).OrderBy(ph=>ph.Name).ToListAsync();
+        public async Task<PagedList<Pharmacy>> GetAllPharmaciesAsync(bool trackChanges, PharmaciesParameters pharmaciesparameters)
+        {
+            var Pharmacies = await FindAll(trackChanges)
+            .OrderBy(ph => ph.Name)
+            .Paging(pharmaciesparameters.PageNumber, pharmaciesparameters.PageSize)
+            .ToListAsync();
+
+            var count = await FindAll(trackChanges).CountAsync();
+
+            return new PagedList<Pharmacy>(Pharmacies, count, pharmaciesparameters.PageNumber, pharmaciesparameters.PageSize);
+        }
 
         public async Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges) => await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges).ToListAsync();
 

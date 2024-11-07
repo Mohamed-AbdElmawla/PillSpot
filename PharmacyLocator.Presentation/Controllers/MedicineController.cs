@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PharmacyLocator.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -24,6 +25,7 @@ namespace PharmacyLocator.Presentation.Controllers
         }
 
         [HttpPost]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreateMedicine([FromBody] MedicineForCreationDto medicine)
         {
             if (medicine is null)

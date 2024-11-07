@@ -28,9 +28,7 @@ namespace Repository.Configuration
             builder.Property(u => u.RefreshTokenExpiryTime)
                 .IsRequired();
 
-            builder.HasOne(u => u.Location)
-                .WithMany(l => l.Users)
-                .HasForeignKey(u => u.LocationId);
+          
 
             builder.HasMany(u => u.Notifications)
                 .WithOne(n => n.User)
