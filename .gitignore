@@ -1,44 +1,44 @@
-PharmacyLocator/.vs
-PharmacyLocator/bin
-PharmacyLocator/obj
-PharmacyLocator/appsettings.json
+PharmacyLocatorPractice/PharmacyLocator/.vs
+PharmacyLocatorPractice/PharmacyLocator/bin
+PharmacyLocatorPractice/PharmacyLocator/obj
+PharmacyLocatorPractice/PharmacyLocator/appsettings.json
 
-PharmacyLocator.Presentation/.vs
-PharmacyLocator.Presentation/bin
-PharmacyLocator.Presentation/obj
+PharmacyLocatorPractice/PharmacyLocator.Presentation/.vs
+PharmacyLocatorPractice/PharmacyLocator.Presentation/bin
+PharmacyLocatorPractice/PharmacyLocator.Presentation/obj
 
-Contracts/.vs
-Contracts/bin
-Contracts/obj
+PharmacyLocatorPractice/Contracts/.vs
+PharmacyLocatorPractice/Contracts/bin
+PharmacyLocatorPractice/Contracts/obj
 
-LoggerService/.vs
-LoggerService/bin
-LoggerService/obj
-
-
-Entities/.vs
-Entities/bin
-Entities/obj
+PharmacyLocatorPractice/LoggerService/.vs
+PharmacyLocatorPractice/LoggerService/bin
+PharmacyLocatorPractice/LoggerService/obj
 
 
-Presentation/.vs
-Presentation/bin
-Presentation/obj
+PharmacyLocatorPractice/Entities/.vs
+PharmacyLocatorPractice/Entities/bin
+PharmacyLocatorPractice/Entities/obj
 
-Repository/.vs
-Repository/bin
-Repository/obj
 
-Service/.vs
-Service/bin
-Service/obj
+PharmacyLocatorPractice/Presentation/.vs
+PharmacyLocatorPractice/Presentation/bin
+PharmacyLocatorPractice/Presentation/obj
 
-Service.Contracts/.vs
-Service.Contracts/bin
-Service.Contracts/obj
+PharmacyLocatorPractice/Repository/.vs
+PharmacyLocatorPractice/Repository/bin
+PharmacyLocatorPractice/Repository/obj
 
-Shared/.vs
-Shared/bin
-Shared/obj
+PharmacyLocatorPractice/Service/.vs
+PharmacyLocatorPractice/Service/bin
+PharmacyLocatorPractice/Service/obj
 
-PharmacyLocator/Images/*
+PharmacyLocatorPractice/Service.Contracts/.vs
+PharmacyLocatorPractice/Service.Contracts/bin
+PharmacyLocatorPractice/Service.Contracts/obj
+
+PharmacyLocatorPractice/Shared/.vs
+PharmacyLocatorPractice/Shared/bin
+PharmacyLocatorPractice/Shared/obj
+
+PharmacyLocatorPractice/PharmacyLocator/Images/*
