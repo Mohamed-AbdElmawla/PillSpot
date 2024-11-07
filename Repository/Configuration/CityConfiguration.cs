@@ -25,10 +25,6 @@ namespace Repository.Configuration
             //    .HasForeignKey(c => c.CityId)
             //    .OnDelete(DeleteBehavior.NoAction); 
 
-            builder.HasOne(c => c.Government)
-                .WithMany(g => g.Cities)
-                .HasForeignKey(c => c.GovernmentId)
-                .OnDelete(DeleteBehavior.Restrict); 
         }
     }
 }

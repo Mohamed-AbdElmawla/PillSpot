@@ -10,9 +10,9 @@
         public int GovernmentId { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-        public ICollection<User> Users { get; set; }
-        public ICollection<City> Cities { get; set; }
-        public ICollection<Government>Governments { get; set; }
-        public ICollection<Pharmacy> Pharmacies { get; set; }
+        public  User Users { get; set; }
+        public  Government Governorate { get; set; }
+        public  City City { get; set; }
+        public Pharmacy Pharmacies { get; set; }
     }
 }

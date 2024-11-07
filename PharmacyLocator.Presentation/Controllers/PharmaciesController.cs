@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PharmacyLocator.Presentation.ActionFilters;
 using PharmacyLocator.Presentation.ModelBinders;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -32,6 +33,7 @@ namespace PharmacyLocator.Presentation.Controllers
             return Ok(pharmacy);
         }
         [HttpPost]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacy)
         {
             if( pharmacy is null)
@@ -50,6 +52,7 @@ namespace PharmacyLocator.Presentation.Controllers
         }
 
         [HttpPost("collection")]
+        [ValidationFilterAttribute]
         public async Task<IActionResult> CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacyCollection)
         {
             var result = await _service.PharmacyService.CreatePharmacyCollectionAsync(pharmacyCollection);

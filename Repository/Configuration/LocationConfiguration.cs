@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Repository.Configuration
 {
@@ -25,9 +26,18 @@ namespace Repository.Configuration
                 .WithOne(o => o.Location)
                 .HasForeignKey(o => o.LocationId);
 
-            builder.HasMany(l => l.Users)
-                .WithOne(u => u.Location)
-                .HasForeignKey(u => u.LocationId);
+            builder
+           .HasOne(l => l.City)
+           .WithMany()
+           .HasForeignKey(l => l.CityId)
+           .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(l => l.Governorate)
+                .WithMany() 
+                .HasForeignKey(l => l.GovernmentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             //builder.HasMany(l => l.Cities)
             //    .WithOne(c => c.Location)
@@ -37,9 +47,7 @@ namespace Repository.Configuration
             //    .WithOne(g => g.Location)
             //    .HasForeignKey(g => g.GovernmentId);
 
-            builder.HasMany(l => l.Pharmacies)
-                .WithOne(p => p.Location)
-                .HasForeignKey(p => p.LocationId);
+
         }
     }
 }

@@ -10,9 +10,16 @@ namespace Shared.DataTransferObjects
 {
    public record PharmacyMedicineForCreationDto
     {
+        [Required(ErrorMessage = "Price is a required field.")]
         public decimal Price { get; set; }
+
+        [Required(ErrorMessage = "Quantity is a required field.")]
         public int Quantity { get; set; }
+        
+        [Required(ErrorMessage = "PharmacyId is a required field.")]
         public int PharmacyId { get; set; }
+
+        [Required(ErrorMessage = "MedicineId is a required field.")]
         public int MedicineId { get; set; }
     }
 }

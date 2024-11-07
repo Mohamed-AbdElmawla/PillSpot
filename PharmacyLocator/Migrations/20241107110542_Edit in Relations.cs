@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PharmacyLocator.Migrations
 {
     /// <inheritdoc />
-    public partial class Update_database1 : Migration
+    public partial class EditinRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,20 +28,17 @@ namespace PharmacyLocator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locations",
+                name: "Governments",
                 columns: table => new
                 {
-                    LocationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    AdditionalInfo = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
                     GovernmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Governmente_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Governmente_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.LocationId);
+                    table.PrimaryKey("PK_Governments", x => x.GovernmentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,23 +81,51 @@ namespace PharmacyLocator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Governments",
+                name: "Cities",
                 columns: table => new
                 {
-                    GovernmentId = table.Column<int>(type: "int", nullable: false)
+                    CityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Governmente_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Governmente_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
+                    City_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    City_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    GovernmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Governments", x => x.GovernmentId);
+                    table.PrimaryKey("PK_Cities", x => x.CityId);
                     table.ForeignKey(
-                        name: "FK_Governments_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId");
+                        name: "FK_Cities_Governments_GovernmentId",
+                        column: x => x.GovernmentId,
+                        principalTable: "Governments",
+                        principalColumn: "GovernmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    LocationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    AdditionalInfo = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    GovernmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.LocationId);
+                    table.ForeignKey(
+                        name: "FK_Locations_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "CityId");
+                    table.ForeignKey(
+                        name: "FK_Locations_Governments_GovernmentId",
+                        column: x => x.GovernmentId,
+                        principalTable: "Governments",
+                        principalColumn: "GovernmentId");
                 });
 
             migrationBuilder.CreateTable(
@@ -163,33 +188,6 @@ namespace PharmacyLocator.Migrations
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Users_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    CityId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City_Name_AR = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    City_Name_EN = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    GovernmentId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.CityId);
-                    table.ForeignKey(
-                        name: "FK_Cities_Governments_GovernmentId",
-                        column: x => x.GovernmentId,
-                        principalTable: "Governments",
-                        principalColumn: "GovernmentId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cities_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId");
@@ -447,10 +445,10 @@ namespace PharmacyLocator.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0bce91cd-5919-48c4-bea6-bce6f460ed9e", null, "Admin", "ADMIN" },
-                    { "0ddb724f-6883-4379-b317-bfde6af32d8c", null, "SuperAdmin", "SUPERADMIN" },
-                    { "12b69d37-1885-4a5d-b999-be27caf25831", null, "Pharmacy", "PHARMACY" },
-                    { "4bc87a3e-4278-4951-bc9f-5103db0dde9e", null, "User", "USER" }
+                    { "26a6c2e3-d85a-4556-acd4-6b50a33fa1fc", null, "Admin", "ADMIN" },
+                    { "426091c6-a09f-4cbe-ac28-593d9e3793f3", null, "User", "USER" },
+                    { "8cc2a43f-1044-437e-a0da-13108eda5502", null, "Pharmacy", "PHARMACY" },
+                    { "e88f2bf1-c239-4c6d-aa37-152037a543bf", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -486,14 +484,14 @@ namespace PharmacyLocator.Migrations
                 column: "GovernmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_LocationId",
-                table: "Cities",
-                column: "LocationId");
+                name: "IX_Locations_CityId",
+                table: "Locations",
+                column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Governments_LocationId",
-                table: "Governments",
-                column: "LocationId");
+                name: "IX_Locations_GovernmentId",
+                table: "Locations",
+                column: "GovernmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_ReceiverId",
@@ -538,7 +536,8 @@ namespace PharmacyLocator.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Pharmacies_LocationId",
                 table: "Pharmacies",
-                column: "LocationId");
+                column: "LocationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyMedicines_MedicineId",
@@ -558,7 +557,9 @@ namespace PharmacyLocator.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_LocationId",
                 table: "Users",
-                column: "LocationId");
+                column: "LocationId",
+                unique: true,
+                filter: "[LocationId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -587,9 +588,6 @@ namespace PharmacyLocator.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
@@ -603,9 +601,6 @@ namespace PharmacyLocator.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Governments");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -624,6 +619,12 @@ namespace PharmacyLocator.Migrations
 
             migrationBuilder.DropTable(
                 name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
+
+            migrationBuilder.DropTable(
+                name: "Governments");
         }
     }
 }
