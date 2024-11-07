@@ -2,10 +2,12 @@
 using PharmacyLocator.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PharmacyLocator.Presentation.Controllers
@@ -17,10 +19,14 @@ namespace PharmacyLocator.Presentation.Controllers
         public PharmacyMedicineController(IServiceManager service)=> _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetMedicinesForPharmacy(int pharmacyId)
+        public async Task<IActionResult> GetMedicinesForPharmacy(int pharmacyId,[FromQuery] PharmacyMedicineParameters pharmacyMedicineParameters)
         {
-            var medicines = await _service.PharmacyMedicineService.GetMedicinesAsync(pharmacyId,false);
-            return Ok(medicines);
+            var pagedResult = await _service.PharmacyMedicineService.GetMedicinesAsync(pharmacyId, pharmacyMedicineParameters, false);
+
+            Response.Headers.Add("X-Pagination",
+            JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.Medicines);
         }
 
         [HttpGet("{medicineId:int}", Name = "GetMedicineForPharmacy")]

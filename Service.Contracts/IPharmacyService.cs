@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Service.Contracts
 {
     public interface IPharmacyService
     {
-        Task<IEnumerable<PharmacyDto>> GetAllPharmaciesAsync(bool trackChanges);
+        Task<(IEnumerable<PharmacyDto> Pharmacies, MetaData metaData)> GetAllPharmaciesAsync(bool trackChanges, PharmaciesParameters pharmaciesparameters);
         Task<PharmacyDto> GetPharmacyAsync(int pharmacyId, bool trackChanges);
         Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy);
         Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);

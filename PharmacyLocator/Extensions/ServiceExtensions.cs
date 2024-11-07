@@ -22,7 +22,8 @@ namespace PharmacyLocator.Extensions
                 options.AddPolicy("CorsPolicy", builder =>
                 builder.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod());
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Pagination"));
             });
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
