@@ -10,7 +10,6 @@
         public int GovernmentId { get; set; }
 
         public ICollection<Order> Orders { get; set; }
-        public  User Users { get; set; }
         public  Government Governorate { get; set; }
         public  City City { get; set; }
         public Pharmacy Pharmacies { get; set; }
