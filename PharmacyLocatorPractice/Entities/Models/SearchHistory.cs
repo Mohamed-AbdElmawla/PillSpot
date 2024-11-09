@@ -2,7 +2,7 @@
 {
     public class SearchHistory
     {
-        public int SearchId { get; set; }
+        public string SearchId { get; set; } = Guid.NewGuid().ToString();
         public string SearchTerm { get; set; }
         public DateTime SearchedAt { get; set; }
         public string UserId { get; set; }

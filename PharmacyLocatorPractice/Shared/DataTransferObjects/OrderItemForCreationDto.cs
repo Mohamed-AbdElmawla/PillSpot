@@ -9,16 +9,16 @@ namespace Shared.DataTransferObjects
 {
     public class OrderItemForCreationDto
     {
-        [Required(ErrorMessage = "UnitPrice is a required field.")]
+        //[Required(ErrorMessage = "UnitPrice is a required field.")]
         public decimal UnitPrice { get; init; }
 
         [Required(ErrorMessage = "Quantity is a required field.")]
         public int Quantity { get; init; }
 
         [Required(ErrorMessage = "PharmacyId is a required field.")]
-        public int PharmacyId { get; init; }
+        public string PharmacyId { get; init; }
 
         [Required(ErrorMessage = "MedicineId is a required field.")]
-        public int MedicineId { get; init; }
+        public string MedicineId { get; init; }
     }
 }

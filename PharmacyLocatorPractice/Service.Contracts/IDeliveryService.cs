@@ -9,9 +9,9 @@ namespace Service.Contracts
 {
     public interface IDeliveryService
     {
-        Task<IEnumerable<OrderDto>> GetPendingDeliveriesAsync(bool trackChanges);
-        Task<IEnumerable<OrderDto>> GetReadyToDeliverOrdersAsync(bool trackChanges);
-        Task<bool> MarkOrderAsReadyToDeliverAsync(int orderId);
-        Task<bool> MarkOrderAsDeliveredAsync(int orderId);
+        Task<IEnumerable<OrderDto>> GetPendingDeliveriesAsync(string userId, bool trackChanges);
+        Task<IEnumerable<OrderDto>> GetReadyToDeliverOrdersAsync(string userId, bool trackChanges);
+        Task<bool> MarkOrderAsReadyToDeliverAsync(string userId, string orderId);
+        Task<bool> MarkOrderAsDeliveredAsync(string userId, string orderId);
     }
 }

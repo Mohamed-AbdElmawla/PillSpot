@@ -17,9 +17,9 @@ namespace Shared.DataTransferObjects
         public int Quantity { get; set; }
         
         [Required(ErrorMessage = "PharmacyId is a required field.")]
-        public int PharmacyId { get; set; }
+        public string PharmacyId { get; set; }
 
         [Required(ErrorMessage = "MedicineId is a required field.")]
-        public int MedicineId { get; set; }
+        public string MedicineId { get; set; }
     }
 }

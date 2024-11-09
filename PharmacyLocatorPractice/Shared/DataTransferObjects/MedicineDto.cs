@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects
 {
     public record MedicineDto
     {
-        public int MedicineId { get; init; }
+        public string MedicineId { get; init; }
         public string Name { get; init; }
         public string Description { get; init; }
         public string ActiveIngredient { get; init; }

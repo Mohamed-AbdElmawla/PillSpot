@@ -2,17 +2,17 @@
 {
     public enum Status
     {
-        Pinding,
+        Pending,
         ReadyToDeliver,
         Delivered
     }
     public class Order
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; } = Guid.NewGuid().ToString();
         public DateTime OrderedAt { get; set; }
         public decimal TotalPrice { get; set; }
-        public string Status { get; set; }
-        public int LocationId { get; set; }
+        public Status Status { get; set; }
+        public string LocationId { get; set; }
         public string UserId { get; set; }
 
         public User User { get; set; }

@@ -19,7 +19,7 @@ namespace Shared.DataTransferObjects
         public string ContactNumber { get; init; }
 
         [Required(ErrorMessage = "LocationId is a required field.")]
-        public int LocationId { get; init; }
+        public string LocationId { get; init; }
 
         [Required(ErrorMessage = "OpeningHours is a required field.")]
         public string OpeningHours { get; init; }

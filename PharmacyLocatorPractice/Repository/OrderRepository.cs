@@ -10,11 +10,13 @@ namespace Repository
         public OrderRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
-        public async Task<IEnumerable<Order>> GetOrdersAsync(bool trackChanges) => await FindAll(trackChanges).OrderBy(o => o.OrderedAt).ToListAsync();
 
-        public async Task<Order> GetOrderAsync(int orderId, bool trackChanges) => await FindByCondition(o => o.OrderId.Equals(orderId), trackChanges).SingleOrDefaultAsync();
-
-        //public async Task<IEnumerable<Order>> GetOrdersByStatusAsync(string status, bool trackChanges) => await FindByCondition(o => o.Status == status, trackChanges).ToListAsync();
+        public async Task<Order> GetOrderByUserIdAndOrderIdAsync(string userId, string orderId, bool trackChanges) =>
+            await FindByCondition(o => o.UserId == userId && o.OrderId == orderId, trackChanges)
+            .Include(o => o.OrderItems).SingleOrDefaultAsync();
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId, bool trackChanges) =>
+            await FindByCondition(o => o.UserId == userId, trackChanges)
+            .Include(o => o.OrderItems).ToListAsync();
         public void CreateOrder(Order order) => Create(order);
 
         public void DeleteOrder(Order order) => Delete(order);

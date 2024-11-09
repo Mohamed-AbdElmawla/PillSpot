@@ -19,7 +19,6 @@ namespace Repository.Configuration
             builder.Property(g => g.Governmente_Name_EN)
                 .IsRequired()
                 .HasMaxLength(255);
-
         }
     }
 }

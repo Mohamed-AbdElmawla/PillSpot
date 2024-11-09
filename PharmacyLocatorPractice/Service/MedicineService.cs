@@ -34,21 +34,24 @@ namespace Service
             return medicineToReturn;
         }
 
-        public async Task<MedicineDto> GetMedicineAsync(int medicineId, bool trackChanges)
+        public async Task<MedicineDto> GetMedicineAsync(string medicineId, bool trackChanges)
         {
             var medicine = await _repository.Medicine.GetMedicineAsync(medicineId, trackChanges);
+
             if (medicine is null)
                 throw new MedicineNotFoundException(medicineId);
+
             var medicineDto = _mapper.Map<MedicineDto>(medicine);
             return medicineDto;
         }
 
-        public async Task DeleteMedicine(int medicineId, bool trackChanges)
+        public async Task DeleteMedicine(string medicineId, bool trackChanges)
         {
             var medicine = await _repository.Medicine.GetMedicineAsync(medicineId, trackChanges);
 
             if (medicine is null)
                 throw new MedicineNotFoundException(medicineId);
+
             _repository.Medicine.DeleteMedicine(medicine);
             await _repository.SaveAsync();
         }

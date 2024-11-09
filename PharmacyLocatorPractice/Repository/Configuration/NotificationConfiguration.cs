@@ -29,10 +29,10 @@ namespace Repository.Configuration
                 .WithMany(u => u.Notifications)
                 .HasForeignKey(n => n.UserId);
 
-            builder.HasOne(n => n.PharmacyMedicine)
-             .WithMany()
-             .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId") 
-             .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(o => o.PharmacyMedicine)
+                 .WithMany()
+                 .HasForeignKey(o => new { o.PharmacyId, o.MedicineId })
+                 .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

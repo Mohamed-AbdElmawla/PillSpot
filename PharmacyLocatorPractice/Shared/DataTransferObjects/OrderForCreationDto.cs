@@ -9,12 +9,11 @@ namespace Shared.DataTransferObjects
 {
     public class OrderForCreationDto
     {
-        public string Status { get; init; }
 
         [Required(ErrorMessage = "LocationId is a required field.")]
-        public int LocationId { get; init; }
+        public string LocationId { get; init; }
 
         [Required(ErrorMessage = "OrderItems is a required field.")]
-        public IEnumerable<OrderItemDto> OrderItems { get; init; }
+        public IEnumerable<OrderItemForCreationDto> OrderItems { get; init; }
     }
 }

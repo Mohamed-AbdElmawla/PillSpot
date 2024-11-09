@@ -9,7 +9,7 @@ namespace Entities.Models
     }
     public class User : IdentityUser
     {
-        public string Name {  get; set; }
+        public string Name { get; set; }
         public int Age { get; set; }
         public string? SOSNumber { get; set; }
         public Gender? Gender { get; set; }
@@ -17,7 +17,6 @@ namespace Entities.Models
         public string? RefreshToken { get; set; }
         public string? PhotoUrl { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-        public int? LocationId { get; set; }
 
         public Location Location { get; set; }
         public ICollection<Notification> Notifications { get; set; }

@@ -2,11 +2,6 @@
 using PharmacyLocator.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PharmacyLocator.Presentation.Controllers
 {
@@ -17,10 +12,10 @@ namespace PharmacyLocator.Presentation.Controllers
         private readonly IServiceManager _service;
         public MedicineController(IServiceManager service) => _service = service;
 
-        [HttpGet("{id:int}", Name = "MedicineById")]
-        public async Task<IActionResult> GetMedicine(int id)
+        [HttpGet("{id:guid}", Name = "MedicineById")]
+        public async Task<IActionResult> GetMedicine(string id)
         {
-            var medicine = await _service.MedicineService.GetMedicineAsync(id,true);
+            var medicine = await _service.MedicineService.GetMedicineAsync(id, true);
             return Ok(medicine);
         }
 
@@ -29,16 +24,15 @@ namespace PharmacyLocator.Presentation.Controllers
         public async Task<IActionResult> CreateMedicine([FromBody] MedicineForCreationDto medicine)
         {
             if (medicine is null)
-            {
                 return BadRequest("MedicineForCreationDto object is null");
-            }
+
             var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicine);
             return CreatedAtRoute("MedicineById", new { Id = createdMedicine.MedicineId }, createdMedicine);
         }
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteMedicine(int Id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteMedicine(string Id)
         {
-           await _service.MedicineService.DeleteMedicine(Id, trackChanges: false);
+            await _service.MedicineService.DeleteMedicine(Id, trackChanges: false);
             return NoContent();
         }
     }

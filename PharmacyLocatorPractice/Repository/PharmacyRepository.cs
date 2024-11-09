@@ -15,7 +15,7 @@ namespace Repository
     {
         public PharmacyRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
-            
+
         }
 
         public void CreatePharmacy(Pharmacy pharmacy) => Create(pharmacy);
@@ -34,9 +34,9 @@ namespace Repository
             return new PagedList<Pharmacy>(Pharmacies, count, pharmaciesparameters.PageNumber, pharmaciesparameters.PageSize);
         }
 
-        public async Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges) => await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges).ToListAsync();
+        public async Task<IEnumerable<Pharmacy>> GetByIdsAsync(IEnumerable<string> ids, bool trackChanges) => await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges).ToListAsync();
 
-        public async Task<Pharmacy> GetPharmacyAsync(int pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyId.Equals(pharmacyId), trackChanges).SingleOrDefaultAsync();
+        public async Task<Pharmacy> GetPharmacyAsync(string pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyId.Equals(pharmacyId), trackChanges).SingleOrDefaultAsync();
 
     }
 }

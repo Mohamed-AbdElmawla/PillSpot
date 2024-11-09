@@ -19,12 +19,6 @@ namespace Repository.Configuration
             builder.Property(c => c.City_Name_EN)
                 .IsRequired()
                 .HasMaxLength(255);
-
-            //builder.HasOne(c => c.Location)
-            //    .WithMany(l => l.Cities)
-            //    .HasForeignKey(c => c.CityId)
-            //    .OnDelete(DeleteBehavior.NoAction); 
-
         }
     }
 }
