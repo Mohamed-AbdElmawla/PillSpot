@@ -21,7 +21,7 @@ namespace Service
             _logger = logger;
             _mapper = mapper;
         }
-    
+
         public async Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy)
 
         {
@@ -37,7 +37,7 @@ namespace Service
             if (pharmacyCollection is null)
                 throw new PharmacyCollectionBadRequest();
             var pharmaciesEntities = _mapper.Map<IEnumerable<Pharmacy>>(pharmacyCollection);
-            foreach(var pharmacy in pharmaciesEntities)
+            foreach (var pharmacy in pharmaciesEntities)
             {
                 _repository.Pharmacy.CreatePharmacy(pharmacy);
             }
@@ -47,7 +47,7 @@ namespace Service
             return (pharmacies: pharmacyCollectionToReturn, ids: ids);
         }
 
-        public async Task DeletePharmacy(int pharmacyId, bool trackChanges)
+        public async Task DeletePharmacy(string pharmacyId, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 
@@ -62,13 +62,13 @@ namespace Service
         {
             var pharmacies = await _repository.Pharmacy.GetAllPharmaciesAsync(trackChanges, pharmaciesparameters);
             var pharmaciesDto = _mapper.Map<IEnumerable<PharmacyDto>>(pharmacies);
-            return (Pharmacies:pharmaciesDto, pharmacies.MetaData);
+            return (Pharmacies: pharmaciesDto, pharmacies.MetaData);
         }
 
 
-        public async Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+        public async Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<string> ids, bool trackChanges)
         {
-            if(ids is null)
+            if (ids is null)
                 throw new IdParametersBadRequestException();
             var pharmacies = await _repository.Pharmacy.GetByIdsAsync(ids, trackChanges);
             if (ids.Count() != pharmacies.Count())
@@ -77,16 +77,18 @@ namespace Service
             return pharmaciesToReturn;
         }
 
-        public async Task<PharmacyDto> GetPharmacyAsync(int pharmacyId, bool trackChanges)
+        public async Task<PharmacyDto> GetPharmacyAsync(string pharmacyId, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
+
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
+
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
             return pharmacyDto;
         }
 
-        public async Task UpdatePharmacy(int pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges)
+        public async Task UpdatePharmacy(string pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges)
         {
             var pharmacyEntity = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 

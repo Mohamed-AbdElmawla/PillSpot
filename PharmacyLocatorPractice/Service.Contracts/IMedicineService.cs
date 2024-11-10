@@ -10,7 +10,7 @@ namespace Service.Contracts
     public interface IMedicineService
     {
         Task<MedicineDto> CreateMedicineAsync(MedicineForCreationDto medicine);
-        Task<MedicineDto> GetMedicineAsync(int medicineId, bool trackChanges);
-        Task DeleteMedicine(int medicineId, bool trackChanges);
+        Task<MedicineDto> GetMedicineAsync(string medicineId, bool trackChanges);
+        Task DeleteMedicine(string medicineId, bool trackChanges);
     }
 }

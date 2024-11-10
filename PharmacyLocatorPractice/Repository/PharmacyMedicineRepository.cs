@@ -11,25 +11,25 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-   public class PharmacyMedicineRepository: RepositoryBase<PharmacyMedicine>, IPharmacyMedicineRepository
+    public class PharmacyMedicineRepository : RepositoryBase<PharmacyMedicine>, IPharmacyMedicineRepository
     {
-        public PharmacyMedicineRepository(RepositoryContext repositoryContext):base(repositoryContext)
+        public PharmacyMedicineRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
-            
+
         }
 
-        public async Task<PagedList<PharmacyMedicine>> GetMedicinesAsync(int pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
+        public async Task<PagedList<PharmacyMedicine>> GetMedicinesAsync(string pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
         {
-            var Medicines = await FindByCondition(md => md.PharmacyId.Equals(pharmacyId), trackChanges).Paging(pharmacyMedicineParameters.PageNumber,pharmacyMedicineParameters.PageSize).ToListAsync();
+            var Medicines = await FindByCondition(md => md.PharmacyId.Equals(pharmacyId), trackChanges).Paging(pharmacyMedicineParameters.PageNumber, pharmacyMedicineParameters.PageSize).ToListAsync();
 
-            var count = await FindByCondition(m=>m.PharmacyId == pharmacyId,trackChanges).CountAsync();
+            var count = await FindByCondition(m => m.PharmacyId == pharmacyId, trackChanges).CountAsync();
 
             return new PagedList<PharmacyMedicine>(Medicines, count, pharmacyMedicineParameters.PageNumber, pharmacyMedicineParameters.PageSize);
         }
-        public async Task<PharmacyMedicine> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
-            =>await FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
+        public async Task<PharmacyMedicine> GetMedicineAsync(string pharmacyId, string medicineId, bool trackChanges)
+            => await FindByCondition(md => md.PharmacyId.Equals(pharmacyId) && md.MedicineId.Equals(medicineId), trackChanges).SingleOrDefaultAsync();
 
-        public void CreatePharmacyMedicine(int pharmacyId, PharmacyMedicine pharmacyMedicine)
+        public void CreatePharmacyMedicine(string pharmacyId, PharmacyMedicine pharmacyMedicine)
         {
             pharmacyMedicine.PharmacyId = pharmacyId;
             Create(pharmacyMedicine);

@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PharmacyLocator.Presentation.ActionFilters;
 using PharmacyLocator.Presentation.ModelBinders;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PharmacyLocator.Presentation.Controllers
 {
@@ -32,8 +25,8 @@ namespace PharmacyLocator.Presentation.Controllers
 
             return Ok(pagedResult.Pharmacies);
         }
-        [HttpGet("{id:int}",Name ="PharmacyById")]
-        public async Task<IActionResult> GetPharmacy(int Id)
+        [HttpGet("{id:guid}", Name = "PharmacyById")]
+        public async Task<IActionResult> GetPharmacy(string Id)
         {
             var pharmacy = await _service.PharmacyService.GetPharmacyAsync(Id, true);
             return Ok(pharmacy);
@@ -42,18 +35,18 @@ namespace PharmacyLocator.Presentation.Controllers
         [ValidationFilterAttribute]
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacy)
         {
-            if( pharmacy is null)
+            if (pharmacy is null)
             {
                 return BadRequest("PharmacyForCreationDto object is null");
             }
             var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacy);
-            return CreatedAtRoute("PharmacyById", new {Id = createdPharmacy.PharmacyId},createdPharmacy);
+            return CreatedAtRoute("PharmacyById", new { Id = createdPharmacy.PharmacyId }, createdPharmacy);
         }
 
-        [HttpGet("collection/({ids})",Name = "PharmacyCollection")]
-        public async Task<IActionResult> GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
+        [HttpGet("collection/({ids})", Name = "PharmacyCollection")]
+        public async Task<IActionResult> GetPharmacyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<string> ids)
         {
-            var pharmacies = await _service.PharmacyService.GetByIdsAsync(ids,trackChanges: false);
+            var pharmacies = await _service.PharmacyService.GetByIdsAsync(ids, trackChanges: false);
             return Ok(pharmacies);
         }
 
@@ -65,20 +58,20 @@ namespace PharmacyLocator.Presentation.Controllers
             return CreatedAtRoute("PharmacyCollection", new { result.ids }, result.pharmacies);
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeletePharmacy(int Id)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeletePharmacy(string Id)
         {
             await _service.PharmacyService.DeletePharmacy(Id, trackChanges: false);
             return NoContent();
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdatePharmacy(int id, [FromBody] PharmacyForUpdateDto pharmacy)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdatePharmacy(string id, [FromBody] PharmacyForUpdateDto pharmacy)
         {
             if (pharmacy is null)
                 return BadRequest("PharmacyForUpdateDto object is null");
 
-           await _service.PharmacyService.UpdatePharmacy(id, pharmacy, trackChanges: true);
+            await _service.PharmacyService.UpdatePharmacy(id, pharmacy, trackChanges: true);
 
             return NoContent();
         }

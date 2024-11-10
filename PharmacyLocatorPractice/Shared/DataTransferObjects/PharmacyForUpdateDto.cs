@@ -13,7 +13,7 @@ namespace Shared.DataTransferObjects
         public string Name { get; init; }
 
         [Required(ErrorMessage = "LocationId is a required field.")]
-        public int LocationId { get; init; }
+        public string LocationId { get; init; }
         [Required(ErrorMessage = "Please enter a valid phone number.")]
         [RegularExpression(@"^01[0-9]{9}$", ErrorMessage = "Please enter a valid Egyptian phone number.")]
         public string ContactNumber { get; init; }

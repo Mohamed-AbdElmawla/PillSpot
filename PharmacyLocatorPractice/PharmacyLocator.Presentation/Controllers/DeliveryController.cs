@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace PharmacyLocator.Presentation.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/Users/{userId}/[controller]")]
+    [Authorize]
     public class DeliveryController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -17,33 +15,53 @@ namespace PharmacyLocator.Presentation.Controllers
         public DeliveryController(IServiceManager service) => _service = service;
 
         [HttpGet("pending")]
-        public async Task<IActionResult> GetPendingDeliveries()
+        public async Task<IActionResult> GetPendingDeliveries(string userId)
         {
-            var deliveries = await _service.DeliveryService.GetPendingDeliveriesAsync(trackChanges: false);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != currentUserId)
+            {
+                return Forbid("You are not authorized to access this resource.");
+            }
+            var deliveries = await _service.DeliveryService.GetPendingDeliveriesAsync(userId, trackChanges: false);
             return Ok(deliveries);
         }
-      
+
         [HttpGet("ReadyToDeliver")]
-        public async Task<IActionResult> GetReadyToDeliverOrders()
+        public async Task<IActionResult> GetReadyToDeliverOrders(string userId)
         {
-            var deliveries = await _service.DeliveryService.GetReadyToDeliverOrdersAsync(trackChanges: false);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != currentUserId)
+            {
+                return Forbid("You are not authorized to access this resource.");
+            }
+            var deliveries = await _service.DeliveryService.GetReadyToDeliverOrdersAsync(userId, trackChanges: false);
             return Ok(deliveries);
         }
 
         [HttpPut("{orderId}/MarkReadyToDeliver")]
-        public async Task<IActionResult> MarkOrderAsReadyToDeliver(int orderId)
+        public async Task<IActionResult> MarkOrderAsReadyToDeliver(string userId, string orderId)
         {
-            var success = await _service.DeliveryService.MarkOrderAsReadyToDeliverAsync(orderId);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != currentUserId)
+            {
+                return Forbid("You are not authorized to access this resource.");
+            }
+            var success = await _service.DeliveryService.MarkOrderAsReadyToDeliverAsync(userId, orderId);
             if (!success) return NotFound($"Order with ID {orderId} not found.");
             return NoContent();
         }
 
-        [HttpPut("{orderId}/mark-delivered")]
-        public async Task<IActionResult> MarkOrderAsDelivered(int orderId)
+        [HttpPut("{orderId}/MarkDelivered")]
+        public async Task<IActionResult> MarkOrderAsDelivered(string userId, string orderId)
         {
-            var success = await _service.DeliveryService.MarkOrderAsDeliveredAsync(orderId);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != currentUserId)
+            {
+                return Forbid("You are not authorized to access this resource.");
+            }
+            var success = await _service.DeliveryService.MarkOrderAsDeliveredAsync(userId, orderId);
 
-            if (!success) 
+            if (!success)
                 return NotFound($"Order with ID {orderId} not found.");
 
             return NoContent();

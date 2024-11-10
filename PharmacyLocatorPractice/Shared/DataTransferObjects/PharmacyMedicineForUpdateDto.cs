@@ -10,7 +10,7 @@ namespace Shared.DataTransferObjects
     public record PharmacyMedicineForUpdateDto
     {
         [Required(ErrorMessage = "MedicineId is required")]
-        public int MedicineId { get; init; }
+        public string MedicineId { get; init; }
 
         [Required(ErrorMessage = "Price is required")]
         public decimal Price { get; init; }

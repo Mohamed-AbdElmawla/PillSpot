@@ -8,7 +8,7 @@ namespace Entities.Exceptions
 {
     public class MedicineNotFoundException : NotFoundException
     {
-        public MedicineNotFoundException(int medicineId) : base($"Medicine with id {medicineId} doesn't exist in the database.")
+        public MedicineNotFoundException(string medicineId) : base($"Medicine with id {medicineId} doesn't exist in the database.")
         {
             
         }

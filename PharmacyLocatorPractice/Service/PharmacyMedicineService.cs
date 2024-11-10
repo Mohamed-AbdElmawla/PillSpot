@@ -26,7 +26,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<(IEnumerable<PharmacyMedicineDto> Medicines, MetaData metaData)> GetMedicinesAsync(int pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyMedicineDto> Medicines, MetaData metaData)> GetMedicinesAsync(string pharmacyId, PharmacyMedicineParameters pharmacyMedicineParameters, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
             if (pharmacy is null)
@@ -35,19 +35,23 @@ namespace Service
             var medicinesDto = _mapper.Map<IEnumerable<PharmacyMedicineDto>>(medicines);
             return (Medicines: medicinesDto, metaData: medicines.MetaData);
         }
-        public async Task<PharmacyMedicineDto> GetMedicineAsync(int pharmacyId, int medicineId, bool trackChanges)
+        public async Task<PharmacyMedicineDto> GetMedicineAsync(string pharmacyId, string medicineId, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
+
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
+
             var medicine = await _repository.PharmacyMedicine.GetMedicineAsync(pharmacyId, medicineId, trackChanges);
+
             if (medicine is null)
                 throw new MedicineNotFoundException(medicineId);
+
             var medicineDto = _mapper.Map<PharmacyMedicineDto>(medicine);
             return medicineDto;
         }
 
-        public async Task<PharmacyMedicineDto> CreatePharmacyMedicineAsync(int pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges)
+        public async Task<PharmacyMedicineDto> CreatePharmacyMedicineAsync(string pharmacyId, PharmacyMedicineForCreationDto pharmacyMedicineCreationDto, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 
@@ -70,7 +74,7 @@ namespace Service
             return pharmacyMedicineToReturn;
         }
 
-        public async Task DeletePharmacyMedicine(int pharmacyId, int medicineId, bool trackChanges)
+        public async Task DeletePharmacyMedicine(string pharmacyId, string medicineId, bool trackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, trackChanges);
 
@@ -85,11 +89,11 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdatePharmacyMedicine(int pharmacyId, int medicineId, PharmacyMedicineForUpdateDto pharmacyMedicineForUpdate, bool phTrackChanges, bool phMedTrackChanges)
+        public async Task UpdatePharmacyMedicine(string pharmacyId, string medicineId, PharmacyMedicineForUpdateDto pharmacyMedicineForUpdate, bool phTrackChanges, bool phMedTrackChanges)
         {
             var pharmacy = await _repository.Pharmacy.GetPharmacyAsync(pharmacyId, phTrackChanges);
 
-            if(pharmacy is null)
+            if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
 
             var medicine = await _repository.PharmacyMedicine.GetMedicineAsync(pharmacyId, medicineId, phMedTrackChanges);

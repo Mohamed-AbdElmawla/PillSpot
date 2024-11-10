@@ -23,11 +23,11 @@ namespace Repository.Configuration
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId);
 
-            builder.HasOne(oi => oi.PharmacyMedicine)
-                .WithMany()
-                .HasForeignKey("PharmacyMedicinePharmacyId", "PharmacyMedicineMedicineId")
+            builder.HasOne(o => o.PharmacyMedicine)
+                .WithMany() 
+                .HasForeignKey(o => new { o.pharmacyId, o.MedicineId })
                 .OnDelete(DeleteBehavior.NoAction);
-           
+
         }
     }
 }

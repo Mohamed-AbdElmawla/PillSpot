@@ -20,8 +20,7 @@ namespace Repository.Configuration
                 .HasColumnType("decimal(18,2)");
 
             builder.Property(o => o.Status)
-                .IsRequired()
-                .HasMaxLength(50);
+                .IsRequired();
 
             builder.HasOne(o => o.User)
                 .WithMany(u => u.Orders)
@@ -34,6 +33,11 @@ namespace Repository.Configuration
             builder.HasMany(o => o.OrderItems)
                 .WithOne(oi => oi.Order)
                 .HasForeignKey(oi => oi.OrderId);
+
+            builder.HasOne(o => o.User)
+              .WithMany(u => u.Orders)
+              .HasForeignKey(o => o.UserId)
+              .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

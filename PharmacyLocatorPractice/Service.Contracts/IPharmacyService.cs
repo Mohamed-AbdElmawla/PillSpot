@@ -11,11 +11,11 @@ namespace Service.Contracts
     public interface IPharmacyService
     {
         Task<(IEnumerable<PharmacyDto> Pharmacies, MetaData metaData)> GetAllPharmaciesAsync(bool trackChanges, PharmaciesParameters pharmaciesparameters);
-        Task<PharmacyDto> GetPharmacyAsync(int pharmacyId, bool trackChanges);
+        Task<PharmacyDto> GetPharmacyAsync(string pharmacyId, bool trackChanges);
         Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy);
-        Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+        Task<IEnumerable<PharmacyDto>> GetByIdsAsync(IEnumerable<string> ids, bool trackChanges);
         Task<(IEnumerable<PharmacyDto> pharmacies, string ids)> CreatePharmacyCollectionAsync(IEnumerable<PharmacyForCreationDto> pharmacyCollection);
-        Task DeletePharmacy(int pharmacyId, bool trackChanges);
-        Task UpdatePharmacy(int pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges);
+        Task DeletePharmacy(string pharmacyId, bool trackChanges);
+        Task UpdatePharmacy(string pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges);
     }
 }

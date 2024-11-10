@@ -2,7 +2,7 @@
 {
     public class Medicine
     {
-        public int MedicineId { get; set; }
+        public string MedicineId { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string Description { get; set; }
         public string ActiveIngredient { get; set; }
