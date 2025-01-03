@@ -42,3 +42,5 @@ PharmacyLocatorPractice/Shared/bin
 PharmacyLocatorPractice/Shared/obj
 
 PharmacyLocatorPractice/PharmacyLocator/Images/*
+
+**/node_modules/
