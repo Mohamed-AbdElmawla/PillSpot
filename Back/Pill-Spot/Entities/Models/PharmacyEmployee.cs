@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Entities.Models
+{
+    public class PharmacyEmployee
+    {
+        [Key]
+        public ulong EmployeeID { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
+        public string UserID { get; set; }
+
+        [Required(ErrorMessage = "Pharmacy ID is required.")]
+        public ulong PharmacyID { get; set; }
+
+        [Required(ErrorMessage = "Role is required.")]
+        [MaxLength(100, ErrorMessage = "Role cannot exceed 100 characters.")]
+        public string Role { get; set; }
+
+        [Required(ErrorMessage = "Hire date is required.")]
+        public DateTime HireDate { get; set; }
+
+        [ForeignKey("UserID")]
+        public virtual User User { get; set; }
+
+        [ForeignKey("PharmacyID")]
+        public virtual Pharmacy Pharmacy { get; set; }
+
+        public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
+
+        [Required]
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+        public DateTime? ModifiedDate { get; set; }
+
+        [Required]
+        public bool IsDeleted { get; set; } = false;
+    }
+}

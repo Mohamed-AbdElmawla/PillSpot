@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Entities.Models
+{
+    public class Pharmacy
+    {
+        [Key]
+        public ulong PharmacyID { get; set; }
+
+        [ForeignKey("ParentPharmacy")]
+        public ulong? ParentPharmacyID { get; set; }
+        public virtual Pharmacy ParentPharmacy { get; set; }
+
+        [Required(ErrorMessage = "Owner ID is required.")]
+        public string OwnerID { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
+        public string Name { get; set; }
+
+        [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
+        public string ImageURL { get; set; }
+
+        [Required(ErrorMessage = "Location ID is required.")]
+        public ulong LocationID { get; set; }
+
+        [Required(ErrorMessage = "License ID is required.")]
+        [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
+        public string LicenseID { get; set; }
+
+        [Required(ErrorMessage = "Contact number is required.")]
+        [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]
+        public string ContactNumber { get; set; }
+
+        [Required(ErrorMessage = "Opening time is required.")]
+        public TimeSpan OpeningTime { get; set; }
+
+        [Required(ErrorMessage = "Closing time is required.")]
+        public TimeSpan ClosingTime { get; set; }
+
+        [Required(ErrorMessage = "IsOpen24 is required.")]
+        public bool IsOpen24 { get; set; }
+
+        [Required(ErrorMessage = "Days open is required.")]
+        [MaxLength(7, ErrorMessage = "Days open cannot exceed 7 characters.")]
+        public string DaysOpen { get; set; }
+
+        [Required]
+        [ForeignKey("LocationID")]
+        public virtual Location Location { get; set; }
+
+        [ForeignKey("OwnerID")]
+        public virtual User Owner { get; set; }
+
+        public virtual ICollection<Pharmacy> Branches { get; set; } = new List<Pharmacy>();
+        public virtual ICollection<PharmacyEmployee> Employees { get; set; } = new List<PharmacyEmployee>();
+        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+
+        [Required]
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+        public DateTime? ModifiedDate { get; set; }
+
+        [Required]
+        public bool IsDeleted { get; set; } = false;
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+    }
+}
