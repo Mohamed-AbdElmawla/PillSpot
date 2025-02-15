@@ -1,0 +1,79 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Entities.Models;
+
+namespace Repository.Configuration
+{
+    public class PharmacyConfiguration : IEntityTypeConfiguration<Pharmacy>
+    {
+        public void Configure(EntityTypeBuilder<Pharmacy> builder)
+        {
+            builder.HasKey(p => p.PharmacyID);
+
+            builder.Property(p => p.OwnerID)
+                .IsRequired()
+                .HasMaxLength(450)
+                .IsUnicode(true);
+
+            builder.Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(255)
+                .IsUnicode(true);
+
+            builder.Property(p => p.ImageURL)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+
+            builder.Property(p => p.LicenseID)
+                .IsRequired()
+                .HasMaxLength(450)
+                .IsUnicode(true);
+
+            builder.Property(p => p.ContactNumber)
+                .IsRequired()
+                .HasMaxLength(11)
+                .IsUnicode(false);
+
+            builder.Property(p => p.OpeningTime)
+                .IsRequired();
+
+            builder.Property(p => p.ClosingTime)
+                .IsRequired();
+
+            builder.Property(p => p.IsOpen24)
+                .IsRequired();
+
+            builder.Property(p => p.DaysOpen)
+                .IsRequired()
+                .HasMaxLength(7)
+                .IsUnicode(false);
+
+            builder.Property(p => p.CreatedDate)
+                .IsRequired();
+
+            builder.Property(p => p.IsDeleted)
+                .HasDefaultValue(false);
+
+            builder.HasOne(p => p.Location)
+                .WithMany()
+                .HasForeignKey(p => p.LocationID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.Owner)
+                .WithMany()
+                .HasForeignKey(p => p.OwnerID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.ParentPharmacy)
+                .WithMany(p => p.Branches)
+                .HasForeignKey(p => p.ParentPharmacyID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(p => p.Name)
+                .HasDatabaseName("IX_Pharmacy_Name");
+
+            builder.HasIndex(p => p.IsDeleted)
+                .HasDatabaseName("IX_Pharmacy_IsDeleted");
+        }
+    }
+}

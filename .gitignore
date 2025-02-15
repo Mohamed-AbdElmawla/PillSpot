@@ -1,44 +1,46 @@
-PharmacyLocatorPractice/PharmacyLocator/.vs
-PharmacyLocatorPractice/PharmacyLocator/bin
-PharmacyLocatorPractice/PharmacyLocator/obj
-PharmacyLocatorPractice/PharmacyLocator/appsettings.json
+Pill-Spot/PillSpot/.vs
+Pill-Spot/PillSpot/bin
+Pill-Spot/PillSpot/obj
+Pill-Spot/PillSpot/appsettings.json
 
-PharmacyLocatorPractice/PharmacyLocator.Presentation/.vs
-PharmacyLocatorPractice/PharmacyLocator.Presentation/bin
-PharmacyLocatorPractice/PharmacyLocator.Presentation/obj
+Pill-Spot/PillSpot.Presentation/.vs
+Pill-Spot/PillSpot.Presentation/bin
+Pill-Spot/PillSpot.Presentation/obj
 
-PharmacyLocatorPractice/Contracts/.vs
-PharmacyLocatorPractice/Contracts/bin
-PharmacyLocatorPractice/Contracts/obj
+Pill-Spot/Contracts/.vs
+Pill-Spot/Contracts/bin
+Pill-Spot/Contracts/obj
 
-PharmacyLocatorPractice/LoggerService/.vs
-PharmacyLocatorPractice/LoggerService/bin
-PharmacyLocatorPractice/LoggerService/obj
-
-
-PharmacyLocatorPractice/Entities/.vs
-PharmacyLocatorPractice/Entities/bin
-PharmacyLocatorPractice/Entities/obj
+Pill-Spot/LoggerService/.vs
+Pill-Spot/LoggerService/bin
+Pill-Spot/LoggerService/obj
 
 
-PharmacyLocatorPractice/Presentation/.vs
-PharmacyLocatorPractice/Presentation/bin
-PharmacyLocatorPractice/Presentation/obj
+Pill-Spot/Entities/.vs
+Pill-Spot/Entities/bin
+Pill-Spot/Entities/obj
 
-PharmacyLocatorPractice/Repository/.vs
-PharmacyLocatorPractice/Repository/bin
-PharmacyLocatorPractice/Repository/obj
 
-PharmacyLocatorPractice/Service/.vs
-PharmacyLocatorPractice/Service/bin
-PharmacyLocatorPractice/Service/obj
+Pill-Spot/Presentation/.vs
+Pill-Spot/Presentation/bin
+Pill-Spot/Presentation/obj
 
-PharmacyLocatorPractice/Service.Contracts/.vs
-PharmacyLocatorPractice/Service.Contracts/bin
-PharmacyLocatorPractice/Service.Contracts/obj
+Pill-Spot/Repository/.vs
+Pill-Spot/Repository/bin
+Pill-Spot/Repository/obj
 
-PharmacyLocatorPractice/Shared/.vs
-PharmacyLocatorPractice/Shared/bin
-PharmacyLocatorPractice/Shared/obj
+Pill-Spot/Service/.vs
+Pill-Spot/Service/bin
+Pill-Spot/Service/obj
 
-PharmacyLocatorPractice/PharmacyLocator/Images/*
+Pill-Spot/Service.Contracts/.vs
+Pill-Spot/Service.Contracts/bin
+Pill-Spot/Service.Contracts/obj
+
+Pill-Spot/Shared/.vs
+Pill-Spot/Shared/bin
+Pill-Spot/Shared/obj
+
+Pill-Spot/PillSpot/Images/*
+
+**/node_modules/

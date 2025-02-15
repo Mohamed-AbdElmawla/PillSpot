@@ -1,0 +1,17 @@
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Contracts.deps.json
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Contracts.dll
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Contracts.pdb
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Entities.dll
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Shared.dll
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Entities.pdb
+D:\Graduation Project\Back\Pill-Spot\Contracts\bin\Debug\net8.0\Shared.pdb
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.csproj.AssemblyReference.cache
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.AssemblyInfoInputs.cache
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.AssemblyInfo.cs
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.csproj.CoreCompileInputs.cache
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.csproj.CopyComplete
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.dll
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\refint\Contracts.dll
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.pdb
+D:\Graduation Project\Back\Pill-Spot\Contracts\obj\Debug\net8.0\ref\Contracts.dll
