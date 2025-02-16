@@ -32,7 +32,7 @@ export const Styles = createGlobalStyle`
     }
 
     a:hover {
-        color: #18216d;
+        color: #02457a;
     }
 
     input,
@@ -43,13 +43,17 @@ export const Styles = createGlobalStyle`
         transition: all 0.3s ease-in-out;  
         outline: none;
         width: 100%;  
-        padding: 1rem 1.25rem;
-
-        :focus-within {
-            background: none;
-            box-shadow: #2e186a 0px 0px 0px 1px;
-        }
+        padding: 15px ;
     }
+
+    input:focus,
+textarea:focus {
+
+    box-shadow: 0 0 5px rgba(55, 62, 70, 0.5);
+    border: 1px solid rgba(47, 59, 73, 0.5);
+}
+    
+   
 
     h1,
     h2,
