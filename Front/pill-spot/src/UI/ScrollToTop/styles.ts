@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ScrollUpContainer = styled("div")<{
-  show: boolean | string;
+  show: number;
 }>`
   padding: 10px;
   position: fixed;
