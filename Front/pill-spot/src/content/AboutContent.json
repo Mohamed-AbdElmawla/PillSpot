@@ -1,0 +1,16 @@
+{
+  "title": "Health care Professionals",
+  "text": "We provide you with excellent medical advice through our website.",
+  "section": [
+    {
+      "title": "Medical dosage",
+      "content": "Description of the medical dosage for this medicine with all updates and latest version.",
+      "icon": "dosage.svg"
+    },
+    {
+      "title": "Search for medicine",
+      "content": "We search for the medicine you are looking for and tell you where it is available.",
+      "icon": "loupe.svg"
+    }
+  ]
+}
