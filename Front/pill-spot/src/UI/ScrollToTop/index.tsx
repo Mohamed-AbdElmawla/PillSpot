@@ -3,15 +3,15 @@ import { SvgIcon } from "../SvgIcon";
 import { ScrollUpContainer } from "./styles";
 
 const ScrollToTop = () => {
-  const [showScroll, setShowScroll] = useState(false);
+  const [showScroll, setShowScroll] = useState(0);
 
   const checkScrollTop = useCallback(() => {
     const offsetFromTop = window.scrollY;
 
     if (!showScroll && offsetFromTop > 350) {
-      setShowScroll(true);
+      setShowScroll(1);
     } else if (offsetFromTop <= 350) {
-      setShowScroll(false);
+      setShowScroll(0);
     }
   }, [showScroll]);
 
