@@ -1,10 +1,11 @@
 import { Row, Col } from "antd";
 import { Fade } from "react-awesome-reveal";
 import { withTranslation } from "react-i18next";
-
 import { ContentBlockProps } from "./types";
 import { Button } from "../../UI/Button";
 import { SvgIcon } from "../../UI/SvgIcon";
+import SignUpModal from "../SignUpModel";
+
 import {
   ContentSection,
   Content,
@@ -21,18 +22,13 @@ const ContentBlock = ({
   title,
   content,
   section,
-  button,
   t,
   id,
   direction,
 }: ContentBlockProps) => {
+
+ 
   
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id) as HTMLDivElement;
-    element.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
 
   return (
     <ContentSection>
@@ -52,26 +48,16 @@ const ContentBlock = ({
               <Content>{t(content)}</Content>
               {direction === "right" ? (
                 <ButtonWrapper>
-                  {typeof button === "object" &&
-                    button.map(
-                      (
-                        item: {
-                          color?: string;
-                          title: string;
-                        },
-                        id: number
-                      ) => {
-                        return (
-                          <Button
-                            key={id}
-                            color={item.color}
-                            onClick={() => scrollTo("about")}
-                          >
-                            {t(item.title)}
-                          </Button>
-                        );
-                      }
-                    )}
+
+                  
+                 <SignUpModal buttonText="Sign Up" />
+
+
+                  <Button color="white">
+                   Login
+                  </Button>
+
+
                 </ButtonWrapper>
               ) : (
                 <ServiceWrapper>
