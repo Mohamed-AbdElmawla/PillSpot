@@ -1,4 +1,4 @@
-import { InputData } from "./types";
+import { InputData, SignUpData } from "./types";
 
 
 export const inputArr : InputData[] = [
@@ -6,7 +6,7 @@ export const inputArr : InputData[] = [
         placeHolder : "User Name" , 
         type : "text" , 
         icon : "username.svg",
-        name : "username"
+        name : "userName"
     },
     {
         title : "Email" , 
@@ -31,7 +31,7 @@ export const inputArr : InputData[] = [
         placeHolder : "Confirm Password" , 
         type : "password" , 
         icon : "confirmpass.svg",
-        name : "confirmpassword"
+        name : "confirmPassword"
     },
     {
         placeHolder : "Age" , 
@@ -43,13 +43,42 @@ export const inputArr : InputData[] = [
         placeHolder : "Account Image" , 
         type : "accImage" , 
         icon : "accImage.svg",
-        name : "accImage"
+        name : "accountImage"
     },
     {
         type : "date" , 
         icon : "birth.svg",
-        name : "birth",
+        name : "birthDate",
         placeHolder : "",
     },
 
 ]
+
+
+export const defaultFromData : SignUpData = {
+    firstName: "" , 
+    lastName : "" , 
+    userName : "" , 
+    email : "" , 
+    phoneNumber : "" , 
+    password : "" , 
+    confirmPassword : "" , 
+    age : "" , 
+    accountImage : "" , 
+    birthDate : "" , 
+    gender : "" 
+}
+
+export const emptyFormData : SignUpData = {
+    firstName: "" , 
+    lastName : "" , 
+    userName : "" , 
+    email : "" , 
+    phoneNumber : "" , 
+    password : "" , 
+    confirmPassword : "" , 
+    age : "" , 
+    accountImage : "" , 
+    birthDate : "" , 
+    gender : "" 
+}

@@ -9,3 +9,18 @@ export interface InputData{
     icon : string ;
     type : string ; 
 }
+
+export interface SignUpData {
+    [key: string]: string;
+    firstName : string ; 
+    lastName : string ; 
+    userName : string ; 
+    email : string ; 
+    phoneNumber : string ; 
+    password : string ; 
+    confirmPassword : string ; 
+    age : string ; 
+    accountImage : string ; 
+    birthDate : string ; 
+    gender : string ; 
+}
