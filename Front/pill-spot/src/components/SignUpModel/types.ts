@@ -10,7 +10,7 @@ export interface InputData{
     type : string ; 
 }
 
-export interface SignUpData {
+export interface ISignUpData {
     [key: string]: string;
     firstName : string ; 
     lastName : string ; 

@@ -1,13 +1,7 @@
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
-import { Dispatch , SetStateAction } from "react";
-import { SignUpData } from "../../components/SignUpModel/types";
-
-export interface Iprops {
-    name : string ; 
-    placeHolder : string ;
-    type : string ; 
-    title? : string ; 
-    icon : string ; 
-    setSignUpData : Dispatch<SetStateAction<SignUpData>> ;
-
+export interface Iprops extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+    name: string;
+    type: string;
+    title?: string;
 }

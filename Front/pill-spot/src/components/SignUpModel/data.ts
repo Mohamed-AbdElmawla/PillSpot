@@ -1,4 +1,4 @@
-import { InputData, SignUpData } from "./types";
+import { InputData, ISignUpData } from "./types";
 
 
 export const inputArr : InputData[] = [
@@ -55,7 +55,7 @@ export const inputArr : InputData[] = [
 ]
 
 
-export const defaultFromData : SignUpData = {
+export const defaultFromData : ISignUpData = {
     firstName: "" , 
     lastName : "" , 
     userName : "" , 
@@ -69,7 +69,7 @@ export const defaultFromData : SignUpData = {
     gender : "" 
 }
 
-export const emptyFormData : SignUpData = {
+export const emptyFormData : ISignUpData = {
     firstName: "" , 
     lastName : "" , 
     userName : "" , 
