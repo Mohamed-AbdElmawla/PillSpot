@@ -8,24 +8,29 @@ import { Iprops } from "./types";
 import { ChangeEvent } from "react";
 import { validateSignUpData } from "./Validation";
 import { SvgIcon } from "../../UI/SvgIcon";
+import Block from "../Block";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 export default function SignUpModal({ buttonText }: Iprops) {
+
+
   //____________________ states ______________________ //
+
   const [isOpen, setIsOpen] = useState(false);
   const [signUpData, setSignUpData] = useState({ ...defaultFromData });
-  console.log("SIgn up data is ", signUpData);
+  const [errorMsgs, setErrors] = useState({ ...defaultFromData });
+  
+
+
   //___________________________Handlers______________________________//
 
   function handleSubmitData() {
-    // first do validation
-    // if there any error return error element
-    // if there is no errors send the data
-
     const obj = validateSignUpData(signUpData);
     const isValid = Object.values(obj.errors).every((error) => error === "");
     if (isValid) {
       console.log("Form submitted with data: ", signUpData);
     } else {
+      setErrors((prev) => ({ ...prev, ...obj.errors }));
       console.log("THere is errors : ", obj);
     }
   }
@@ -35,34 +40,45 @@ export default function SignUpModal({ buttonText }: Iprops) {
   }
 
   function close() {
-    setIsOpen(false);
     setSignUpData(emptyFormData);
+    setErrors(emptyFormData);
+    setIsOpen(false);
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     // console.log("Changing:", name, value);
+    setErrors((prev) => ({ ...prev, [name]: "" }));
     setSignUpData((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
 
+  
   //_________________________Render_______________________________//
-  const renderedInput = inputArr.map((inpt) => (
-    <div className="relative flex items-center m-5" key={inpt.name+"cleeXlrrmMdLg"}>
-      <span className="absolute left-3 text-[#02457A]">
-        <SvgIcon width="30" height="30" src={inpt.icon} />
-      </span>
 
-      <InputIcon
-        
-        name={inpt.name}
-        placeholder={inpt.placeHolder}
-        type={inpt.type}
-        onChange={handleChange}
-        value={signUpData[inpt.name]}
-      />
+  const renderedInput = inputArr.map((inpt) => (
+    <div key={inpt.name + "cleeXlrrmMdLg"}>
+      <div
+        className={`relative flex items-center m-3 transition-all duration-300 ease-in-out ${
+          errorMsgs[inpt.name] ? "border-2 border-red-500 rounded-lg" : ""
+        }`}
+      >
+        <span className="absolute left-3 text-[#02457A]">
+          <SvgIcon width="30" height="30" src={inpt.icon} />
+        </span>
+
+        <InputIcon
+          name={inpt.name}
+          id={inpt.name}
+          placeholder={inpt.placeHolder}
+          type={inpt.type}
+          onChange={handleChange}
+          value={signUpData[inpt.name]}
+        />
+      </div>
+      <ErrorMessage msg={errorMsgs[inpt.name]} />
     </div>
   ));
 
@@ -93,33 +109,54 @@ export default function SignUpModal({ buttonText }: Iprops) {
                 <span className="block mb-5">Create new account</span>
               </DialogTitle>
 
-              <div className="flex gap-10 items-center justify-center">
-                <div className="relative flex items-center m-5">
-                  <span className="absolute left-3 text-[#02457A]">
-                    <SvgIcon width="30" height="30" src="flname.svg" />
-                  </span>
-                  <InputIcon
-                    name="firstName"
-                    type="text"
-                    title="First Name"
-                    placeholder="First Name"
-                    onChange={handleChange}
-                    value={signUpData["firstName"]}
-                  />
+              <div className="flex items-center justify-center gap-10 ">
+                <div className="flex flex-col items-center justify-center">
+                  <div
+                    className={`relative flex items-center transition-all duration-300 ease-in-out ${
+                      errorMsgs["firstName"]
+                        ? "border-2 border-red-500 rounded-lg"
+                        : ""
+                    }`}
+                  >
+                    <span className="absolute left-3 text-[#02457A]">
+                      <SvgIcon width="30" height="30" src="flname.svg" />
+                    </span>
+                    <InputIcon
+                      name="firstName"
+                      type="text"
+                      title="First Name"
+                      placeholder="First Name"
+                      onChange={handleChange}
+                      value={signUpData["firstName"]}
+                    />
+                  </div>
+                  <div className="text-red-500 font-bold">
+                    {errorMsgs["firstName"]}
+                  </div>
                 </div>
-
-                <div className="relative flex items-center m-5">
-                  <span className="absolute left-3 text-[#02457A]">
-                    <SvgIcon width="30" height="30" src="flname.svg" />
-                  </span>
-                  <InputIcon
-                    name="lastName"
-                    type="text"
-                    title="Last Name"
-                    placeholder="Last Name"
-                    onChange={handleChange}
-                    value={signUpData["lastName"]}
-                  />
+                <div className="flex flex-col items-center justify-center">
+                  <div
+                    className={`relative flex items-center transition-all duration-300 ease-in-out ${
+                      errorMsgs["firstName"]
+                        ? "border-2 border-red-500 rounded-lg"
+                        : ""
+                    }`}
+                  >
+                    <span className="absolute left-3 text-[#02457A]">
+                      <SvgIcon width="30" height="30" src="flname.svg" />
+                    </span>
+                    <InputIcon
+                      name="lastName"
+                      type="text"
+                      title="Last Name"
+                      placeholder="Last Name"
+                      onChange={handleChange}
+                      value={signUpData["lastName"]}
+                    />
+                  </div>
+                  <div className="text-red-500 font-bold">
+                    {errorMsgs["lastName"]}
+                  </div>
                 </div>
               </div>
 
@@ -148,7 +185,12 @@ export default function SignUpModal({ buttonText }: Iprops) {
                     Female
                   </label>
                 </div>
+                <div className="text-red-500 font-bold">
+                  {errorMsgs["gender"]}
+                </div>
               </div>
+
+              <hr />
 
               <div className="mt-4 flex items-center justify-center space-x-4">
                 <Button onClick={handleSubmitData}>SignUp </Button>
