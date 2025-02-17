@@ -1,8 +1,17 @@
 
+import { defaultFromData } from "../../components/SignUpModel/data";
 import { SvgIcon } from "../SvgIcon"
 import { Iprops } from "./typs"
+import { ChangeEvent } from "react";
 
-const InputIcon = ({name,placeHolder,type,icon}:Iprops) => {
+const InputIcon = ({name,placeHolder,type,icon,setSignUpData}:Iprops) => {
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    defaultFromData[name] = value ;
+    setSignUpData(defaultFromData) ;
+  }
+
   return (
     <>
   
@@ -19,6 +28,7 @@ const InputIcon = ({name,placeHolder,type,icon}:Iprops) => {
         name={name}
         id={name}
         placeholder={placeHolder}
+        onChange={handleChange}
       />
     </div>
   </>

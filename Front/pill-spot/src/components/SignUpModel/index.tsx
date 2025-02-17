@@ -2,29 +2,50 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import { Button } from "../../UI/Button";
 import InputIcon from "../../UI/InputIcon/InputIcon";
-import { inputArr } from "./inputs";
+import { defaultFromData, emptyFormData, inputArr } from "./data";
 import { Iprops } from "./types";
-import {v4 as uuid} from "uuid"
+import { v4 as uuid } from "uuid";
+import { ChangeEvent } from "react";
 
 export default function SignUpModal({ buttonText }: Iprops) {
   const [isOpen, setIsOpen] = useState(false);
+  const [signUpData, setSignUpData] = useState(defaultFromData);
+  console.log(signUpData);
 
+  
+  //___________________________Handlers______________________________//
+  
+  function handleSubmitData(){
+     console.log(signUpData) ;
+  }
+  
   function open() {
     setIsOpen(true);
   }
 
   function close() {
     setIsOpen(false);
+    setSignUpData(emptyFormData); 
   }
 
-  // Map over input components
+  function handleGender(e: ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    setSignUpData((prevData) => ({
+      ...prevData,
+      gender: value,
+    }));
+  }
+  
+
+  //_________________________Render_______________________________//
   const renderedInput = inputArr.map((inpt) => (
     <InputIcon
-      key={uuid()}  // Add a key if looping over array items
+      key={uuid()} // Add a key if looping over array items
       name={inpt.name}
       placeHolder={inpt.placeHolder}
       icon={inpt.icon}
       type={inpt.type}
+      setSignUpData={setSignUpData}
     />
   ));
 
@@ -32,12 +53,15 @@ export default function SignUpModal({ buttonText }: Iprops) {
     <>
       <Button onClick={open}>{buttonText}</Button>
 
-      <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close}>
+      <Dialog
+        open={isOpen}
+        as="div"
+        className="relative z-10 focus:outline-none"
+        onClose={close}
+      >
         {isOpen && (
           <div className="fixed inset-0 backdrop-blur-2xl bg-opacity-50 backdrop-blur-md"></div>
         )}
-        
-
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
@@ -59,6 +83,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                   title="First Name"
                   placeHolder="First Name"
                   icon="flname.svg"
+                  setSignUpData={setSignUpData}
                 />
                 <InputIcon
                   name="lastName"
@@ -66,6 +91,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                   title="Last Name"
                   placeHolder="Last Name"
                   icon="flname.svg"
+                  setSignUpData={setSignUpData}
                 />
               </div>
 
@@ -79,6 +105,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="male"
                       className="w-5 h-5 accent-[#02457A]"
+                      onChange={handleGender}
                     />
                     Male
                   </label>
@@ -88,14 +115,16 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="female"
                       className="w-5 h-5 accent-[#02457A]"
+                      onChange={handleGender}
                     />
                     Female
                   </label>
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-col items-center">
-                <Button onClick={close}>Submit</Button>
+              <div className="mt-4 flex items-center justify-center space-x-4">
+                <Button onClick={handleSubmitData}>SignUp </Button>
+                <Button color="white" onClick={close}>Cancle</Button>
               </div>
             </DialogPanel>
           </div>

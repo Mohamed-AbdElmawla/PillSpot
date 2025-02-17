@@ -2,7 +2,7 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import { Button } from "../../UI/Button";
 import InputIcon from "../../UI/InputIcon/InputIcon";
-import { inputArr } from "./inputs";
+import { inputArr } from "./data";
 import { Iprops } from "./types";
 
 export default function SignUpModal({ buttonText }: Iprops) {
