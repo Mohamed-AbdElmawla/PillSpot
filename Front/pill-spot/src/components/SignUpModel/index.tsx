@@ -1,30 +1,85 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import { Button } from "../../UI/Button";
-// import Input from "../../UI/Input";
-import { Iprops } from "./types";
 import InputIcon from "../../UI/InputIcon/InputIcon";
-import { inputArr } from "./inputs";
+import { defaultFromData, emptyFormData, inputArr } from "./data";
+import { Iprops } from "./types";
+// import { v4 as uuid } from "uuid";
+import { ChangeEvent } from "react";
+import { validateSignUpData } from "./Validation";
+import { SvgIcon } from "../../UI/SvgIcon";
+import Block from "../Block";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 export default function SignUpModal({ buttonText }: Iprops) {
+
+
+  //____________________ states ______________________ //
+
   const [isOpen, setIsOpen] = useState(false);
+  const [signUpData, setSignUpData] = useState({ ...defaultFromData });
+  const [errorMsgs, setErrors] = useState({ ...defaultFromData });
+  
+
+
+  //___________________________Handlers______________________________//
+
+  function handleSubmitData() {
+    const obj = validateSignUpData(signUpData);
+    const isValid = Object.values(obj.errors).every((error) => error === "");
+    if (isValid) {
+      console.log("Form submitted with data: ", signUpData);
+    } else {
+      setErrors((prev) => ({ ...prev, ...obj.errors }));
+      console.log("THere is errors : ", obj);
+    }
+  }
 
   function open() {
     setIsOpen(true);
   }
 
   function close() {
+    setSignUpData(emptyFormData);
+    setErrors(emptyFormData);
     setIsOpen(false);
   }
 
-  //____________Render_____________//
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    // console.log("Changing:", name, value);
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setSignUpData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  
+  //_________________________Render_______________________________//
+
   const renderedInput = inputArr.map((inpt) => (
-    <InputIcon
-      name={inpt.name}
-      placeHolder={inpt.placeHolder}
-      icon={inpt.icon}
-      type={inpt.type}
-    />
+    <div key={inpt.name + "cleeXlrrmMdLg"}>
+      <div
+        className={`relative flex items-center m-3 transition-all duration-300 ease-in-out ${
+          errorMsgs[inpt.name] ? "border-2 border-red-500 rounded-lg" : ""
+        }`}
+      >
+        <span className="absolute left-3 text-[#02457A]">
+          <SvgIcon width="30" height="30" src={inpt.icon} />
+        </span>
+
+        <InputIcon
+          name={inpt.name}
+          id={inpt.name}
+          placeholder={inpt.placeHolder}
+          type={inpt.type}
+          onChange={handleChange}
+          value={signUpData[inpt.name]}
+        />
+      </div>
+      <ErrorMessage msg={errorMsgs[inpt.name]} />
+    </div>
   ));
 
   return (
@@ -36,40 +91,78 @@ export default function SignUpModal({ buttonText }: Iprops) {
         as="div"
         className="relative z-10 focus:outline-none"
         onClose={close}
-        __demoMode
       >
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto ">
+        {isOpen && (
+          <div className="fixed inset-0 backdrop-blur-2xl bg-opacity-50 backdrop-blur-md"></div>
+        )}
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
               transition
-              className="w-400 max-w-2xl rounded-xl p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+              className="w-400 max-w-2xl rounded-xl p-6 bg-gray-50 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle
                 as="h3"
                 className="text-base/7 font-medium text-white flex items-center justify-center"
               >
-                <h3 className="mb-5">Create new account</h3>
+                <span className="block mb-5">Create new account</span>
               </DialogTitle>
-              <div className="flex gap-10 items-center justify-center">
-                <InputIcon
-                  name="firstName"
-                  type="text"
-                  title="First Name"
-                  placeHolder="First Name"
-                  icon="flname.svg"
-                />
-                <InputIcon
-                  name="lastName"
-                  type="text"
-                  title="Last Name"
-                  placeHolder="Last Name"
-                  icon="flname.svg"
-                />
+
+              <div className="flex items-center justify-center gap-10 ">
+                <div className="flex flex-col items-center justify-center">
+                  <div
+                    className={`relative flex items-center transition-all duration-300 ease-in-out ${
+                      errorMsgs["firstName"]
+                        ? "border-2 border-red-500 rounded-lg"
+                        : ""
+                    }`}
+                  >
+                    <span className="absolute left-3 text-[#02457A]">
+                      <SvgIcon width="30" height="30" src="flname.svg" />
+                    </span>
+                    <InputIcon
+                      name="firstName"
+                      type="text"
+                      title="First Name"
+                      placeholder="First Name"
+                      onChange={handleChange}
+                      value={signUpData["firstName"]}
+                    />
+                  </div>
+                  <div className="text-red-500 font-bold">
+                    {errorMsgs["firstName"]}
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <div
+                    className={`relative flex items-center transition-all duration-300 ease-in-out ${
+                      errorMsgs["firstName"]
+                        ? "border-2 border-red-500 rounded-lg"
+                        : ""
+                    }`}
+                  >
+                    <span className="absolute left-3 text-[#02457A]">
+                      <SvgIcon width="30" height="30" src="flname.svg" />
+                    </span>
+                    <InputIcon
+                      name="lastName"
+                      type="text"
+                      title="Last Name"
+                      placeholder="Last Name"
+                      onChange={handleChange}
+                      value={signUpData["lastName"]}
+                    />
+                  </div>
+                  <div className="text-red-500 font-bold">
+                    {errorMsgs["lastName"]}
+                  </div>
+                </div>
               </div>
+
               {renderedInput}
 
               <div className="flex flex-col items-center">
-               
                 <div className="flex gap-6">
                   <label className="flex items-center gap-2 text-[#02457A]">
                     <input
@@ -77,6 +170,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="male"
                       className="w-5 h-5 accent-[#02457A]"
+                      onChange={handleChange}
                     />
                     Male
                   </label>
@@ -86,13 +180,23 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="female"
                       className="w-5 h-5 accent-[#02457A]"
+                      onChange={handleChange}
                     />
                     Female
                   </label>
                 </div>
+                <div className="text-red-500 font-bold">
+                  {errorMsgs["gender"]}
+                </div>
               </div>
-              <div className="mt-4 flex flex-col items-center">
-                <Button onClick={close}>Submit</Button>
+
+              <hr />
+
+              <div className="mt-4 flex items-center justify-center space-x-4">
+                <Button onClick={handleSubmitData}>SignUp </Button>
+                <Button color="white" onClick={close}>
+                  Cancle
+                </Button>
               </div>
             </DialogPanel>
           </div>

@@ -1,7 +1,7 @@
-export interface Iprops {
-    name : string ; 
-    placeHolder : string ;
-    type : string ; 
-    title? : string ; 
-    icon : string ; 
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+
+export interface Iprops extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+    name: string;
+    type: string;
+    title?: string;
 }
