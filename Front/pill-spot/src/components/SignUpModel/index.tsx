@@ -4,49 +4,66 @@ import { Button } from "../../UI/Button";
 import InputIcon from "../../UI/InputIcon/InputIcon";
 import { defaultFromData, emptyFormData, inputArr } from "./data";
 import { Iprops } from "./types";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import { ChangeEvent } from "react";
+import { validateSignUpData } from "./Validation";
+import { SvgIcon } from "../../UI/SvgIcon";
 
 export default function SignUpModal({ buttonText }: Iprops) {
+  //____________________ states ______________________ //
   const [isOpen, setIsOpen] = useState(false);
-  const [signUpData, setSignUpData] = useState(defaultFromData);
-  console.log(signUpData);
-
-  
+  const [signUpData, setSignUpData] = useState({ ...defaultFromData });
+  console.log("SIgn up data is ", signUpData);
   //___________________________Handlers______________________________//
-  
-  function handleSubmitData(){
-     console.log(signUpData) ;
+
+  function handleSubmitData() {
+    // first do validation
+    // if there any error return error element
+    // if there is no errors send the data
+
+    const obj = validateSignUpData(signUpData);
+    const isValid = Object.values(obj.errors).every((error) => error === "");
+    if (isValid) {
+      console.log("Form submitted with data: ", signUpData);
+    } else {
+      console.log("THere is errors : ", obj);
+    }
   }
-  
+
   function open() {
     setIsOpen(true);
   }
 
   function close() {
     setIsOpen(false);
-    setSignUpData(emptyFormData); 
+    setSignUpData(emptyFormData);
   }
 
-  function handleGender(e: ChangeEvent<HTMLInputElement>) {
-    const { value } = e.target;
-    setSignUpData((prevData) => ({
-      ...prevData,
-      gender: value,
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    // console.log("Changing:", name, value);
+    setSignUpData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   }
-  
 
   //_________________________Render_______________________________//
   const renderedInput = inputArr.map((inpt) => (
-    <InputIcon
-      key={uuid()} // Add a key if looping over array items
-      name={inpt.name}
-      placeHolder={inpt.placeHolder}
-      icon={inpt.icon}
-      type={inpt.type}
-      setSignUpData={setSignUpData}
-    />
+    <div className="relative flex items-center m-5" key={inpt.name+"cleeXlrrmMdLg"}>
+      <span className="absolute left-3 text-[#02457A]">
+        <SvgIcon width="30" height="30" src={inpt.icon} />
+      </span>
+
+      <InputIcon
+        
+        name={inpt.name}
+        placeholder={inpt.placeHolder}
+        type={inpt.type}
+        onChange={handleChange}
+        value={signUpData[inpt.name]}
+      />
+    </div>
   ));
 
   return (
@@ -77,22 +94,33 @@ export default function SignUpModal({ buttonText }: Iprops) {
               </DialogTitle>
 
               <div className="flex gap-10 items-center justify-center">
-                <InputIcon
-                  name="firstName"
-                  type="text"
-                  title="First Name"
-                  placeHolder="First Name"
-                  icon="flname.svg"
-                  setSignUpData={setSignUpData}
-                />
-                <InputIcon
-                  name="lastName"
-                  type="text"
-                  title="Last Name"
-                  placeHolder="Last Name"
-                  icon="flname.svg"
-                  setSignUpData={setSignUpData}
-                />
+                <div className="relative flex items-center m-5">
+                  <span className="absolute left-3 text-[#02457A]">
+                    <SvgIcon width="30" height="30" src="flname.svg" />
+                  </span>
+                  <InputIcon
+                    name="firstName"
+                    type="text"
+                    title="First Name"
+                    placeholder="First Name"
+                    onChange={handleChange}
+                    value={signUpData["firstName"]}
+                  />
+                </div>
+
+                <div className="relative flex items-center m-5">
+                  <span className="absolute left-3 text-[#02457A]">
+                    <SvgIcon width="30" height="30" src="flname.svg" />
+                  </span>
+                  <InputIcon
+                    name="lastName"
+                    type="text"
+                    title="Last Name"
+                    placeholder="Last Name"
+                    onChange={handleChange}
+                    value={signUpData["lastName"]}
+                  />
+                </div>
               </div>
 
               {renderedInput}
@@ -105,7 +133,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="male"
                       className="w-5 h-5 accent-[#02457A]"
-                      onChange={handleGender}
+                      onChange={handleChange}
                     />
                     Male
                   </label>
@@ -115,7 +143,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                       name="gender"
                       value="female"
                       className="w-5 h-5 accent-[#02457A]"
-                      onChange={handleGender}
+                      onChange={handleChange}
                     />
                     Female
                   </label>
@@ -124,7 +152,9 @@ export default function SignUpModal({ buttonText }: Iprops) {
 
               <div className="mt-4 flex items-center justify-center space-x-4">
                 <Button onClick={handleSubmitData}>SignUp </Button>
-                <Button color="white" onClick={close}>Cancle</Button>
+                <Button color="white" onClick={close}>
+                  Cancle
+                </Button>
               </div>
             </DialogPanel>
           </div>
