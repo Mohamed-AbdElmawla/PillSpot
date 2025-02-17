@@ -1,10 +1,10 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
 import { Button } from "../../UI/Button";
-// import Input from "../../UI/Input";
-import { Iprops } from "./types";
 import InputIcon from "../../UI/InputIcon/InputIcon";
 import { inputArr } from "./inputs";
+import { Iprops } from "./types";
+import {v4 as uuid} from "uuid"
 
 export default function SignUpModal({ buttonText }: Iprops) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +17,10 @@ export default function SignUpModal({ buttonText }: Iprops) {
     setIsOpen(false);
   }
 
-  //____________Render_____________//
+  // Map over input components
   const renderedInput = inputArr.map((inpt) => (
     <InputIcon
+      key={uuid()}  // Add a key if looping over array items
       name={inpt.name}
       placeHolder={inpt.placeHolder}
       icon={inpt.icon}
@@ -31,25 +32,26 @@ export default function SignUpModal({ buttonText }: Iprops) {
     <>
       <Button onClick={open}>{buttonText}</Button>
 
-      <Dialog
-        open={isOpen}
-        as="div"
-        className="relative z-10 focus:outline-none"
-        onClose={close}
-        __demoMode
-      >
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto ">
+      <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close}>
+        {isOpen && (
+          <div className="fixed inset-0 backdrop-blur-2xl bg-opacity-50 backdrop-blur-md"></div>
+        )}
+        
+
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
               transition
-              className="w-400 max-w-2xl rounded-xl p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+              className="w-400 max-w-2xl rounded-xl p-6 bg-gray-50 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle
                 as="h3"
                 className="text-base/7 font-medium text-white flex items-center justify-center"
               >
-                <h3 className="mb-5">Create new account</h3>
+                <span className="block mb-5">Create new account</span>
               </DialogTitle>
+
               <div className="flex gap-10 items-center justify-center">
                 <InputIcon
                   name="firstName"
@@ -66,10 +68,10 @@ export default function SignUpModal({ buttonText }: Iprops) {
                   icon="flname.svg"
                 />
               </div>
+
               {renderedInput}
 
               <div className="flex flex-col items-center">
-               
                 <div className="flex gap-6">
                   <label className="flex items-center gap-2 text-[#02457A]">
                     <input
@@ -91,6 +93,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
                   </label>
                 </div>
               </div>
+
               <div className="mt-4 flex flex-col items-center">
                 <Button onClick={close}>Submit</Button>
               </div>
