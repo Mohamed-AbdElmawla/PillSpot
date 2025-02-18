@@ -163,7 +163,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
 
               {renderedInput}
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center font-bold">
                 <div className="flex gap-6">
                   <label className="flex items-center gap-2 text-[#02457A]">
                     <input
@@ -190,8 +190,6 @@ export default function SignUpModal({ buttonText }: Iprops) {
                   {errorMsgs["gender"]}
                 </div>
               </div>
-
-              <hr />
 
               <div className="mt-4 flex items-center justify-center space-x-4">
                 <Button onClick={handleSubmitData}>SignUp </Button>
