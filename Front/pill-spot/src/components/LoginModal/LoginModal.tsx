@@ -10,6 +10,7 @@ import { SvgIcon } from "../../UI/SvgIcon";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { emptyLoginData, defaultErrorMsgs, inputArr } from "./data";
 import { validateSignUpData } from "./Validation";
+import ContWith from "./ContinueWith/ContWith";
 
 export default function LoginModal({ buttonText }: Iprops) {
   //____________________ states ______________________ //
@@ -36,7 +37,7 @@ export default function LoginModal({ buttonText }: Iprops) {
   }
 
   function close() {
-     setlogInData(emptyLoginData);
+    setlogInData(emptyLoginData);
     setErrors(emptyLoginData);
     setIsOpen(false);
   }
@@ -50,7 +51,7 @@ export default function LoginModal({ buttonText }: Iprops) {
       [name]: value,
     }));
   }
-  console.log(logInData) ;
+  console.log(logInData);
   //_________________________Render_______________________________//
 
   const renderInput = inputArr.map((inpt) => (
@@ -79,7 +80,9 @@ export default function LoginModal({ buttonText }: Iprops) {
 
   return (
     <>
-      <Button color="white" onClick={open}>{buttonText}</Button>
+      <Button color="white" onClick={open}>
+        {buttonText}
+      </Button>
 
       <Dialog
         open={isOpen}
@@ -111,6 +114,12 @@ export default function LoginModal({ buttonText }: Iprops) {
                 <Button color="white" onClick={close}>
                   Cancle
                 </Button>
+              </div>
+              <div className="m-10 flex flex-col items-center justify-center">
+                
+
+
+                   <ContWith/>
               </div>
             </DialogPanel>
           </div>
