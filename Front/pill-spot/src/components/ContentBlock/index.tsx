@@ -16,6 +16,7 @@ import {
   StyledRow,
   ButtonWrapper,
 } from "./styles";
+import LoginModal from "../LoginModal/LoginModal";
 
 const ContentBlock = ({
   icon,
@@ -26,10 +27,6 @@ const ContentBlock = ({
   id,
   direction,
 }: ContentBlockProps) => {
-
- 
-  
-
   return (
     <ContentSection>
       <Fade direction={direction} triggerOnce>
@@ -48,16 +45,12 @@ const ContentBlock = ({
               <Content>{t(content)}</Content>
               {direction === "right" ? (
                 <ButtonWrapper>
-
-                  
-                 <SignUpModal buttonText="Sign Up" />
-
-
-                  <Button color="white">
-                   Login
-                  </Button>
-
-
+                  {id === "intro" && (
+                    <>
+                      <SignUpModal buttonText="Sign Up" />
+                      <LoginModal buttonText="Login" />
+                    </>
+                  )}
                 </ButtonWrapper>
               ) : (
                 <ServiceWrapper>
