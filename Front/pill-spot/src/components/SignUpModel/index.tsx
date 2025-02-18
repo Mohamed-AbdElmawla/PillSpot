@@ -69,6 +69,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
           <SvgIcon width="30" height="30" src={inpt.icon} />
         </span>
 
+        
         <InputIcon
           name={inpt.name}
           id={inpt.name}

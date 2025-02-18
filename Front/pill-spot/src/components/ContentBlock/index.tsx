@@ -26,10 +26,6 @@ const ContentBlock = ({
   id,
   direction,
 }: ContentBlockProps) => {
-
- 
-  
-
   return (
     <ContentSection>
       <Fade direction={direction} triggerOnce>
@@ -48,16 +44,12 @@ const ContentBlock = ({
               <Content>{t(content)}</Content>
               {direction === "right" ? (
                 <ButtonWrapper>
-
-                  
-                 <SignUpModal buttonText="Sign Up" />
-
-
-                  <Button color="white">
-                   Login
-                  </Button>
-
-
+                  {id === "intro" && (
+                    <>
+                      <SignUpModal buttonText="Sign Up" />
+                      <Button color="white">Login</Button>
+                    </>
+                  )}
                 </ButtonWrapper>
               ) : (
                 <ServiceWrapper>
