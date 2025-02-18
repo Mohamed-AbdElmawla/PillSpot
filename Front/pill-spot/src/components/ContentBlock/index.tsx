@@ -16,6 +16,7 @@ import {
   StyledRow,
   ButtonWrapper,
 } from "./styles";
+import LoginModal from "../LoginModal/LoginModal";
 
 const ContentBlock = ({
   icon,
@@ -47,7 +48,7 @@ const ContentBlock = ({
                   {id === "intro" && (
                     <>
                       <SignUpModal buttonText="Sign Up" />
-                      <Button color="white">Login</Button>
+                      <LoginModal buttonText="Login" />
                     </>
                   )}
                 </ButtonWrapper>
