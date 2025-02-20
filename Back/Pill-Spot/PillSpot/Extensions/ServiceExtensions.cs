@@ -9,6 +9,7 @@ using System.Text;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Entities.ConfigurationModels;
 
 namespace PillSpot.Extensions
 {
@@ -39,6 +40,9 @@ namespace PillSpot.Extensions
         public static void ConfigureServiceManager(this IServiceCollection services) =>
         services.AddScoped<IServiceManager, ServiceManager>();
 
+        public static void ConfigureServiceFile(this IServiceCollection services) =>
+        services.AddSingleton<IFileService, FileService>();
+
         public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<RepositoryContext>(opts =>
            opts.UseMySql(configuration.GetConnectionString("MySqlConnection"),
@@ -54,7 +58,8 @@ namespace PillSpot.Extensions
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
+            var jwtConfiguration = new JwtConfiguration();
+            configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
             services.AddAuthentication(opt =>
             {
@@ -69,8 +74,8 @@ namespace PillSpot.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["validIssuer"],
-                    ValidAudience = jwtSettings["validAudience"],
+                    ValidIssuer = jwtConfiguration.ValidIssuer,
+                    ValidAudience = jwtConfiguration.ValidAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });

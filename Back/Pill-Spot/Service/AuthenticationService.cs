@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Entities.ConfigurationModels;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -21,13 +23,19 @@ namespace Service
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly JwtConfiguration _jwtConfiguration;
+        private readonly IFileService _fileService;
         private User? _user;
-        public AuthenticationService(ILogger logger, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
+        public AuthenticationService(ILogger logger, IMapper mapper, UserManager<User> userManager,
+            IConfiguration configuration, IFileService fileService)
         {
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
+            _jwtConfiguration = new JwtConfiguration();
+            _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+            _fileService = fileService;
         }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
@@ -35,7 +43,15 @@ namespace Service
             var user = _mapper.Map<User>(userForRegistration);
             var result = await _userManager.CreateAsync(user,userForRegistration.Password);
             if (result.Succeeded)
-                await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+            {
+                if (userForRegistration.ProfilePicture != null)
+                {
+                    string imagePath = await _fileService.SaveFileAsync(userForRegistration.ProfilePicture, "Images");
+                    user.ProfilePictureUrl = imagePath;
+                    await _userManager.UpdateAsync(user);
+                }
+                await _userManager.AddToRolesAsync(user, new List<string> { "User" });
+            }
             return result;
         }
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
@@ -81,13 +97,12 @@ namespace Service
  
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
             var tokenOptions = new JwtSecurityToken
             (
-            issuer: jwtSettings["validIssuer"],
-            audience: jwtSettings["validAudience"],
+            issuer: _jwtConfiguration.ValidIssuer,
+            audience: _jwtConfiguration.ValidAudience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtConfiguration.Expires)),
             signingCredentials: signingCredentials
             );
             return tokenOptions;
@@ -103,7 +118,6 @@ namespace Service
         }
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
@@ -112,8 +126,8 @@ namespace Service
                 IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"))),
                 ValidateLifetime = true,
-                ValidIssuer = jwtSettings["validIssuer"],
-                ValidAudience = jwtSettings["validAudience"]
+                ValidIssuer = _jwtConfiguration.ValidIssuer,
+                ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;

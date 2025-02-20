@@ -8,11 +8,11 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(u => u.ImageURL)
+            builder.Property(u => u.ProfilePictureUrl)
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
-            builder.Property(u => u.Age)
+            builder.Property(u => u.DateOfBirth)
                 .IsRequired();
 
             builder.Property(u => u.Gender)

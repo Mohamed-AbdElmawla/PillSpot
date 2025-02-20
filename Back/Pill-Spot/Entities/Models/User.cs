@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entities.Validators;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,14 +15,15 @@ namespace Entities.Models
 
     public class User : IdentityUser
     {
-        [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
-        public string? ImageURL { get; set; }
+        [MaxLength(500, ErrorMessage = "Profile Picture URL cannot exceed 500 characters.")]
+        public string? ProfilePictureUrl { get; set; }
 
         public ulong? LocationID { get; set; }
 
-        [Required(ErrorMessage = "Age is required.")]
-        [Range(0, 120, ErrorMessage = "Age must be between 0 and 120.")]
-        public short Age { get; set; }
+        [Required(ErrorMessage = "Date of birth is required.")]
+        [DataType(DataType.Date)]
+        [BirthDateValidation(ErrorMessage = "You must be between 0 and 120 years old.")]
+        public DateTime? DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
         public Gender Gender { get; set; }

@@ -10,3 +10,7 @@ D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\refint\Shared.dll
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.pdb
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\ref\Shared.dll
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.sourcelink.json
+D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.AssemblyReference.cache
+D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.dll
+D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.pdb
+D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.CopyComplete

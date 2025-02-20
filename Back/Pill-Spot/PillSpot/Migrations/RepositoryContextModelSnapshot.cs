@@ -1187,14 +1187,15 @@ namespace PillSpot.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<short>("Age")
-                        .HasColumnType("smallint");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -1212,11 +1213,6 @@ namespace PillSpot.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImageURL")
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -1249,6 +1245,11 @@ namespace PillSpot.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("RefreshToken")
                         .HasColumnType("longtext");
@@ -1377,43 +1378,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "56507e4e-849f-4847-92d6-affeae0430eb",
+                            Id = "fcf012c3-9ac6-4d43-a46a-3d47a93d6d91",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "dc932640-818d-4035-833d-5e6cd6960845",
+                            Id = "33aee400-168f-40a4-9eed-5378fc24b2b8",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "6c24d4cf-e270-4852-93f5-b1c04229d8f9",
+                            Id = "b76d70c0-85a3-417b-844e-eb13fe561cf4",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "54947764-11b7-4a4e-ade0-25dbcbc478d5",
+                            Id = "962b52ff-bd2e-4b35-ae67-b2f6dd991574",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "d01b403b-6c34-4662-b04a-0bc9e6856bfe",
+                            Id = "19301c17-5706-4a2b-9cd4-979f30dba5c3",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "761e5d65-aa81-4bf0-b48a-d2e9d6cd0163",
+                            Id = "d3b37367-19d6-4609-867a-a6621aeb2da9",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "34cf6774-46b2-4641-9739-2e576b71dc3f",
+                            Id = "5815d0a8-1f1d-457c-931d-89163fa32912",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

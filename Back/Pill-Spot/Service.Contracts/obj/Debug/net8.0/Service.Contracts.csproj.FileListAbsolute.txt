@@ -14,3 +14,5 @@ D:\Graduation Project\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\refint\S
 D:\Graduation Project\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.pdb
 D:\Graduation Project\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\ref\Service.Contracts.dll
 D:\Graduation Project\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.sourcelink.json
+D:\Graduation Project\Back\Pill-Spot\Service.Contracts\bin\Debug\net8.0\Entities.dll
+D:\Graduation Project\Back\Pill-Spot\Service.Contracts\bin\Debug\net8.0\Entities.pdb

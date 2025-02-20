@@ -18,9 +18,9 @@ namespace Service
     {
 
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper, IFileService fileService)
         {
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
 

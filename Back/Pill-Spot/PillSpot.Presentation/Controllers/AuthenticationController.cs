@@ -18,7 +18,7 @@ namespace PillSpot.Presentation.Controllers
         public AuthenticationController(IServiceManager service) => _service = service;
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
+        public async Task<IActionResult> RegisterUser([FromForm] UserForRegistrationDto userForRegistration)
         {
             var result = await _service.AuthenticationService.RegisterUser(userForRegistration);
             if (!result.Succeeded)
