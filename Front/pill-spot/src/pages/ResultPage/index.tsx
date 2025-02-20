@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import Rating from "../../UI/Rating";
 
 const ResultPage = () => {
   return (
-    <div>
-        hello iam result page
-    </div>
-  )
-}
+    <>
+       <Rating value={4}/>
+    </>
+  );
+};
 
-export default ResultPage
+export default ResultPage;
