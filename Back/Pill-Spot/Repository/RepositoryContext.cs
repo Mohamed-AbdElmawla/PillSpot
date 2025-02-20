@@ -51,6 +51,8 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
             modelBuilder.ApplyConfiguration(new BatchConfiguration());
             modelBuilder.Entity<Batch>().HasQueryFilter(b => !b.IsDeleted);
 

@@ -166,3 +166,6 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\PillSpot.d
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.staticwebassets.runtime.json

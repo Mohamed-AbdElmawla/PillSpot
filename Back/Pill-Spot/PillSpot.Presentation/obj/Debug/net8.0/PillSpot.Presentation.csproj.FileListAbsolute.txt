@@ -19,3 +19,4 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\Pill
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\refint\PillSpot.Presentation.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\ref\PillSpot.Presentation.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.sourcelink.json

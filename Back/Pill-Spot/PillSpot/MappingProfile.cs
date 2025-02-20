@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
+using Shared.DataTransferObjects;
 
 namespace PillSpot
 {
@@ -7,6 +8,7 @@ namespace PillSpot
     {
         public MappingProfile()
         {
+            CreateMap<UserForRegistrationDto, User>();
         }
     }
 }

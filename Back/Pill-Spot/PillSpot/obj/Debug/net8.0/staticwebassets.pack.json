@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\8d20a29e-27b0-4368-b1fd-b2aba0cd6fb8.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\8d20a29e-27b0-4368-b1fd-b2aba0cd6fb8.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\c2b50a21-d3b5-49ed-b768-44079bbc4124.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\c2b50a21-d3b5-49ed-b768-44079bbc4124.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PillSpot.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.PillSpot.props",
+      "PackagePath": "build\\PillSpot.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.PillSpot.props",
+      "PackagePath": "buildMultiTargeting\\PillSpot.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.PillSpot.props",
+      "PackagePath": "buildTransitive\\PillSpot.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

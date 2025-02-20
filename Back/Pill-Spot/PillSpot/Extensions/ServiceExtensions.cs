@@ -9,6 +9,7 @@ using System.Text;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Entities.ConfigurationModels;
 
 namespace PillSpot.Extensions
 {
@@ -32,12 +33,16 @@ namespace PillSpot.Extensions
 
             });
         }
-
+        public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
+        services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
         public static void ConfigureServiceManager(this IServiceCollection services) =>
         services.AddScoped<IServiceManager, ServiceManager>();
+
+        public static void ConfigureServiceFile(this IServiceCollection services) =>
+        services.AddSingleton<IFileService, FileService>();
 
         public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddDbContext<RepositoryContext>(opts =>
@@ -54,12 +59,15 @@ namespace PillSpot.Extensions
         }
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
+            var jwtConfiguration = new JwtConfiguration();
+            configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
-            services.AddAuthentication(o =>
+            services.AddAuthentication(opt =>
             {
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -67,9 +75,8 @@ namespace PillSpot.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
-                    ValidIssuer = configuration.GetSection("JWT")["ValidIssuer"],
-                    ValidAudience = configuration.GetSection("JWT")["ValidAudience"],
+                    ValidIssuer = jwtConfiguration.ValidIssuer,
+                    ValidAudience = jwtConfiguration.ValidAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });

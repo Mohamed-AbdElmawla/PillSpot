@@ -19,3 +19,4 @@ D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\refint\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.pdb
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\ref\Service.dll
+D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.sourcelink.json

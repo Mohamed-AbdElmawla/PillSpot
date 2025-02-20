@@ -1187,14 +1187,15 @@ namespace PillSpot.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<short>("Age")
-                        .HasColumnType("smallint");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -1213,19 +1214,13 @@ namespace PillSpot.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(true)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<ulong>("LocationID")
+                    b.Property<ulong?>("LocationID")
                         .HasColumnType("bigint unsigned");
 
                     b.Property<bool>("LockoutEnabled")
@@ -1251,8 +1246,12 @@ namespace PillSpot.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
+
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime?>("RefreshTokenExpiryTime")
@@ -1375,6 +1374,50 @@ namespace PillSpot.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "fcf012c3-9ac6-4d43-a46a-3d47a93d6d91",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "33aee400-168f-40a4-9eed-5378fc24b2b8",
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = "b76d70c0-85a3-417b-844e-eb13fe561cf4",
+                            Name = "PharmacyOwner",
+                            NormalizedName = "PHARMACYOWNER"
+                        },
+                        new
+                        {
+                            Id = "962b52ff-bd2e-4b35-ae67-b2f6dd991574",
+                            Name = "PharmacyManager",
+                            NormalizedName = "PHARMACYMANAGER"
+                        },
+                        new
+                        {
+                            Id = "19301c17-5706-4a2b-9cd4-979f30dba5c3",
+                            Name = "PharmacyEmployee",
+                            NormalizedName = "PHARMACYEMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "d3b37367-19d6-4609-867a-a6621aeb2da9",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "5815d0a8-1f1d-457c-931d-89163fa32912",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1926,8 +1969,7 @@ namespace PillSpot.Migrations
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Location");
                 });
