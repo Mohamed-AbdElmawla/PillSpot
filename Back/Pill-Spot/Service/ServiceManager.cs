@@ -17,11 +17,12 @@ namespace Service
     public sealed class ServiceManager : IServiceManager
     {
 
-
+        private readonly Lazy<IAuthenticationService> _authenticationService;
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper)
         {
-            
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
         }
+        public IAuthenticationService AuthenticationService => _authenticationService.Value;
 
     }
 }

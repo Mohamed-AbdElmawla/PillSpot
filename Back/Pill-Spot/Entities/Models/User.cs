@@ -15,10 +15,9 @@ namespace Entities.Models
     public class User : IdentityUser
     {
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
-        public string ImageURL { get; set; }
+        public string? ImageURL { get; set; }
 
-        [Required(ErrorMessage = "Location ID is required.")]
-        public ulong LocationID { get; set; }
+        public ulong? LocationID { get; set; }
 
         [Required(ErrorMessage = "Age is required.")]
         [Range(0, 120, ErrorMessage = "Age must be between 0 and 120.")]
@@ -39,7 +38,7 @@ namespace Entities.Models
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string LastName { get; set; }
 
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiryTime { get; set; }
 

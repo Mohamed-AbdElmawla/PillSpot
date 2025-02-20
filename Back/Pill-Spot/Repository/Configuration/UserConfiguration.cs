@@ -12,9 +12,6 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
-            builder.Property(u => u.LocationID)
-                .IsRequired();
-
             builder.Property(u => u.Age)
                 .IsRequired();
 

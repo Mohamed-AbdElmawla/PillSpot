@@ -10,3 +10,4 @@ D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
+D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json

@@ -9,3 +9,4 @@ D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.dll
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\refint\Shared.dll
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.pdb
 D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\ref\Shared.dll
+D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.sourcelink.json
