@@ -25,6 +25,7 @@ builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.ConfigureServiceFile();
 builder.Services.ConfigureSwagger();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddJwtConfiguration(builder.Configuration);
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {

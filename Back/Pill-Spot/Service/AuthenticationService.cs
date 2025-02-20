@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -22,19 +23,18 @@ namespace Service
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _configuration;
+        private readonly IOptions<JwtConfiguration> _configuration;
         private readonly JwtConfiguration _jwtConfiguration;
         private readonly IFileService _fileService;
         private User? _user;
         public AuthenticationService(ILogger logger, IMapper mapper, UserManager<User> userManager,
-            IConfiguration configuration, IFileService fileService)
+            IOptions<JwtConfiguration> configuration, IFileService fileService)
         {
             _logger = logger;
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
-            _jwtConfiguration = new JwtConfiguration();
-            _configuration.Bind(_jwtConfiguration.Section, _jwtConfiguration);
+            _jwtConfiguration = _configuration.Value;
             _fileService = fileService;
         }
 
@@ -78,6 +78,8 @@ namespace Service
         private SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+            if (key is null)
+                    throw new SecurityTokenException("JWT Secret Key is missing.");
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }

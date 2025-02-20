@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.ConfigurationModels;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,8 @@ namespace Service
     {
 
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper, IFileService fileService)
+        public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
+            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IMapper mapper, IFileService fileService)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
         }
