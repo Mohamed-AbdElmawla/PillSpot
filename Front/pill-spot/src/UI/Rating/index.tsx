@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 
+
+
+// here ther are two problems 1- the name of each component , 2- the key of each half star
+
 interface Iprops {
     value : number ; 
 }
@@ -27,9 +31,9 @@ function Rating({ value }:Iprops) {
       const starValue = index + 1;
       return (
         <input
-          key={starValue}
+          key={value+index}
           type="radio"
-          name="rating"
+          name={String(value)}
           className={halfNumber(index)}
           checked={rating === starValue}
           readOnly
