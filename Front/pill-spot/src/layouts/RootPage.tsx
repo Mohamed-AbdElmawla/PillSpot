@@ -5,12 +5,12 @@ const RootPage = () => {
   return (
     <div>
 
-      <div className="flex gap-10">
+      {/* <div className="flex gap-10">
         <NavLink to="result" className="btn" > Result Paga </NavLink>
         <NavLink to="landing"  className="btn"> langing Paga </NavLink>
       </div>
       <hr />
-      <hr />
+      <hr /> */}
       <Outlet/>
     </div>
   )

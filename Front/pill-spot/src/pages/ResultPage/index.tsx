@@ -1,4 +1,5 @@
-import ResultTable from "../../components/Result/ResultTable";
+import ResultPageDetails from "../../components/Result";
+
 
 
 const ResultPage = () => {
@@ -11,7 +12,7 @@ const ResultPage = () => {
   return (
     <>
       <div className="container mx-auto max-w-8xl">
-        <ResultTable/>
+        <ResultPageDetails/>
       </div>
     </>
   );
