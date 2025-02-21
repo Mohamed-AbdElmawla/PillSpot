@@ -12,7 +12,7 @@ interface Iprops {
   imgSrc: string;
 }
 
-const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops) => {
+const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops ) => {
   return (
     <tr className="hover:bg-gray-200 duration-300 transform text-[#02457a]">
       <td>
@@ -41,7 +41,7 @@ const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops) => {
         />
       </td>
       <td>
-        <BuyAmount />
+       <BuyAmount/>
       </td>
       <th>
         {/* // i id will be enouph and get the details from data base also do not forget to give it unique ID for each pharmacy */}

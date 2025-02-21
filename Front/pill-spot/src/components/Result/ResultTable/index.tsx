@@ -47,7 +47,8 @@ const ResultTable = () => {
   ));
 
   return (
-    <div className="overflow-x-auto mt-100">
+    <div className="overflow-x-auto ">
+         Available in these pharmacies
       <div className="flex justify-end gap-2">
         <button className="btn " onClick={sortPrice}>
         <IoPricetagsOutline />
