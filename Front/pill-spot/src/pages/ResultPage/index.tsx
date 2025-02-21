@@ -1,10 +1,18 @@
-import React from "react";
-import Rating from "../../UI/Rating";
+import ResultTable from "../../components/Result/ResultTable";
+
 
 const ResultPage = () => {
+
+
+
+  //______________Render________________________//
+ 
+
   return (
     <>
-       <Rating value={4}/>
+      <div className="container mx-auto max-w-8xl">
+        <ResultTable/>
+      </div>
     </>
   );
 };
