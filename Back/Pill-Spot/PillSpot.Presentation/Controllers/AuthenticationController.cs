@@ -40,5 +40,17 @@ namespace PillSpot.Presentation.Controllers
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
             return Ok(tokenDto);
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var userName = User.Identity?.Name;
+            if (userName == null)
+                return Unauthorized();
+
+            await _service.AuthenticationService.LogoutAsync(userName);
+            return NoContent();
+        }
+
     }
 }

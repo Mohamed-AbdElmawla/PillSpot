@@ -20,12 +20,18 @@ namespace Service
     {
 
         private readonly Lazy<IAuthenticationService> _authenticationService;
+        private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<IEmailService> _emailService;
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
-            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IMapper mapper, IFileService fileService)
+            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager));
+            _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
+        public IUserService UserService => _userService.Value;
+        public IEmailService EmailService => _emailService.Value;
 
     }
 }

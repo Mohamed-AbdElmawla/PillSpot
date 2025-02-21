@@ -1,8 +1,10 @@
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PillSpot.Extensions;
 using PillSpot.Presentation.ActionFilters;
 using Service;
@@ -26,6 +28,8 @@ builder.Services.ConfigureServiceFile();
 builder.Services.ConfigureSwagger();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtConfiguration(builder.Configuration);
+builder.Services.AddEmailConfiguration(builder.Configuration);
+builder.Services.ConfigureEmailService();
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -39,9 +43,15 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
+    config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
 }).AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly);
 
+NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
+new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+.Services.BuildServiceProvider()
+.GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+.OfType<NewtonsoftJsonPatchInputFormatter>().First();
 
 var app = builder.Build();
 

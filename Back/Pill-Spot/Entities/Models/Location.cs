@@ -24,12 +24,6 @@ namespace Entities.Models
         [Required(ErrorMessage = "City ID is required.")]
         public short CityId { get; set; }
 
-        [Required(ErrorMessage = "User ID is required.")]
-        public string UserId { get; set; }
-
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
 

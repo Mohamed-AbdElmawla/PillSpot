@@ -37,6 +37,18 @@ namespace Service
             _jwtConfiguration = _configuration.Value;
             _fileService = fileService;
         }
+        public async Task LogoutAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new UserNotFoundException(userName);
+
+            user.RefreshToken = null;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow;
+
+            await _userManager.UpdateAsync(user);
+        }
 
         public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
         {
@@ -54,6 +66,7 @@ namespace Service
             }
             return result;
         }
+        // remember the Unverified user check
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);

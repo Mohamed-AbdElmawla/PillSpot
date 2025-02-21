@@ -11,6 +11,8 @@ namespace Entities.Validators
     {
         protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
+            if (value == null)
+                return ValidationResult.Success;
             if (value is not DateTime birthDate)
                 return new ValidationResult("Invalid date format.");
 

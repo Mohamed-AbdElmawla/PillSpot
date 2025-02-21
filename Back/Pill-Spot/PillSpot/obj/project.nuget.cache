@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lbVcaLY92Glv/3FhVkMB8cMMAoTuxiSh4im6e7S3UTrpKSvnXBLMXaYtKz0JP8QbMITYnPDToAkIt8KQnOZQ6g==",
+  "dgSpecHash": "J46nqxbXJZXJiwm7Q+xNMuo71za9Z7T4kTEnGcIHn2IPefKA9GBUCy4xj8WgQqXeam3yTCd3VPuDOIcscpwajQ==",
   "success": true,
   "projectFilePath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
   "expectedPackageFiles": [
@@ -28,8 +28,10 @@
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.3.0\\microsoft.aspnetcore.http.features.2.3.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.identity\\2.2.0\\microsoft.aspnetcore.identity.2.2.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\8.0.10\\microsoft.aspnetcore.identity.entityframeworkcore.8.0.10.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\8.0.13\\microsoft.aspnetcore.jsonpatch.8.0.13.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.mvc.abstractions\\2.2.0\\microsoft.aspnetcore.mvc.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.mvc.core\\2.2.5\\microsoft.aspnetcore.mvc.core.2.2.5.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\8.0.13\\microsoft.aspnetcore.mvc.newtonsoftjson.8.0.13.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.responsecaching.abstractions\\2.2.0\\microsoft.aspnetcore.responsecaching.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.routing\\2.2.0\\microsoft.aspnetcore.routing.2.2.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.aspnetcore.routing.abstractions\\2.2.0\\microsoft.aspnetcore.routing.abstractions.2.2.0.nupkg.sha512",
@@ -82,6 +84,8 @@
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\swashbuckle.aspnetcore\\6.9.0\\swashbuckle.aspnetcore.6.9.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.9.0\\swashbuckle.aspnetcore.swagger.6.9.0.nupkg.sha512",

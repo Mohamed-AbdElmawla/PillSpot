@@ -10,6 +10,7 @@ namespace Service.Contracts
 {
     public interface IAuthenticationService
     {
+        Task LogoutAsync(string userName);
         Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
         Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
         Task<TokenDto> CreateToken(bool populateExp);

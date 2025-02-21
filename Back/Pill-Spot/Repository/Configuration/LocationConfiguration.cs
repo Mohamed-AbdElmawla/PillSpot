@@ -29,11 +29,6 @@ namespace Repository.Configuration
             builder.Property(l => l.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.HasOne(l => l.User)
-                .WithMany()
-                .HasForeignKey(l => l.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(l => l.City)
                 .WithMany()
                 .HasForeignKey(l => l.CityId)

@@ -48,6 +48,7 @@ namespace Entities.Models
         public virtual Location Location { get; set; }
 
         public ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
+        public bool IsDeleted { get; set; } = false;
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
