@@ -26,7 +26,7 @@ namespace Service
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager, fileService));
             _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

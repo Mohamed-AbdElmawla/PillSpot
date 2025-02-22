@@ -9,7 +9,8 @@
       "Repository/1.0.0": {
         "dependencies": {
           "Contracts": "1.0.0",
-          "Microsoft.EntityFrameworkCore": "8.0.10"
+          "Microsoft.EntityFrameworkCore": "8.0.10",
+          "System.Linq.Dynamic.Core": "1.6.0.2"
         },
         "runtime": {
           "Repository.dll": {}
@@ -253,6 +254,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.6.0.2": {
+        "runtime": {
+          "lib/net8.0/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.6.0.2",
+            "fileVersion": "1.6.0.2"
+          }
+        }
+      },
       "System.Text.Encodings.Web/8.0.0": {},
       "Contracts/1.0.0": {
         "dependencies": {
@@ -443,6 +452,13 @@
       "sha512": "sha512-XjnlcxVBLnEMbyEc5cZzgZeDyLvAniACZQ04W1slWN0f4rmfNzl98gEMvHnFH0fMDF06z9MmgGi/Sr7hJ+BVnw==",
       "path": "pomelo.entityframeworkcore.mysql/8.0.2",
       "hashPath": "pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.6.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rtfRierS5ZjG4xBfDKerRPImwDbav7q2hgf88jUZKfIjQb16PIQqzFCpPVWMb+7fS2ECXnPSmmBbssPz7WUg6g==",
+      "path": "system.linq.dynamic.core/1.6.0.2",
+      "hashPath": "system.linq.dynamic.core.1.6.0.2.nupkg.sha512"
     },
     "System.Text.Encodings.Web/8.0.0": {
       "type": "package",

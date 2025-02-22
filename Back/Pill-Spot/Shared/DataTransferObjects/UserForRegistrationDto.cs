@@ -23,6 +23,7 @@ namespace Shared.DataTransferObjects
         [RegularExpression(@"^[A-Za-z\s'-]+$", ErrorMessage = "First name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string? FirstName { get; init; }
 
+        [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string? LastName { get; set; }
@@ -55,6 +56,7 @@ namespace Shared.DataTransferObjects
         public DateTime? DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
+        [EnumDataType(typeof(Gender), ErrorMessage = "Gender must be 'Male' or 'Female'.")]
         public Gender? Gender { get; set; }
 
     }

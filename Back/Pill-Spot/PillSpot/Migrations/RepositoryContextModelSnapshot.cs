@@ -1188,8 +1188,7 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .IsRequired()
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -1377,43 +1376,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ff799f57-c5eb-4a8f-8d29-ef86e835c275",
+                            Id = "ebaff91e-2f8e-45b3-8e2c-9dcfa8b9bb83",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "15afc98d-e74e-4da3-abb7-4184495575ac",
+                            Id = "545ce437-3d25-49bf-91e8-63a4d3f66c37",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "a135ddb0-211f-4ca9-b8da-96a62cfb3b69",
+                            Id = "b67106ba-e33d-4349-9899-ada9b7450b2a",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "1de9849a-1ca5-4e66-ac7e-a14756668701",
+                            Id = "1ba88e98-9678-4552-97f4-3878c3709373",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "894cf025-12bd-4417-8f4b-968ededfc767",
+                            Id = "e41947c6-5470-4369-bc76-b52af8a60f1c",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "0676ea4c-56c0-4fba-aa01-005c328740a1",
+                            Id = "bf57d2b0-f89f-40fe-8ca6-13a86d875670",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "d2745e6a-1216-4654-ac66-b58bb107b4a6",
+                            Id = "459bd42e-071e-4ca5-bdcf-630a3b5a1a93",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

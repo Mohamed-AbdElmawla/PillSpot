@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,17 +70,16 @@ namespace Service
                 user.ProfilePictureUrl = imagePath;
             }
 
-
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersAsync(bool trackChanges)
+        public async Task<(IEnumerable<UserDto> users, MetaData metaData)> GetUsersAsync(UserParameters userParameters, bool trackChanges)
         {
-            var users = await _repository.UserRepository.GetUsersAsync(trackChanges);
+            var usersWithMetaData = await _repository.UserRepository.GetUsersAsync(userParameters, trackChanges);
 
-            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(usersWithMetaData);
 
-            return usersDto;
+            return (users: usersDto, metaData: usersWithMetaData.MetaData);
         }
 
 

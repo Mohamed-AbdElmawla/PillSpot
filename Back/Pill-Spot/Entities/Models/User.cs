@@ -23,7 +23,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Date of birth is required.")]
         [DataType(DataType.Date)]
         [BirthDateValidation(ErrorMessage = "You must be between 0 and 120 years old.")]
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
         public Gender Gender { get; set; }
@@ -35,7 +35,7 @@ namespace Entities.Models
         [MaxLength(100, ErrorMessage = "First name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]+$", ErrorMessage = "First name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string FirstName { get; set; }
-
+        [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string LastName { get; set; }
@@ -45,7 +45,7 @@ namespace Entities.Models
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
         [ForeignKey("LocationID")]
-        public virtual Location Location { get; set; }
+        public virtual Location? Location { get; set; }
 
         public ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
         public bool IsDeleted { get; set; } = false;

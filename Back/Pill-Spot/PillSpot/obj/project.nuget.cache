@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "J46nqxbXJZXJiwm7Q+xNMuo71za9Z7T4kTEnGcIHn2IPefKA9GBUCy4xj8WgQqXeam3yTCd3VPuDOIcscpwajQ==",
+  "dgSpecHash": "a8wMTIpXVKzmBwRNzUggwzdwVAaqlhWNL5I2eqcVxoGotZrTkVGy3hKgF9LGz5Et9HgWkE3/oqxx9jKgWrwXYw==",
   "success": true,
   "projectFilePath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
   "expectedPackageFiles": [
@@ -106,6 +106,7 @@
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.diagnostics.eventlog\\8.0.0\\system.diagnostics.eventlog.8.0.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.1.2\\system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.io.pipelines\\6.0.3\\system.io.pipelines.6.0.3.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.linq.dynamic.core\\1.6.0.2\\system.linq.dynamic.core.1.6.0.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

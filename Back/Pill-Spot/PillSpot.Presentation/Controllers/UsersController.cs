@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
@@ -40,13 +42,13 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{userName}")]
         [TypeFilter(typeof(UserAuthorizationFilter), Arguments = new object[] { new string[] { "Admin" } })]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateUser(string userName, [FromBody] UserForUpdateDto userForUpdateDto)
+        public async Task<IActionResult> UpdateUser(string userName, [FromForm] UserForUpdateDto userForUpdateDto)
         {
             await _service.UserService.UpdateUserAsync(userName, userForUpdateDto, trackChanges: true);
             return NoContent();
         }
 
-        [HttpPut("{userName}/password")]
+        [HttpPut("{userName}/update-password")]
         [TypeFilter(typeof(UserAuthorizationFilter), Arguments = new object[] { new string[] { "Admin" } })]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdatePassword(string userName, [FromBody] PasswordUpdateDto passwordDto)
@@ -55,7 +57,7 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpPut("{userName}/email")]
+        [HttpPut("{userName}/update-email")]
         [Authorize]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateEmail(string userName, [FromBody] EmailUpdateDto emailDto)
@@ -63,6 +65,21 @@ namespace PillSpot.Presentation.Controllers
             await _service.UserService.UpdateEmailAsync(userName, emailDto);
             return NoContent();
         }
+
+
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters)
+        {
+            var pagedResult = await _service.UserService.GetUsersAsync(userParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination",
+            JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.users);
+        }
+
 
         [HttpPut("{userName}/role")]
         [Authorize(Roles = "Admin")]

@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Service.Contracts
     public interface IUserService
     {
         Task<UserDto> GetUserAsync(string userName, bool trackChanges);
-        Task<IEnumerable<UserDto>> GetUsersAsync(bool trackChanges);
+        Task<(IEnumerable<UserDto> users, MetaData metaData)> GetUsersAsync(UserParameters userParameters, bool trackChanges);
         Task DeleteUserAsync(string userName, bool trackChanges);
         Task UpdateUserAsync(string userName, UserForUpdateDto userForUpdateDto, bool trackChanges);
         Task UpdatePasswordAsync(string userName, PasswordUpdateDto passwordDto);
