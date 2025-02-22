@@ -1,8 +1,16 @@
 {
   "Files": [
     {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\6bce32b6-4618-4254-9130-b50c83135ce0.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\6bce32b6-4618-4254-9130-b50c83135ce0.jpg"
+    },
+    {
       "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\8d20a29e-27b0-4368-b1fd-b2aba0cd6fb8.jpg",
       "PackagePath": "staticwebassets\\uploads\\Images\\8d20a29e-27b0-4368-b1fd-b2aba0cd6fb8.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\a0f6d2d9-afd1-4500-a085-e938679ee2ec.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\a0f6d2d9-afd1-4500-a085-e938679ee2ec.jpg"
     },
     {
       "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\c2b50a21-d3b5-49ed-b768-44079bbc4124.jpg",

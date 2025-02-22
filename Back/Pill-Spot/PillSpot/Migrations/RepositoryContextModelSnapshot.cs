@@ -437,18 +437,12 @@ namespace PillSpot.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("LocationId");
 
                     b.HasIndex("CityId");
 
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Location_IsDeleted");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("Longitude", "Latitude")
                         .HasDatabaseName("IX_Location_Coordinates");
@@ -1194,8 +1188,7 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .IsRequired()
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -1213,6 +1206,11 @@ namespace PillSpot.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -1378,43 +1376,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fcf012c3-9ac6-4d43-a46a-3d47a93d6d91",
+                            Id = "ebaff91e-2f8e-45b3-8e2c-9dcfa8b9bb83",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "33aee400-168f-40a4-9eed-5378fc24b2b8",
+                            Id = "545ce437-3d25-49bf-91e8-63a4d3f66c37",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "b76d70c0-85a3-417b-844e-eb13fe561cf4",
+                            Id = "b67106ba-e33d-4349-9899-ada9b7450b2a",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "962b52ff-bd2e-4b35-ae67-b2f6dd991574",
+                            Id = "1ba88e98-9678-4552-97f4-3878c3709373",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "19301c17-5706-4a2b-9cd4-979f30dba5c3",
+                            Id = "e41947c6-5470-4369-bc76-b52af8a60f1c",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "d3b37367-19d6-4609-867a-a6621aeb2da9",
+                            Id = "bf57d2b0-f89f-40fe-8ca6-13a86d875670",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "5815d0a8-1f1d-457c-931d-89163fa32912",
+                            Id = "459bd42e-071e-4ca5-bdcf-630a3b5a1a93",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1669,15 +1667,7 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("City");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.Message", b =>

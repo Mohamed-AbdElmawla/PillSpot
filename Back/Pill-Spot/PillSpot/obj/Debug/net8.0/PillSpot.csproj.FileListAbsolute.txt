@@ -169,3 +169,7 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.staticwebassets.runtime.json
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

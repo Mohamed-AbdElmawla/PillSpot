@@ -132,6 +132,7 @@ namespace Repository
             modelBuilder.Entity<Support>().HasQueryFilter(s => !s.IsDeleted);
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
 
             modelBuilder.ApplyConfiguration(new UserChatConfiguration());
 

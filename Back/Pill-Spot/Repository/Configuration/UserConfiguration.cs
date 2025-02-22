@@ -30,6 +30,9 @@ namespace Repository.Configuration
                 .HasMaxLength(100)
                 .IsUnicode(true);
 
+            builder.Property(b => b.IsDeleted)
+                .HasDefaultValue(false);
+
             builder.Property(u => u.RowVersion)
                 .IsRowVersion();
 

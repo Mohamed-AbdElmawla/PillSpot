@@ -35,6 +35,9 @@ namespace PillSpot.Extensions
         }
         public static void AddJwtConfiguration(this IServiceCollection services,IConfiguration configuration) =>
         services.Configure<JwtConfiguration>(configuration.GetSection("JwtSettings"));
+        public static void AddEmailConfiguration(this IServiceCollection services, IConfiguration configuration) =>
+        services.Configure<EmailConfiguration>(configuration.GetSection("EmailSettings"));
+        public static void ConfigureEmailService(this IServiceCollection services) => services.AddScoped<IEmailService, EmailService>();
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();
 

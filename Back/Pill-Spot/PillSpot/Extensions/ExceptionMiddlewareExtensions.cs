@@ -27,7 +27,7 @@ namespace PillSpot.Extensions
                             {
                                 StatusCode = StatusCodes.Status500InternalServerError,
                                 Message = "Internal server error",
-                                Details = "We face some problems when try handle your request"
+                                Details = "An unexpected error occurred. Please try again later."
                             }.ToString());
                         }
                         else

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5udRHvqZZC3kHawBzQ9sLY4uY82O7qW/WnOf/adRen9QMB2kixRR2jEswj3Z4MRo0Hexbn0i5mGocgczFdGbJQ==",
+  "dgSpecHash": "xCB6eOAbBVZBp89VW9RisEUQwdmLAnNfWA/U8rXbDCVfxcK2QNevABQq2aVUjJ7GVcSpUQWz1aWzOYWSDc18dA==",
   "success": true,
   "projectFilePath": "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj",
   "expectedPackageFiles": [
@@ -26,6 +26,7 @@
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\mysqlconnector\\2.3.5\\mysqlconnector.2.3.5.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\8.0.2\\pomelo.entityframeworkcore.mysql.8.0.2.nupkg.sha512",
+    "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.linq.dynamic.core\\1.6.0.2\\system.linq.dynamic.core.1.6.0.2.nupkg.sha512",
     "C:\\Users\\Abd ELmawla\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512"
   ],
   "logs": []
