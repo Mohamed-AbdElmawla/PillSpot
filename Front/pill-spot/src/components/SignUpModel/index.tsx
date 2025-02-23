@@ -21,7 +21,7 @@ import { RootState, AppDispatch } from "../../app/store";
 import ImageUpload from "../../UI/ImageUpload";
 import { clearProfilePicture } from "../../features/uploadPhoto/upload";
 import { toast } from "sonner";
-import { setColor,clearColor } from "../../features/Toasts/toastSlice";
+import { setColor, setSignupState,resetToast, clearColor} from "../../features/Toasts/toastSlice";
 
 
 
@@ -47,6 +47,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
   const dispatch1 = useDispatch<AppDispatch>();
 
   const userState: IState = useSelector((state: RootState) => state.auth);
+  const toastState = useSelector((state:RootState)=>state.toastSlice) ;
   const userImage = useSelector(
     (state: RootState) => state.imgaeUploadSlice.profilePicture
   );
@@ -55,13 +56,13 @@ export default function SignUpModal({ buttonText }: Iprops) {
 
   useEffect(() => {
     if (userState.isError) {
-      // toast.error(userState.message);
       console.log("there is an error : ", userState.message);
     }
 
     if (userState.isSuccess || userState.user) {
       dispatch(setColor());
-      toast.success("Account created successfully");
+      dispatch(setSignupState(true));
+      
       navigate("/");
     }
 
@@ -74,6 +75,14 @@ export default function SignUpModal({ buttonText }: Iprops) {
     navigate,
     dispatch,
   ]);
+
+  useEffect(()=>{
+    if(toastState.signUpState===1){
+      toast.success("Account Created Successfully") ;
+    } else if(toastState.signUpState === 2){
+      toast.error("An error occured") ;
+    }
+  },[toastState.signUpState,dispatch])
 
   //___________________________Handlers______________________________//
 
