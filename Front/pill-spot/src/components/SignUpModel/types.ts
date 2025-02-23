@@ -24,6 +24,10 @@ export interface ISignUpData {
     ProfilePicture:string ;
   }
 
+export interface IloginData{
+    userName : string ; 
+    password : string ;
+}  
 
 export interface IState {
     user : ISignUpData | null | string ; 

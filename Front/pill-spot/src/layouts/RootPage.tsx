@@ -5,10 +5,11 @@ import { RootState } from '../app/store'
 
 
 const RootPage = () => {
+ 
   const colors = useSelector((state:RootState)=>state.toastSlice.richColors) ;
   return (
     <div>
-      <Toaster position="top-right" richColors={colors}  expand={false}   />
+      <Toaster position="top-right" richColors={colors}  expand={false} />
       <Outlet/>
     </div>
   )
