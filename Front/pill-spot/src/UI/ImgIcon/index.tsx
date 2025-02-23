@@ -4,10 +4,10 @@ interface Iprops{
     h?:string ;
 }
 
-const ImgIcon = ({src , w="12" , h="12"}:Iprops) => {
+const ImgIcon = ({src , w="12" }:Iprops) => {
   return (
     <>
-      <div className={`mask mask-squircle h-${h} w-${w}`}>
+      <div className={`mask mask-squircle`}>
         <img
           src={src}
           alt="Avatar Tailwind CSS Component"
