@@ -47,7 +47,7 @@ export const Styles = createGlobalStyle`
     }
 
     input:focus,
-textarea:focus {
+    textarea:focus {
 
     box-shadow: 0 0 5px rgba(55, 62, 70, 0.5);
     border: 1px solid rgba(47, 59, 73, 0.5);
@@ -113,4 +113,6 @@ textarea:focus {
     .ant-drawer-content-wrapper {
         width: 300px !important;
     }
+
+
 `;

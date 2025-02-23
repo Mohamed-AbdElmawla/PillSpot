@@ -6,6 +6,7 @@ import { Button } from "../../UI/Button";
 import { MiddleBlockSection, ContentWrapper } from "./styles";
 import SearchMedicine from "../SearchMedicine";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface MiddleBlockProps {
   title: string;
@@ -16,14 +17,10 @@ interface MiddleBlockProps {
 
 const MiddleBlock = ({ title, button, t }: MiddleBlockProps) => {
   const [medecineToSearch, setMedecineSearch] = useState("");
+  const nav = useNavigate();
 
   console.log(medecineToSearch);
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id) as HTMLDivElement;
-    element.scrollIntoView({
-      behavior: "smooth",
-    });
-  };
+  
   return (
     <div id="searchSection">
       <MiddleBlockSection>
@@ -37,7 +34,7 @@ const MiddleBlock = ({ title, button, t }: MiddleBlockProps) => {
                 </div>
                 {/* // this button will useNavigate to result page when added */}
                 {button && (
-                  <Button name="submit" onClick={() => scrollTo("mission")}>
+                  <Button name="submit" onClick={()=>{nav("/result")}}>
                     {t(button)}
                   </Button>
                 )}
