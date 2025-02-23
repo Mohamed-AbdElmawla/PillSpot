@@ -1,16 +1,14 @@
-import React from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Toaster } from 'sonner'
+import {  Outlet } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../app/store'
+
 
 const RootPage = () => {
+  const colors = useSelector((state:RootState)=>state.toastSlice.richColors) ;
   return (
     <div>
-
-      {/* <div className="flex gap-10">
-        <NavLink to="result" className="btn" > Result Paga </NavLink>
-        <NavLink to="landing"  className="btn"> langing Paga </NavLink>
-      </div>
-      <hr />
-      <hr /> */}
+      <Toaster position="top-right" richColors={colors}  expand={false}   />
       <Outlet/>
     </div>
   )
