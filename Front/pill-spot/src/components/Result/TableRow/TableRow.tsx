@@ -1,5 +1,5 @@
 import Rating from "../../../UI/Rating";
-import Details from "../DetailsModal/Details";
+import Details from "../PharamcyDetails/Details";
 import ImgIcon from "../../../UI/ImgIcon";
 import BuyAmount from "../../../UI/BuyAmoutn";
 import MapLocation from "../../MapModal";

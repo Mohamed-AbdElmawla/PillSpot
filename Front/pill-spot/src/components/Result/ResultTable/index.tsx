@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Pharmcs } from "../data";
 import TableRow from "../TableRow/TableRow";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { FaSortAlphaDown } from "react-icons/fa";
 import { FaSortAlphaUpAlt } from "react-icons/fa";
 import { LuMap } from "react-icons/lu";
+import { toast } from "sonner";
+import {v4 as uuid} from "uuid" ;
+
 
 
 
@@ -34,10 +37,20 @@ const ResultTable = () => {
       )
     );
     setpriceIsAscending((prev) => !prev);
+    toast('My first toast')
   }
 
-  const Pharmacies = resPhar.map((p) => (
+  //________________Render___________________//
+
+  // it is a good use of useMemo,it will generate new UUID only when there is new resPhars
+  const UniuqePharmaciesKey = useMemo(() => 
+    resPhar.map((p) => ({ ...p, id: uuid() })), 
+    [resPhar] 
+  );
+
+  const Pharmacies = UniuqePharmaciesKey.map((p) => (
     <TableRow
+      key={p.id} 
       name={p.name}
       price={p.price}
       distance={p.distance}
