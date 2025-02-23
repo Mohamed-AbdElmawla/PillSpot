@@ -12,7 +12,7 @@ const InputIcon = ({ ...rest }: Iprops) => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="container">
         <input
           className="text-[#02457A] font-bold pl-10 border border-gray-300 rounded-md  focus:outline-none focus:ring-2 focus:ring-[#02457A] indent-9 p-9"
           {...rest}
