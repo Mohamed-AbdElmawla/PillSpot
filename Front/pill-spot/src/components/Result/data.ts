@@ -12,14 +12,14 @@ export const Pharmcs:IPharmacyRow[] = [
         name : "pharmacy1" , 
         price: "50" , 
         distance : "2" , 
-        rating : "9" , 
+        rating : "10" , 
         imgSrc : "https://img.daisyui.com/images/profile/demo/2@94.webp"
     } , 
     {
         name : "pharmacy2" , 
         price: "53" , 
         distance : "1" , 
-        rating : "7" , 
+        rating : "10" , 
         imgSrc : "https://img.daisyui.com/images/profile/demo/2@94.webp"
     } , 
     {

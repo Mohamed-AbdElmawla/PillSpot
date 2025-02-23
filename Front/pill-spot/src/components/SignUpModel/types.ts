@@ -12,15 +12,23 @@ export interface InputData{
 
 export interface ISignUpData {
     [key: string]: string;
-    firstName : string ; 
-    lastName : string ; 
-    userName : string ; 
-    email : string ; 
-    phoneNumber : string ; 
-    password : string ; 
-    confirmPassword : string ; 
-    age : string ; 
-    accountImage : string ; 
-    birthDate : string ; 
-    gender : string ; 
+    FirstName: string;
+    LastName: string;
+    UserName: string;
+    Email: string;
+    PhoneNumber: string;
+    Password: string;
+    ConfirmPassword: string;
+    DateOfBirth: string;
+    Gender: string;
+    ProfilePicture:string ;
+  }
+
+
+export interface IState {
+    user : ISignUpData | null | string ; 
+    isError : boolean ; 
+    isSuccess : boolean ;
+    isLoading : boolean ; 
+    message : string ; 
 }
