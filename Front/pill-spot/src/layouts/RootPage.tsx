@@ -2,6 +2,7 @@ import { Toaster } from 'sonner'
 import {  Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../app/store'
+import HomePageMain from '../pages/HomePage'
 
 
 const RootPage = () => {
@@ -10,6 +11,7 @@ const RootPage = () => {
   return (
     <div>
       <Toaster position="top-right" richColors={colors}  expand={false} />
+      <HomePageMain/>
       <Outlet/>
     </div>
   )
