@@ -22,16 +22,23 @@ namespace Service
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IEmailService> _emailService;
+        private readonly Lazy<IPharmacyService> _pharmacyService;
+        private readonly Lazy<IPharmacyRequestService> _pharmacyRequestService;
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
-            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService)
+            UserManager<User> userManager, IOptions<JwtConfiguration> configuration,
+            IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService, ILocationService locationService)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager, fileService));
             _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
+            _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
+            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IUserService UserService => _userService.Value;
         public IEmailService EmailService => _emailService.Value;
+        public IPharmacyService PharmacyService => _pharmacyService.Value;
+        public IPharmacyRequestService PharmacyRequestService => _pharmacyRequestService.Value;
 
     }
 }

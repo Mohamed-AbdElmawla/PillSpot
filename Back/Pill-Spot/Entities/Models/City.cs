@@ -7,18 +7,14 @@ namespace Entities.Models
     public class City
     {
         [Key]
-        public short CityId { get; set; }
+        public Guid CityId { get; set; }
 
-        [Required(ErrorMessage = "City name in Arabic is required.")]
-        [MaxLength(250, ErrorMessage = "City name in Arabic cannot exceed 250 characters.")]
-        public string CityNameAR { get; set; }
-
-        [Required(ErrorMessage = "City name in English is required.")]
-        [MaxLength(250, ErrorMessage = "City name in English cannot exceed 250 characters.")]
-        public string CityNameEN { get; set; }
+        [Required(ErrorMessage = "City name is required.")]
+        [MaxLength(250, ErrorMessage = "City name cannot exceed 250 characters.")]
+        public string CityName { get; set; }
 
         [Required(ErrorMessage = "Government ID is required.")]
-        public short GovernmentId { get; set; }
+        public Guid GovernmentId { get; set; }
 
         [ForeignKey("GovernmentId")]
         public virtual Government Government { get; set; }

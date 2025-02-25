@@ -12,7 +12,7 @@ namespace Entities.Models
 
         [ForeignKey("ParentPharmacy")]
         public ulong? ParentPharmacyID { get; set; }
-        public virtual Pharmacy ParentPharmacy { get; set; }
+        public virtual Pharmacy? ParentPharmacy { get; set; }
 
         [Required(ErrorMessage = "Owner ID is required.")]
         public string OwnerID { get; set; }
@@ -22,10 +22,10 @@ namespace Entities.Models
         public string Name { get; set; }
 
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
-        public string ImageURL { get; set; }
+        public string? LogoURL { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public ulong LocationID { get; set; }
+        public Guid LocationID { get; set; }
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
@@ -45,7 +45,7 @@ namespace Entities.Models
         public bool IsOpen24 { get; set; }
 
         [Required(ErrorMessage = "Days open is required.")]
-        [MaxLength(7, ErrorMessage = "Days open cannot exceed 7 characters.")]
+        [MaxLength(50)]
         public string DaysOpen { get; set; }
 
         [Required]

@@ -20,7 +20,7 @@ namespace Repository.Configuration
                 .HasMaxLength(255)
                 .IsUnicode(true);
 
-            builder.Property(p => p.ImageURL)
+            builder.Property(p => p.LogoURL)
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
@@ -45,7 +45,7 @@ namespace Repository.Configuration
 
             builder.Property(p => p.DaysOpen)
                 .IsRequired()
-                .HasMaxLength(7)
+                .HasMaxLength(50)
                 .IsUnicode(false);
 
             builder.Property(p => p.CreatedDate)

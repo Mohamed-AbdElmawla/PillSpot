@@ -9,7 +9,13 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
-        IUserRepository UserRepository { get; } 
+        IUserRepository UserRepository { get; }
+
+        IPharmacyRepository PharmacyRepository { get; }
+        IPharmacyRequestRepository PharmacyRequestRepository { get; }
+        ILocationRepository LocationRepository { get; }
+        ICityRepository CityRepository { get; }
+        IGovernmentRepository GovernmentRepository { get; }
         Task SaveAsync();
     }
 }
