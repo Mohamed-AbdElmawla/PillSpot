@@ -14,7 +14,7 @@ namespace Entities.Models
         public string UserID { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public ulong LocationID { get; set; }
+        public Guid LocationID { get; set; }
 
         [Required(ErrorMessage = "Total price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Total price must be greater than zero.")]

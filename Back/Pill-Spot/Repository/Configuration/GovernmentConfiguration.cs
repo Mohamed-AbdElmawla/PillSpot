@@ -10,12 +10,7 @@ namespace Repository.Configuration
         {
             builder.HasKey(g => g.GovernmentId);
 
-            builder.Property(g => g.GovernmentNameAR)
-                .IsRequired()
-                .HasMaxLength(250)
-                .IsUnicode(true);
-
-            builder.Property(g => g.GovernmentNameEN)
+            builder.Property(g => g.GovernmentName)
                 .IsRequired()
                 .HasMaxLength(250)
                 .IsUnicode(true);
@@ -26,8 +21,8 @@ namespace Repository.Configuration
             builder.Property(g => g.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.HasIndex(g => new { g.GovernmentNameAR, g.GovernmentNameEN })
-                .HasDatabaseName("IX_Government_Names")
+            builder.HasIndex(g => g.GovernmentName)
+                .HasDatabaseName("IX_Government_Name")
                 .IsUnique();
 
             builder.HasIndex(g => g.IsDeleted)

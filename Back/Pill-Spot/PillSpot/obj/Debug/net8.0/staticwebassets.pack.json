@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\22199ca3-438c-441b-bbbd-2a007847fc84.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\22199ca3-438c-441b-bbbd-2a007847fc84.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\2be69718-1c9e-414d-8a67-cea4d1e96bde.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Images\\2be69718-1c9e-414d-8a67-cea4d1e96bde.JPG"
+    },
+    {
       "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\6bce32b6-4618-4254-9130-b50c83135ce0.jpg",
       "PackagePath": "staticwebassets\\uploads\\Images\\6bce32b6-4618-4254-9130-b50c83135ce0.jpg"
     },
@@ -13,8 +21,248 @@
       "PackagePath": "staticwebassets\\uploads\\Images\\a0f6d2d9-afd1-4500-a085-e938679ee2ec.jpg"
     },
     {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\a15f992c-f827-48cf-8910-d2432ecd4029.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\a15f992c-f827-48cf-8910-d2432ecd4029.jpg"
+    },
+    {
       "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\c2b50a21-d3b5-49ed-b768-44079bbc4124.jpg",
       "PackagePath": "staticwebassets\\uploads\\Images\\c2b50a21-d3b5-49ed-b768-44079bbc4124.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Images\\cbf7b0d8-b371-4b85-9faf-d90be9d054b2.jpg",
+      "PackagePath": "staticwebassets\\uploads\\Images\\cbf7b0d8-b371-4b85-9faf-d90be9d054b2.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\024d67c2-537a-41b9-8faf-c9d7b5ab4bfe.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\024d67c2-537a-41b9-8faf-c9d7b5ab4bfe.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\03ffec35-0ceb-425e-a45f-761e1657d0ea.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\03ffec35-0ceb-425e-a45f-761e1657d0ea.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\0727c34a-826e-4440-be05-7042dead9f51.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\0727c34a-826e-4440-be05-7042dead9f51.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\0cb8fcb6-72b1-4fc6-98b2-5f15b2381623.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\0cb8fcb6-72b1-4fc6-98b2-5f15b2381623.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\10262411-8269-4162-83d9-d057491c80b1.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\10262411-8269-4162-83d9-d057491c80b1.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\17af305e-0c03-490c-9864-266289458c2b.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\17af305e-0c03-490c-9864-266289458c2b.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\26ff4173-9c00-4b47-bee8-856ee80051df.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\26ff4173-9c00-4b47-bee8-856ee80051df.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\337405d4-cb9a-4e31-8734-1919a2d5c623.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\337405d4-cb9a-4e31-8734-1919a2d5c623.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\4d564032-c053-4495-b01d-c5f0c49ccc27.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\4d564032-c053-4495-b01d-c5f0c49ccc27.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\51485d6a-7b9c-4547-902c-eafca1f2c00f.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\51485d6a-7b9c-4547-902c-eafca1f2c00f.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\67023c8f-3a84-4fc3-a13c-895a0852d284.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\67023c8f-3a84-4fc3-a13c-895a0852d284.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\698494ca-bc2d-4a2a-9c1e-e6dd5a033343.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\698494ca-bc2d-4a2a-9c1e-e6dd5a033343.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\717b2d56-2122-41cf-be7e-fcf1fcd934b2.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\717b2d56-2122-41cf-be7e-fcf1fcd934b2.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\726ab0ea-c493-4273-91e7-899939c8e88e.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\726ab0ea-c493-4273-91e7-899939c8e88e.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\7eec98d7-3157-4c0b-b6dc-3934d0ddd30b.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\7eec98d7-3157-4c0b-b6dc-3934d0ddd30b.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\80096ef7-02b8-4690-b11e-51da4bbe83de.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\80096ef7-02b8-4690-b11e-51da4bbe83de.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\84e3ef23-cce7-4ee0-bc4a-2eb796f32f04.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\84e3ef23-cce7-4ee0-bc4a-2eb796f32f04.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\8fde84b3-e5dc-4971-ae86-71058b86a4ac.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\8fde84b3-e5dc-4971-ae86-71058b86a4ac.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\a955e5f8-bd1c-400d-b563-cd34b5aaf522.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\a955e5f8-bd1c-400d-b563-cd34b5aaf522.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\af89d686-d908-4c74-8ce3-134a4d585728.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\af89d686-d908-4c74-8ce3-134a4d585728.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\b0dacb23-8c42-4a1d-beaa-fabef32ec48c.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\b0dacb23-8c42-4a1d-beaa-fabef32ec48c.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\b4bf3698-5cf4-476b-af3c-ecfa5c2924ae.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\b4bf3698-5cf4-476b-af3c-ecfa5c2924ae.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\dc3acf0e-8f4b-40ff-8d9a-69b2c7b97d57.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\dc3acf0e-8f4b-40ff-8d9a-69b2c7b97d57.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\de20c66a-3648-4a17-8be1-8ecc877ce19b.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\de20c66a-3648-4a17-8be1-8ecc877ce19b.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\e07be54e-6cf9-4cb5-9a4d-8409ee84829a.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\e07be54e-6cf9-4cb5-9a4d-8409ee84829a.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\f0295d79-77dc-4d2f-84ec-4d7b059efa71.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\f0295d79-77dc-4d2f-84ec-4d7b059efa71.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\f3262cb6-f582-4514-88f3-face7845abbf.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\f3262cb6-f582-4514-88f3-face7845abbf.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\f440deb2-62de-4014-9c85-94a5baea58d1.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\f440deb2-62de-4014-9c85-94a5baea58d1.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\Logos\\f723671a-78fd-4159-86a3-a8c318725cf4.JPG",
+      "PackagePath": "staticwebassets\\uploads\\Logos\\f723671a-78fd-4159-86a3-a8c318725cf4.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\06123713-a75e-498f-9851-a7021784072e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\06123713-a75e-498f-9851-a7021784072e.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\0c362d0a-eb65-4a92-9057-6115580b95f1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\0c362d0a-eb65-4a92-9057-6115580b95f1.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\0fdda0ff-7a65-4f78-b58c-a8b16627d9a2.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\0fdda0ff-7a65-4f78-b58c-a8b16627d9a2.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\1cd0074c-e948-4e85-9be0-77169818e92c.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\1cd0074c-e948-4e85-9be0-77169818e92c.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\35c2a834-a4b5-45c5-9f4a-5279200d554c.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\35c2a834-a4b5-45c5-9f4a-5279200d554c.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\4837af6a-ce87-4c29-8a61-defe8dae692e.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\4837af6a-ce87-4c29-8a61-defe8dae692e.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\4b964ce9-3eca-4ea0-bae2-80a73f1aaeda.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\4b964ce9-3eca-4ea0-bae2-80a73f1aaeda.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\4bcb0e9c-3e67-4b2e-a031-dcf27d9a3efa.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\4bcb0e9c-3e67-4b2e-a031-dcf27d9a3efa.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\51859f98-7210-4f07-8a0b-163d730795ae.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\51859f98-7210-4f07-8a0b-163d730795ae.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\60a7b1e0-29a5-4a1b-a70b-160d96df5625.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\60a7b1e0-29a5-4a1b-a70b-160d96df5625.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\63be4a40-16e7-4bc5-9a96-bac18a5b6dab.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\63be4a40-16e7-4bc5-9a96-bac18a5b6dab.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\68537cd6-88b7-4305-9d7b-323188b4ed67.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\68537cd6-88b7-4305-9d7b-323188b4ed67.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\7401902b-199a-499b-883a-3493d26b8a51.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\7401902b-199a-499b-883a-3493d26b8a51.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\7a8af92a-a7d7-4419-8967-15d5e70ca713.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\7a8af92a-a7d7-4419-8967-15d5e70ca713.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\80c6c8f6-b0a4-4f20-a47a-16dad0602ce8.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\80c6c8f6-b0a4-4f20-a47a-16dad0602ce8.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\841b2896-83d9-4d99-9eba-1056e30f8bfa.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\841b2896-83d9-4d99-9eba-1056e30f8bfa.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\8b0c05b5-4a0b-4dbc-a926-b444b97dc1b7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\8b0c05b5-4a0b-4dbc-a926-b444b97dc1b7.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\954806b6-58de-4da2-b94c-c046d6a03045.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\954806b6-58de-4da2-b94c-c046d6a03045.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\a428c0e4-d73a-4219-a707-e9796fdc6c3d.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\a428c0e4-d73a-4219-a707-e9796fdc6c3d.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\a470b5f9-b544-4b59-82cc-14e87d7f295d.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\a470b5f9-b544-4b59-82cc-14e87d7f295d.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\accfced4-4231-4079-b10f-95c151af07a1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\accfced4-4231-4079-b10f-95c151af07a1.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\c2aab66c-0c1a-4ca4-96eb-a2d6c2bd3e88.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\c2aab66c-0c1a-4ca4-96eb-a2d6c2bd3e88.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\cfc0e956-cd74-48d1-bd68-2b527dd79094.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\cfc0e956-cd74-48d1-bd68-2b527dd79094.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\d9717e34-8beb-4a4f-a85c-ad5999cd4e28.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\d9717e34-8beb-4a4f-a85c-ad5999cd4e28.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\db7f0850-9827-4ba1-a15c-897703d1fea7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\db7f0850-9827-4ba1-a15c-897703d1fea7.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\df4eb871-acac-4f82-905d-a8370120a656.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\df4eb871-acac-4f82-905d-a8370120a656.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\ee7aaf2e-38c3-4951-bb44-4228c6fa72b1.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\ee7aaf2e-38c3-4951-bb44-4228c6fa72b1.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\f8d056fc-0114-4a95-9c8e-32712cdd9bd6.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\f8d056fc-0114-4a95-9c8e-32712cdd9bd6.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\uploads\\PharmacistLicenses\\fd3f4b1c-7d1a-4cd9-bbbe-ccd6aa7f8b2c.jpg",
+      "PackagePath": "staticwebassets\\uploads\\PharmacistLicenses\\fd3f4b1c-7d1a-4cd9-bbbe-ccd6aa7f8b2c.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PillSpot.Microsoft.AspNetCore.StaticWebAssets.props",

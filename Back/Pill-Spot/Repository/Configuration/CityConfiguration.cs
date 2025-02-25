@@ -10,12 +10,7 @@ namespace Repository.Configuration
         {
             builder.HasKey(c => c.CityId);
 
-            builder.Property(c => c.CityNameAR)
-                .IsRequired()
-                .HasMaxLength(250)
-                .IsUnicode(true);
-
-            builder.Property(c => c.CityNameEN)
+            builder.Property(c => c.CityName)
                 .IsRequired()
                 .HasMaxLength(250)
                 .IsUnicode(true);
@@ -26,8 +21,8 @@ namespace Repository.Configuration
             builder.Property(c => c.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.HasIndex(c => new { c.CityNameAR, c.CityNameEN })
-                .HasDatabaseName("IX_City_Names")
+            builder.HasIndex(c => c.CityName)
+                .HasDatabaseName("IX_City_Name")
                 .IsUnique();
 
             builder.HasIndex(c => c.IsDeleted)

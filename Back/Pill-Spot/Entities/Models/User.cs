@@ -18,7 +18,7 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Profile Picture URL cannot exceed 500 characters.")]
         public string? ProfilePictureUrl { get; set; }
 
-        public ulong? LocationID { get; set; }
+        public Guid? LocationID { get; set; }
 
         [Required(ErrorMessage = "Date of birth is required.")]
         [DataType(DataType.Date)]
@@ -47,7 +47,10 @@ namespace Entities.Models
         [ForeignKey("LocationID")]
         public virtual Location? Location { get; set; }
 
-        public ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
+        public virtual ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
+        public virtual ICollection<PharmacyRequest> PharmacyRequests { get; set; } = new List<PharmacyRequest>();
+        [InverseProperty("AdminUser")]
+        public virtual ICollection<PharmacyRequest> ReviewedPharmacyRequests { get; set; } = new List<PharmacyRequest>();
         public bool IsDeleted { get; set; } = false;
 
         [Timestamp]

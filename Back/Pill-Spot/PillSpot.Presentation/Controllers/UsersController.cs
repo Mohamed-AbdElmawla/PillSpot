@@ -83,6 +83,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{userName}/role")]
         [Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignRole(string userName, [FromBody] RoleUpdateDto roleUpdateDto)
         {
             await _service.UserService.AssignRoleAsync(userName, roleUpdateDto.Role);

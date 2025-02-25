@@ -173,3 +173,4 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.AspNetC
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\System.Linq.Dynamic.Core.dll
