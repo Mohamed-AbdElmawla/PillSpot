@@ -16,6 +16,8 @@ namespace Contracts
         ILocationRepository LocationRepository { get; }
         ICityRepository CityRepository { get; }
         IGovernmentRepository GovernmentRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+        ISubCategoryRepository SubCategoryRepository { get; }
         Task SaveAsync();
     }
 }

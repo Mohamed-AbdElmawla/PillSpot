@@ -57,7 +57,7 @@ namespace PillSpot.Presentation.Controllers
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetPendingRequestsAsync(pharmacyRequestParameters, trackChanges: false);
 
-            //Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 
             return Ok(pharmacyRequests);
         }

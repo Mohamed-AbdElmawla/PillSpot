@@ -944,12 +944,6 @@ namespace PillSpot.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("ProductID"));
 
-                    b.Property<string>("BarcodeImageURL")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
@@ -1436,43 +1430,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dff1fa50-3280-4476-99e8-7fff511d3a47",
+                            Id = "5a3111bd-e4eb-4f3c-9eea-5c2c8b4e21af",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a9c75890-356a-468e-917b-4e78668189dc",
+                            Id = "07ddb4a5-de67-4a63-8a9a-0a712f8f9f51",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "f5256742-b137-41ca-b1b1-1f75f7f97ca9",
+                            Id = "6c5c241d-a0fc-4ec9-8ef8-ea151ef14bb3",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "4a54a742-383a-4f12-915b-d4eaf8de2611",
+                            Id = "f9c7486c-2fe1-4f06-9cab-24731be45980",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "137f7541-8fdd-491d-b84b-4cad0f350895",
+                            Id = "0ea54857-b986-4d25-a3d4-62edaf6d861e",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "86883e97-e9cb-4822-9e49-1bbf8a981867",
+                            Id = "94f1131e-911f-4be4-81dc-0c5172744408",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "e767a4a5-ed13-4aea-b8f8-c4a28410ee3a",
+                            Id = "62648cf7-8917-4bcd-bad8-3b8fae4c54fe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -2237,11 +2231,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
-                    b.Navigation("Cosmetic")
-                        .IsRequired();
+                    b.Navigation("Cosmetic");
 
-                    b.Navigation("Medicine")
-                        .IsRequired();
+                    b.Navigation("Medicine");
 
                     b.Navigation("ProductIngredients");
 

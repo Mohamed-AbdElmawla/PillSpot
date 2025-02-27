@@ -28,9 +28,6 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
         public string ImageURL { get; set; }
 
-        [MaxLength(500, ErrorMessage = "Barcode Image URL cannot exceed 500 characters.")]
-        public string BarcodeImageURL { get; set; }
-
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
@@ -40,8 +37,8 @@ namespace Entities.Models
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 
-        public virtual Medicine Medicine { get; set; }
-        public virtual Cosmetic Cosmetic { get; set; }
+        public virtual Medicine? Medicine { get; set; }
+        public virtual Cosmetic? Cosmetic { get; set; }
 
         public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
 

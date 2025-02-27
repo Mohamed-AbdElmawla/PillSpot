@@ -74,6 +74,10 @@ namespace Service
 
             request.Status = PharmacyRequestStatus.Approved;
 
+            var pharmacy = _mapper.Map<Pharmacy>(request);
+
+            _repository.PharmacyRepository.CreatePharmacy(pharmacy);
+
             await _repository.SaveAsync();
 
         }
