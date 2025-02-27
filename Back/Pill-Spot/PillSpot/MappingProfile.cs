@@ -21,6 +21,8 @@ namespace PillSpot
             CreateMap<Government, GovernmentDto>();
             CreateMap<GovernmentForCreationDto, Government>();
             CreateMap<GovernmentForUpdateDto, Government>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)); ;
+            CreateMap<PharmacyRequest, Pharmacy>();
+
         }
     }
 }

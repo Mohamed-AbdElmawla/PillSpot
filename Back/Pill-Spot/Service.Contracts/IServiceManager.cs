@@ -9,5 +9,7 @@ namespace Service.Contracts
         IEmailService EmailService { get; }
         IPharmacyService PharmacyService { get; }
         IPharmacyRequestService PharmacyRequestService { get; }
+        ICategoryService CategoryService { get; }
+        ISubCategoryService SubCategoryService { get; }
     }
 }

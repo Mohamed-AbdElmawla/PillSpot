@@ -17,6 +17,8 @@ namespace Repository
         private readonly Lazy<ILocationRepository> _locationRepository;
         private readonly Lazy<ICityRepository> _cityRepository;
         private readonly Lazy<IGovernmentRepository> _governmentRepository;
+        private readonly Lazy<ICategoryRepository> _categoryRepository;
+        private readonly Lazy<ISubCategoryRepository> _subCategoryRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -26,6 +28,8 @@ namespace Repository
             _locationRepository = new Lazy<ILocationRepository>(() => new LocationRepository(repositoryContext));
             _cityRepository = new Lazy<ICityRepository>(() => new CityRepository(repositoryContext));
             _governmentRepository = new Lazy<IGovernmentRepository>(() => new GovernmentRepository(repositoryContext));
+            _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(repositoryContext));
+            _subCategoryRepository = new Lazy<ISubCategoryRepository>(() => new SubCategoryRepository(repositoryContext));
         }
         public IUserRepository UserRepository => _userRepository.Value;
         public IPharmacyRepository PharmacyRepository => _pharmacyRepository.Value;
@@ -33,6 +37,8 @@ namespace Repository
         public ILocationRepository LocationRepository => _locationRepository.Value;
         public ICityRepository CityRepository => _cityRepository.Value;
         public IGovernmentRepository GovernmentRepository => _governmentRepository.Value;
+        public ICategoryRepository CategoryRepository => _categoryRepository.Value;
+        public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

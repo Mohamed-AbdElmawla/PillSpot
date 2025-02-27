@@ -74,8 +74,7 @@ namespace PillSpot.Presentation.Controllers
         {
             var pagedResult = await _service.UserService.GetUsersAsync(userParameters, trackChanges: false);
 
-            Response.Headers.Add("X-Pagination",
-            JsonSerializer.Serialize(pagedResult.metaData));
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(pagedResult.metaData));
 
             return Ok(pagedResult.users);
         }

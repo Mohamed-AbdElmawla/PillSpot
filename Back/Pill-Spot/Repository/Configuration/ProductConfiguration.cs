@@ -31,10 +31,6 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
-            builder.Property(p => p.BarcodeImageURL)
-                .HasMaxLength(500)
-                .IsUnicode(false);
-
             builder.Property(p => p.CreatedDate)
                 .IsRequired();
 
