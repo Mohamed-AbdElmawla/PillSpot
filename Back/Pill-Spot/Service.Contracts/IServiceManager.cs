@@ -7,5 +7,10 @@ namespace Service.Contracts
         IAuthenticationService AuthenticationService { get; }
         IUserService UserService { get; }
         IEmailService EmailService { get; }
+        ISerilogService SerilogService { get; }
+        IPermissionService PermissionService { get; }
+        IEmployeePermissionService EmployeePermissionService { get; }
+        IAdminPermissionService AdminPermissionService { get; }
+        IAdminService AdminService { get; }
     }
 }

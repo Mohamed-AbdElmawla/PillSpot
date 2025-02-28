@@ -1,0 +1,17 @@
+2025-03-01 00:00:38.635 +02:00 [INF] Application Started!
+2025-03-01 00:00:39.487 +02:00 [INF] User profile is available. Using 'C:\Users\Khaled Ibrahem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-03-01 00:00:40.627 +02:00 [INF] Now listening on: https://localhost:7298
+2025-03-01 00:00:41.037 +02:00 [INF] Now listening on: http://localhost:5146
+2025-03-01 00:00:41.354 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-01 00:00:41.376 +02:00 [INF] Hosting environment: Development
+2025-03-01 00:00:41.381 +02:00 [INF] Content root path: E:\GP\Back\Pill-Spot\PillSpot
+2025-03-01 00:00:41.803 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.html - null null
+2025-03-01 00:00:42.894 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.html - 200 null text/html;charset=utf-8 1097.8955ms
+2025-03-01 00:00:43.979 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.js - null null
+2025-03-01 00:00:43.999 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.js - 200 null application/javascript;charset=utf-8 19.5734ms
+2025-03-01 00:00:44.215 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-01 00:00:44.256 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 39.9459ms
+2025-03-01 00:00:44.267 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_vs/browserLink - null null
+2025-03-01 00:00:44.372 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_vs/browserLink - 200 null text/javascript; charset=UTF-8 105.3094ms
+2025-03-01 00:00:51.258 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - null null
+2025-03-01 00:00:51.498 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 239.9613ms

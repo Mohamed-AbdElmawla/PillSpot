@@ -18,3 +18,22 @@ D:\Graduation Project\Back\Pill-Spot\Repository\obj\Debug\net8.0\refint\Reposito
 D:\Graduation Project\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.pdb
 D:\Graduation Project\Back\Pill-Spot\Repository\obj\Debug\net8.0\ref\Repository.dll
 D:\Graduation Project\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.sourcelink.json
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Repository.deps.json
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Repository.dll
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Repository.pdb
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Contracts.dll
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Entities.dll
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Shared.dll
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Contracts.pdb
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Entities.pdb
+E:\GP\Back\Pill-Spot\Repository\bin\Debug\net8.0\Shared.pdb
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.csproj.AssemblyReference.cache
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.AssemblyInfoInputs.cache
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.AssemblyInfo.cs
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.csproj.Up2Date
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.dll
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\refint\Repository.dll
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.pdb
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\ref\Repository.dll

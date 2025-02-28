@@ -22,16 +22,32 @@ namespace Service
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IEmailService> _emailService;
+        private readonly Lazy<ISerilogService> _serilogService;
+        private readonly Lazy<IPermissionService> _permissionService;
+        private readonly Lazy<IEmployeePermissionService> _employeePermissionService;
+        private readonly Lazy<IAdminPermissionService> _adminPermissionService;
+        private readonly Lazy<IAdminService> _adminService;
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
-            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService)
+            UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
+            IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService, 
+            Lazy<ISerilogService> serilogService, RoleManager<IdentityRole> roleManager)
         {
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager, fileService));
             _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
+            _serilogService = serilogService;
+            _permissionService = new Lazy<IPermissionService>(() => new PermissionService(repositoryManager , mapper));
+            _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager,mapper));
+            _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper));
+            _adminService = new Lazy<IAdminService>(() => new AdminService(userManager, roleManager));
         }
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IUserService UserService => _userService.Value;
         public IEmailService EmailService => _emailService.Value;
-
+        public ISerilogService SerilogService => _serilogService.Value;
+        public IPermissionService PermissionService => _permissionService.Value;
+        public IEmployeePermissionService EmployeePermissionService => _employeePermissionService.Value;
+        public IAdminPermissionService AdminPermissionService => _adminPermissionService.Value;
+        public IAdminService AdminService => _adminService.Value;
     }
 }

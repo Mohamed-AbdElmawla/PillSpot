@@ -41,6 +41,11 @@ namespace PillSpot.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
+        public static void ConfigureSerilogService(this IServiceCollection services)
+        {
+            services.AddScoped<ISerilogService, SerilogService>();
+            services.AddScoped(provider => new Lazy<ISerilogService>(provider.GetRequiredService<ISerilogService>));
+        }
         public static void ConfigureServiceManager(this IServiceCollection services) =>
         services.AddScoped<IServiceManager, ServiceManager>();
 

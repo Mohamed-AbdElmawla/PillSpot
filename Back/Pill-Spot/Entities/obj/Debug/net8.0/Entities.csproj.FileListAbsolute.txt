@@ -11,3 +11,15 @@ D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.d
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json
+E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.deps.json
+E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.dll
+E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.pdb
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.AssemblyReference.cache
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
