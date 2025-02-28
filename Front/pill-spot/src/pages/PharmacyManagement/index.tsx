@@ -8,12 +8,12 @@ import { PiPillLight } from "react-icons/pi";
 import PharManagemetDetails from "./PharDetails";
 import ButtenLink from "./ButtonLink";
 import { Outlet, useNavigate } from "react-router-dom";
-import bgImage from "../../assets/5559852.jpg"; // Adjust the path as needed
+import bgImage from "../../assets/image.png"; 
 import { toast } from "sonner";
 
 const PharManagementLayout = () => {
   const navigate = useNavigate();
-  const mainColor = "text-blue-600";
+  const mainColor = "text-cyan-500";
   return (
     <div
       className="flex flex-row w-full h-screen max-w-[8000px] px-4 sm:px-6 lg:px-8 container m-auto bg-cover bg-center bg-no-repeat bg-fixed"
