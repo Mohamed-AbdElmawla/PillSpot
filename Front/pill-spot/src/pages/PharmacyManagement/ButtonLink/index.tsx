@@ -19,7 +19,7 @@ const ButtenLink = ({pageURL,mainColor,children,title}:Iprops) => {
         }`
       }
     >
-      <div className="flex gap-5 h-[60px] items-center rounded-3xl justify-start p-4  hover:text-blue-600 hover:bg-white duration-200">
+      <div className="flex gap-5 h-[60px] items-center rounded-3xl justify-start p-4  hover:text-cyan-500 hover:bg-white duration-200 font-bold">
         {children}
         <div>{title}</div>
       </div>
