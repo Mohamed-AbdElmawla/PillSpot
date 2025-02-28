@@ -3,6 +3,7 @@ import authSlice from "../features/auth/auth";
 import uploadPhotoSlice from "../features/uploadPhoto/upload";
 import  toastSlice  from "../features/Toasts/toastSlice";
 import  authLoginSlice  from "../features/auth/authLogin";
+import  pharmacyRegisterSlice  from "../features/RegisterPharmacy/PharmacyRegisterSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     imgaeUploadSlice: uploadPhotoSlice,
     toastSlice : toastSlice ,
     authLogin : authLoginSlice,
+    pharRegister : pharmacyRegisterSlice ,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
