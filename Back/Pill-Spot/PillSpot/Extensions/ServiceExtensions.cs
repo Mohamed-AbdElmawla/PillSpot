@@ -49,7 +49,16 @@ namespace PillSpot.Extensions
         public static void ConfigureServiceManager(this IServiceCollection services) =>
         services.AddScoped<IServiceManager, ServiceManager>();
 
-        public static void ConfigureServiceFile(this IServiceCollection services) =>
+        public static void ConfigureCityService(this IServiceCollection services) =>
+            services.AddScoped<ICityService, CityService>();
+
+        public static void ConfigureGovernmentService(this IServiceCollection services) =>
+            services.AddScoped<IGovernmentService, GovernmentService>();
+
+        public static void ConfigureLocationService(this IServiceCollection services) =>
+            services.AddScoped<ILocationService, LocationService>();
+
+        public static void ConfigureFileService(this IServiceCollection services) =>
         services.AddSingleton<IFileService, FileService>();
 
         public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration configuration) =>

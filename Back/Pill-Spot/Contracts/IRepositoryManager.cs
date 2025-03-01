@@ -14,6 +14,13 @@ namespace Contracts
         IEmployeePermissionRepository EmployeePermissionRepository { get;}
         IAdminPermissionRepository AdminPermissionRepository { get; }
         IAdminRepository AdminRepository { get; }
+        IPharmacyRepository PharmacyRepository { get; }
+        IPharmacyRequestRepository PharmacyRequestRepository { get; }
+        ILocationRepository LocationRepository { get; }
+        ICityRepository CityRepository { get; }
+        IGovernmentRepository GovernmentRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+        ISubCategoryRepository SubCategoryRepository { get; }
         Task SaveAsync();
     }
 }

@@ -74,8 +74,7 @@ namespace PillSpot.Presentation.Controllers
         {
             var pagedResult = await _service.UserService.GetUsersAsync(userParameters, trackChanges: false);
 
-            Response.Headers.Add("X-Pagination",
-            JsonSerializer.Serialize(pagedResult.metaData));
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(pagedResult.metaData));
 
             return Ok(pagedResult.users);
         }
@@ -83,6 +82,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{userName}/role")]
         [Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignRole(string userName, [FromBody] RoleUpdateDto roleUpdateDto)
         {
             await _service.UserService.AssignRoleAsync(userName, roleUpdateDto.Role);

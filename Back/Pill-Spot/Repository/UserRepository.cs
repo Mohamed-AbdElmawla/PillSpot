@@ -22,7 +22,7 @@ namespace Repository
             => await FindByCondition(u => userName.Equals(u.UserName), trackChanges).FirstOrDefaultAsync();
         public async Task<PagedList<User>> GetUsersAsync(UserParameters userParameters, bool trackChanges)
         {
-            var users = await FindAll(trackChanges).OrderBy(u => u.FirstName)
+            var users = await FindAll(trackChanges)
                 .Sort(userParameters.OrderBy)
                 .Skip((userParameters.PageNumber - 1) * userParameters.PageSize)
                 .Take(userParameters.PageSize)

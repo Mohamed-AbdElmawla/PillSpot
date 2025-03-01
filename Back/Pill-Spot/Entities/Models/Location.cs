@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Location
     {
         [Key]
-        public ulong LocationId { get; set; }
+        public Guid LocationID { get; set; }
 
         [Required(ErrorMessage = "Longitude is required.")]
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180 degrees.")]
@@ -22,7 +22,7 @@ namespace Entities.Models
         public string AdditionalInfo { get; set; }
 
         [Required(ErrorMessage = "City ID is required.")]
-        public short CityId { get; set; }
+        public Guid CityId { get; set; }
 
         [ForeignKey("CityId")]
         public virtual City City { get; set; }

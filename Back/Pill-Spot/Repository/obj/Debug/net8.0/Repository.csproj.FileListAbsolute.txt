@@ -32,6 +32,7 @@ E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.GeneratedMSBuildEdit
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.AssemblyInfoInputs.cache
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.AssemblyInfo.cs
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.sourcelink.json
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.csproj.Up2Date
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\Repository.dll
 E:\GP\Back\Pill-Spot\Repository\obj\Debug\net8.0\refint\Repository.dll

@@ -12,5 +12,10 @@ namespace Service.Contracts
         IEmployeePermissionService EmployeePermissionService { get; }
         IAdminPermissionService AdminPermissionService { get; }
         IAdminService AdminService { get; }
+        IPharmacyService PharmacyService { get; }
+        IPharmacyRequestService PharmacyRequestService { get; }
+        ICategoryService CategoryService { get; }
+        ISubCategoryService SubCategoryService { get; }
+
     }
 }

@@ -19,6 +19,7 @@ E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorCo
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
 E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb

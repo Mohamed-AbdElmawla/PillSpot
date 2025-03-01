@@ -7,15 +7,12 @@ namespace Entities.Models
     public class Government
     {
         [Key]
-        public short GovernmentId { get; set; }
+        public Guid GovernmentId { get; set; }
 
-        [Required(ErrorMessage = "Government name in Arabic is required.")]
-        [MaxLength(250, ErrorMessage = "Government name in Arabic cannot exceed 250 characters.")]
-        public string GovernmentNameAR { get; set; }
 
-        [Required(ErrorMessage = "Government name in English is required.")]
-        [MaxLength(250, ErrorMessage = "Government name in English cannot exceed 250 characters.")]
-        public string GovernmentNameEN { get; set; }
+        [Required(ErrorMessage = "Government name is required.")]
+        [MaxLength(250, ErrorMessage = "Government name cannot exceed 250 characters.")]
+        public string GovernmentName { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

@@ -28,6 +28,7 @@ E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.Genera
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.AssemblyInfoInputs.cache
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.AssemblyInfo.cs
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.sourcelink.json
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service..DEC3DE55.Up2Date
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\Service.Contracts.dll
 E:\GP\Back\Pill-Spot\Service.Contracts\obj\Debug\net8.0\refint\Service.Contracts.dll

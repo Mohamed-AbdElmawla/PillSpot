@@ -35,5 +35,28 @@ namespace Service
 
             return $"/uploads/{folderName}/{newFileName}";
         }
+
+        public async Task<bool> DeleteFileAsync(string fileUrl)
+        {
+            if (string.IsNullOrWhiteSpace(fileUrl))
+                return false;
+
+            try
+            {
+                string filePath = Path.Combine(_basePath, fileUrl.TrimStart('/').Replace("/", "\\"));
+
+                if (!File.Exists(filePath))
+                {
+                    return false;
+                }
+
+                await Task.Run(() => File.Delete(filePath));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -28,6 +28,7 @@ E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.GeneratedMSBuildEditor
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.AssemblyInfoInputs.cache
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.AssemblyInfo.cs
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.sourcelink.json
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.csproj.Up2Date
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\Contracts.dll
 E:\GP\Back\Pill-Spot\Contracts\obj\Debug\net8.0\refint\Contracts.dll

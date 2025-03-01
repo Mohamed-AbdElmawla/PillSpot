@@ -22,11 +22,21 @@ namespace PillSpot
             CreateMap<AdminPermission, AssignAdminPermissionDto>().ReverseMap();
             CreateMap<AdminPermission, UpdateAdminPermissionsDto>().ReverseMap();
 
-
             CreateMap<CreateEmployeePermissionDto, AdminPermission>().ReverseMap();
             CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>().ReverseMap();
             CreateMap<PharmacyEmployeePermission, AssignEmployeePermissionDto>().ReverseMap();
 
+            CreateMap<PharmacyRequestCreateDto, PharmacyRequest>();
+            CreateMap<PharmacyRequest, PharmacyRequestDto>();
+            CreateMap<LocationForCreationDto, Location>();
+            CreateMap<Location, LocationDto>();
+            CreateMap<City, CityDto>();
+            CreateMap<CityForUpdateDto, City>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)); ;
+            CreateMap<CityForCreationDto, City>();
+            CreateMap<Government, GovernmentDto>();
+            CreateMap<GovernmentForCreationDto, Government>();
+            CreateMap<GovernmentForUpdateDto, Government>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null)); ;
+            CreateMap<PharmacyRequest, Pharmacy>();
 
         }
     }
