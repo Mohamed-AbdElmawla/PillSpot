@@ -24,7 +24,7 @@ namespace PillSpot.Extensions
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .WithExposedHeaders("X-Pagination"));
-            });
+        });
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {
@@ -79,6 +79,7 @@ namespace PillSpot.Extensions
             var jwtConfiguration = new JwtConfiguration();
             configuration.Bind(jwtConfiguration.Section, jwtConfiguration);
             var secretKey = Environment.GetEnvironmentVariable("SECRET");
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,6 +87,19 @@ namespace PillSpot.Extensions
             })
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        // Extract the token from the cookie
+                        var accessToken = context.HttpContext.Request.Cookies["AccessToken"];
+                        if (!string.IsNullOrEmpty(accessToken))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
