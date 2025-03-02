@@ -8,19 +8,19 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<ProductPrescription> builder)
         {
-            builder.HasKey(pp => new { pp.PrescriptionID, pp.ProductID });
+            builder.HasKey(pp => new { pp.PrescriptionId, pp.ProductId });
 
             builder.HasOne(pp => pp.Prescription)
                 .WithMany(p => p.ProductPrescriptions)
-                .HasForeignKey(pp => pp.PrescriptionID)
+                .HasForeignKey(pp => pp.PrescriptionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pp => pp.Product)
                 .WithMany()
-                .HasForeignKey(pp => pp.ProductID)
+                .HasForeignKey(pp => pp.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(pp => new { pp.PrescriptionID, pp.ProductID })
+            builder.HasIndex(pp => new { pp.PrescriptionId, pp.ProductId })
                 .HasDatabaseName("IX_ProductPrescription_PrescriptionID_ProductID");
         }
     }

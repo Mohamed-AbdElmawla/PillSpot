@@ -8,23 +8,23 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<PharmacyFeedback> builder)
         {
-            builder.HasKey(pf => pf.FeedbackID);
+            builder.HasKey(pf => pf.FeedbackId);
 
-            builder.Property(pf => pf.PharmacyID)
+            builder.Property(pf => pf.PharmacyId)
                 .IsRequired();
 
             builder.HasOne(pf => pf.Feedback)
                 .WithOne()
-                .HasForeignKey<PharmacyFeedback>(pf => pf.FeedbackID)
+                .HasForeignKey<PharmacyFeedback>(pf => pf.FeedbackId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pf => pf.Pharmacy)
                 .WithMany()
-                .HasForeignKey(pf => pf.PharmacyID)
+                .HasForeignKey(pf => pf.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(pf => pf.PharmacyID)
-                .HasDatabaseName("IX_PharmacyFeedback_PharmacyID");
+            builder.HasIndex(pf => pf.PharmacyId)
+                .HasDatabaseName("IX_PharmacyFeedback_PharmacyId");
         }
     }
 }

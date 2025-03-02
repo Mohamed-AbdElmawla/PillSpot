@@ -14,11 +14,11 @@ namespace Entities.Models
     public class PharmacyRequest
     {
         [Key]
-        public ulong RequestID { get; set; }
+        public ulong RequestId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserID { get; set; }
-        [ForeignKey("UserID")]
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         [Required(ErrorMessage = "Pharmacist license is required.")]
@@ -33,13 +33,13 @@ namespace Entities.Models
         public string? LogoURL { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public Guid LocationID { get; set; }
-        [ForeignKey("LocationID")]
+        public Guid LocationId { get; set; }
+        [ForeignKey("LocationId")]
         public virtual Location Location { get; set; }
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
-        public string LicenseID { get; set; }
+        public string LicenseId { get; set; }
 
         [Required(ErrorMessage = "Contact number is required.")]
         [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]
@@ -63,8 +63,8 @@ namespace Entities.Models
 
         public string? AdminMessage { get; set; }
 
-        public string? AdminUserID { get; set; }
-        [ForeignKey("AdminUserID")]
+        public string? AdminUserId { get; set; }
+        [ForeignKey("AdminUserId")]
         public virtual User? AdminUser { get; set; }
 
         [Required]

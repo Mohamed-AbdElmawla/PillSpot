@@ -32,7 +32,7 @@ namespace Service
                 throw new EmployeePermissionCollectionBadRequestException();
 
             var epmloyeePermissions = permissionIds
-                .Select(pid => new PharmacyEmployeePermission { EmployeeID = employeeId, PermissionID = pid });
+                .Select(pid => new PharmacyEmployeePermission { EmployeeId = employeeId, PermissionId = pid });
 
             await _repository.EmployeePermissionRepository.AssignPermissionsToEmployeeAsync(epmloyeePermissions);
             await _repository.SaveAsync();
@@ -54,7 +54,7 @@ namespace Service
         public async Task RemovePermissionFromEmployeeAsync(ulong employeeId, int permissionId)
         {
             var employeePermission = (await _repository.EmployeePermissionRepository.GetEmployeePermissionsAsync(employeeId, false))
-                .FirstOrDefault(ap => ap.PermissionID == permissionId);
+                .FirstOrDefault(ap => ap.PermissionId == permissionId);
             if (employeePermission == null)
                 throw new EployeePermissionNotFoundException(employeeId, permissionId);
 
@@ -68,7 +68,7 @@ namespace Service
                 throw new EmployeePermissionCollectionBadRequestException();
 
             var employeePermissions = (await _repository.EmployeePermissionRepository.GetEmployeePermissionsAsync(employeeId, false))
-                .Where(ap => permissionIds.Contains(ap.PermissionID))
+                .Where(ap => permissionIds.Contains(ap.PermissionId))
                 .ToList();
 
             if (!employeePermissions.Any())

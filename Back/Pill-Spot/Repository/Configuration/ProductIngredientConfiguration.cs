@@ -8,20 +8,20 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<ProductIngredient> builder)
         {
-            builder.HasKey(pi => new { pi.ProductID, pi.IngredientsID });
+            builder.HasKey(pi => new { pi.ProductId, pi.IngredientsId });
 
             builder.HasOne(pi => pi.Product)
                 .WithMany(p => p.ProductIngredients)
-                .HasForeignKey(pi => pi.ProductID)
+                .HasForeignKey(pi => pi.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pi => pi.Ingredient)
                 .WithMany(i => i.ProductIngredients)
-                .HasForeignKey(pi => pi.IngredientsID)
+                .HasForeignKey(pi => pi.IngredientsId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(pi => new { pi.ProductID, pi.IngredientsID })
-                .HasDatabaseName("IX_ProductIngredient_ProductID_IngredientsID");
+            builder.HasIndex(pi => new { pi.ProductId, pi.IngredientsId })
+                .HasDatabaseName("IX_ProductIngredient_ProductId_IngredientsId");
         }
     }
 }

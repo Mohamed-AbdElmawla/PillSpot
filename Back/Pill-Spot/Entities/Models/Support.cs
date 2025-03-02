@@ -7,11 +7,11 @@ namespace Entities.Models
     public class Support
     {
         [Key]
-        public ulong SupportID { get; set; }
+        public ulong SupportId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
         [MaxLength(450, ErrorMessage = "User ID cannot exceed 450 characters.")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Type is required.")]
         public int Type { get; set; }
@@ -39,7 +39,7 @@ namespace Entities.Models
 
         public DateTime? ResolvedDate { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         public DateTime? ModifiedDate { get; set; }

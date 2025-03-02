@@ -8,9 +8,9 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<ProductPharmacy> builder)
         {
-            builder.HasKey(pp => new { pp.ProductID, pp.PharmacyID });
+            builder.HasKey(pp => new { pp.ProductId, pp.PharmacyId });
 
-            builder.Property(pp => pp.BatchID)
+            builder.Property(pp => pp.BatchId)
                 .IsRequired();
 
             builder.Property(pp => pp.Quantity)
@@ -18,21 +18,21 @@ namespace Repository.Configuration
 
             builder.HasOne(pp => pp.Product)
                 .WithMany(p => p.ProductPharmacies)
-                .HasForeignKey(pp => pp.ProductID)
+                .HasForeignKey(pp => pp.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pp => pp.Pharmacy)
                 .WithMany(p => p.ProductPharmacies)
-                .HasForeignKey(pp => pp.PharmacyID)
+                .HasForeignKey(pp => pp.PharmacyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pp => pp.Batch)
                 .WithMany()
-                .HasForeignKey(pp => pp.BatchID)
+                .HasForeignKey(pp => pp.BatchId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(pp => new { pp.ProductID, pp.PharmacyID })
-                .HasDatabaseName("IX_ProductPharmacy_ProductID_PharmacyID");
+            builder.HasIndex(pp => new { pp.ProductId, pp.PharmacyId })
+                .HasDatabaseName("IX_ProductPharmacy_ProductId_PharmacyId");
         }
     }
 }

@@ -2,23 +2,16 @@
 using Contracts;
 using Entities.ConfigurationModels;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Service.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
     public sealed class ServiceManager : IServiceManager
     {
-
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IEmailService> _emailService;
@@ -31,6 +24,10 @@ namespace Service
         private readonly Lazy<IPharmacyRequestService> _pharmacyRequestService;
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<ISubCategoryService> _subCategoryService;
+        private readonly Lazy<IProductService> _productService;
+        private readonly Lazy<IMedicineService> _medicineService;
+        private readonly Lazy<ICosmeticService> _cosmeticService;
+
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
             IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService, 
@@ -49,8 +46,11 @@ namespace Service
             _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _subCategoryService = new Lazy<ISubCategoryService>(() => new SubCategoryService(repositoryManager, mapper));
-
+            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper));
+            _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper));
+            _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper));
         }
+
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public IUserService UserService => _userService.Value;
         public IEmailService EmailService => _emailService.Value;
@@ -63,5 +63,8 @@ namespace Service
         public IPharmacyRequestService PharmacyRequestService => _pharmacyRequestService.Value;
         public ICategoryService CategoryService => _categoryService.Value;
         public ISubCategoryService SubCategoryService => _subCategoryService.Value;
+        public IProductService ProductService => _productService.Value;
+        public IMedicineService MedicineService => _medicineService.Value;
+        public ICosmeticService CosmeticService => _cosmeticService.Value;
     }
 }

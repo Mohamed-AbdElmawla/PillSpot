@@ -6,15 +6,15 @@ namespace Entities.Models
     public class PharmacyEmployeePermission
     {
         [Key, Column(Order = 0)]
-        public ulong EmployeeID { get; set; }
+        public ulong EmployeeId { get; set; }
 
         [Key, Column(Order = 1)]
-        public int PermissionID { get; set; }
+        public int PermissionId { get; set; }
 
-        [ForeignKey("EmployeeID")]
+        [ForeignKey("EmployeeId")]
         public virtual PharmacyEmployee PharmacyEmployee { get; set; }
 
-        [ForeignKey("PermissionID")]
+        [ForeignKey("PermissionId")]
         public virtual Permission Permission { get; set; }
     }
 }

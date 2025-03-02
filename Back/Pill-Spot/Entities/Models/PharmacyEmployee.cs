@@ -8,13 +8,13 @@ namespace Entities.Models
     public class PharmacyEmployee
     {
         [Key]
-        public ulong EmployeeID { get; set; }
+        public ulong EmployeeId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy ID is required.")]
-        public ulong PharmacyID { get; set; }
+        public ulong PharmacyId { get; set; }
 
         [Required(ErrorMessage = "Role is required.")]
         [MaxLength(100, ErrorMessage = "Role cannot exceed 100 characters.")]
@@ -23,10 +23,10 @@ namespace Entities.Models
         [Required(ErrorMessage = "Hire date is required.")]
         public DateTime HireDate { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        [ForeignKey("PharmacyID")]
+        [ForeignKey("PharmacyId")]
         public virtual Pharmacy Pharmacy { get; set; }
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();

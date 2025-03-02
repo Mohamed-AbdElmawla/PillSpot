@@ -8,10 +8,10 @@ namespace Entities.Models
     public class Product
     {
         [Key]
-        public ulong ProductID { get; set; }
+        public ulong ProductId { get; set; }
 
         [Required(ErrorMessage = "SubCategory ID is required.")]
-        public int SubCategoryID { get; set; }
+        public int SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(250, ErrorMessage = "Name cannot exceed 250 characters.")]
@@ -37,13 +37,11 @@ namespace Entities.Models
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 
-        public virtual Medicine? Medicine { get; set; }
-        public virtual Cosmetic? Cosmetic { get; set; }
-
         public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
 
         [Required]
         public bool IsDeleted { get; set; } = false;
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }

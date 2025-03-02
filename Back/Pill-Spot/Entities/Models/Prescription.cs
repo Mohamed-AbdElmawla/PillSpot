@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Prescription
     {
         [Key]
-        public ulong PrescriptionID { get; set; }
+        public ulong PrescriptionId { get; set; }
 
         [Required(ErrorMessage = "Created date is required.")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

@@ -8,14 +8,14 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasKey(o => o.OrderID);
+            builder.HasKey(o => o.OrderId);
 
-            builder.Property(o => o.UserID)
+            builder.Property(o => o.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
-            builder.Property(o => o.LocationID)
+            builder.Property(o => o.LocationId)
                 .IsRequired();
 
             builder.Property(o => o.TotalPrice)
@@ -42,16 +42,16 @@ namespace Repository.Configuration
 
             builder.HasOne(o => o.User)
                 .WithMany()
-                .HasForeignKey(o => o.UserID)
+                .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(o => o.Location)
                 .WithMany()
-                .HasForeignKey(o => o.LocationID)
+                .HasForeignKey(o => o.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(o => o.UserID)
-                .HasDatabaseName("IX_Order_UserID");
+            builder.HasIndex(o => o.UserId)
+                .HasDatabaseName("IX_Order_UserId");
 
             builder.HasIndex(o => o.IsDeleted)
                 .HasDatabaseName("IX_Order_IsDeleted");

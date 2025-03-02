@@ -1,34 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class UserAuthorizationFilter : Attribute, IAuthorizationFilter
+namespace PillSpot.Presentation.ActionFilters
 {
-    private readonly string[] _allowedRoles;
-
-    public UserAuthorizationFilter(params string[] allowedRoles)
+    public class UserAuthorizationFilter : Attribute, IAuthorizationFilter
     {
-        _allowedRoles = allowedRoles ?? Array.Empty<string>();
-    }
+        private readonly string[] _allowedRoles;
 
-    public void OnAuthorization(AuthorizationFilterContext context)
-    {
-        var user = context.HttpContext.User;
-        if (user?.Identity is not { IsAuthenticated: true })
+        public UserAuthorizationFilter(params string[] allowedRoles)
         {
-            context.Result = new UnauthorizedResult();
-            return;
+            _allowedRoles = allowedRoles ?? Array.Empty<string>();
         }
 
-        var authenticatedUserName = user.Identity.Name ?? string.Empty;
-        var routeUserName = context.RouteData.Values["userName"]?.ToString() ?? string.Empty;
-        if (_allowedRoles.Length > 0 && _allowedRoles.Any(user.IsInRole))
-            return;
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            var user = context.HttpContext.User;
+            if (user?.Identity is not { IsAuthenticated: true })
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
 
-        if (!string.IsNullOrEmpty(routeUserName) &&
-            string.Equals(authenticatedUserName, routeUserName, StringComparison.OrdinalIgnoreCase))
-            return;
+            if (_allowedRoles.Length > 0 && _allowedRoles.Any(user.IsInRole))
+                return;
 
-        context.Result = new ForbidResult();
+            context.Result = new ForbidResult();
+        }
     }
 }

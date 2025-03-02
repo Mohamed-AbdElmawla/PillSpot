@@ -23,7 +23,7 @@ namespace Repository
 
         public async Task<IEnumerable<AdminPermission>> GetAdminPermissionsAsync(string adminId, bool trackChanges)
         {
-            var adminPermissions = await FindByCondition(ap => ap.AdminID == adminId, trackChanges)
+            var adminPermissions = await FindByCondition(ap => ap.AdminId == adminId, trackChanges)
                 .Include(ap => ap.Permission)
                 .ToListAsync();
             return adminPermissions;

@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Prescription> builder)
         {
-            builder.HasKey(p => p.PrescriptionID);
+            builder.HasKey(p => p.PrescriptionId);
 
             builder.Property(p => p.CreatedDate)
                 .IsRequired();

@@ -8,14 +8,14 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<DoctorPrescription> builder)
         {
-            builder.HasKey(dp => dp.PrescriptionID);
+            builder.HasKey(dp => dp.PrescriptionId);
 
             builder.Property(dp => dp.DoctorId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
-            builder.Property(dp => dp.UserID)
+            builder.Property(dp => dp.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
@@ -26,7 +26,7 @@ namespace Repository.Configuration
 
             builder.HasOne(dp => dp.Prescription)
                 .WithOne()
-                .HasForeignKey<DoctorPrescription>(dp => dp.PrescriptionID)
+                .HasForeignKey<DoctorPrescription>(dp => dp.PrescriptionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(dp => dp.Doctor)
@@ -36,14 +36,14 @@ namespace Repository.Configuration
 
             builder.HasOne(dp => dp.User)
                 .WithMany()
-                .HasForeignKey(dp => dp.UserID)
+                .HasForeignKey(dp => dp.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(dp => dp.DoctorId)
                 .HasDatabaseName("IX_DP_DocId");
 
-            builder.HasIndex(dp => dp.UserID)
-                .HasDatabaseName("IX_DP_UsrID");
+            builder.HasIndex(dp => dp.UserId)
+                .HasDatabaseName("IX_DP_UsrId");
         }
     }
 }

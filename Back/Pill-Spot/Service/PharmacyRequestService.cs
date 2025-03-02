@@ -46,7 +46,7 @@ namespace Service
             var pendingRequest = await _repository.PharmacyRequestRepository.GetByStatusAsync(user.Id, PharmacyRequestStatus.Pending, trackChanges);
             var pharmacyRequest = _mapper.Map<PharmacyRequest>(pharmacyRequestCreateDto);
 
-            pharmacyRequest.UserID = user.Id;
+            pharmacyRequest.UserId = user.Id;
 
             if (pharmacyRequestCreateDto.logo != null)
                 pharmacyRequest.LogoURL = await _fileService.SaveFileAsync(pharmacyRequestCreateDto.logo, "Logos");
@@ -60,7 +60,7 @@ namespace Service
                 if(pendingPharmacyRequest != null)
                 _repository.PharmacyRequestRepository.DeletePharmacyRequest(pendingPharmacyRequest);
             }
-            pharmacyRequest.LocationID = await _locationService.CreateLocationAsync(pharmacyRequestCreateDto.Location, trackChanges);
+            pharmacyRequest.LocationId = await _locationService.CreateLocationAsync(pharmacyRequestCreateDto.Location, trackChanges);
             pharmacyRequest.Location = null;
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
             await _repository.SaveAsync();

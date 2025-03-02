@@ -6,16 +6,16 @@ namespace Entities.Models
     public class OrderItem
     {
         [Key]
-        public ulong OrderItemID { get; set; }
+        public ulong OrderItemId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy Branch ID is required.")]
-        public ulong PharmacyBranchID { get; set; }
+        public ulong PharmacyBranchId { get; set; }
 
         [Required(ErrorMessage = "Product ID is required.")]
-        public ulong ProductID { get; set; }
+        public ulong ProductId { get; set; }
 
         [Required(ErrorMessage = "Order ID is required.")]
-        public ulong OrderID { get; set; }
+        public ulong OrderId { get; set; }
 
         [Required(ErrorMessage = "Unit price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Unit price must be greater than zero.")]
@@ -25,13 +25,13 @@ namespace Entities.Models
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
         public int Quantity { get; set; }
 
-        [ForeignKey("OrderID")]
+        [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
 
-        [ForeignKey("ProductID")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
-        [ForeignKey("PharmacyBranchID")]
+        [ForeignKey("PharmacyBranchId")]
         public virtual Pharmacy PharmacyBranch { get; set; }
     }
 }

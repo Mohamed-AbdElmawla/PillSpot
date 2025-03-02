@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
-            builder.HasKey(p => p.PermissionID);
+            builder.HasKey(p => p.PermissionId);
 
             builder.Property(p => p.Name)
                 .IsRequired()

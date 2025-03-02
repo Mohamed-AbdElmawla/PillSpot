@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<UserNotification> builder)
         {
-            builder.HasKey(un => new { un.ReceiverId, un.NotificationID });
+            builder.HasKey(un => new { un.ReceiverId, un.NotificationId });
 
             builder.HasOne(un => un.Receiver)
                 .WithMany()
@@ -17,11 +17,11 @@ namespace Repository.Configuration
 
             builder.HasOne(un => un.Notification)
                 .WithMany()
-                .HasForeignKey(un => un.NotificationID)
+                .HasForeignKey(un => un.NotificationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(un => new { un.ReceiverId, un.NotificationID })
-                .HasDatabaseName("IX_UserNotification_ReceiverId_NotificationID");
+            builder.HasIndex(un => new { un.ReceiverId, un.NotificationId })
+                .HasDatabaseName("IX_UserNotification_ReceiverId_NotificationId");
         }
     }
 }

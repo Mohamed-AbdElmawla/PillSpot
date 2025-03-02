@@ -6,25 +6,25 @@ namespace Entities.Models
     public class ProductPharmacy
     {
         [Key, Column(Order = 0)]
-        public ulong ProductID { get; set; }
+        public ulong ProductId { get; set; }
 
         [Key, Column(Order = 1)]
-        public ulong PharmacyID { get; set; }
+        public ulong PharmacyId { get; set; }
 
         [Required(ErrorMessage = "Batch ID is required.")]
-        public ulong BatchID { get; set; }
+        public ulong BatchId { get; set; }
 
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
         public int Quantity { get; set; }
 
-        [ForeignKey("ProductID")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
-        [ForeignKey("PharmacyID")]
+        [ForeignKey("PharmacyId")]
         public virtual Pharmacy Pharmacy { get; set; }
 
-        [ForeignKey("BatchID")]
+        [ForeignKey("BatchId")]
         public virtual Batch Batch { get; set; }
     }
 }
