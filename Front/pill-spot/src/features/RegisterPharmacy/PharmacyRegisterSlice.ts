@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IInitialState {
   Name: string;
-  ContactNumber?: string;
+  ContactNumber: string;
   LicenseID: string;
   PharmacistLicense: File | null;
   AdditionalInfo: string;
@@ -13,6 +13,8 @@ interface IInitialState {
   Longitude: string;
   Latitude: string;
   logo : File | null ;
+  CityName:string , 
+  [key: string]: string | boolean | File | null;
 }
 
 const initialState: IInitialState = {
@@ -28,6 +30,8 @@ const initialState: IInitialState = {
   Latitude: "",
   logo:null ,
   DaysOpen : "" ,
+  CityName : "" , 
+  
 };
 
 export const pharmacyRegisterSlice = createSlice({
