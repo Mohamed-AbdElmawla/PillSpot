@@ -14,5 +14,6 @@ namespace Entities.Models
         public string Name { get; set; }
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
+        public virtual ICollection<AdminPermission> AdminPermissions { get; set; } = new List<AdminPermission>();
     }
 }

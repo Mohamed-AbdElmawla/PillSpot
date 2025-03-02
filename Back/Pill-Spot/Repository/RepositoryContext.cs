@@ -9,6 +9,7 @@ namespace Repository
 {
     public class RepositoryContext : IdentityDbContext<User>
     {
+        public DbSet<AdminPermission> AdminPermissions { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Chat> Chats { get; set; }
@@ -51,6 +52,7 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new AdminPermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             modelBuilder.ApplyConfiguration(new BatchConfiguration());

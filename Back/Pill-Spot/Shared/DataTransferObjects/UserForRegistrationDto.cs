@@ -1,12 +1,6 @@
 ﻿using Entities.Validators;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
@@ -20,12 +14,12 @@ namespace Shared.DataTransferObjects
     {
         [Required(ErrorMessage = "First name is required.")]
         [MaxLength(100, ErrorMessage = "First name cannot exceed 100 characters.")]
-        [RegularExpression(@"^[A-Za-z\s'-]+$", ErrorMessage = "First name can only contain letters, spaces, hyphens, and apostrophes.")]
+        [RegularExpression(@"^[A-Za-zء-ي\s'-]+$", ErrorMessage = "First name can only contain Arabic and English letters, spaces, hyphens, and apostrophes.")]
         public string? FirstName { get; init; }
 
         [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
-        [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
+        [RegularExpression(@"^[A-Za-zء-ي\s'-]+$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
@@ -33,7 +27,7 @@ namespace Shared.DataTransferObjects
         public string? UserName { get; init; }
 
         [Required(ErrorMessage = "Password is required.")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$",
             ErrorMessage = "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.")]
         public string? Password { get; init; }
 
@@ -45,7 +39,6 @@ namespace Shared.DataTransferObjects
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public string? PhoneNumber { get; init; }
 
-        [Required(ErrorMessage = "Profile picture is required.")]
         [AllowedFileExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         [MaxFileSize(1 * 1024 * 1024)]
         public IFormFile? ProfilePicture { get; set; }

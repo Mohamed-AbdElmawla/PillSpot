@@ -22,6 +22,26 @@ namespace PillSpot.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Entities.Models.AdminPermission", b =>
+                {
+                    b.Property<string>("AdminID")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("PermissionID")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("AdminID", "PermissionID");
+
+                    b.HasIndex("PermissionID");
+
+                    b.HasIndex("AdminID", "PermissionID")
+                        .HasDatabaseName("IX_AdminPermission_AdminID_PermissionID");
+
+                    b.ToTable("AdminPermissions");
+                });
+
             modelBuilder.Entity("Entities.Models.Batch", b =>
                 {
                     b.Property<ulong>("BatchID")
@@ -1430,43 +1450,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5a3111bd-e4eb-4f3c-9eea-5c2c8b4e21af",
+                            Id = "77b9cb05-9683-45de-9349-961574c5f9f3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "07ddb4a5-de67-4a63-8a9a-0a712f8f9f51",
+                            Id = "1e548f57-2866-4958-9a17-8f9a689ac251",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "6c5c241d-a0fc-4ec9-8ef8-ea151ef14bb3",
+                            Id = "10578a1e-e328-4c27-ac95-667fe87fc2df",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "f9c7486c-2fe1-4f06-9cab-24731be45980",
+                            Id = "c2119635-edb4-4e1b-9d5e-f046f1b3ae46",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "0ea54857-b986-4d25-a3d4-62edaf6d861e",
+                            Id = "ee370665-0213-49eb-b467-7e3653b57a33",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "94f1131e-911f-4be4-81dc-0c5172744408",
+                            Id = "114064f2-3870-4490-bf4e-578a2eae7ae4",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "62648cf7-8917-4bcd-bad8-3b8fae4c54fe",
+                            Id = "4fff0bc0-8ea6-48e9-ab1f-63f1b5a4ea90",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1632,6 +1652,25 @@ namespace PillSpot.Migrations
                         .HasDatabaseName("IX_Medicine_Manufacturer");
 
                     b.HasDiscriminator().HasValue("Medicine");
+                });
+
+            modelBuilder.Entity("Entities.Models.AdminPermission", b =>
+                {
+                    b.HasOne("Entities.Models.User", "Admin")
+                        .WithMany("AdminPermissions")
+                        .HasForeignKey("AdminID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Permission", "Permission")
+                        .WithMany("AdminPermissions")
+                        .HasForeignKey("PermissionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Permission");
                 });
 
             modelBuilder.Entity("Entities.Models.City", b =>
@@ -2207,6 +2246,8 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Permission", b =>
                 {
+                    b.Navigation("AdminPermissions");
+
                     b.Navigation("PharmacyEmployeePermissions");
                 });
 
@@ -2247,6 +2288,8 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
+                    b.Navigation("AdminPermissions");
+
                     b.Navigation("PharmacyRequests");
 
                     b.Navigation("ReviewedPharmacyRequests");

@@ -1,4 +1,6 @@
 ﻿using Contracts;
+using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,6 +14,10 @@ namespace Repository
     {
         private readonly RepositoryContext _repositoryContext;
         private readonly Lazy<IUserRepository> _userRepository;
+        private readonly Lazy<IPermissionRepository> _permissionRepository;
+        private readonly Lazy<IEmployeePermissionRepository> _employeePermissionRepository;
+        private readonly Lazy<IAdminPermissionRepository> _adminPermissionRepository;
+        private readonly Lazy<IAdminRepository> _adminRepository;
         private readonly Lazy<IPharmacyRepository> _pharmacyRepository;
         private readonly Lazy<IPharmacyRequestRepository> _pharmacyRequestRepository;
         private readonly Lazy<ILocationRepository> _locationRepository;
@@ -19,6 +25,16 @@ namespace Repository
         private readonly Lazy<IGovernmentRepository> _governmentRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<ISubCategoryRepository> _subCategoryRepository;
+        public RepositoryManager(RepositoryContext repositoryContext , UserManager<User> userManager)
+        {
+            _repositoryContext = repositoryContext;
+            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
+            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
+            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
+            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
+            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
+        }
+        
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -32,6 +48,10 @@ namespace Repository
             _subCategoryRepository = new Lazy<ISubCategoryRepository>(() => new SubCategoryRepository(repositoryContext));
         }
         public IUserRepository UserRepository => _userRepository.Value;
+        public IPermissionRepository PermissionRepository => _permissionRepository.Value;
+        public IEmployeePermissionRepository EmployeePermissionRepository => _employeePermissionRepository.Value;
+        public IAdminPermissionRepository AdminPermissionRepository => _adminPermissionRepository.Value;
+        public IAdminRepository AdminRepository => _adminRepository.Value;
         public IPharmacyRepository PharmacyRepository => _pharmacyRepository.Value;
         public IPharmacyRequestRepository PharmacyRequestRepository => _pharmacyRequestRepository.Value;
         public ILocationRepository LocationRepository => _locationRepository.Value;
@@ -39,6 +59,7 @@ namespace Repository
         public IGovernmentRepository GovernmentRepository => _governmentRepository.Value;
         public ICategoryRepository CategoryRepository => _categoryRepository.Value;
         public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository.Value;
+
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

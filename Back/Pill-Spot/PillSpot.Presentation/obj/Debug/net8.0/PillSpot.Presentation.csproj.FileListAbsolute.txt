@@ -20,3 +20,25 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\refi
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\ref\PillSpot.Presentation.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.sourcelink.json
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Contracts.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Entities.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Service.Contracts.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Shared.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.deps.json
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Contracts.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Service.Contracts.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Entities.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\Shared.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.csproj.AssemblyReference.cache
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.GeneratedMSBuildEditorConfig.editorconfig
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.AssemblyInfoInputs.cache
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.AssemblyInfo.cs
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.sourcelink.json
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.A5E2219C.Up2Date
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\refint\PillSpot.Presentation.dll
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.pdb
+E:\GP\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\ref\PillSpot.Presentation.dll

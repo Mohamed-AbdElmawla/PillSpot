@@ -1,0 +1,1 @@
+2025-02-25 22:53:19.801 +02:00 [INF] ✅ Log file cleared and ready for new entries.

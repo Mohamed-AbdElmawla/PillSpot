@@ -9,8 +9,11 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
-        IUserRepository UserRepository { get; }
-
+        IUserRepository UserRepository { get; } 
+        IPermissionRepository PermissionRepository { get; }
+        IEmployeePermissionRepository EmployeePermissionRepository { get;}
+        IAdminPermissionRepository AdminPermissionRepository { get; }
+        IAdminRepository AdminRepository { get; }
         IPharmacyRepository PharmacyRepository { get; }
         IPharmacyRequestRepository PharmacyRequestRepository { get; }
         ILocationRepository LocationRepository { get; }
