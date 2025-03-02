@@ -1,7 +1,7 @@
 import { iconMap, thirdPage } from "../common";
 import OneInput from "../oneInput";
-import { ChangeEvent, useState } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { ChangeEvent, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { setTimingInfo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
 import { RootState } from "../../../app/store";
 
@@ -15,48 +15,30 @@ const days = [
   "Saturday",
 ];
 
-interface ITimingData {
-  OpeningTime: string;
-  ClosingTime: string;
-  IsOpen24: boolean;
-  DaysOpen : string ;
-}
-
-let TimingData : ITimingData = {
-  OpeningTime: "",
-  ClosingTime: "",
-  IsOpen24: false,
-  DaysOpen : "" 
-} ;
-
-
-
 function WorkingDaysSelector() {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const selectedDaysString = selectedDays.join(", ");
-  TimingData.DaysOpen = selectedDaysString ;
+  const dispatch = useDispatch();
+  const PharData = useSelector((state: RootState) => state.pharRegister);
+  
 
-  const PharData = useSelector((state:RootState)=>state.pharRegister) ; 
-  const newData = {...PharData , DaysOpen:selectedDaysString} ;
-  const dispatch = useDispatch() ;
-  dispatch(setTimingInfo(newData));
+  const [selectedDays, setSelectedDays] = useState<string[]>(PharData.DaysOpen ? PharData.DaysOpen.split(", ") : []);
 
+  useEffect(() => {
+    dispatch(setTimingInfo({ ...PharData, DaysOpen: selectedDays.length > 0 ? selectedDays.join(", ") : "" }));
+  }, [selectedDays]);
 
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-  );
+    );
   };
 
   return (
-    <div className="w-64 ">
+    <div className="w-64">
       <button className="border p-2 rounded w-full text-left">
-        {selectedDays.length > 0
-          ? selectedDays.join(", ")
-          : "Select Working Days"}
+        {selectedDays.length > 0 ? selectedDays.join(", ") : <span className="text-gray-400">Select Working Days</span>}
       </button>
 
-      <div className="bg-white border rounded-2xl mt-2 w-112 p-2 ">
+      <div className="bg-white border rounded-2xl mt-2 w-112 p-2">
         <div className="grid grid-cols-3">
           {days.map((day) => (
             <label key={day} className="flex items-center gap-2 cursor-pointer">
@@ -75,19 +57,21 @@ function WorkingDaysSelector() {
   );
 }
 
-const TimeDetails = () => {
-  const [IsOpen24, setIsOpen24] = useState(false);
-  const [workTime, setWorkTime] = useState({
-    OpeningTime: "",
-    ClosingTime: "",
-  });
-  TimingData.IsOpen24 = IsOpen24 ;
-  TimingData = {...TimingData,...workTime} ;
 
-  const PharData = useSelector((state:RootState)=>state.pharRegister) ; 
-  const newData = {...PharData , ...TimingData} ;
-  const dispatch = useDispatch() ;
-  dispatch(setTimingInfo(newData));
+const TimeDetails = () => {
+  const dispatch = useDispatch();
+  const PharData = useSelector((state: RootState) => state.pharRegister);
+  
+  
+  const [IsOpen24, setIsOpen24] = useState(PharData.IsOpen24 || false);
+  const [workTime, setWorkTime] = useState({
+    OpeningTime: PharData.OpeningTime || "",
+    ClosingTime: PharData.ClosingTime || "",
+  });
+
+  useEffect(() => {
+    dispatch(setTimingInfo({ ...PharData, IsOpen24, ...workTime }));
+  }, [IsOpen24, workTime]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsOpen24(event.target.checked);
@@ -97,43 +81,39 @@ const TimeDetails = () => {
     setWorkTime((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  console.log(workTime);
-
-  console.log(IsOpen24);
   const thirdPageRender = thirdPage.map((p) => (
-    <div>
+    <div key={p.name}>
       <span className="text-gray-500 mb-2 block ml-2 font-bold">{p.title}</span>
       <OneInput
         type={p.type}
         placeHolder={p.placeHolder}
         name={p.name}
         onChange={handleTimeChange}
+        value={workTime[p.name as keyof typeof workTime]}
       >
         {iconMap.get(p.name)}
       </OneInput>
     </div>
   ));
+
   return (
-    <>
-      <div className="flex flex-col gap-5 items-start">
-        {thirdPageRender}
+    <div className="flex flex-col gap-5 items-start">
+      {thirdPageRender}
 
-        <fieldset className="fieldset p-4 bg-white border border-gray-400 rounded-2xl text-lg h-15 w-full mt-5">
-          <label className="fieldset-label">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="checkbox"
-              onChange={handleChange}
-              checked={IsOpen24}
-            />
-            <span className="font-bold">We're open 24 hours a day</span>
-          </label>
-        </fieldset>
+      <fieldset className="fieldset p-4 bg-white border border-gray-400 rounded-2xl text-lg h-15 w-full mt-5">
+        <label className="fieldset-label">
+          <input
+            type="checkbox"
+            className="checkbox"
+            onChange={handleChange}
+            checked={IsOpen24}
+          />
+          <span className="font-bold">We're open 24 hours a day</span>
+        </label>
+      </fieldset>
 
-        <WorkingDaysSelector />
-      </div>
-    </>
+      <WorkingDaysSelector />
+    </div>
   );
 };
 

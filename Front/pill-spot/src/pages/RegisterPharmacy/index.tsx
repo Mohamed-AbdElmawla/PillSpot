@@ -8,34 +8,85 @@ import PharPic from "./PicturePage";
 import Map from "./SecondPage";
 import TimeDetails from "./ThirdPage";
 import { useDispatch, useSelector } from "react-redux";
-import { setTimingInfo } from "../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setLocationInfo } from "../../features/RegisterPharmacy/PharmacyRegisterSlice";
 import { RootState } from "../../app/store";
-
-
+import OneInput from "./oneInput";
+import { PiCityLight } from "react-icons/pi";
+import { IValidationErrors, validatePharmacyData } from "./Validation";
+import { MdErrorOutline } from "react-icons/md";
+import { toast } from "sonner";
+import { setColor } from "../../features/Toasts/toastSlice";
+import PharmacyDetailsModal from "./ComfirmationModal";
 
 
 const RegPharmacy = () => {
   const [curPage, setCurPage] = useState(1);
-  const [additionalInfo,setAddInfo] = useState(''); 
+  const [openModal,setOpenModal] = useState(false) ;
+  const [addressInfo, setaddressInfo] = useState({
+    CityName: "",
+    AdditionalInfo: "",
+  });
+  const [errors, setErrors] = useState<IValidationErrors>({
+    Name: { required: "", invalid: "" },
+    ContactNumber: { required: "", invalid: "" },
+    LicenseID: { required: "", invalid: "" },
+    AdditionalInfo: { required: "", invalid: "" },
+    OpeningTime: { required: "", invalid: "" },
+    ClosingTime: { required: "", invalid: "" },
+    Longitude: { required: "", invalid: "" },
+    Latitude: { required: "", invalid: "" },
+    DaysOpen: { required: "", invalid: "" },
+    CityName: { required: "", invalid: "" },
+  });
 
-  const PharData = useSelector((state:RootState)=>state.pharRegister) ; 
-  const newData = {...PharData , AdditionalInfo : additionalInfo} ;
-  const dispatch = useDispatch() ;
-  dispatch(setTimingInfo(newData));
+  const [showError,setShowError] = useState(false) ;
+  
+  const PharData = useSelector((state: RootState) => state.pharRegister);
+  const dispatch = useDispatch();
 
-  function handleChange(e: ChangeEvent<HTMLTextAreaElement>){
-      setAddInfo(e.target.value) ;
+  const newData = { ...PharData, AdditionalInfo: addressInfo.AdditionalInfo };
+  dispatch(setLocationInfo(newData));
+
+  function handleChange(
+    e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>
+  ) {
+    const { name, value } = e.target;
+    setaddressInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
-  console.log(additionalInfo) ;
+
+  console.log(addressInfo);
 
   function handleNext() {
-    if (curPage === 4) return;
+    if (curPage === 4) {
+      const errorsObj = validatePharmacyData(PharData);
+      if (Object.values(errorsObj).some(error => error.required || error.invalid)) {
+        setErrors(errorsObj);
+        setShowError(true);
+        setOpenModal(false);
+        dispatch(setColor());
+        toast.error("There is errors with data you entered") ;
+      } else {
+        setOpenModal(true);
+        
+        // request sent successfully and return to the user settings page
+
+      }
+      return;
+    }
     setCurPage(curPage + 1);
+    setShowError(false) ;
   }
+  
+
+
 
   function handleBack() {
     if (curPage === 1) return;
     setCurPage(curPage - 1);
+    setShowError(false);
   }
 
   const secondPageRender = secondPage.map((p) => (
@@ -51,13 +102,36 @@ const RegPharmacy = () => {
           className="border border-gray-400 p-2 pl-10 rounded-t-3xl rounded-bl-3xl w-full placeholder-gray-500 focus:outline-none indent-5 placeholder:pt-2"
           onChange={handleChange}
         />
+
+        {PharData.CityName && PharData.CityName === "Unknown" && (
+          <OneInput
+            name="CityName"
+            title="City Name"
+            placeHolder="Please enter city name"
+            type="text"
+            onChange={handleChange}
+          >
+            <PiCityLight className="absolute left-5 text-4xl font-bold text-gray-400" />
+          </OneInput>
+        )}
       </div>
     </div>
   ));
 
+  const errorsRender = Object.entries(errors).map(([field, error]) => (
+    <>
+    <span key={field} className="text-red-500 text-xl font-bold">
+      {error.required && <div className="flex items-center gap-1"><MdErrorOutline className="text-2xl text-red-600 " />{error.required}</div>}
+      {error.invalid && <div className="flex items-center gap-1"><MdErrorOutline /> {error.invalid}</div>}
+    </span>
+    </>
+  ));
+  
+  
+ 
+  
 
-
-  const pages = [<FirstPage />, <PharPic />, secondPageRender, <TimeDetails/>];
+  const pages = [<FirstPage />, <PharPic />, secondPageRender, <TimeDetails />];
   const pagesTitle = [
     <span className="text-xl m-10 font-bold text-gray-600">
       Pharmacy main information
@@ -86,6 +160,20 @@ const RegPharmacy = () => {
               <Map />
             </>
           )}
+
+          {
+            showError &&(
+              
+            
+              <div className="grid grid-cols-2 bg-white p-10 rounded-2xl gap-5">
+               { errorsRender}
+              </div>
+              )
+          }
+
+
+
+
         </div>
         <div className="flex-2 flex flex-col ">
           <div className="flex-1 flex items-end justify-center">
@@ -103,13 +191,26 @@ const RegPharmacy = () => {
                   className="text-gray-500 text-3xl font-bold flex items-center justify-center gap-2 cursor-pointer hover:text-black duration-200"
                   onClick={handleBack}
                 >
-                  <IoIosArrowBack /> Back
+                  {curPage !== 1 && (
+                    <>
+                      <IoIosArrowBack /> Back
+                    </>
+                  )}
                 </button>
                 <button
                   className="text-gray-500 text-3xl font-bold flex items-center justify-center gap-2 cursor-pointer hover:text-black duration-200"
                   onClick={handleNext}
                 >
-                  Next <IoIosArrowForward />
+                  {curPage === 4 ? (
+                    <>
+                      {/* Submit <BsSendFill /> */}
+                      <PharmacyDetailsModal canOpen={openModal}/>
+                    </>
+                  ) : (
+                    <>
+                      Next <IoIosArrowForward />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

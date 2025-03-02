@@ -46,10 +46,10 @@ const iconMapping: { [key: string]: JSX.Element } = {
   };
   
   export const firstPage: Iprops[] = [
-    { name: "Name", placeHolder: "Pharmacy Name", type: "text" },
-    { name: "ContactNumber", placeHolder: "Pharmacy Phone Number", type: "text" },
-    { name: "LicenseID", placeHolder: "License Number", type: "text" },
-    { name: "PharmacistLicense", placeHolder: "License Document", type: "file" },
+    { name: "Name", placeHolder: "Pharmacy Name", type: "text"  , title : 'Pharmacy Name' },
+    { name: "ContactNumber", placeHolder: "Pharmacy Phone Number", type: "text"  , title : 'Phone Number'},
+    { name: "LicenseID", placeHolder: "License Number", type: "text", title:"License Number"},
+    { name: "PharmacistLicense", placeHolder: "License Document", type: "file"  , title : 'License Document'},
   ];
   
   export const secondPage: Iprops[] = [
@@ -57,8 +57,8 @@ const iconMapping: { [key: string]: JSX.Element } = {
   ];
   
   export const thirdPage: Iprops[] = [
-    { name: "OpeningTime", placeHolder: "", type: "time" , title: "Opening Time"},
-    { name: "ClosingTime", placeHolder: "", type: "time" , title: "Closing Time"},
+    { name: "OpeningTime", placeHolder: "", type: "time" , title: "Opening Time" },
+    { name: "ClosingTime", placeHolder: "", type: "time" , title: "Closing Time" },
   ];
   
   populateIconMap(firstPage);

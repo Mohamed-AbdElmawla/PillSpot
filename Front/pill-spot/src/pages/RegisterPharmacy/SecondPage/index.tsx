@@ -2,23 +2,32 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import axios from "axios";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLocationInfo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
 import { RootState } from "../../../app/store";
 
-
 const Map = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const [selectedLocation, setSelectedLocation] = useState<{ lat : number; lng: number } | null>(null);
-  const [location, setLocationState] = useState({ CityName: "", GovernmentName : "" });
+  const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [location, setLocationState] = useState({ CityName: "", GovernmentName: "" });
   const markerRef = useRef<maplibregl.Marker | null>(null);
 
   const dispatch = useDispatch();
-  const PharRegData = useSelector((state:RootState)=>state.pharRegister) ;
-  if(selectedLocation?.lat && selectedLocation.lng){
-    const NewData = {...PharRegData, ...location , Longitude : selectedLocation.lng.toString() , Latitude : selectedLocation.lat.toString()} ;
-    dispatch(setLocationInfo(NewData));
-  }
+  const PharRegData = useSelector((state: RootState) => state.pharRegister);
+
+
+  useEffect(() => {
+    if (selectedLocation) {
+      dispatch(
+        setLocationInfo({
+          ...PharRegData,
+          ...location,
+          Longitude: selectedLocation.lng.toString(),
+          Latitude: selectedLocation.lat.toString(),
+        })
+      );
+    }
+  }, [selectedLocation, location, dispatch]);
 
   useEffect(() => {
     if (!mapContainer.current) return;
@@ -45,11 +54,23 @@ const Map = () => {
           },
         ],
       },
-      center: [30.0444, 31.2357],
+      center: [PharRegData.Longitude ? parseFloat(PharRegData.Longitude) : 30.0444, 
+               PharRegData.Latitude ? parseFloat(PharRegData.Latitude) : 31.2357],
       zoom: 12,
     });
 
     map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+    if (PharRegData.Longitude && PharRegData.Latitude) {
+      const storedLocation = { lng: parseFloat(PharRegData.Longitude), lat: parseFloat(PharRegData.Latitude) };
+      setSelectedLocation(storedLocation);
+
+      markerRef.current = new maplibregl.Marker({ color: "blue" })
+        .setLngLat([storedLocation.lng, storedLocation.lat])
+        .setPopup(new maplibregl.Popup().setText(`Lat: ${storedLocation.lat}, Lng: ${storedLocation.lng}`))
+        .addTo(map)
+        .togglePopup();
+    }
 
     map.on("click", (e) => {
       const { lng, lat } = e.lngLat;
@@ -65,7 +86,7 @@ const Map = () => {
     });
 
     return () => map.remove();
-  }, []);
+  }, [PharRegData.Longitude, PharRegData.Latitude]);
 
   useEffect(() => {
     if (!selectedLocation) return;
@@ -76,7 +97,7 @@ const Map = () => {
           `https://api.opencagedata.com/geocode/v1/json?q=${selectedLocation.lat}+${selectedLocation.lng}&key=${import.meta.env.VITE_CAGE_KEY}`
         );
 
-        const data = response.data.results[0].components;
+        const data = response.data.results[0]?.components || {};
         setLocationState({
           CityName: data.city || data.town || data.village || "Unknown",
           GovernmentName: data.state || "Unknown",
@@ -87,7 +108,7 @@ const Map = () => {
     };
 
     fetchLocation();
-  }, [selectedLocation]); // Runs when `selectedLocation` changes
+  }, [selectedLocation]);
 
   return (
     <div className="flex flex-col items-center">
