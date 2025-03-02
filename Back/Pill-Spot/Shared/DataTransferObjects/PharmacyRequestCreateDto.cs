@@ -24,7 +24,7 @@ namespace Shared.DataTransferObjects
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
-        public string LicenseID { get; init; }
+        public string LicenseId { get; init; }
 
         [Required(ErrorMessage = "Contact number is required.")]
         [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]

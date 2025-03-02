@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Notification
     {
         [Key]
-        public ulong NotificationID { get; set; }
+        public ulong NotificationId { get; set; }
 
         [Required(ErrorMessage = "Actor ID is required.")]
         [MaxLength(450, ErrorMessage = "Actor ID cannot exceed 450 characters.")]

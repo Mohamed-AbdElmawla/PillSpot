@@ -37,7 +37,7 @@ namespace Service
             
             await _repository.SaveAsync();
             var permissionCollectionToReturn = _mapper.Map<IEnumerable<PermissionDto>>(permissionEntities);
-            var ids = permissionCollectionToReturn.Select(ph => ph.PermissionID).FirstOrDefault();
+            var ids = permissionCollectionToReturn.Select(ph => ph.PermissionId).FirstOrDefault();
             return (pharmacies: permissionCollectionToReturn, ids:ids);
         }
         public async Task<(IEnumerable<PermissionDto> permissions , MetaData metaData)> GetAllPermissionsAsync(PermissionParameters permissionParameters, bool trackChanges)

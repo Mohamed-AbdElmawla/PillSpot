@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Medicine> builder)
         {
-            builder.HasBaseType<Product>();
+            builder.ToTable("Medicines");
 
             builder.Property(m => m.Manufacturer)
                 .IsRequired()
@@ -26,9 +26,6 @@ namespace Repository.Configuration
 
             builder.Property(m => m.IsPrescriptionRequired)
                 .IsRequired();
-
-            builder.HasIndex(m => m.Manufacturer)
-                .HasDatabaseName("IX_Medicine_Manufacturer");
         }
     }
 }

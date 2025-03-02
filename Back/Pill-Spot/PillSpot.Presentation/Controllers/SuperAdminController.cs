@@ -46,7 +46,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok($"Logs for {date:yyyy-MM-dd} have been deleted.");
         }
 
-//=====================================================================      PERMISSIONS      ========================================================================
 
         [HttpGet("get-all-permissions")]
         public async Task<IActionResult> GetAllPermissions([FromQuery]PermissionParameters permissionParameters)
@@ -70,7 +69,7 @@ namespace PillSpot.Presentation.Controllers
                 throw new PermissionBadRequestException();
 
             var createdPermission = await _service.PermissionService.CreatePermissionAsync(permissionDto);
-            return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionID},createdPermission);
+            return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionId},createdPermission);
         }
         
         [HttpPost("create-collection-permission")]
@@ -98,7 +97,6 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        //=====================================================================      ADMIN      ========================================================================
 
         [HttpPost("assign")]
         public async Task<IActionResult> AssignPermissionToAdmin([FromForm] CreateAdminPermissionDto createAdminPermissionDto)
@@ -135,13 +133,12 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        //=====================================================================      EMPLOYEE      ========================================================================
 
         [HttpPost("assign-employee-permission")]
         public async Task<IActionResult> AssignPermissionToEmployee([FromForm] CreateEmployeePermissionDto createEmployeePermissionDto)
         {
             var result = await _service.EmployeePermissionService.AssignPermissionToEmployeeAsync(createEmployeePermissionDto);
-            return CreatedAtRoute("GetEmployeePermissions", new { EmployeeID = result.EmployeeID }, result);
+            return CreatedAtRoute("GetEmployeePermissions", new { EmployeeID = result.EmployeeId }, result);
         }
 
         [HttpPost("assign-employee-multiple-permission/{employeeId}")]
@@ -173,7 +170,6 @@ namespace PillSpot.Presentation.Controllers
         }
 
 
-        //===============================================================================================================================================
 
 
     }

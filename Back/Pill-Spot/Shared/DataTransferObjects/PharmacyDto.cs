@@ -8,7 +8,7 @@ namespace Shared.DataTransferObjects
 {
     public record PharmacyDto
     {
-        public ulong PharmacyID { get; init; }
+        public ulong PharmacyId { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
         public LocationDto LocationDto { get; init; }

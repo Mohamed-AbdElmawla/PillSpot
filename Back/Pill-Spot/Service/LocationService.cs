@@ -39,7 +39,7 @@ namespace Service
             locationEntity.CityId = cityId;
             _repository.LocationRepository.CreateLocation(locationEntity);
 
-            return locationEntity.LocationID;
+            return locationEntity.LocationId;
         }
 
         public async Task DeleteLocationAsync(Guid locationId, bool trackChanges)

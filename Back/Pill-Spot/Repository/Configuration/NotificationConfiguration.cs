@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Notification> builder)
         {
-            builder.HasKey(n => n.NotificationID);
+            builder.HasKey(n => n.NotificationId);
 
             builder.Property(n => n.ActorId)
                 .IsRequired()

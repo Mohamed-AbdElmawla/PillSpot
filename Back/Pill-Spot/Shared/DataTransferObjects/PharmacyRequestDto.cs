@@ -9,13 +9,13 @@ namespace Shared.DataTransferObjects
 {
     public class PharmacyRequestDto
     {
-        public ulong RequestID { get; init; }
-        public string UserID { get; init; }
+        public ulong RequestId { get; init; }
+        public string UserId { get; init; }
         public string PharmacistLicenseUrl { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
-        public ulong LocationID { get; init; }
-        public string LicenseID { get; init; }
+        public ulong LocationId { get; init; }
+        public string LicenseId { get; init; }
         public string ContactNumber { get; init; }
         public TimeSpan OpeningTime { get; init; }
         public TimeSpan ClosingTime { get; init; }

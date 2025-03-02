@@ -8,9 +8,9 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Support> builder)
         {
-            builder.HasKey(s => s.SupportID);
+            builder.HasKey(s => s.SupportId);
 
-            builder.Property(s => s.UserID)
+            builder.Property(s => s.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
@@ -47,11 +47,11 @@ namespace Repository.Configuration
 
             builder.HasOne(s => s.User)
                 .WithMany()
-                .HasForeignKey(s => s.UserID)
+                .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(s => s.UserID)
-                .HasDatabaseName("IX_Support_UserID");
+            builder.HasIndex(s => s.UserId)
+                .HasDatabaseName("IX_Support_UserId");
 
             builder.HasIndex(s => s.IsDeleted)
                 .HasDatabaseName("IX_Support_IsDeleted");

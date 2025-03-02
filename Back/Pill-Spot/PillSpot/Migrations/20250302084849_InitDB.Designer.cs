@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250301130950_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250302084849_InitDB")]
+    partial class InitDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -976,11 +976,6 @@ namespace PillSpot.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)");
-
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -1022,11 +1017,9 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("SubCategoryID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
-                    b.HasDiscriminator().HasValue("Product");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Entities.Models.ProductIngredient", b =>
@@ -1453,43 +1446,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "77b9cb05-9683-45de-9349-961574c5f9f3",
+                            Id = "614ab8c3-62b8-4c1b-825d-2f9dcae43e6d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1e548f57-2866-4958-9a17-8f9a689ac251",
+                            Id = "be08fa48-ed43-424c-9e7f-338699ad53e2",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "10578a1e-e328-4c27-ac95-667fe87fc2df",
+                            Id = "e3c6c020-0cf1-46ef-a083-a3142cced27b",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "c2119635-edb4-4e1b-9d5e-f046f1b3ae46",
+                            Id = "93f897e7-cd57-4013-b8e6-1af65ec463b0",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "ee370665-0213-49eb-b467-7e3653b57a33",
+                            Id = "b57a932d-f05a-41dd-be74-4f71686cadbb",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "114064f2-3870-4490-bf4e-578a2eae7ae4",
+                            Id = "34411420-9350-4a7d-92c0-8bf8723f2573",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "4fff0bc0-8ea6-48e9-ab1f-63f1b5a4ea90",
+                            Id = "041ae8c2-6891-43b9-ad80-0a1fadc18bc5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1623,10 +1616,7 @@ namespace PillSpot.Migrations
                     b.Property<int>("Volume")
                         .HasColumnType("int");
 
-                    b.HasIndex("Brand")
-                        .HasDatabaseName("IX_Cosmetic_Brand");
-
-                    b.HasDiscriminator().HasValue("Cosmetic");
+                    b.ToTable("Cosmetics", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Medicine", b =>
@@ -1651,10 +1641,7 @@ namespace PillSpot.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
 
-                    b.HasIndex("Manufacturer")
-                        .HasDatabaseName("IX_Medicine_Manufacturer");
-
-                    b.HasDiscriminator().HasValue("Medicine");
+                    b.ToTable("Medicines", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.AdminPermission", b =>
@@ -2195,24 +2182,20 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Cosmetic", b =>
                 {
-                    b.HasOne("Entities.Models.Product", "Product")
-                        .WithOne("Cosmetic")
+                    b.HasOne("Entities.Models.Product", null)
+                        .WithOne()
                         .HasForeignKey("Entities.Models.Cosmetic", "ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Entities.Models.Medicine", b =>
                 {
-                    b.HasOne("Entities.Models.Product", "Product")
-                        .WithOne("Medicine")
+                    b.HasOne("Entities.Models.Product", null)
+                        .WithOne()
                         .HasForeignKey("Entities.Models.Medicine", "ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Entities.Models.Batch", b =>
@@ -2275,10 +2258,6 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
-                    b.Navigation("Cosmetic");
-
-                    b.Navigation("Medicine");
-
                     b.Navigation("ProductIngredients");
 
                     b.Navigation("ProductPharmacies");

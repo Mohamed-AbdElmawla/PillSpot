@@ -37,7 +37,7 @@ namespace Service
                 throw new AdminPermissionCollectionBadRequestException();
 
             var adminPermissions = permissionIds
-                .Select(pid => new AdminPermission { AdminID = adminId, PermissionID = pid });
+                .Select(pid => new AdminPermission { AdminId = adminId, PermissionId = pid });
 
             await _repository.AdminPermissionRepository.AssignPermissionsToAdminAsync(adminPermissions);
             await _repository.SaveAsync();
@@ -60,7 +60,7 @@ namespace Service
         public async Task RemovePermissionFromAdminAsync(string adminId, int permissionId)
         {
             var adminPermission = (await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, false))
-                .FirstOrDefault(ap => ap.PermissionID == permissionId);
+                .FirstOrDefault(ap => ap.PermissionId == permissionId);
             if (adminPermission == null)
                 throw new AdminPermissionNotFoundException(adminId, permissionId);
 
@@ -74,7 +74,7 @@ namespace Service
                 throw new AdminPermissionCollectionBadRequestException();
 
             var adminPermissions = (await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, false))
-                .Where(ap => permissionIds.Contains(ap.PermissionID))
+                .Where(ap => permissionIds.Contains(ap.PermissionId))
                 .ToList();
 
             if (!adminPermissions.Any())

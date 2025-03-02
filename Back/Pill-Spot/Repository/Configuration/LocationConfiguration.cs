@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Location> builder)
         {
-            builder.HasKey(l => l.LocationID);
+            builder.HasKey(l => l.LocationId);
 
             builder.Property(l => l.Longitude)
                 .IsRequired()

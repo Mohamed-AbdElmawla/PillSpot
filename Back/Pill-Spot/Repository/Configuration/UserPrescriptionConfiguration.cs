@@ -8,25 +8,25 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<UserPrescription> builder)
         {
-            builder.HasKey(up => up.PrescriptionID);
+            builder.HasKey(up => up.PrescriptionId);
 
-            builder.Property(up => up.UserID)
+            builder.Property(up => up.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
             builder.HasOne(up => up.Prescription)
                 .WithOne()
-                .HasForeignKey<UserPrescription>(up => up.PrescriptionID)
+                .HasForeignKey<UserPrescription>(up => up.PrescriptionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(up => up.User)
                 .WithMany()
-                .HasForeignKey(up => up.UserID)
+                .HasForeignKey(up => up.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(up => up.UserID)
-                .HasDatabaseName("IX_UserPrescription_UserID");
+            builder.HasIndex(up => up.UserId)
+                .HasDatabaseName("IX_UserPrescription_UserId");
         }
     }
 }

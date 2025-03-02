@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Category
     {
         [Key]
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Category name is required.")]
         [MaxLength(250, ErrorMessage = "Category name cannot exceed 250 characters.")]
@@ -21,6 +21,6 @@ namespace Entities.Models
         public DateTime? ModifiedDate { get; set; }
 
         [Required]
-        public bool IsDeleted { get; set; } = false; // Default value
+        public bool IsDeleted { get; set; } = false;
     }
 }

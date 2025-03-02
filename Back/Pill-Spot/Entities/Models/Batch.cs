@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Batch
     {
         [Key]
-        public ulong BatchID { get; set; }
+        public ulong BatchId { get; set; }
 
         [Required(ErrorMessage = "Batch number is required.")]
         [MaxLength(250, ErrorMessage = "Batch number cannot exceed 250 characters.")]

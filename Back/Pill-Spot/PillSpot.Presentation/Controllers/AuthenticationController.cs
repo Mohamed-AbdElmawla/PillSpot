@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -37,8 +38,25 @@ namespace PillSpot.Presentation.Controllers
         {
             if (!await _service.AuthenticationService.ValidateUser(user))
                 return Unauthorized();
+
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-            return Ok(tokenDto);
+
+            SetTokenCookies(tokenDto.AccessToken, tokenDto.RefreshToken);
+
+            return Ok(new { Message = "Login successful" });
+        }
+        private void SetTokenCookies(string accessToken, string refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure this is true in production
+                SameSite = SameSiteMode.Strict, // or SameSiteMode.Lax
+                Expires = DateTime.UtcNow.AddDays(7) // Set appropriate expiration
+            };
+
+            Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
+            Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
         }
 
         [HttpPost("logout")]

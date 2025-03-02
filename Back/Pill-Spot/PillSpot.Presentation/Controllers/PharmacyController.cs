@@ -43,7 +43,7 @@ namespace PillSpot.Presentation.Controllers
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacyDto)
         {
             var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacyDto);
-            return CreatedAtAction(nameof(GetPharmacy), new { id = createdPharmacy.PharmacyID }, createdPharmacy);
+            return CreatedAtAction(nameof(GetPharmacy), new { id = createdPharmacy.PharmacyId }, createdPharmacy);
         }
         [HttpPost("collection")]
         [Authorize(Roles = "Admin")]

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -250,21 +250,7 @@ namespace PillSpot.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false),
-                    Discriminator = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Brand = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SkinType = table.Column<int>(type: "int", nullable: true),
-                    UsageInstructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Volume = table.Column<int>(type: "int", nullable: true),
-                    Manufacturer = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Dosage = table.Column<float>(type: "float", nullable: true),
-                    SideEffects = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsPrescriptionRequired = table.Column<bool>(type: "tinyint(1)", nullable: true)
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -301,6 +287,54 @@ namespace PillSpot.Migrations
                         principalTable: "Cities",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Cosmetics",
+                columns: table => new
+                {
+                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    Brand = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SkinType = table.Column<int>(type: "int", nullable: false),
+                    UsageInstructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Volume = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cosmetics", x => x.ProductID);
+                    table.ForeignKey(
+                        name: "FK_Cosmetics_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Medicines",
+                columns: table => new
+                {
+                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    Manufacturer = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Dosage = table.Column<float>(type: "float", nullable: false),
+                    SideEffects = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsPrescriptionRequired = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicines", x => x.ProductID);
+                    table.ForeignKey(
+                        name: "FK_Medicines_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1177,13 +1211,13 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "10578a1e-e328-4c27-ac95-667fe87fc2df", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "114064f2-3870-4490-bf4e-578a2eae7ae4", null, "SuperAdmin", "SUPERADMIN" },
-                    { "1e548f57-2866-4958-9a17-8f9a689ac251", null, "Doctor", "DOCTOR" },
-                    { "4fff0bc0-8ea6-48e9-ab1f-63f1b5a4ea90", null, "Admin", "ADMIN" },
-                    { "77b9cb05-9683-45de-9349-961574c5f9f3", null, "User", "USER" },
-                    { "c2119635-edb4-4e1b-9d5e-f046f1b3ae46", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "ee370665-0213-49eb-b467-7e3653b57a33", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" }
+                    { "041ae8c2-6891-43b9-ad80-0a1fadc18bc5", null, "Admin", "ADMIN" },
+                    { "34411420-9350-4a7d-92c0-8bf8723f2573", null, "SuperAdmin", "SUPERADMIN" },
+                    { "614ab8c3-62b8-4c1b-825d-2f9dcae43e6d", null, "User", "USER" },
+                    { "93f897e7-cd57-4013-b8e6-1af65ec463b0", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "b57a932d-f05a-41dd-be74-4f71686cadbb", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "be08fa48-ed43-424c-9e7f-338699ad53e2", null, "Doctor", "DOCTOR" },
+                    { "e3c6c020-0cf1-46ef-a083-a3142cced27b", null, "PharmacyOwner", "PHARMACYOWNER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1531,16 +1565,6 @@ namespace PillSpot.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cosmetic_Brand",
-                table: "Products",
-                column: "Brand");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Medicine_Manufacturer",
-                table: "Products",
-                column: "Manufacturer");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Product_IsDeleted",
                 table: "Products",
                 column: "IsDeleted");
@@ -1643,10 +1667,16 @@ namespace PillSpot.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Cosmetics");
+
+            migrationBuilder.DropTable(
                 name: "DoctorFeedbacks");
 
             migrationBuilder.DropTable(
                 name: "DoctorPrescriptions");
+
+            migrationBuilder.DropTable(
+                name: "Medicines");
 
             migrationBuilder.DropTable(
                 name: "Message");

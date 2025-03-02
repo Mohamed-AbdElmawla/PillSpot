@@ -23,7 +23,7 @@ namespace Repository
 
         public async Task<IEnumerable<PharmacyEmployeePermission>> GetEmployeePermissionsAsync(ulong employeeId, bool trackChanges)
         {
-            var employeePermissions = await FindByCondition(ap => ap.EmployeeID == employeeId, trackChanges)
+            var employeePermissions = await FindByCondition(ap => ap.EmployeeId == employeeId, trackChanges)
                 .Include(ap => ap.Permission)
                 .ToListAsync();
             return employeePermissions;

@@ -14,7 +14,7 @@ namespace Service
 
         public FileService()
         {
-            _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
         }
 
         public async Task<string> SaveFileAsync(IFormFile file, string folderName)

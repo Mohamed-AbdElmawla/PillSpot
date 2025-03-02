@@ -8,9 +8,11 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(p => p.ProductID);
+            builder.ToTable("Products");
 
-            builder.Property(p => p.SubCategoryID)
+            builder.HasKey(p => p.ProductId);
+
+            builder.Property(p => p.SubCategoryId)
                 .IsRequired();
 
             builder.Property(p => p.Name)
@@ -39,17 +41,8 @@ namespace Repository.Configuration
 
             builder.HasOne(p => p.SubCategory)
                 .WithMany(sc => sc.Products)
-                .HasForeignKey(p => p.SubCategoryID)
+                .HasForeignKey(p => p.SubCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Medicine)
-        .WithOne(m => m.Product)
-        .HasForeignKey<Medicine>(m => m.ProductID)
-        .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(p => p.Cosmetic)
-                .WithOne(c => c.Product)
-                .HasForeignKey<Cosmetic>(c => c.ProductID)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(p => p.Name)
                 .HasDatabaseName("IX_Product_Name");
