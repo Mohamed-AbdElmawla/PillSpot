@@ -37,7 +37,7 @@ namespace Entities.Models
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+        public virtual ICollection<PharmacyProduct> PharmacyProducts { get; set; } = new List<PharmacyProduct>();
 
         [Required]
         public bool IsDeleted { get; set; } = false;

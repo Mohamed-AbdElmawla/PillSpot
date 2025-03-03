@@ -19,5 +19,6 @@ namespace Service.Contracts
         IProductService ProductService { get; }
         IMedicineService MedicineService { get; }
         ICosmeticService CosmeticService { get; }
+        IPharmacyProductService PharmacyProductService { get; }
     }
 }

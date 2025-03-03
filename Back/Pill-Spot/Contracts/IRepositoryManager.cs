@@ -24,6 +24,7 @@ namespace Contracts
         IProductRepository ProductRepository { get; }
         IMedicineRepository MedicineRepository { get; }
         ICosmeticRepository CosmeticRepository { get; }
+        IPharmacyProductRepository PharmacyProductRepository { get; }
         Task SaveAsync();
     }
 }
