@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 export interface IUser {
   Name: string;
   ContactNumber: string;
-  LicenseID: string;
+  LicenseId: string;
   PharmacistLicense: File | null;
   AdditionalInfo: string;
   OpeningTime: string;
@@ -16,6 +16,7 @@ export interface IUser {
   Latitude: string;
   logo: File | null;
   CityName: string;
+  GovernmentName : string ;
 }
 
 interface IInitialState {

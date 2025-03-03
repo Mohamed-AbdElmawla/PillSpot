@@ -1,7 +1,7 @@
 interface IInitialState {
     Name: string;
     ContactNumber: string;
-    LicenseID: string;
+    LicenseId: string;
     PharmacistLicense: File | null;
     AdditionalInfo: string;
     OpeningTime: string;
@@ -29,7 +29,7 @@ interface IInitialState {
       errors.ContactNumber = { invalid: "Invalid contact number. It should be 10-15 digits." };
     }
   
-    if (!data.LicenseID.trim()) errors.LicenseID = { required: "License ID is required." };
+    if (!data.LicenseId.trim()) errors.LicenseId = { required: "License ID is required." };
   
     if (!data.PharmacistLicense) errors.PharmacistLicense = { required: "Pharmacist License is required." };
   

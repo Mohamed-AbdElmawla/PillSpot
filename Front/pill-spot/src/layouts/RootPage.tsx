@@ -15,7 +15,7 @@ const RootPage = () => {
     <div>
       <Toaster position="top-right" richColors={colors}  expand={false} />
       {/* <HomePageMain/> */}
-      {/* <RegPharmacy/> */}
+      <RegPharmacy/>
       {/* <Map/> */}
       <Outlet/>
     </div>

@@ -8,14 +8,14 @@ import { RootState } from "../../../app/store";
 interface Idata {
   Name: string;
   ContactNumber: string;
-  LicenseID: string;
+  LicenseId: string;
   PharmacistLicense: File | null;
 }
 
 const initialData: Idata = {
   Name: "",
   ContactNumber: "",
-  LicenseID: "",
+  LicenseId: "",
   PharmacistLicense: null,
 };
 

@@ -27,7 +27,7 @@ const iconMapping: { [key: string]: JSX.Element } = {
   Name: <CiHospital1 className={styleTal} />,
     PharmacyEmail: <MdOutlineEmail className={styleTal} />,
     ContactNumber: <CiPhone className={styleTal} />,
-    LicenseID: <TbLicense className={styleTal} />,
+    LicenseId: <TbLicense className={styleTal} />,
     PharmacistLicense: <FaRegFileAlt className={styleTal} />,
     AdditionalInfo: <IoLocationOutline className={styleTal} />,
     MapLocation: <TbCurrentLocation className={styleTal} />,
@@ -48,7 +48,7 @@ const iconMapping: { [key: string]: JSX.Element } = {
   export const firstPage: Iprops[] = [
     { name: "Name", placeHolder: "Pharmacy Name", type: "text"  , title : 'Pharmacy Name' },
     { name: "ContactNumber", placeHolder: "Pharmacy Phone Number", type: "text"  , title : 'Phone Number'},
-    { name: "LicenseID", placeHolder: "License Number", type: "text", title:"License Number"},
+    { name: "LicenseId", placeHolder: "License Number", type: "text", title:"License Number"},
     { name: "PharmacistLicense", placeHolder: "License Document", type: "file"  , title : 'License Document'},
   ];
   

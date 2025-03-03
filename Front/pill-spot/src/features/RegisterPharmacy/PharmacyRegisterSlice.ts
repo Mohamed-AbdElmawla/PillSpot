@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface IInitialState {
   Name: string;
   ContactNumber: string;
-  LicenseID: string;
+  LicenseId: string;
   PharmacistLicense: File | null;
   AdditionalInfo: string;
   OpeningTime: string;
@@ -14,13 +14,14 @@ interface IInitialState {
   Latitude: string;
   logo : File | null ;
   CityName:string , 
+  GovernmentName:string ,
   [key: string]: string | boolean | File | null;
 }
 
 const initialState: IInitialState = {
   Name: "",
   ContactNumber: "",
-  LicenseID: "",
+  LicenseId: "",
   PharmacistLicense: null,
   AdditionalInfo: "",
   OpeningTime: "",
@@ -31,6 +32,7 @@ const initialState: IInitialState = {
   logo:null ,
   DaysOpen : "" ,
   CityName : "" , 
+  GovernmentName:"",
   
 };
 
