@@ -21,20 +21,10 @@ namespace Repository
         private readonly Lazy<IGovernmentRepository> _governmentRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<ISubCategoryRepository> _subCategoryRepository;
-        public RepositoryManager(RepositoryContext repositoryContext , UserManager<User> userManager)
-        {
-            _repositoryContext = repositoryContext;
-            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
-            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
-            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
-            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
-            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
-        }
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<IMedicineRepository> _medicineRepository;
         private readonly Lazy<ICosmeticRepository> _cosmeticRepository;
-
-        public RepositoryManager(RepositoryContext repositoryContext)
+        public RepositoryManager(RepositoryContext repositoryContext , UserManager<User> userManager)
         {
             _repositoryContext = repositoryContext;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
@@ -48,6 +38,11 @@ namespace Repository
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(repositoryContext));
             _medicineRepository = new Lazy<IMedicineRepository>(() => new MedicineRepository(repositoryContext));
             _cosmeticRepository = new Lazy<ICosmeticRepository>(() => new CosmeticRepository(repositoryContext));
+            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
+            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
+            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
+            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
+            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
         }
 
         public IUserRepository UserRepository => _userRepository.Value;

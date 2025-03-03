@@ -73,5 +73,41 @@ namespace PillSpot.Presentation.Controllers
             var roles = await _service.UserService.GetUserRolesAsync(userName);
             return Ok(roles);
         }
+
+        // admin
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters)
+        {
+            var pagedResult = await _service.UserService.GetUsersAsync(userParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.users);
+        }
+
+
+        [HttpPut("{userName}/role")]
+        [Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> AssignRole(string userName, [FromBody] RoleUpdateDto roleUpdateDto)
+        {
+            await _service.UserService.AssignRoleAsync(userName, roleUpdateDto.Role);
+            return NoContent();
+        }
+
+        [HttpPost("{userName}/lockout")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> LockoutUser(string userName, [FromQuery] int days = 30)
+        {
+            await _service.UserService.LockoutUserAsync(userName, days);
+            return NoContent();
+        }
+
+        [HttpPost("{userName}/unlock")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UnlockUser(string userName)
+        {
+            await _service.UserService.UnlockUserAsync(userName);
+            return NoContent();
+        }
     }   
 }
