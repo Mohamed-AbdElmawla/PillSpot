@@ -4,7 +4,6 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoPeopleOutline } from "react-icons/io5";
 import { FaChartSimple } from "react-icons/fa6";
 import { MdOutlineLogout } from "react-icons/md";
-import { PiPillLight } from "react-icons/pi";
 import PharManagemetDetails from "./PharDetails";
 import ButtenLink from "./ButtonLink";
 import { toast } from "sonner";
