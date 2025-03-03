@@ -35,15 +35,15 @@ namespace PillSpot.Presentation.Controllers
             await _service.PharmacyRequestService.SubmitRequestAsync(userName, pharmacyRequestCreateDto, trackChanges: true);
             return Ok();
         }
-        [Authorize(Roles ="Admin")]
         [HttpPatch("{requestId}/approve")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApproveRequest(ulong requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: false);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
         [HttpPatch("{requestId}/reject")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RejectRequest(ulong requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: false);
@@ -51,8 +51,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetPendiRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetPendingRequestsAsync(pharmacyRequestParameters, trackChanges: false);

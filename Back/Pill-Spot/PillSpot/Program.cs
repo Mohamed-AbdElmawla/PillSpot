@@ -24,7 +24,6 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
-builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.ConfigureFileService();
 builder.Services.ConfigureLocationService();
 builder.Services.ConfigureCityService();
@@ -35,6 +34,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddEmailConfiguration(builder.Configuration);
 builder.Services.ConfigureEmailService();
 builder.Services.ConfigureSerilogService();
+builder.Services.ConfigureFilterServices();
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {

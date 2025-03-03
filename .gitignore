@@ -41,6 +41,6 @@ Back/Pill-Spot/Shared/.vs
 Back/Pill-Spot/Shared/bin
 Back/Pill-Spot/Shared/obj
 
-Back/Pill-Spot/PillSpot/wwwroot/uploads
+Back/Pill-Spot/PillSpot/wwwroot
 Back/Pill-Spot/PillSpot/Logs
 **/node_modules/

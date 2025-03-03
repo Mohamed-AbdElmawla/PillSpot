@@ -10,6 +10,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Entities.ConfigurationModels;
+using PillSpot.Presentation.ActionFilters;
 
 namespace PillSpot.Extensions
 {
@@ -25,6 +26,11 @@ namespace PillSpot.Extensions
                 .AllowAnyMethod()
                 .WithExposedHeaders("X-Pagination"));
         });
+        }
+        public static void ConfigureFilterServices(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<UserAuthorizationFilter>();
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {

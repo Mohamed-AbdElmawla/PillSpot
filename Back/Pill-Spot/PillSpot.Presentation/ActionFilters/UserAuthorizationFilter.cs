@@ -1,35 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
-namespace PillSpot.Presentation.ActionFilters
+public class UserAuthorizationFilter : IAuthorizationFilter
 {
-    public class UserAuthorizationFilter : Attribute, IAuthorizationFilter
-    {
-        private readonly string[] _allowedRoles;
+    private readonly string _parameterName;
 
-        public UserAuthorizationFilter(params string[] allowedRoles)
+    public UserAuthorizationFilter(string parameterName = "userName")
+    {
+        _parameterName = parameterName;
+    }
+
+    public void OnAuthorization(AuthorizationFilterContext context)
+    {
+        var user = context.HttpContext.User;
+        if (!user.Identity.IsAuthenticated)
         {
-            _allowedRoles = allowedRoles ?? Array.Empty<string>();
+            context.Result = new UnauthorizedResult();
+            return;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        var userName = context.RouteData.Values[_parameterName]?.ToString();
+        var currentUserName = user.FindFirst(ClaimTypes.Name)?.Value;
+
+        if (currentUserName != userName && !user.IsInRole("Admin"))
         {
-            var user = context.HttpContext.User;
-            if (user?.Identity is not { IsAuthenticated: true })
-            {
-                context.Result = new UnauthorizedResult();
-                return;
-            }
-
-            if (_allowedRoles.Length > 0 && _allowedRoles.Any(user.IsInRole))
-                return;
-
             context.Result = new ForbidResult();
         }
     }
