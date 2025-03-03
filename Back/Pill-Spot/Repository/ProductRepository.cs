@@ -30,7 +30,7 @@ namespace Repository
 
         public async Task LoadProductPharmaciesAsync(Product product)
         {
-            await RepositoryContext.Entry(product).Collection(p => p.ProductPharmacies).LoadAsync();
+            await RepositoryContext.Entry(product).Collection(p => p.PharmacyProducts).LoadAsync();
         }
     }
 }

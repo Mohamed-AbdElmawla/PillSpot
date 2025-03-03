@@ -24,6 +24,7 @@ namespace Repository
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<IMedicineRepository> _medicineRepository;
         private readonly Lazy<ICosmeticRepository> _cosmeticRepository;
+        private readonly Lazy<IPharmacyProductRepository> _pharmacyProductRepository;
         public RepositoryManager(RepositoryContext repositoryContext , UserManager<User> userManager)
         {
             _repositoryContext = repositoryContext;
@@ -42,6 +43,7 @@ namespace Repository
             _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
             _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
             _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
+            _pharmacyProductRepository = new Lazy<IPharmacyProductRepository>(() => new PharmacyProductRepository(repositoryContext));
             _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
         }
 
@@ -60,6 +62,7 @@ namespace Repository
         public IProductRepository ProductRepository => _productRepository.Value;
         public IMedicineRepository MedicineRepository => _medicineRepository.Value;
         public ICosmeticRepository CosmeticRepository => _cosmeticRepository.Value;
+        public IPharmacyProductRepository PharmacyProductRepository => _pharmacyProductRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

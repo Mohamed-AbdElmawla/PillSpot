@@ -19,7 +19,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Expiration date is required.")]
         public DateTime ExpirationDate { get; set; }
 
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; }
+        public virtual ICollection<PharmacyProduct> ProductPharmacies { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }

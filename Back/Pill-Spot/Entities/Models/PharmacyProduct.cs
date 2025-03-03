@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    public class ProductPharmacy
+    public class PharmacyProduct
     {
         [Key, Column(Order = 0)]
-        public ulong ProductId { get; set; }
-
-        [Key, Column(Order = 1)]
         public ulong PharmacyId { get; set; }
+        [Key, Column(Order = 1)]
+        public ulong ProductId { get; set; }
 
         [Required(ErrorMessage = "Batch ID is required.")]
         public ulong BatchId { get; set; }

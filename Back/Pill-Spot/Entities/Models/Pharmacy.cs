@@ -57,7 +57,7 @@ namespace Entities.Models
 
         public virtual ICollection<Pharmacy> Branches { get; set; } = new List<Pharmacy>();
         public virtual ICollection<PharmacyEmployee> Employees { get; set; } = new List<PharmacyEmployee>();
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+        public virtual ICollection<PharmacyProduct> PharmacyProducts { get; set; } = new List<PharmacyProduct>();
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

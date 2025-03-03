@@ -4,9 +4,9 @@ using Entities.Models;
 
 namespace Repository.Configuration
 {
-    public class ProductPharmacyConfiguration : IEntityTypeConfiguration<ProductPharmacy>
+    public class PharmacyProductConfiguration : IEntityTypeConfiguration<PharmacyProduct>
     {
-        public void Configure(EntityTypeBuilder<ProductPharmacy> builder)
+        public void Configure(EntityTypeBuilder<PharmacyProduct> builder)
         {
             builder.HasKey(pp => new { pp.ProductId, pp.PharmacyId });
 
@@ -17,12 +17,12 @@ namespace Repository.Configuration
                 .IsRequired();
 
             builder.HasOne(pp => pp.Product)
-                .WithMany(p => p.ProductPharmacies)
+                .WithMany(p => p.PharmacyProducts)
                 .HasForeignKey(pp => pp.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pp => pp.Pharmacy)
-                .WithMany(p => p.ProductPharmacies)
+                .WithMany(p => p.PharmacyProducts)
                 .HasForeignKey(pp => pp.PharmacyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -32,7 +32,7 @@ namespace Repository.Configuration
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(pp => new { pp.ProductId, pp.PharmacyId })
-                .HasDatabaseName("IX_ProductPharmacy_ProductId_PharmacyId");
+                .HasDatabaseName("IX_PharmacyProduct_ProductId_PharmacyId");
         }
     }
 }

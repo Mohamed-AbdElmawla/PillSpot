@@ -27,6 +27,7 @@ namespace Service
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IMedicineService> _medicineService;
         private readonly Lazy<ICosmeticService> _cosmeticService;
+        private readonly Lazy<IPharmacyProductService> _pharmacyProductService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -49,6 +50,7 @@ namespace Service
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper));
             _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper));
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper));
+            _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -66,5 +68,6 @@ namespace Service
         public IProductService ProductService => _productService.Value;
         public IMedicineService MedicineService => _medicineService.Value;
         public ICosmeticService CosmeticService => _cosmeticService.Value;
+        public IPharmacyProductService PharmacyProductService => _pharmacyProductService.Value;
     }
 }
