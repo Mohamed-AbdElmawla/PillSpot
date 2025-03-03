@@ -8,11 +8,11 @@ const PharManagementHome = () => {
       <div className="w-full m-auto">
         <HomeHeader />
       </div>
-      <div className="flex">
-        <div className="flex-[3]">
+      <div className="flex gap-30 ">
+        <div className="">
           <DataEditForm />
         </div>
-        <div className="flex-1">
+        <div className="">
           <SideBar />
         </div>
       </div>
