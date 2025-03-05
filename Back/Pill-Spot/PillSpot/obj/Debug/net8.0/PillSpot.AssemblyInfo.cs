@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PillSpot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5985a8848ae45af276468f6c3e73be5c1cf3c36")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de4f5b4e7da7c1ba2a1b2d09bac5f8e9dcc2904b")]
 [assembly: System.Reflection.AssemblyProductAttribute("PillSpot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PillSpot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
