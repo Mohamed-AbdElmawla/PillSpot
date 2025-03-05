@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Batch> builder)
         {
-            builder.HasKey(b => b.BatchID);
+            builder.HasKey(b => b.BatchId);
 
             builder.Property(b => b.BatchNumber)
                 .IsRequired()

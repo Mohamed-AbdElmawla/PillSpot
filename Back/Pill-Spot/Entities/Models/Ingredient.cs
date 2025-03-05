@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Ingredient
     {
         [Key]
-        public ulong IngredientsID { get; set; }
+        public ulong IngredientsId { get; set; }
 
         [Required(ErrorMessage = "Ingredient name is required.")]
         [MaxLength(250, ErrorMessage = "Ingredient name cannot exceed 250 characters.")]

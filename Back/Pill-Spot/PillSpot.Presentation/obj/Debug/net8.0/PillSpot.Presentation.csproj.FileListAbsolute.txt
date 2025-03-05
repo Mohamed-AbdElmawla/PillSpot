@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.deps.json
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.pdb
@@ -20,6 +21,8 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\refi
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\ref\PillSpot.Presentation.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot.Presentation\obj\Debug\net8.0\PillSpot.Presentation.sourcelink.json
+=======
+>>>>>>> fb9ebc97d7599920979b068027214d01cefc3c7c
 E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.deps.json
 E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.dll
 E:\GP\Back\Pill-Spot\PillSpot.Presentation\bin\Debug\net8.0\PillSpot.Presentation.pdb

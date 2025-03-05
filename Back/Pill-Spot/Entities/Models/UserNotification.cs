@@ -9,12 +9,12 @@ namespace Entities.Models
         public string ReceiverId { get; set; }
 
         [Key, Column(Order = 1)]
-        public ulong NotificationID { get; set; }
+        public ulong NotificationId { get; set; }
 
         [ForeignKey("ReceiverId")]
         public virtual User Receiver { get; set; }
 
-        [ForeignKey("NotificationID")]
+        [ForeignKey("NotificationId")]
         public virtual Notification Notification { get; set; }
     }
 }

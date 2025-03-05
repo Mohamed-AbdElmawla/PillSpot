@@ -16,7 +16,7 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Profile Picture URL cannot exceed 500 characters.")]
         public string? ProfilePictureUrl { get; set; }
 
-        public Guid? LocationID { get; set; }
+        public Guid? LocationId { get; set; }
 
         [Required(ErrorMessage = "Date of birth is required.")]
         [DataType(DataType.Date)]
@@ -43,7 +43,7 @@ namespace Entities.Models
 
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
-        [ForeignKey("LocationID")]
+        [ForeignKey("LocationId")]
         public virtual Location? Location { get; set; }
 
         public virtual ICollection<AdminPermission> AdminPermissions { get; set; } = new List<AdminPermission>();

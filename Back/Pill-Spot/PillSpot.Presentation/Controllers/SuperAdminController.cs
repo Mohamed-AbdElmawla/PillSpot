@@ -45,7 +45,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok($"Logs for {date:yyyy-MM-dd} have been deleted.");
         }
 
-//=====================================================================      PERMISSIONS      ========================================================================
 
         [HttpGet("permissions-management/get-all")]
         public async Task<IActionResult> GetAllPermissions([FromQuery]PermissionParameters permissionParameters)
@@ -69,7 +68,7 @@ namespace PillSpot.Presentation.Controllers
                 throw new PermissionBadRequestException();
 
             var createdPermission = await _service.PermissionService.CreatePermissionAsync(permissionDto);
-            return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionID},createdPermission);
+            return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionId},createdPermission);
         }
         
         [HttpPost("permissions-management/create-collection")]
@@ -133,6 +132,6 @@ namespace PillSpot.Presentation.Controllers
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);
             return NoContent();
         }
-      
+
     }
 }

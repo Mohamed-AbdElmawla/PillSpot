@@ -16,6 +16,9 @@ namespace Service.Contracts
         IPharmacyRequestService PharmacyRequestService { get; }
         ICategoryService CategoryService { get; }
         ISubCategoryService SubCategoryService { get; }
-
+        IProductService ProductService { get; }
+        IMedicineService MedicineService { get; }
+        ICosmeticService CosmeticService { get; }
+        IPharmacyProductService PharmacyProductService { get; }
     }
 }

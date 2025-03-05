@@ -21,9 +21,9 @@ namespace Repository
         public void DeletePharmacyRequest(PharmacyRequest request) => Delete(request);
 
         public async Task<PharmacyRequest> GetByIdAsync(ulong id, bool trackChanges) =>
-           await FindByCondition(pr => pr.RequestID.Equals(id), trackChanges).SingleOrDefaultAsync();
+           await FindByCondition(pr => pr.RequestId.Equals(id), trackChanges).SingleOrDefaultAsync();
         public async Task<IEnumerable<PharmacyRequest>> GetByStatusAsync(string userId, PharmacyRequestStatus status, bool trackChanges) =>
-           await FindByCondition(pr => pr.UserID.Equals(userId) && pr.Status.Equals(status), trackChanges).ToListAsync();
+           await FindByCondition(pr => pr.UserId.Equals(userId) && pr.Status.Equals(status), trackChanges).ToListAsync();
 
         public async Task<PagedList<PharmacyRequest>> GetRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters,bool trackChanges) {
             var PharmacyRequests = await FindAll(trackChanges)

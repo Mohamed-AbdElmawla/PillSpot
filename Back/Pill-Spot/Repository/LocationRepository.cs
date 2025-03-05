@@ -34,7 +34,7 @@ namespace Repository
         }
 
         public async Task<Location> GetLocationByIdAsync(Guid locationId, bool trackChanges) 
-            => await FindByCondition(l => l.LocationID.Equals(locationId), trackChanges).SingleOrDefaultAsync();
+            => await FindByCondition(l => l.LocationId.Equals(locationId), trackChanges).SingleOrDefaultAsync();
 
         public void UpdateLocation(Location location) => Update(location);
     }

@@ -28,7 +28,5 @@ namespace Entities.Models
         [Required(ErrorMessage = "Volume is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Volume must be greater than zero.")]
         public int Volume { get; set; }
-        [Required]
-        public virtual Product Product { get; set; }
     }
 }

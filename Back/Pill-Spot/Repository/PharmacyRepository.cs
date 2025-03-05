@@ -37,16 +37,16 @@ namespace Repository
         }
         public async Task<PagedList<Pharmacy>> GetByIdsAsync(IEnumerable<ulong> ids, PharmaciesParameters pharmaciesparameters, bool trackChanges) {
 
-            var Pharmacies = await FindByCondition(ph => ids.Contains(ph.PharmacyID), trackChanges)
+            var Pharmacies = await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges)
                 .OrderBy(ph => ph.Name)
                 .Skip((pharmaciesparameters.PageNumber - 1) * pharmaciesparameters.PageSize)
                 .Take(pharmaciesparameters.PageSize)
                 .ToListAsync();
-            var count = await FindByCondition(ph => ids.Contains(ph.PharmacyID), trackChanges).CountAsync();
+            var count = await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges).CountAsync();
             return new PagedList<Pharmacy>(Pharmacies, count, pharmaciesparameters.PageNumber, pharmaciesparameters.PageSize);
         }
 
-        public async Task<Pharmacy> GetPharmacyAsync(ulong pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyID.Equals(pharmacyId), trackChanges).SingleOrDefaultAsync();
+        public async Task<Pharmacy> GetPharmacyAsync(ulong pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyId.Equals(pharmacyId), trackChanges).SingleOrDefaultAsync();
 
     }
 }

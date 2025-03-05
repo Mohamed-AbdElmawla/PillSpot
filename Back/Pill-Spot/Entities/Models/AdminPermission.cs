@@ -8,6 +8,7 @@ namespace Entities.Models
     public class AdminPermission
     {
         [Key, Column(Order = 0)]
+
         public required string AdminId { get; set; }
 
         [Key, Column(Order = 1)]

@@ -63,7 +63,7 @@ namespace Service
 
             var subCategoryEntity = _mapper.Map<SubCategory>(subCategoryForCreateDto);
 
-            subCategoryEntity.CategoryID = categoryId;
+            subCategoryEntity.CategoryId = categoryId;
 
             _repository.SubCategoryRepository.CreateSubCategory(subCategoryEntity);
 

@@ -17,7 +17,7 @@ namespace Repository
             await FindAll(trackChanges).ToListAsync();
 
         public async Task<Category> GetCategoryByIdAsync(int categoryId, bool trackChanges) =>
-            await FindByCondition(c => c.CategoryID == categoryId, trackChanges).FirstOrDefaultAsync();
+           await FindByCondition(c => c.CategoryId == categoryId, trackChanges).FirstOrDefaultAsync();
 
         public void CreateCategory(Category category) => Create(category);
         public void UpdateCategory(Category category) => Update(category);

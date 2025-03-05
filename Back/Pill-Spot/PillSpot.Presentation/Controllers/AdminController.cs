@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -26,11 +31,11 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        //[HttpGet("export-user-data")]
-        //public async Task<IActionResult> ExportUserData()
-        //{
-        //    var fileData = await _service.KhaledService.ExportUserDataAsync();
-        //    return File(fileData, "text/csv", "users.csv");
-        //}
     }
+    //[HttpGet("export-user-data")]
+    //public async Task<IActionResult> ExportUserData()
+    //{
+    //    var fileData = await _service.KhaledService.ExportUserDataAsync();
+    //    return File(fileData, "text/csv", "users.csv");
+    //}
 }

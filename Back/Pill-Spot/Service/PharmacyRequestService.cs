@@ -46,7 +46,7 @@ namespace Service
             var pendingRequest = await _repository.PharmacyRequestRepository.GetByStatusAsync(user.Id, PharmacyRequestStatus.Pending, trackChanges);
             var pharmacyRequest = _mapper.Map<PharmacyRequest>(pharmacyRequestCreateDto);
 
-            pharmacyRequest.UserID = user.Id;
+            pharmacyRequest.UserId = user.Id;
 
             if (pharmacyRequestCreateDto.logo != null)
                 pharmacyRequest.LogoURL = await _fileService.SaveFileAsync(pharmacyRequestCreateDto.logo, "Logos");
@@ -60,7 +60,7 @@ namespace Service
                 if(pendingPharmacyRequest != null)
                 _repository.PharmacyRequestRepository.DeletePharmacyRequest(pendingPharmacyRequest);
             }
-            pharmacyRequest.LocationID = await _locationService.CreateLocationAsync(pharmacyRequestCreateDto.Location, trackChanges);
+            pharmacyRequest.LocationId = await _locationService.CreateLocationAsync(pharmacyRequestCreateDto.Location, trackChanges);
             pharmacyRequest.Location = null;
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
             await _repository.SaveAsync();
@@ -78,8 +78,23 @@ namespace Service
 
             _repository.PharmacyRepository.CreatePharmacy(pharmacy);
 
+            await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
+
             await _repository.SaveAsync();
 
+        }
+        private async Task EnsureUserInRoleAsync(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (!userRoles.Contains(roleName, StringComparer.OrdinalIgnoreCase))
+            {
+                var result = await _userManager.AddToRoleAsync(user, roleName);
+                if (!result.Succeeded)
+                {
+                    throw new InvalidOperationException($"Failed to add user to {roleName} role.");
+                }
+            }
         }
 
         public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetPendingRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)

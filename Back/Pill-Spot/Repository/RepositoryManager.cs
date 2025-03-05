@@ -2,10 +2,6 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Repository
@@ -25,17 +21,11 @@ namespace Repository
         private readonly Lazy<IGovernmentRepository> _governmentRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<ISubCategoryRepository> _subCategoryRepository;
+        private readonly Lazy<IProductRepository> _productRepository;
+        private readonly Lazy<IMedicineRepository> _medicineRepository;
+        private readonly Lazy<ICosmeticRepository> _cosmeticRepository;
+        private readonly Lazy<IPharmacyProductRepository> _pharmacyProductRepository;
         public RepositoryManager(RepositoryContext repositoryContext , UserManager<User> userManager)
-        {
-            _repositoryContext = repositoryContext;
-            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
-            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
-            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
-            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
-            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
-        }
-        
-        public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
@@ -46,7 +36,17 @@ namespace Repository
             _governmentRepository = new Lazy<IGovernmentRepository>(() => new GovernmentRepository(repositoryContext));
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(repositoryContext));
             _subCategoryRepository = new Lazy<ISubCategoryRepository>(() => new SubCategoryRepository(repositoryContext));
+            _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(repositoryContext));
+            _medicineRepository = new Lazy<IMedicineRepository>(() => new MedicineRepository(repositoryContext));
+            _cosmeticRepository = new Lazy<ICosmeticRepository>(() => new CosmeticRepository(repositoryContext));
+            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
+            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
+            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
+            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
+            _pharmacyProductRepository = new Lazy<IPharmacyProductRepository>(() => new PharmacyProductRepository(repositoryContext));
+            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(userManager));
         }
+
         public IUserRepository UserRepository => _userRepository.Value;
         public IPermissionRepository PermissionRepository => _permissionRepository.Value;
         public IEmployeePermissionRepository EmployeePermissionRepository => _employeePermissionRepository.Value;
@@ -59,7 +59,10 @@ namespace Repository
         public IGovernmentRepository GovernmentRepository => _governmentRepository.Value;
         public ICategoryRepository CategoryRepository => _categoryRepository.Value;
         public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository.Value;
-
+        public IProductRepository ProductRepository => _productRepository.Value;
+        public IMedicineRepository MedicineRepository => _medicineRepository.Value;
+        public ICosmeticRepository CosmeticRepository => _cosmeticRepository.Value;
+        public IPharmacyProductRepository PharmacyProductRepository => _pharmacyProductRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

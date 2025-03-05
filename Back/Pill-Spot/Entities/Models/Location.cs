@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Location
     {
         [Key]
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
         [Required(ErrorMessage = "Longitude is required.")]
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180 degrees.")]

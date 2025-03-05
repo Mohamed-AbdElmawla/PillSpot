@@ -21,6 +21,10 @@ namespace Contracts
         IGovernmentRepository GovernmentRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ISubCategoryRepository SubCategoryRepository { get; }
+        IProductRepository ProductRepository { get; }
+        IMedicineRepository MedicineRepository { get; }
+        ICosmeticRepository CosmeticRepository { get; }
+        IPharmacyProductRepository PharmacyProductRepository { get; }
         Task SaveAsync();
     }
 }

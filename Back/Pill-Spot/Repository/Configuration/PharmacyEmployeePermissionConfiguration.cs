@@ -21,7 +21,7 @@ namespace Repository.Configuration
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(pe => new { pe.EmployeeId, pe.PermissionId })
-                .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeID_PermissionID");
+                .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeId_PermissionId");
         }
     }
 }

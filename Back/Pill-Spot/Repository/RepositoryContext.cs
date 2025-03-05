@@ -37,7 +37,7 @@ namespace Repository
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductIngredient> ProductIngredients { get; set; }
-        public DbSet<ProductPharmacy> ProductPharmacies { get; set; }
+        public DbSet<PharmacyProduct> ProductPharmacies { get; set; }
         public DbSet<ProductPrescription> ProductPrescriptions { get; set; }
         public DbSet<SearchHistory> SearchHistories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
@@ -120,7 +120,7 @@ namespace Repository
 
             modelBuilder.ApplyConfiguration(new ProductIngredientConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ProductPharmacyConfiguration());
+            modelBuilder.ApplyConfiguration(new PharmacyProductConfiguration());
 
             modelBuilder.ApplyConfiguration(new ProductPrescriptionConfiguration());
 

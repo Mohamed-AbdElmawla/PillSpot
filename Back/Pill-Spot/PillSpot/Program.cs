@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using PillSpot.Extensions;
 using PillSpot.Presentation.ActionFilters;
@@ -23,7 +24,6 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
-builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.ConfigureFileService();
 builder.Services.ConfigureLocationService();
 builder.Services.ConfigureCityService();
@@ -34,6 +34,7 @@ builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddEmailConfiguration(builder.Configuration);
 builder.Services.ConfigureEmailService();
 builder.Services.ConfigureSerilogService();
+builder.Services.ConfigureFilterServices();
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -56,7 +57,6 @@ new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
 .Services.BuildServiceProvider()
 .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
 .OfType<NewtonsoftJsonPatchInputFormatter>().First();
-
 
 var app = builder.Build();
 

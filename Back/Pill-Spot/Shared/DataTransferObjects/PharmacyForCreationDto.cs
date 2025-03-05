@@ -8,12 +8,12 @@ namespace Shared.DataTransferObjects
 {
     public record PharmacyForCreationDto
     {
-        public ulong? ParentPharmacyID { get; init; }
-        public string OwnerID { get; init; }
+        public ulong? ParentPharmacyId { get; init; }
+        public string OwnerId { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
-        public Guid LocationID { get; init; }
-        public string LicenseID { get; init; }
+        public Guid LocationId { get; init; }
+        public string LicenseId { get; init; }
         public string ContactNumber { get; init; }
         public TimeSpan OpeningTime { get; init; }
         public TimeSpan ClosingTime { get; init; }

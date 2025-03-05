@@ -1,45 +1,48 @@
-Pill-Spot/PillSpot/.vs
-Pill-Spot/PillSpot/bin
-Pill-Spot/PillSpot/obj
-Pill-Spot/PillSpot/appsettings.json
+Back/Pill-Spot/PillSpot/.vs
+Back/Pill-Spot/PillSpot/bin
+Back/Pill-Spot/PillSpot/obj
+Back/Pill-Spot/PillSpot/appsettings.json
 
-Pill-Spot/PillSpot.Presentation/.vs
-Pill-Spot/PillSpot.Presentation/bin
-Pill-Spot/PillSpot.Presentation/obj
+Back/Pill-Spot/PillSpot.Presentation/.vs
+Back/Pill-Spot/PillSpot.Presentation/bin
+Back/Pill-Spot/PillSpot.Presentation/obj
 
-Pill-Spot/Contracts/.vs
-Pill-Spot/Contracts/bin
-Pill-Spot/Contracts/obj
+Back/Pill-Spot/Contracts/.vs
+Back/Pill-Spot/Contracts/bin
+Back/Pill-Spot/Contracts/obj
 
-Pill-Spot/LoggerService/.vs
-Pill-Spot/LoggerService/bin
-Pill-Spot/LoggerService/obj
-
-
-Pill-Spot/Entities/.vs
-Pill-Spot/Entities/bin
-Pill-Spot/Entities/obj
+Back/Pill-Spot/LoggerService/.vs
+Back/Pill-Spot/LoggerService/bin
+Back/Pill-Spot/LoggerService/obj
 
 
-Pill-Spot/Presentation/.vs
-Pill-Spot/Presentation/bin
-Pill-Spot/Presentation/obj
+Back/Pill-Spot/Entities/.vs
+Back/Pill-Spot/Entities/bin
+Back/Pill-Spot/Entities/obj
 
-Pill-Spot/Repository/.vs
-Pill-Spot/Repository/bin
-Pill-Spot/Repository/obj
 
-Pill-Spot/Service/.vs
-Pill-Spot/Service/bin
-Pill-Spot/Service/obj
+Back/Pill-Spot/Presentation/.vs
+Back/Pill-Spot/Presentation/bin
+Back/Pill-Spot/Presentation/obj
 
-Pill-Spot/Service.Contracts/.vs
-Pill-Spot/Service.Contracts/bin
-Pill-Spot/Service.Contracts/obj
+Back/Pill-Spot/Repository/.vs
+Back/Pill-Spot/Repository/bin
+Back/Pill-Spot/Repository/obj
 
-Pill-Spot/Shared/.vs
-Pill-Spot/Shared/bin
-Pill-Spot/Shared/obj
+Back/Pill-Spot/Service/.vs
+Back/Pill-Spot/Service/bin
+Back/Pill-Spot/Service/obj
 
-Pill-Spot/PillSpot/wwwroot
+Back/Pill-Spot/Service.Contracts/.vs
+Back/Pill-Spot/Service.Contracts/bin
+Back/Pill-Spot/Service.Contracts/obj
+
+Back/Pill-Spot/Shared/.vs
+Back/Pill-Spot/Shared/bin
+Back/Pill-Spot/Shared/obj
+
+Back/Pill-Spot/PillSpot/wwwroot
+Back/Pill-Spot/PillSpot/Logs
 **/node_modules/
+/Back/Pill-Spot/PillSpot/.gitignore
+/Back/Pill-Spot/PillSpot/PillSpot.sln

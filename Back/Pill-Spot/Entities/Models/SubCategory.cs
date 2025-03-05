@@ -8,10 +8,10 @@ namespace Entities.Models
     public class SubCategory
     {
         [Key]
-        public int SubCategoryID { get; set; }
+        public int SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Category ID is required.")]
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(250, ErrorMessage = "Name cannot exceed 250 characters.")]

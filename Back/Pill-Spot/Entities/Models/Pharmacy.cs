@@ -8,14 +8,14 @@ namespace Entities.Models
     public class Pharmacy
     {
         [Key]
-        public ulong PharmacyID { get; set; }
+        public ulong PharmacyId { get; set; }
 
         [ForeignKey("ParentPharmacy")]
-        public ulong? ParentPharmacyID { get; set; }
+        public ulong? ParentPharmacyId { get; set; }
         public virtual Pharmacy? ParentPharmacy { get; set; }
 
         [Required(ErrorMessage = "Owner ID is required.")]
-        public string OwnerID { get; set; }
+        public string OwnerId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
@@ -25,11 +25,11 @@ namespace Entities.Models
         public string? LogoURL { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
-        public string LicenseID { get; set; }
+        public string LicenseId { get; set; }
 
         [Required(ErrorMessage = "Contact number is required.")]
         [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]
@@ -49,15 +49,15 @@ namespace Entities.Models
         public string DaysOpen { get; set; }
 
         [Required]
-        [ForeignKey("LocationID")]
+        [ForeignKey("LocationId")]
         public virtual Location Location { get; set; }
 
-        [ForeignKey("OwnerID")]
+        [ForeignKey("OwnerId")]
         public virtual User Owner { get; set; }
 
         public virtual ICollection<Pharmacy> Branches { get; set; } = new List<Pharmacy>();
         public virtual ICollection<PharmacyEmployee> Employees { get; set; } = new List<PharmacyEmployee>();
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+        public virtual ICollection<PharmacyProduct> PharmacyProducts { get; set; } = new List<PharmacyProduct>();
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

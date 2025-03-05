@@ -25,7 +25,7 @@ namespace Service
         private readonly IEmailService _emailService;
         private readonly UserManager<User> _userManager;
         public UserService(IRepositoryManager repository, IMapper mapper,
-            UserManager<User> userManager, IFileService fileService = null, IEmailService emailService = null)
+            UserManager<User> userManager, IFileService fileService, IEmailService emailService = null)
         {
             _repository = repository;
             _mapper = mapper;
@@ -33,12 +33,23 @@ namespace Service
             _fileService = fileService;
             _emailService = emailService;
         }
-
-        public async Task DeleteUserAsync(string userName, bool trackChanges)
+        public async Task<User> GetUserByNameAndCheckIfItExist(string userName, bool trackChanges = true)
         {
             var user = await _repository.UserRepository.GetUserAsync(userName, trackChanges);
             if (user == null)
                 throw new UserNotFoundException(userName);
+            return user;
+        }
+        public async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+                throw new UserEmailNotFoundException(Email);
+            return user;
+        }
+        public async Task DeleteUserAsync(string userName, bool trackChanges)
+        {
+            var user = await GetUserByNameAndCheckIfItExist(userName, trackChanges);
 
             user.IsDeleted = true;
             await _repository.SaveAsync();
@@ -46,10 +57,7 @@ namespace Service
 
         public async Task<UserDto> GetUserAsync(string userName, bool trackChanges)
         {
-            var user = await _repository.UserRepository.GetUserAsync(userName, trackChanges);
-
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName, trackChanges);
             
             var userDto = _mapper.Map<UserDto>(user);
 
@@ -58,10 +66,7 @@ namespace Service
 
         public async Task UpdateUserAsync(string userName, UserForUpdateDto userForUpdateDto, bool trackChanges)
         {
-            var user = await _repository.UserRepository.GetUserAsync(userName, trackChanges);
-
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName, trackChanges);
 
             _mapper.Map(userForUpdateDto, user);
             if (_fileService != null && userForUpdateDto.ProfilePicture != null)
@@ -85,10 +90,7 @@ namespace Service
 
         public async Task UpdatePasswordAsync(string userName, PasswordUpdateDto passwordDto)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             var isOldPasswordValid = await _userManager.CheckPasswordAsync(user, passwordDto.OldPassword);
 
@@ -104,9 +106,7 @@ namespace Service
 
         public async Task UpdateEmailAsync(string userName, EmailUpdateDto emailDto)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, emailDto.Password);
 
@@ -123,9 +123,7 @@ namespace Service
         // not working and don't forget PasswordResetTokenExpiry 
         public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
         {
-            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
-            if (user == null)
-                throw new UserEmailNotFoundException(forgotPasswordDto.Email);
+            var user = await GetUserByEmailAndCheckIfItExist(forgotPasswordDto.Email);
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -137,9 +135,7 @@ namespace Service
 
         public async Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
         {
-            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
-            if (user == null)
-                throw new UserEmailNotFoundException(resetPasswordDto.Email);
+            var user = await GetUserByEmailAndCheckIfItExist(resetPasswordDto.Email);
 
             var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.NewPassword);
             if (!result.Succeeded)
@@ -149,9 +145,7 @@ namespace Service
 
         public async Task AssignRoleAsync(string userName, string newRole)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             var roles = await _userManager.GetRolesAsync(user);
             if (!roles.Contains(newRole))
@@ -164,10 +158,7 @@ namespace Service
 
         public async Task LockoutUserAsync(string userName, int days = 30)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow.AddDays(days));
             user.LockoutEnabled = true;
@@ -176,9 +167,7 @@ namespace Service
 
         public async Task UnlockUserAsync(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
             user.LockoutEnabled = false;
             await _userManager.SetLockoutEndDateAsync(user, null);
         }
@@ -187,17 +176,13 @@ namespace Service
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             return await _userManager.GetRolesAsync(user);
         }
         public async Task SendEmailConfirmationAsync(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null)
-                throw new UserNotFoundException(userName);
+            var user = await GetUserByNameAndCheckIfItExist(userName);
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationUrl = $"https://your-frontend.com/confirm-email?token={token}&email={user.Email}";
@@ -207,9 +192,7 @@ namespace Service
 
         public async Task ConfirmEmailAsync(string email, string token)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-                throw new UserEmailNotFoundException(email);
+            var user = await GetUserByEmailAndCheckIfItExist(email);
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)
@@ -218,3 +201,4 @@ namespace Service
 
     }
 }
+

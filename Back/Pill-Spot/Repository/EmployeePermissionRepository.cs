@@ -39,7 +39,7 @@ namespace Repository
         public async Task<string?> GetUserIdByEmployeeIdAsync(ulong employeeId) =>
             await FindByCondition(ep => ep.EmployeeId.Equals(employeeId), trackChanges: false)
             .Include(e => e.PharmacyEmployee)
-            .Select(e => e.PharmacyEmployee.UserID)
+            .Select(e => e.PharmacyEmployee.UserId)
             .FirstOrDefaultAsync();
     }
 
