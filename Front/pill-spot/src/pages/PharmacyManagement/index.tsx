@@ -21,7 +21,7 @@ const PharManagementLayout = () => {
         <SidePanel />
   
  
-        <div className="card bg-white grid h-227 place-items-center rounded-3xl m-auto ml-0 w-full max-w-[1400px] p-6 overflow-auto md:overflow-auto">
+        <div className="card bg-white grid h-227  rounded-3xl m-auto ml-0 w-full max-w-[1400px] p-6 overflow-auto md:overflow-auto">
           <Outlet />
         </div>
       </div>
