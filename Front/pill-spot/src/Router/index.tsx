@@ -12,6 +12,7 @@ import PharManagementLayout from "../pages/PharmacyManagement";
 import InventoryPage from "../pages/PharmacyManagement/Inventory";
 import PharManagementHome from "../pages/PharmacyManagement/ManagementHome";
 import OrderManagementHome from "../pages/PharmacyManagement/OrdersManagemnt";
+import StaffManagement from "../pages/PharmacyManagement/StaffManagement";
 
 // Define the router
 const router = createBrowserRouter(
@@ -22,7 +23,7 @@ const router = createBrowserRouter(
       <Route path="pharmacymanagement" element={<PharManagementLayout />}>
         <Route path="pharmanhome" element={<PharManagementHome/>} />
         <Route path="pharmaninventory" element={<InventoryPage/>} />
-        <Route path="pharmanstaff" element={"pharmacy staff"} />
+        <Route path="pharmanstaff" element={<StaffManagement/>} />
         <Route path="pharmananalytics" element={"pharmacy analytics"} />
         <Route path="pharmanorders" element={<OrderManagementHome/>} />
       </Route>
