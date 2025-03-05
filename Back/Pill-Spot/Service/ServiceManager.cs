@@ -42,8 +42,8 @@ namespace Service
             _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
             _serilogService = serilogService;
             _permissionService = new Lazy<IPermissionService>(() => new PermissionService(repositoryManager , mapper));
-            _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager,mapper));
-            _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper));
+            _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager,mapper,userManager));
+            _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper,userManager));
             _adminService = new Lazy<IAdminService>(() => new AdminService(userManager, roleManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
             _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));

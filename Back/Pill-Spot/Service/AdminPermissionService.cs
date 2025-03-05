@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
@@ -16,16 +17,25 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public AdminPermissionService(IRepositoryManager repository, IMapper mapper)
+        public AdminPermissionService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-        public async Task<AdminPermissionDto> AssignPermissionToAdminAsync(CreateAdminPermissionDto createAdminPermissionDto)
+        public async Task<AdminPermissionDto> AssignPermissionToAdminAsync(AssignAdminPermissionDto assignAdminPermissionDto)
         {
-            var adminPermissionEntity = _mapper.Map<AdminPermission>(createAdminPermissionDto);
+            if (!await IsAdminAsync(assignAdminPermissionDto.AdminId))
+                throw new NotAnAdminException(assignAdminPermissionDto.AdminId);
+
+            if (await _repository.AdminPermissionRepository.AdminHasPermissionAsync
+                (assignAdminPermissionDto.AdminId, assignAdminPermissionDto.PermissionId))
+                throw new AdminPermissionAlreadyAssignedException(assignAdminPermissionDto.AdminId, new List<int> { assignAdminPermissionDto.PermissionId });
+
+            var adminPermissionEntity = _mapper.Map<AdminPermission>(assignAdminPermissionDto);
             await _repository.AdminPermissionRepository.AssignPermissionToAdminAsync(adminPermissionEntity);
             await _repository.SaveAsync();
             return _mapper.Map<AdminPermissionDto>(adminPermissionEntity);
@@ -33,11 +43,17 @@ namespace Service
 
         public async Task<IEnumerable<AdminPermissionDto>> AssignPermissionsToAdminAsync(string adminId, IEnumerable<int> permissionIds)
         {
+            if (!await IsAdminAsync(adminId))
+                throw new NotAnAdminException(adminId);
+
             if (permissionIds == null || !permissionIds.Any())
                 throw new AdminPermissionCollectionBadRequestException();
 
+            if (await _repository.AdminPermissionRepository.AdminHasAnyPermissionAsync(adminId, permissionIds))
+                throw new AdminPermissionAlreadyAssignedException(adminId, permissionIds);
+
             var adminPermissions = permissionIds
-                .Select(pid => new AdminPermission { AdminID = adminId, PermissionID = pid });
+                .Select(pid => new AdminPermission { AdminId = adminId, PermissionId = pid });
 
             await _repository.AdminPermissionRepository.AssignPermissionsToAdminAsync(adminPermissions);
             await _repository.SaveAsync();
@@ -47,20 +63,24 @@ namespace Service
 
         public async Task<IEnumerable<PermissionDto>> GetPermissionsToAdminAsync(string adminId, bool trackChanges)
         {
+            if (!await IsAdminAsync(adminId))
+                throw new NotAnAdminException(adminId);
+
             var adminPermissions = await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, trackChanges);
             if (adminPermissions == null || !adminPermissions.Any())
                 throw new AdminPermissionNotFoundException(adminId);
 
-            // Map each AdminPermission to its related PermissionDto
-            var permissionDtos = adminPermissions
-                .Select(ap => _mapper.Map<PermissionDto>(ap.Permission));
-            return permissionDtos;
+            return adminPermissions.Select(ep => _mapper.Map<PermissionDto>(ep.Permission));
         }
 
         public async Task RemovePermissionFromAdminAsync(string adminId, int permissionId)
         {
+            if (!await IsAdminAsync(adminId))
+                throw new NotAnAdminException(adminId);
+
             var adminPermission = (await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, false))
-                .FirstOrDefault(ap => ap.PermissionID == permissionId);
+                .FirstOrDefault(ep => ep.PermissionId.Equals(permissionId));
+
             if (adminPermission == null)
                 throw new AdminPermissionNotFoundException(adminId, permissionId);
 
@@ -70,12 +90,14 @@ namespace Service
 
         public async Task RemovePermissionsFromAdminAsync(string adminId, IEnumerable<int> permissionIds)
         {
+            if (!await IsAdminAsync(adminId))
+                throw new NotAnAdminException(adminId);
+
             if (permissionIds == null || !permissionIds.Any())
                 throw new AdminPermissionCollectionBadRequestException();
 
-            var adminPermissions = (await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, false))
-                .Where(ap => permissionIds.Contains(ap.PermissionID))
-                .ToList();
+            var adminPermissions = await _repository.AdminPermissionRepository.
+                GetAdminPermissionsByIdsAsync(adminId, permissionIds, false);
 
             if (!adminPermissions.Any())
                 throw new AdminPermissionNotFoundException(adminId);
@@ -84,5 +106,13 @@ namespace Service
             await _repository.SaveAsync();
         }
 
+        public async Task<bool> IsAdminAsync(string adminId)
+        {
+            var user = await _userManager.FindByIdAsync(adminId);
+            if (user == null)
+                throw new UserNotFoundException(adminId);
+
+            return await _userManager.IsInRoleAsync(user, "Admin");
+        }
     }
 }

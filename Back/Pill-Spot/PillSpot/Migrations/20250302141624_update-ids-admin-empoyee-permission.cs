@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class updateidsadminempoyeepermission : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -130,14 +130,14 @@ namespace PillSpot.Migrations
                 name: "Permissions",
                 columns: table => new
                 {
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
+                    PermissionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.PermissionID);
+                    table.PrimaryKey("PK_Permissions", x => x.PermissionId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -414,24 +414,24 @@ namespace PillSpot.Migrations
                 name: "AdminPermissions",
                 columns: table => new
                 {
-                    AdminID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    AdminId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
+                    PermissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdminPermissions", x => new { x.AdminID, x.PermissionID });
+                    table.PrimaryKey("PK_AdminPermissions", x => new { x.AdminId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_AdminPermissions_AspNetUsers_AdminID",
-                        column: x => x.AdminID,
+                        name: "FK_AdminPermissions_AspNetUsers_AdminId",
+                        column: x => x.AdminId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AdminPermissions_Permissions_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_AdminPermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1151,21 +1151,21 @@ namespace PillSpot.Migrations
                 name: "PharmacyEmployeePermissions",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    PermissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyEmployeePermissions", x => new { x.EmployeeID, x.PermissionID });
+                    table.PrimaryKey("PK_PharmacyEmployeePermissions", x => new { x.EmployeeId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployeePermissions_Permissions_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_PharmacyEmployeePermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployeePermissions_PharmacyEmployees_EmployeeID",
-                        column: x => x.EmployeeID,
+                        name: "FK_PharmacyEmployeePermissions_PharmacyEmployees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "PharmacyEmployees",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Cascade);
@@ -1177,24 +1177,24 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "10578a1e-e328-4c27-ac95-667fe87fc2df", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "114064f2-3870-4490-bf4e-578a2eae7ae4", null, "SuperAdmin", "SUPERADMIN" },
-                    { "1e548f57-2866-4958-9a17-8f9a689ac251", null, "Doctor", "DOCTOR" },
-                    { "4fff0bc0-8ea6-48e9-ab1f-63f1b5a4ea90", null, "Admin", "ADMIN" },
-                    { "77b9cb05-9683-45de-9349-961574c5f9f3", null, "User", "USER" },
-                    { "c2119635-edb4-4e1b-9d5e-f046f1b3ae46", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "ee370665-0213-49eb-b467-7e3653b57a33", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" }
+                    { "34cc6b52-c1fe-4a89-83d2-6667c180ab00", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "45f082bb-4632-4103-a1f8-a10478ff3aef", null, "User", "USER" },
+                    { "5d6ae3e9-d145-4e5a-9890-db9158d02015", null, "Admin", "ADMIN" },
+                    { "87ef5e84-851c-4caa-9ff0-3d62463a3a9d", null, "SuperAdmin", "SUPERADMIN" },
+                    { "bd76df1e-2f1a-48a1-8e24-b33670df364c", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "ee4e6a5c-2c78-4a3a-8181-98c5d905918a", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "f1b88451-f26d-4e52-849e-c3023083686a", null, "Doctor", "DOCTOR" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdminPermission_AdminID_PermissionID",
                 table: "AdminPermissions",
-                columns: new[] { "AdminID", "PermissionID" });
+                columns: new[] { "AdminId", "PermissionId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdminPermissions_PermissionID",
+                name: "IX_AdminPermissions_PermissionId",
                 table: "AdminPermissions",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1443,12 +1443,12 @@ namespace PillSpot.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyEmployeePermission_EmployeeID_PermissionID",
                 table: "PharmacyEmployeePermissions",
-                columns: new[] { "EmployeeID", "PermissionID" });
+                columns: new[] { "EmployeeId", "PermissionId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyEmployeePermissions_PermissionID",
+                name: "IX_PharmacyEmployeePermissions_PermissionId",
                 table: "PharmacyEmployeePermissions",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyEmployee_IsDeleted",

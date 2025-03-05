@@ -1,3 +1,10 @@
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.AssemblyReference.cache
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.GeneratedMSBuildEditorConfig.editorconfig
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfoInputs.cache
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfo.cs
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cache
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.Development.json
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.json
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.staticwebassets.runtime.json
@@ -162,14 +169,6 @@ E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Contracts.pdb
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Entities.pdb
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Service.Contracts.pdb
 E:\GP\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Shared.pdb
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.AssemblyReference.cache
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.GeneratedMSBuildEditorConfig.editorconfig
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfoInputs.cache
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfo.cs
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.CoreCompileInputs.cache
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cs
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cache
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\scopedcss\bundle\PillSpot.styles.css
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.build.json
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.development.json
@@ -180,10 +179,10 @@ E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets\msbuild.build.Pil
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.PillSpot.props
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.PillSpot.props
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.pack.json
+E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.Up2Date
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.dll
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\PillSpot.dll
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
-E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

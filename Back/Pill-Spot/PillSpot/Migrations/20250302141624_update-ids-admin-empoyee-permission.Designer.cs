@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250301130950_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250302141624_update-ids-admin-empoyee-permission")]
+    partial class updateidsadminempoyeepermission
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,19 +27,19 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.AdminPermission", b =>
                 {
-                    b.Property<string>("AdminID")
+                    b.Property<string>("AdminId")
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("PermissionID")
+                    b.Property<int>("PermissionId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.HasKey("AdminID", "PermissionID");
+                    b.HasKey("AdminId", "PermissionId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("AdminID", "PermissionID")
+                    b.HasIndex("AdminId", "PermissionId")
                         .HasDatabaseName("IX_AdminPermission_AdminID_PermissionID");
 
                     b.ToTable("AdminPermissions");
@@ -649,11 +649,11 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Permission", b =>
                 {
-                    b.Property<int>("PermissionID")
+                    b.Property<int>("PermissionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("PermissionID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("PermissionId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -661,7 +661,7 @@ namespace PillSpot.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(50)");
 
-                    b.HasKey("PermissionID");
+                    b.HasKey("PermissionId");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -813,19 +813,19 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeePermission", b =>
                 {
-                    b.Property<ulong>("EmployeeID")
+                    b.Property<ulong>("EmployeeId")
                         .HasColumnType("bigint unsigned")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("PermissionID")
+                    b.Property<int>("PermissionId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
 
-                    b.HasKey("EmployeeID", "PermissionID");
+                    b.HasKey("EmployeeId", "PermissionId");
 
-                    b.HasIndex("PermissionID");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("EmployeeID", "PermissionID")
+                    b.HasIndex("EmployeeId", "PermissionId")
                         .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeID_PermissionID");
 
                     b.ToTable("PharmacyEmployeePermissions");
@@ -1453,43 +1453,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "77b9cb05-9683-45de-9349-961574c5f9f3",
+                            Id = "45f082bb-4632-4103-a1f8-a10478ff3aef",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1e548f57-2866-4958-9a17-8f9a689ac251",
+                            Id = "f1b88451-f26d-4e52-849e-c3023083686a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "10578a1e-e328-4c27-ac95-667fe87fc2df",
+                            Id = "bd76df1e-2f1a-48a1-8e24-b33670df364c",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "c2119635-edb4-4e1b-9d5e-f046f1b3ae46",
+                            Id = "ee4e6a5c-2c78-4a3a-8181-98c5d905918a",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "ee370665-0213-49eb-b467-7e3653b57a33",
+                            Id = "34cc6b52-c1fe-4a89-83d2-6667c180ab00",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "114064f2-3870-4490-bf4e-578a2eae7ae4",
+                            Id = "87ef5e84-851c-4caa-9ff0-3d62463a3a9d",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "4fff0bc0-8ea6-48e9-ab1f-63f1b5a4ea90",
+                            Id = "5d6ae3e9-d145-4e5a-9890-db9158d02015",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1661,13 +1661,13 @@ namespace PillSpot.Migrations
                 {
                     b.HasOne("Entities.Models.User", "Admin")
                         .WithMany("AdminPermissions")
-                        .HasForeignKey("AdminID")
+                        .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.Permission", "Permission")
                         .WithMany("AdminPermissions")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1899,13 +1899,13 @@ namespace PillSpot.Migrations
                 {
                     b.HasOne("Entities.Models.PharmacyEmployee", "PharmacyEmployee")
                         .WithMany("PharmacyEmployeePermissions")
-                        .HasForeignKey("EmployeeID")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.Permission", "Permission")
                         .WithMany("PharmacyEmployeePermissions")
-                        .HasForeignKey("PermissionID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

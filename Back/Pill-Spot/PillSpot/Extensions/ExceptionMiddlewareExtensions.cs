@@ -35,7 +35,8 @@ namespace PillSpot.Extensions
                             {
                                 NotFoundException => StatusCodes.Status404NotFound,
                                 BadRequestException => StatusCodes.Status400BadRequest,
-                                IOException => StatusCodes.Status409Conflict,
+                                Entities.Exceptions.IOException => StatusCodes.Status409Conflict,
+                                NotAuthorizedException=>StatusCodes.Status401Unauthorized,
                                 _ => StatusCodes.Status500InternalServerError
                             };
 
