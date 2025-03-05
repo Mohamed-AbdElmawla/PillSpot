@@ -7,7 +7,7 @@ interface Iprops{
 }
 
 const tempData: Iprops[] = [
-    { id: "1", customerName: "Alice Johnson", orderPrice: "$120.50", date: "2024-03-01", status: "complete" },
+    { id: "1", customerName: "Alice Joasdasdfasdfasdfasdfasdfasdfasdfhnson", orderPrice: "$120.50", date: "2024-03-01", status: "complete" },
     { id: "2", customerName: "Bob Smith", orderPrice: "$85.00", date: "2024-03-02", status: "inprogress" },
     { id: "3", customerName: "Charlie Brown", orderPrice: "$150.75", date: "2024-03-03", status: "pending" },
     { id: "4", customerName: "David Lee", orderPrice: "$95.20", date: "2024-03-04", status: "complete" },

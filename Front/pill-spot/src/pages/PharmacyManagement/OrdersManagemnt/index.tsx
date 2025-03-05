@@ -1,33 +1,42 @@
-
+import { useState } from "react";
 import OrderTable from "./OrderTable";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import FilterRows from "./search";
 
 const OrderManagementHome = () => {
-  return (
-    <div className=" flex w-full min-h-[86vh] h-auto max-h-[86vh] px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 items-center justify-center">
-  
-        <div className="w-2/3 h-full flex items-center justify-center">
-         <OrderTable/>
-        </div>
-        <div className="bg-yellow-200 w-1/3 h-full flex items-center justify-center">
-        <div className="m-10 absolute top-20 left-250">
-        <table className="table table-lg">
-        <thead className="sticky top-0 bg-gradient-to-r from-[#99cbf3] to-[#8abaf0] z-10">
+  const [selected, setSelected] = useState<Date | undefined>(undefined);
+  // const [filterData, setFilterData] = useState({
+  //   data: "",
+  //   lower: false,
+  //   upper: false,
+  // });
 
-            <tr className="text-gray-900 ">
-             
-              <th>Stock Status</th>
-             
-            </tr>
-          </thead>
-          <tbody>{}</tbody>
-          <tfoot>
-            <tr></tr>
-          </tfoot>
-        </table>
-      </div>
+  return (
+    <>
+      <div className="flex w-full absolute inset-0 overflow-x-hidden">
+        <div className="flex-[3] top-0">
+          <OrderTable />
         </div>
-      
-    </div>
+        <div className="flex-1  mt-10 mr-10 flex flex-col justify-around sticky top-0">
+          <div>
+            <FilterRows />
+          </div>
+          <div className="bg-[#CBE8FF] p-5 rounded-3xl">
+            <DayPicker
+              mode="single"
+              selected={selected}
+              onSelect={setSelected}
+              classNames={{
+                caption: "bg-red-400",
+                day: "text-[#666666] font-bold",
+                day_selected: "bg-blue-600 text-white",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

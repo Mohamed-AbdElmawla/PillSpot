@@ -20,15 +20,15 @@ const OrderTable = () => {
     tempData.forEach((p) => {
       if (p.status === "complete") {
         complete.push(
-          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date}  key={p.id} />
+          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date}  key={p.id} status={p.status} />
         );
       } else if (p.status === "inprogress") {
         progress.push(
-          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date} key={p.id}/>
+          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date} key={p.id} status={p.status}/>
         );
       } else {
         pendingg.push(
-          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date} key={p.id}/>
+          <OrderRow id={p.id} customerName={p.customerName} orderPrice={p.orderPrice} date={p.date} key={p.id} status={p.status}/>
         );
       }
     });
@@ -40,29 +40,29 @@ const OrderTable = () => {
 }, []);
 
   return (
-    <div className="m-10 absolute top-20 left-14">
+    <div className="m-10">
       <div className="flex gap-2 ">
         <div >
-            <button ref={inputRef} className="btn focus:bg-[#8abaf0] mb-4 w-2xs flex gap-5"  onClick={()=>{setpageOrders(inProgressOrders)}}>
+            <button ref={inputRef} className="btn focus:bg-[#CBE8FF] mb-4 w-2xs flex gap-5"  onClick={()=>{setpageOrders(inProgressOrders)}}>
                <IoCartOutline className="text-2xl" />
                 In progress
             </button>
         </div>
         <div >
-            <button className="btn focus:bg-[#8abaf0]  mb-4 w-2xs flex gap-5" onClick={()=>{setpageOrders(completeOrders)}}>
+            <button className="btn focus:bg-[#CBE8FF]  mb-4 w-2xs flex gap-5" onClick={()=>{setpageOrders(completeOrders)}}>
              <FaRegCircleCheck className="text-2xl" />
                 Complete
             </button>
         </div>
         <div >
-            <button className="btn focus:bg-[#8abaf0]  mb-4 w-2xs flex gap-5" onClick={()=>{setpageOrders(pendingOrders)}}>
+            <button className="btn focus:bg-[#CBE8FF]  mb-4 w-2xs flex gap-5" onClick={()=>{setpageOrders(pendingOrders)}}>
              <IoMdRefresh className="text-2xl" />
                 Pending
             </button>
         </div>
       </div>
       <table className="table table-lg">
-        <thead className="sticky top-0 bg-gradient-to-r from-[#99cbf3] to-[#8abaf0] z-10">
+        <thead className="sticky top-5 bg-[#CBE8FF] z-10">
           <tr className="text-gray-900 ">
             <th>Order Id</th>
 
@@ -72,8 +72,8 @@ const OrderTable = () => {
 
             <th>Date</th>
 
-            <th>Move to inprogress</th>
-            <th>Move to pending</th>
+            <th></th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
