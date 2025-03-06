@@ -1,4 +1,7 @@
-﻿public abstract class IOException : Exception
+﻿namespace Entities.Exceptions
 {
-    protected IOException(string message) : base(message) { }
+    public abstract class IOException : Exception
+    {
+        protected IOException(string message) : base(message) { }
+    }
 }

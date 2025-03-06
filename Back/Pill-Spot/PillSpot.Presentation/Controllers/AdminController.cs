@@ -18,14 +18,14 @@ namespace PillSpot.Presentation.Controllers
         public AdminController(IServiceManager service) => _service = service;
 
         [HttpPost("bulk-user-management")]
-        public async Task<IActionResult> BulkUserManagement([FromForm] BulkUserManagementDto dto)
+        public async Task<IActionResult> BulkUserManagement([FromBody] BulkUserManagementDto dto)
         {
             await _service.AdminService.BulkManageUsersAsync(dto);
             return NoContent();
         }
 
         [HttpPost("assign-user-role")]
-        public async Task<IActionResult> AssignUserRole([FromForm] AssignUserRoleDto dto)
+        public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto dto)
         {
             await _service.AdminService.AssignUserRoleAsync(dto);
             return NoContent();

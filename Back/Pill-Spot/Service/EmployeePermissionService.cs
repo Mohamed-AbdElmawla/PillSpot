@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -11,16 +12,22 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public EmployeePermissionService(IRepositoryManager repository, IMapper mapper)
+        public EmployeePermissionService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-        public async Task<EmployeePermissionDto> AssignPermissionToEmployeeAsync(CreateEmployeePermissionDto createEmployeePermissionDto)
+        public async Task<EmployeePermissionDto> AssignPermissionToEmployeeAsync(AssignEmployeePermissionDto assignEmployeePermissionDto)
         {
-            var employeePermissionEntity = _mapper.Map<PharmacyEmployeePermission>(createEmployeePermissionDto);
+
+            if (!await IsEmployeeAsync(assignEmployeePermissionDto.EmployeeId))
+                throw new NotAnEmployeeException(assignEmployeePermissionDto.EmployeeId.ToString());
+
+            var employeePermissionEntity = _mapper.Map<PharmacyEmployeePermission>(assignEmployeePermissionDto);
             await _repository.EmployeePermissionRepository.AssignPermissionToEmployeeAsync(employeePermissionEntity);
             await _repository.SaveAsync();
             return _mapper.Map<EmployeePermissionDto>(employeePermissionEntity);
@@ -77,6 +84,18 @@ namespace Service
             _repository.EmployeePermissionRepository.RemovePermissionsFromEmployee(employeePermissions);
             await _repository.SaveAsync();
         }
+        public async Task<bool> IsEmployeeAsync(ulong employeeId)
+        {
+            var userId = await _repository.EmployeePermissionRepository.GetUserIdByEmployeeIdAsync(employeeId);
 
+            if (string.IsNullOrEmpty(userId))
+                throw new UserNotFoundException((int)employeeId);
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                throw new UserNotFoundException(userId);
+
+            return await _userManager.IsInRoleAsync(user, "PharmacyEmployee");
+        }
     }
 }

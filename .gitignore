@@ -44,3 +44,5 @@ Back/Pill-Spot/Shared/obj
 Back/Pill-Spot/PillSpot/wwwroot
 Back/Pill-Spot/PillSpot/Logs
 **/node_modules/
+/Back/Pill-Spot/PillSpot/.gitignore
+/Back/Pill-Spot/PillSpot/PillSpot.sln

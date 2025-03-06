@@ -1,6 +1,5 @@
 ﻿using Entities.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
@@ -15,7 +14,7 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public SuperAdminController(IServiceManager service) => _service = service;
 
-        [HttpGet("get-logs")]
+        [HttpGet("system/get-logs")]
         public async Task<IActionResult> GetLogs()
         {
             //Log.Information("Hello in get logs api");
@@ -23,14 +22,14 @@ namespace PillSpot.Presentation.Controllers
             return Ok(logs);
         }
 
-        [HttpGet("get-logs-by-day")]
+        [HttpGet("system/get-logs-by-day")]
         public async Task<IActionResult> GetLogsByDay([FromQuery] DateTime date)
         {
             var logs = await _service.SerilogService.GetLogsByDayAsync(date);
             return Ok(logs);
         }
 
-        [HttpDelete("delete-logs")]
+        [HttpDelete("system/delete-logs")]
         public async Task<IActionResult> DeleteTodayLogs()
         {
             //Log.Information("Hello in delete log api");
@@ -38,7 +37,7 @@ namespace PillSpot.Presentation.Controllers
             return Ok("All log files have been deleted.");
         }
 
-        [HttpDelete("delete-logs-by-day")]
+        [HttpDelete("system/delete-logs-by-day")]
         public async Task<IActionResult> DeleteLogsByDay([FromQuery] DateTime date)
         {
             //Log.Information("Hello in delete logs by day api");
@@ -47,23 +46,23 @@ namespace PillSpot.Presentation.Controllers
         }
 
 
-        [HttpGet("get-all-permissions")]
+        [HttpGet("permissions-management/get-all")]
         public async Task<IActionResult> GetAllPermissions([FromQuery]PermissionParameters permissionParameters)
         {
             var pagedResult = await _service.PermissionService.GetAllPermissionsAsync(permissionParameters, trackChanges: false);
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
             return Ok(pagedResult.permissions);
         }
         
-        [HttpGet("get-permissions-by-/{id:int}")]
+        [HttpGet("permissions-management/get-by-/{id:int}")]
         public async Task<IActionResult> GetPermissionbyId(int id)
         {
             var permissions = await _service.PermissionService.GetPermissionByIdAsync(id,trackChanges: false);
             return Ok(permissions);
         }
         
-        [HttpPost("create-permission")]
-        public async Task<IActionResult> CreatePermission([FromForm] CreatePermissionDto permissionDto)
+        [HttpPost("permissions-management/create")]
+        public async Task<IActionResult> CreatePermission([FromBody] CreatePermissionDto permissionDto)
         {
             if (permissionDto == null)
                 throw new PermissionBadRequestException();
@@ -72,16 +71,16 @@ namespace PillSpot.Presentation.Controllers
             return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionId},createdPermission);
         }
         
-        [HttpPost("create-collection-permission")]
-        public async Task<IActionResult> CreatePharmacyCollection([FromForm] IEnumerable<CreatePermissionDto> permissions)
+        [HttpPost("permissions-management/create-collection")]
+        public async Task<IActionResult> CreatePermissionCollection([FromBody] IEnumerable<CreatePermissionDto> permissions)
         {
             var (createdPermissions, ids) = await _service.PermissionService.CreatePermissionCollectionAsync(permissions);
 
             return Created();
         }
         
-        [HttpPut("update-permission/{id:int}")]
-        public async Task<IActionResult> UpdatePermission(int id, [FromForm] UpdatePermissionDto permissionDto)
+        [HttpPut("permissions-management/update/{id:int}")]
+        public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionDto permissionDto)
         {
             if (permissionDto == null)
                 throw new PermissionBadRequestException();
@@ -90,87 +89,49 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
         
-        [HttpDelete("delete-permission/{id:int}")]
+        [HttpDelete("permissions-management/delete-permission/{id:int}")]
         public async Task<IActionResult> DeletePermission(int id)
         {
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
             return NoContent();
         }
 
+//=====================================================================      ADMIN      ========================================================================
 
-        [HttpPost("assign")]
-        public async Task<IActionResult> AssignPermissionToAdmin([FromForm] CreateAdminPermissionDto createAdminPermissionDto)
+        [HttpPost("admin-permission/assign")]
+        public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
         {
-            var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(createAdminPermissionDto);
-            return CreatedAtRoute("GetAdminPermissions", new { adminId = result.AdminID }, result);
+            var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto);
+            return CreatedAtRoute("GetAdminPermissions", new { adminId = result.AdminId }, result);
         }
         
-        [HttpPost("assign-multiple/{adminId}")]
-        public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromForm] IEnumerable<int> permissionIds)
+        [HttpPost("admin-permission/assign-multiple/{adminId}")]
+        public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<int> permissionIds)
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
             return CreatedAtRoute("GetAdminPermissions", new { adminId = adminId }, result);
         }
-        
-        [HttpGet("{adminId}", Name = "GetAdminPermissions")]
+
+        [HttpGet("admin-permission/{adminId}", Name = "GetAdminPermissions")]
         public async Task<IActionResult> GetPermissionsToAdmin(string adminId)
         {
             var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
             return Ok(result);
         }
         
-        [HttpDelete("remove/{adminId}/{permissionId}")]
+        [HttpDelete("admin-permission/remove/{adminId}/{permissionId:int}")]
         public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, int permissionId)
         {
             await _service.AdminPermissionService.RemovePermissionFromAdminAsync(adminId, permissionId);
             return NoContent();
         }
 
-        [HttpDelete("remove-multiple-from-employee/{adminId}")]
-        public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromForm] IEnumerable<int> permissionIds)
+        [HttpDelete("admin-permission/remove-multiple/{adminId}")]
+        public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<int> permissionIds)
         {
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);
             return NoContent();
         }
-
-
-        [HttpPost("assign-employee-permission")]
-        public async Task<IActionResult> AssignPermissionToEmployee([FromForm] CreateEmployeePermissionDto createEmployeePermissionDto)
-        {
-            var result = await _service.EmployeePermissionService.AssignPermissionToEmployeeAsync(createEmployeePermissionDto);
-            return CreatedAtRoute("GetEmployeePermissions", new { EmployeeID = result.EmployeeId }, result);
-        }
-
-        [HttpPost("assign-employee-multiple-permission/{employeeId}")]
-        public async Task<IActionResult> AssignPermissionsToEmployee(ulong employeeId, [FromForm] IEnumerable<int> permissionIds)
-        {
-            var result = await _service.EmployeePermissionService.AssignPermissionsToEmployeeAsync(employeeId, permissionIds);
-            return CreatedAtRoute("GetEmployeePermissions", new { EmployeeId = employeeId }, result);
-        }
-
-        [HttpGet("{employeeId}", Name = "GetEmployeePermissions")]
-        public async Task<IActionResult> GetPermissionsToEmployee(ulong employeeId)
-        {
-            var result = await _service.EmployeePermissionService.GetPermissionsToEmployeeAsync(employeeId, trackChanges: false);
-            return Ok(result);
-        }
-
-        [HttpDelete("remove/{employeeId}/{permissionId}")]
-        public async Task<IActionResult> RemovePermissionFromEmployee(ulong employeeId, int permissionId)
-        {
-            await _service.EmployeePermissionService.RemovePermissionFromEmployeeAsync(employeeId, permissionId);
-            return NoContent();
-        }
-
-        [HttpDelete("remove-multiple/{employeeId}")]
-        public async Task<IActionResult> RemovePermissionsFromEmployee(ulong employeeId, [FromForm] IEnumerable<int> permissionIds)
-        {
-            await _service.EmployeePermissionService.RemovePermissionsFromEmployeeAsync(employeeId, permissionIds);
-            return NoContent();
-        }
-
-
-
 
     }
 }

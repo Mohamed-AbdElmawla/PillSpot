@@ -2,5 +2,6 @@
 {
     public class PermissionParameters : RequestParameters
     {
+        public PermissionParameters() => OrderBy = "Name";
     }
 }

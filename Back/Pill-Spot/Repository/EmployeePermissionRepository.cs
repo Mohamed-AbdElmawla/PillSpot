@@ -23,7 +23,7 @@ namespace Repository
 
         public async Task<IEnumerable<PharmacyEmployeePermission>> GetEmployeePermissionsAsync(ulong employeeId, bool trackChanges)
         {
-            var employeePermissions = await FindByCondition(ap => ap.EmployeeId == employeeId, trackChanges)
+            var employeePermissions = await FindByCondition(ap => ap.EmployeeId.Equals(employeeId), trackChanges)
                 .Include(ap => ap.Permission)
                 .ToListAsync();
             return employeePermissions;
@@ -36,6 +36,11 @@ namespace Repository
             foreach (var employeePermission in employeePermissions)
                 Delete(employeePermission);
         }
+        public async Task<string?> GetUserIdByEmployeeIdAsync(ulong employeeId) =>
+            await FindByCondition(ep => ep.EmployeeId.Equals(employeeId), trackChanges: false)
+            .Include(e => e.PharmacyEmployee)
+            .Select(e => e.PharmacyEmployee.UserId)
+            .FirstOrDefaultAsync();
     }
 
 }

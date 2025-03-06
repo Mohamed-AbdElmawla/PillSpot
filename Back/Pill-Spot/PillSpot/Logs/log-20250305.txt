@@ -1,0 +1,51 @@
+2025-03-05 14:04:13.463 +02:00 [INF] Application Started!
+2025-03-05 14:04:16.185 +02:00 [INF] User profile is available. Using 'C:\Users\Khaled Ibrahem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-03-05 14:04:19.877 +02:00 [INF] Now listening on: https://localhost:7298
+2025-03-05 14:04:21.438 +02:00 [INF] Now listening on: http://localhost:5146
+2025-03-05 14:04:23.028 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-05 14:04:23.119 +02:00 [INF] Hosting environment: Development
+2025-03-05 14:04:23.127 +02:00 [INF] Content root path: E:\GP\Back\Pill-Spot\PillSpot
+2025-03-05 14:04:40.303 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.html - null null
+2025-03-05 14:04:41.904 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.html - 200 null text/html;charset=utf-8 1621.9686ms
+2025-03-05 14:04:42.184 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-05 14:04:42.184 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.js - null null
+2025-03-05 14:04:42.237 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_vs/browserLink - null null
+2025-03-05 14:04:42.626 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.js - 200 null application/javascript;charset=utf-8 442.0769ms
+2025-03-05 14:04:42.673 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 489.4166ms
+2025-03-05 14:04:42.960 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_vs/browserLink - 200 null text/javascript; charset=UTF-8 723.739ms
+2025-03-05 14:04:43.370 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - null null
+2025-03-05 14:04:46.205 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 2835.7135ms
+2025-03-05 15:05:29.852 +02:00 [INF] Application Started!
+2025-03-05 15:05:30.981 +02:00 [INF] User profile is available. Using 'C:\Users\Khaled Ibrahem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-03-05 15:05:31.883 +02:00 [INF] Now listening on: https://localhost:7298
+2025-03-05 15:05:31.902 +02:00 [INF] Now listening on: http://localhost:5146
+2025-03-05 15:05:32.136 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-05 15:05:32.147 +02:00 [INF] Hosting environment: Development
+2025-03-05 15:05:32.150 +02:00 [INF] Content root path: E:\GP\Back\Pill-Spot\PillSpot
+2025-03-05 15:05:34.390 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.html - null null
+2025-03-05 15:05:35.279 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.html - 200 null text/html;charset=utf-8 893.604ms
+2025-03-05 15:05:35.446 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-05 15:05:35.450 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.js - null null
+2025-03-05 15:05:35.450 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_vs/browserLink - null null
+2025-03-05 15:05:35.622 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 175.5869ms
+2025-03-05 15:05:35.705 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.js - 200 null application/javascript;charset=utf-8 255.2376ms
+2025-03-05 15:05:35.918 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_vs/browserLink - 200 null text/javascript; charset=UTF-8 468.2493ms
+2025-03-05 15:05:36.173 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - null null
+2025-03-05 15:05:36.943 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 769.2584ms
+2025-03-05 15:11:36.028 +02:00 [INF] Application Started!
+2025-03-05 15:11:47.709 +02:00 [INF] User profile is available. Using 'C:\Users\Khaled Ibrahem\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-03-05 15:11:51.967 +02:00 [INF] Now listening on: https://localhost:7298
+2025-03-05 15:11:54.168 +02:00 [INF] Now listening on: http://localhost:5146
+2025-03-05 15:11:55.886 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.html - null null
+2025-03-05 15:11:56.501 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-05 15:11:59.735 +02:00 [INF] Hosting environment: Development
+2025-03-05 15:11:59.741 +02:00 [INF] Content root path: E:\GP\Back\Pill-Spot\PillSpot
+2025-03-05 15:12:02.074 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.html - 200 null text/html;charset=utf-8 6193.6945ms
+2025-03-05 15:12:02.443 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/index.js - null null
+2025-03-05 15:12:02.443 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-05 15:12:02.515 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/_vs/browserLink - null null
+2025-03-05 15:12:04.377 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/index.js - 200 null application/javascript;charset=utf-8 1933.9672ms
+2025-03-05 15:12:04.410 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_framework/aspnetcore-browser-refresh.js - 200 16501 application/javascript; charset=utf-8 1967.2738ms
+2025-03-05 15:12:04.746 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/_vs/browserLink - 200 null text/javascript; charset=UTF-8 2230.7687ms
+2025-03-05 15:12:05.222 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - null null
+2025-03-05 15:12:07.801 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7298/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 2578.4725ms
