@@ -187,10 +187,14 @@ E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
 E:\GP\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.exe
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.Development.json
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.json
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.staticwebassets.runtime.json
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.exe
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.deps.json
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.runtimeconfig.json
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.dll
+D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\AutoMapper.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Azure.Core.dll
@@ -366,9 +370,5 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.C
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\PillSpot.dll
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
-D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.deps.json
-D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.runtimeconfig.json
-D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.dll
-D:\Graduation Project\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll

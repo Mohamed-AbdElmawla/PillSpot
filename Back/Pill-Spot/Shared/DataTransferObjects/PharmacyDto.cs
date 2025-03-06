@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Shared.DataTransferObjects
         public ulong PharmacyId { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
+        public IFormFile? logo { get; init; }
         public LocationDto LocationDto { get; init; }
         public string ContactNumber { get; init; }
         public TimeSpan OpeningTime { get; init; }

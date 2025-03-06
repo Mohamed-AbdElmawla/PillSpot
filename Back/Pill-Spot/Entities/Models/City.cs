@@ -17,7 +17,7 @@ namespace Entities.Models
         public Guid GovernmentId { get; set; }
 
         [ForeignKey("GovernmentId")]
-        public virtual Government Government { get; set; }
+        public Government Government { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

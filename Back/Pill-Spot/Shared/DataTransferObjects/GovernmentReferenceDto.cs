@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
-    public record CityDto
+    public record GovernmentReferenceDto
     {
-        public string CityName { get; init; }
-        public GovernmentReferenceDto GovernmentReferenceDto { get; init; }
+        public string GovernmentName { get; init; }
     }
 }

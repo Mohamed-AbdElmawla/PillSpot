@@ -14,6 +14,7 @@ namespace Shared.DataTransferObjects
         [Required(ErrorMessage = "Pharmacy name is required.")]
         [MaxLength(255, ErrorMessage = "Pharmacy name cannot exceed 255 characters.")]
         public string Name { get; init; }
+
         [AllowedFileExtensions(new string[] { ".jpg", ".jpeg", ".png", ".pdf" })]
         [Required(ErrorMessage = "Pharmacist license is required.")]
         [MaxFileSize(3 * 1024 * 1024)]

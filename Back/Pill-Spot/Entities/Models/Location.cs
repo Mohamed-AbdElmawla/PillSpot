@@ -25,7 +25,7 @@ namespace Entities.Models
         public Guid CityId { get; set; }
 
         [ForeignKey("CityId")]
-        public virtual City City { get; set; }
+        public City City { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

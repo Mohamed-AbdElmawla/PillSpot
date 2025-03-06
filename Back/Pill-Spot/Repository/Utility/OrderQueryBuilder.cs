@@ -24,7 +24,7 @@ namespace Repository.Utility
                 pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
                 if (objectProperty == null)
                     continue;
-                var direction = param.EndsWith(" desc") ? "descending" : "ascending";
+                var direction = param.EndsWith(" desc") ? " descending" : " ascending";
                 orderQueryBuilder.Append($"{objectProperty.Name.ToString()}{ direction}, ");
             }
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
