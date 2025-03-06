@@ -21,7 +21,7 @@ namespace Service
         public async Task<PermissionDto> CreatePermissionAsync(CreatePermissionDto permissionDto)
         {
             var permissionEntity = _mapper.Map<Permission>(permissionDto);
-            await _repository.PermissionRepository.CreatePermissionAsync(permissionEntity);
+            _repository.PermissionRepository.CreatePermissionAsync(permissionEntity);
             await _repository.SaveAsync();
             return _mapper.Map<PermissionDto>(permissionEntity);
         }
@@ -33,7 +33,7 @@ namespace Service
             var permissionEntities = _mapper.Map<IEnumerable<Permission>>(permissionCollection);
             
             foreach (var permission in permissionEntities)
-                await _repository.PermissionRepository.CreatePermissionAsync(permission);
+                _repository.PermissionRepository.CreatePermissionAsync(permission);
             
             await _repository.SaveAsync();
             var permissionCollectionToReturn = _mapper.Map<IEnumerable<PermissionDto>>(permissionEntities);

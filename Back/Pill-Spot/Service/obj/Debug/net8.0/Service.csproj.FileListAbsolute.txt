@@ -1,4 +1,25 @@
-<<<<<<< HEAD
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.dll
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.pdb
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Contracts.dll
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Entities.dll
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.Contracts.dll
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Shared.dll
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Contracts.pdb
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.Contracts.pdb
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Entities.pdb
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Shared.pdb
+E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.deps.json
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.AssemblyReference.cache
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.GeneratedMSBuildEditorConfig.editorconfig
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfoInputs.cache
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfo.cs
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.CoreCompileInputs.cache
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.sourcelink.json
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.Up2Date
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.dll
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\refint\Service.dll
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.pdb
+E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\ref\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.deps.json
 D:\Graduation Project\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.pdb
@@ -15,33 +36,9 @@ D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.GeneratedM
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfoInputs.cache
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfo.cs
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.CoreCompileInputs.cache
+D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.sourcelink.json
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.CopyComplete
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\refint\Service.dll
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.pdb
 D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\ref\Service.dll
-D:\Graduation Project\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.sourcelink.json
-=======
->>>>>>> fb9ebc97d7599920979b068027214d01cefc3c7c
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.deps.json
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.dll
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.pdb
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Contracts.dll
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Entities.dll
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.Contracts.dll
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Shared.dll
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Contracts.pdb
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Service.Contracts.pdb
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Entities.pdb
-E:\GP\Back\Pill-Spot\Service\bin\Debug\net8.0\Shared.pdb
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.AssemblyReference.cache
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.GeneratedMSBuildEditorConfig.editorconfig
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfoInputs.cache
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.AssemblyInfo.cs
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.CoreCompileInputs.cache
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.sourcelink.json
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.csproj.Up2Date
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.dll
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\refint\Service.dll
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\Service.pdb
-E:\GP\Back\Pill-Spot\Service\obj\Debug\net8.0\ref\Service.dll

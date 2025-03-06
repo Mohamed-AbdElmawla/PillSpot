@@ -11,7 +11,7 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Permission name is required.")]
         [MaxLength(50, ErrorMessage = "Permission name cannot exceed 50 characters.")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
         public virtual ICollection<AdminPermission> AdminPermissions { get; set; } = new List<AdminPermission>();
