@@ -30,6 +30,9 @@ namespace Repository
                 .Sort(pharmacyRequestParameters.OrderBy)
                 .Skip((pharmacyRequestParameters.PageNumber - 1) * pharmacyRequestParameters.PageSize)
                 .Take(pharmacyRequestParameters.PageSize)
+                .Include(pr => pr.Location)
+                .Include(pr => pr.Location.City)
+                .Include(pr => pr.Location.City.Government)
                 .ToListAsync();
             var count = await FindAll(trackChanges).CountAsync();
             return new PagedList<PharmacyRequest>(PharmacyRequests, count, pharmacyRequestParameters.PageNumber, pharmacyRequestParameters.PageSize);

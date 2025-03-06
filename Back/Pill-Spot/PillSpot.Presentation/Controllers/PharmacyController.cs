@@ -38,7 +38,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+       // [Authorize(Roles ="Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacyDto)
         {
@@ -46,7 +46,7 @@ namespace PillSpot.Presentation.Controllers
             return CreatedAtAction(nameof(GetPharmacy), new { id = createdPharmacy.PharmacyId }, createdPharmacy);
         }
         [HttpPost("collection")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacies)
         {
@@ -67,7 +67,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{id:long}")]
-        [Authorize(Roles ="Admin")]
+       // [Authorize(Roles ="Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdatePharmacy(long id, [FromBody] PharmacyForUpdateDto pharmacyDto)
         {
@@ -76,12 +76,11 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:long}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePharmacy(long id)
         {
             await _service.PharmacyService.DeletePharmacy((ulong)id, trackChanges: true);
             return NoContent();
         }
-
     }
 }

@@ -50,7 +50,7 @@ namespace Entities.Models
 
         [Required]
         [ForeignKey("LocationId")]
-        public virtual Location Location { get; set; }
+        public Location Location { get; set; }
 
         [ForeignKey("OwnerId")]
         public virtual User Owner { get; set; }

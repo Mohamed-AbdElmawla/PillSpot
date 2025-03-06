@@ -29,6 +29,9 @@ namespace Repository
             .OrderBy(ph => ph.Name)
             .Skip((pharmaciesparameters.PageNumber - 1) * pharmaciesparameters.PageSize)
             .Take(pharmaciesparameters.PageSize)
+            .Include(pr => pr.Location)
+            .Include(pr => pr.Location.City)
+            .Include(pr => pr.Location.City.Government)
             .ToListAsync();
 
             var count = await FindAll(trackChanges).CountAsync();
@@ -41,12 +44,19 @@ namespace Repository
                 .OrderBy(ph => ph.Name)
                 .Skip((pharmaciesparameters.PageNumber - 1) * pharmaciesparameters.PageSize)
                 .Take(pharmaciesparameters.PageSize)
+                .Include(pr => pr.Location)
+                .Include(pr => pr.Location.City)
+                .Include(pr => pr.Location.City.Government)
                 .ToListAsync();
             var count = await FindByCondition(ph => ids.Contains(ph.PharmacyId), trackChanges).CountAsync();
             return new PagedList<Pharmacy>(Pharmacies, count, pharmaciesparameters.PageNumber, pharmaciesparameters.PageSize);
         }
 
-        public async Task<Pharmacy> GetPharmacyAsync(ulong pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyId.Equals(pharmacyId), trackChanges).SingleOrDefaultAsync();
+        public async Task<Pharmacy> GetPharmacyAsync(ulong pharmacyId, bool trackChanges) => await FindByCondition(ph => ph.PharmacyId.Equals(pharmacyId), trackChanges)
+                .Include(pr => pr.Location)
+                .Include(pr => pr.Location.City)
+                .Include(pr => pr.Location.City.Government)
+                .SingleOrDefaultAsync();
 
     }
 }
