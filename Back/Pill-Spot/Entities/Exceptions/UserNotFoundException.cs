@@ -10,11 +10,7 @@ namespace Entities.Exceptions
     {
         public UserNotFoundException(string userName) : base($"User with userName: {userName} was not found")
         {
-
-        }
-        public UserNotFoundException(int UserId) : base($"User with UserId: {UserId} was not found")
-        {
-
+            
         }
     }
 }

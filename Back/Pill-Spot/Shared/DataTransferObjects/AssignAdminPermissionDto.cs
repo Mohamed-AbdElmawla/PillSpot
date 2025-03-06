@@ -2,7 +2,7 @@
 {
     public record AssignAdminPermissionDto
     {
-        public required string AdminId { get; init; }
+        public string AdminId { get; init; }
         public int PermissionId { get; init; }
     }
 }

@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Images\\12a2008a-7876-49ba-9f5d-1d0fea5c3c4e.jpg",
+      "PackagePath": "staticwebassets\\Images\\12a2008a-7876-49ba-9f5d-1d0fea5c3c4e.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Images\\7dba62cc-2dce-4c89-a5b8-394c5eed8822.jpg",
+      "PackagePath": "staticwebassets\\Images\\7dba62cc-2dce-4c89-a5b8-394c5eed8822.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Logos\\12feac8a-4fd7-4816-a281-330153a3dd7e.JPG",
+      "PackagePath": "staticwebassets\\Logos\\12feac8a-4fd7-4816-a281-330153a3dd7e.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Logos\\8584695e-9828-4ff0-a150-6da066e58914.JPG",
+      "PackagePath": "staticwebassets\\Logos\\8584695e-9828-4ff0-a150-6da066e58914.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Logos\\ac8d1707-c6f4-47c5-8704-9a6eb88f9f09.JPG",
+      "PackagePath": "staticwebassets\\Logos\\ac8d1707-c6f4-47c5-8704-9a6eb88f9f09.JPG"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\PharmacistLicenses\\09fe1af4-6487-422b-9081-7e7dec6e310c.jpg",
+      "PackagePath": "staticwebassets\\PharmacistLicenses\\09fe1af4-6487-422b-9081-7e7dec6e310c.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\PharmacistLicenses\\29ecb89a-76b8-458d-bb82-92f66e8e78c1.jpg",
+      "PackagePath": "staticwebassets\\PharmacistLicenses\\29ecb89a-76b8-458d-bb82-92f66e8e78c1.jpg"
+    },
+    {
+      "Id": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\PharmacistLicenses\\c669e878-0fdf-4c31-a95a-c8e416483b98.jpg",
+      "PackagePath": "staticwebassets\\PharmacistLicenses\\c669e878-0fdf-4c31-a95a-c8e416483b98.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.PillSpot.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.PillSpot.props",
+      "PackagePath": "build\\PillSpot.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.PillSpot.props",
+      "PackagePath": "buildMultiTargeting\\PillSpot.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.PillSpot.props",
+      "PackagePath": "buildTransitive\\PillSpot.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
