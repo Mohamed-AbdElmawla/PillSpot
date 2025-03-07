@@ -1,7 +1,35 @@
 
 import { MdEdit } from "react-icons/md";
+import FormModal from "../EditAddModal";
+import { editEmployee, InputStaff } from "../EditAddModal/data";
+import { useState } from "react";
+
+
+type KeyType = keyof typeof InputStaff;
+
+  const DefaultData: Record<KeyType, string> = {
+   [InputStaff.JobTitle] : "" ,
+   [InputStaff.PhoneNumber] : "",
+   [InputStaff.Email] : ""
+  };
+  
 
 const StaffCard = () => {
+
+  const [empData,setData] = useState(DefaultData);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement> |  React.ChangeEvent<HTMLSelectElement>) {
+    const { value, name } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  console.log(empData)
+
+
+
   return (
     <div className="flex flex-col gap-5 w-fit p-5 rounded-2xl shadow-md hover:scale-105 duration-300 hover:bg-gray-100 overflow-hidden">
   
@@ -23,11 +51,26 @@ const StaffCard = () => {
         <div className="bg-[#CBE8FF] px-3 py-1 rounded-4xl text-sm break-words">
           asdfas@gmail.com
         </div>
-        <div className="bg-[#CBE8FF] w-7 h-7 flex items-center justify-center rounded-full text-xl">
+
+
+        <FormModal 
+        buttonStyle="bg-[#CBE8FF] w-7 h-7 flex items-center justify-center rounded-full text-xl hover:scale-110 duration-200"
+        inputData={editEmployee}
+        buttonText=""
+        closeButonTitle="Save Changes"
+        handleChange={handleChange}
+        
+        >
           <button className="cursor-pointer">
             <MdEdit />
           </button>
-        </div>
+
+
+        </FormModal>
+        
+
+
+
         <div className="border-red-400 border px-2 rounded-2xl text-red-400 cursor-pointer">
           <button className="cursor-pointer">remove</button>
         </div>
