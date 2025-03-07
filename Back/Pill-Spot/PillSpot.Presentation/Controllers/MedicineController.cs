@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -14,10 +13,10 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public MedicineController(IServiceManager service) => _service = service;
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetMedicine(long id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetMedicine(Guid id)
         {
-            var medicine = await _service.MedicineService.GetMedicineAsync((ulong)id, trackChanges: false);
+            var medicine = await _service.MedicineService.GetMedicineAsync(id, trackChanges: false);
             return Ok(medicine);
         }
 
@@ -30,11 +29,11 @@ namespace PillSpot.Presentation.Controllers
             return CreatedAtAction(nameof(GetMedicine), new { id = createdMedicine.ProductId }, createdMedicine);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteMedicine(long id)
+        public async Task<IActionResult> DeleteMedicine(Guid id)
         {
-            await _service.MedicineService.DeleteMedicine((ulong)id, trackChanges: true);
+            await _service.MedicineService.DeleteMedicine(id, trackChanges: true);
             return NoContent();
         }
     }

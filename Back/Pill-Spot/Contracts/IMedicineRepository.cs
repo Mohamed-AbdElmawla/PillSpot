@@ -9,7 +9,7 @@ namespace Contracts
 {
     public interface IMedicineRepository
     {
-        Task<Medicine> GetMedicineAsync(ulong productId, bool trackChanges);
+        Task<Medicine> GetMedicineAsync(Guid productId, bool trackChanges);
         void CreateMedicine(Medicine medicine);
         void DeleteMedicine(Medicine medicine);
     }

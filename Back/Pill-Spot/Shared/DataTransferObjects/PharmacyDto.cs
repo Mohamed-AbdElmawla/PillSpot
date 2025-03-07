@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared.DataTransferObjects
 {
     public record PharmacyDto
     {
-        public ulong PharmacyId { get; init; }
+        public Guid PharmacyId { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
         public IFormFile? logo { get; init; }

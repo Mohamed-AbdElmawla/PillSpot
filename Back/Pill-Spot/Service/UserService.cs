@@ -1,19 +1,11 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -86,8 +78,6 @@ namespace Service
 
             return (users: usersDto, metaData: usersWithMetaData.MetaData);
         }
-
-
         public async Task UpdatePasswordAsync(string userName, PasswordUpdateDto passwordDto)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -102,8 +92,6 @@ namespace Service
             if (!result.Succeeded)
                 throw new PasswordChangeFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
-
-
         public async Task UpdateEmailAsync(string userName, EmailUpdateDto emailDto)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);

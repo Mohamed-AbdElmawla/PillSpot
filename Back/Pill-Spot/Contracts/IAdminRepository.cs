@@ -6,6 +6,6 @@ namespace Contracts
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(string userId);
-        Task UpdateUserAsync(User user);
+        void UpdateUserAsync(User user);
     }
 }

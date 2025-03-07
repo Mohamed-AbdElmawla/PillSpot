@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDB : Migration
+    public partial class convertallidsnotstringtoGUID : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,8 +40,7 @@ namespace PillSpot.Migrations
                 name: "Batches",
                 columns: table => new
                 {
-                    BatchID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    BatchId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     BatchNumber = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ManufactureDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -53,7 +52,7 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Batches", x => x.BatchID);
+                    table.PrimaryKey("PK_Batches", x => x.BatchId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -61,8 +60,7 @@ namespace PillSpot.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -71,7 +69,7 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryID);
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -79,8 +77,7 @@ namespace PillSpot.Migrations
                 name: "Chats",
                 columns: table => new
                 {
-                    ChatId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ChatId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
@@ -112,8 +109,7 @@ namespace PillSpot.Migrations
                 name: "Ingredients",
                 columns: table => new
                 {
-                    IngredientsID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IngredientsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -122,7 +118,7 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredients", x => x.IngredientsID);
+                    table.PrimaryKey("PK_Ingredients", x => x.IngredientsId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -130,14 +126,13 @@ namespace PillSpot.Migrations
                 name: "Permissions",
                 columns: table => new
                 {
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PermissionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.PermissionID);
+                    table.PrimaryKey("PK_Permissions", x => x.PermissionId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -145,17 +140,16 @@ namespace PillSpot.Migrations
                 name: "Prescriptions",
                 columns: table => new
                 {
-                    PrescriptionID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FilePath = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                    FilePath = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prescriptions", x => x.PrescriptionID);
+                    table.PrimaryKey("PK_Prescriptions", x => x.PrescriptionId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -188,9 +182,8 @@ namespace PillSpot.Migrations
                 name: "SubCategories",
                 columns: table => new
                 {
-                    SubCategoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -199,12 +192,12 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryID);
+                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryId);
                     table.ForeignKey(
-                        name: "FK_SubCategories_Categories_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_SubCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID",
+                        principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -237,9 +230,8 @@ namespace PillSpot.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SubCategoryID = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SubCategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
@@ -254,12 +246,12 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductID);
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Products_SubCategories_SubCategoryID",
-                        column: x => x.SubCategoryID,
+                        name: "FK_Products_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
-                        principalColumn: "SubCategoryID",
+                        principalColumn: "SubCategoryId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -268,7 +260,7 @@ namespace PillSpot.Migrations
                 name: "Locations",
                 columns: table => new
                 {
-                    LocationID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Longitude = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
                     Latitude = table.Column<decimal>(type: "decimal(8,6)", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
@@ -280,7 +272,7 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locations", x => x.LocationID);
+                    table.PrimaryKey("PK_Locations", x => x.LocationId);
                     table.ForeignKey(
                         name: "FK_Locations_Cities_CityId",
                         column: x => x.CityId,
@@ -294,7 +286,7 @@ namespace PillSpot.Migrations
                 name: "Cosmetics",
                 columns: table => new
                 {
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Brand = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SkinType = table.Column<int>(type: "int", nullable: false),
@@ -304,12 +296,12 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cosmetics", x => x.ProductID);
+                    table.PrimaryKey("PK_Cosmetics", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Cosmetics_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_Cosmetics_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -318,7 +310,7 @@ namespace PillSpot.Migrations
                 name: "Medicines",
                 columns: table => new
                 {
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Manufacturer = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Dosage = table.Column<float>(type: "float", nullable: false),
@@ -328,12 +320,12 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medicines", x => x.ProductID);
+                    table.PrimaryKey("PK_Medicines", x => x.ProductId);
                     table.ForeignKey(
-                        name: "FK_Medicines_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_Medicines_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -342,23 +334,23 @@ namespace PillSpot.Migrations
                 name: "ProductIngredients",
                 columns: table => new
                 {
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    IngredientsID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IngredientsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductIngredients", x => new { x.ProductID, x.IngredientsID });
+                    table.PrimaryKey("PK_ProductIngredients", x => new { x.ProductId, x.IngredientsId });
                     table.ForeignKey(
-                        name: "FK_ProductIngredients_Ingredients_IngredientsID",
-                        column: x => x.IngredientsID,
+                        name: "FK_ProductIngredients_Ingredients_IngredientsId",
+                        column: x => x.IngredientsId,
                         principalTable: "Ingredients",
-                        principalColumn: "IngredientsID",
+                        principalColumn: "IngredientsId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductIngredients_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_ProductIngredients_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -367,23 +359,23 @@ namespace PillSpot.Migrations
                 name: "ProductPrescriptions",
                 columns: table => new
                 {
-                    PrescriptionID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductPrescriptions", x => new { x.PrescriptionID, x.ProductID });
+                    table.PrimaryKey("PK_ProductPrescriptions", x => new { x.PrescriptionId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_ProductPrescriptions_Prescriptions_PrescriptionID",
-                        column: x => x.PrescriptionID,
+                        name: "FK_ProductPrescriptions_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
                         principalTable: "Prescriptions",
-                        principalColumn: "PrescriptionID",
+                        principalColumn: "PrescriptionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductPrescriptions_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_ProductPrescriptions_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -396,7 +388,7 @@ namespace PillSpot.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfilePictureUrl = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocationID = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -436,10 +428,10 @@ namespace PillSpot.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Locations_LocationID",
-                        column: x => x.LocationID,
+                        name: "FK_AspNetUsers_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "LocationID",
+                        principalColumn: "LocationId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -448,24 +440,24 @@ namespace PillSpot.Migrations
                 name: "AdminPermissions",
                 columns: table => new
                 {
-                    AdminID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    AdminId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
+                    PermissionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdminPermissions", x => new { x.AdminID, x.PermissionID });
+                    table.PrimaryKey("PK_AdminPermissions", x => new { x.AdminId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_AdminPermissions_AspNetUsers_AdminID",
-                        column: x => x.AdminID,
+                        name: "FK_AdminPermissions_AspNetUsers_AdminId",
+                        column: x => x.AdminId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AdminPermissions_Permissions_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_AdminPermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -576,10 +568,10 @@ namespace PillSpot.Migrations
                 name: "Doctors",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsBusy = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LicenseID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    LicenseId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Rate = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -588,10 +580,10 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctors", x => x.UserID);
+                    table.PrimaryKey("PK_Doctors", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_Doctors_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Doctors_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -602,9 +594,8 @@ namespace PillSpot.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    FeedbackID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SenderID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    FeedbackId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SenderId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Rate = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     NotifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -616,10 +607,10 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedbacks", x => x.FeedbackID);
+                    table.PrimaryKey("PK_Feedbacks", x => x.FeedbackId);
                     table.ForeignKey(
-                        name: "FK_Feedbacks_AspNetUsers_SenderID",
-                        column: x => x.SenderID,
+                        name: "FK_Feedbacks_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -630,9 +621,8 @@ namespace PillSpot.Migrations
                 name: "Message",
                 columns: table => new
                 {
-                    MessageId = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ChatId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    MessageId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ChatId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SenderId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RecipientId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
@@ -670,8 +660,7 @@ namespace PillSpot.Migrations
                 name: "Notifications",
                 columns: table => new
                 {
-                    NotificationID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ActorId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -685,7 +674,7 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notifications", x => x.NotificationID);
+                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                     table.ForeignKey(
                         name: "FK_Notifications_AspNetUsers_ActorId",
                         column: x => x.ActorId,
@@ -699,11 +688,10 @@ namespace PillSpot.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocationID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -716,18 +704,18 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.OrderID);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Orders_Locations_LocationID",
-                        column: x => x.LocationID,
+                        name: "FK_Orders_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "LocationID",
+                        principalColumn: "LocationId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -736,17 +724,16 @@ namespace PillSpot.Migrations
                 name: "Pharmacies",
                 columns: table => new
                 {
-                    PharmacyID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ParentPharmacyID = table.Column<ulong>(type: "bigint unsigned", nullable: true),
-                    OwnerID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ParentPharmacyId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    OwnerId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LogoURL = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocationID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    LicenseID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LicenseId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactNumber = table.Column<string>(type: "varchar(11)", unicode: false, maxLength: 11, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -762,24 +749,24 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pharmacies", x => x.PharmacyID);
+                    table.PrimaryKey("PK_Pharmacies", x => x.PharmacyId);
                     table.ForeignKey(
-                        name: "FK_Pharmacies_AspNetUsers_OwnerID",
-                        column: x => x.OwnerID,
+                        name: "FK_Pharmacies_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Pharmacies_Locations_LocationID",
-                        column: x => x.LocationID,
+                        name: "FK_Pharmacies_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "LocationID",
+                        principalColumn: "LocationId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Pharmacies_Pharmacies_ParentPharmacyID",
-                        column: x => x.ParentPharmacyID,
+                        name: "FK_Pharmacies_Pharmacies_ParentPharmacyId",
+                        column: x => x.ParentPharmacyId,
                         principalTable: "Pharmacies",
-                        principalColumn: "PharmacyID",
+                        principalColumn: "PharmacyId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -788,9 +775,10 @@ namespace PillSpot.Migrations
                 name: "PharmacyRequest",
                 columns: table => new
                 {
-                    RequestID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    RequestId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AdminUserId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PharmacistLicenseUrl = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -798,8 +786,8 @@ namespace PillSpot.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LogoURL = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocationID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    LicenseID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LicenseId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactNumber = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -811,30 +799,28 @@ namespace PillSpot.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     AdminMessage = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AdminUserID = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RequestDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DecisionDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyRequest", x => x.RequestID);
+                    table.PrimaryKey("PK_PharmacyRequest", x => x.RequestId);
                     table.ForeignKey(
-                        name: "FK_PharmacyRequest_AspNetUsers_AdminUserID",
-                        column: x => x.AdminUserID,
+                        name: "FK_PharmacyRequest_AspNetUsers_AdminUserId",
+                        column: x => x.AdminUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PharmacyRequest_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_PharmacyRequest_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PharmacyRequest_Locations_LocationID",
-                        column: x => x.LocationID,
+                        name: "FK_PharmacyRequest_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
-                        principalColumn: "LocationID",
+                        principalColumn: "LocationId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -843,8 +829,7 @@ namespace PillSpot.Migrations
                 name: "SearchHistories",
                 columns: table => new
                 {
-                    SearchId = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SearchId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SearchTerm = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SearchedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -875,9 +860,8 @@ namespace PillSpot.Migrations
                 name: "Supports",
                 columns: table => new
                 {
-                    SupportID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    SupportId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
@@ -895,10 +879,10 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Supports", x => x.SupportID);
+                    table.PrimaryKey("PK_Supports", x => x.SupportId);
                     table.ForeignKey(
-                        name: "FK_Supports_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Supports_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -909,18 +893,18 @@ namespace PillSpot.Migrations
                 name: "UserChats",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "varchar(255)", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ChatId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    ImagePath = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
+                    ChatId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ImagePath = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChats", x => new { x.UserID, x.ChatId });
+                    table.PrimaryKey("PK_UserChats", x => new { x.UserId, x.ChatId });
                     table.ForeignKey(
-                        name: "FK_UserChats_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserChats_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -937,24 +921,24 @@ namespace PillSpot.Migrations
                 name: "UserPrescriptions",
                 columns: table => new
                 {
-                    PrescriptionID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPrescriptions", x => x.PrescriptionID);
+                    table.PrimaryKey("PK_UserPrescriptions", x => x.PrescriptionId);
                     table.ForeignKey(
-                        name: "FK_UserPrescriptions_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_UserPrescriptions_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPrescriptions_Prescriptions_PrescriptionID",
-                        column: x => x.PrescriptionID,
+                        name: "FK_UserPrescriptions_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
                         principalTable: "Prescriptions",
-                        principalColumn: "PrescriptionID",
+                        principalColumn: "PrescriptionId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -963,20 +947,20 @@ namespace PillSpot.Migrations
                 name: "DoctorPrescriptions",
                 columns: table => new
                 {
-                    PrescriptionID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DoctorId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Instructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorPrescriptions", x => x.PrescriptionID);
+                    table.PrimaryKey("PK_DoctorPrescriptions", x => x.PrescriptionId);
                     table.ForeignKey(
-                        name: "FK_DoctorPrescriptions_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_DoctorPrescriptions_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -984,13 +968,13 @@ namespace PillSpot.Migrations
                         name: "FK_DoctorPrescriptions_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DoctorPrescriptions_Prescriptions_PrescriptionID",
-                        column: x => x.PrescriptionID,
+                        name: "FK_DoctorPrescriptions_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
                         principalTable: "Prescriptions",
-                        principalColumn: "PrescriptionID",
+                        principalColumn: "PrescriptionId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -999,24 +983,24 @@ namespace PillSpot.Migrations
                 name: "DoctorFeedbacks",
                 columns: table => new
                 {
-                    FeedbackID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    FeedbackId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorFeedbacks", x => x.FeedbackID);
+                    table.PrimaryKey("PK_DoctorFeedbacks", x => x.FeedbackId);
                     table.ForeignKey(
-                        name: "FK_DoctorFeedbacks_Doctors_UserID",
-                        column: x => x.UserID,
+                        name: "FK_DoctorFeedbacks_Doctors_UserId",
+                        column: x => x.UserId,
                         principalTable: "Doctors",
-                        principalColumn: "UserID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DoctorFeedbacks_Feedbacks_FeedbackID",
-                        column: x => x.FeedbackID,
+                        name: "FK_DoctorFeedbacks_Feedbacks_FeedbackId",
+                        column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "FeedbackID",
+                        principalColumn: "FeedbackId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1027,11 +1011,11 @@ namespace PillSpot.Migrations
                 {
                     ReceiverId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NotificationID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserNotifications", x => new { x.ReceiverId, x.NotificationID });
+                    table.PrimaryKey("PK_UserNotifications", x => new { x.ReceiverId, x.NotificationId });
                     table.ForeignKey(
                         name: "FK_UserNotifications_AspNetUsers_ReceiverId",
                         column: x => x.ReceiverId,
@@ -1039,10 +1023,10 @@ namespace PillSpot.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserNotifications_Notifications_NotificationID",
-                        column: x => x.NotificationID,
+                        name: "FK_UserNotifications_Notifications_NotificationId",
+                        column: x => x.NotificationId,
                         principalTable: "Notifications",
-                        principalColumn: "NotificationID",
+                        principalColumn: "NotificationId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1051,34 +1035,33 @@ namespace PillSpot.Migrations
                 name: "OrderItems",
                 columns: table => new
                 {
-                    OrderItemID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PharmacyBranchID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    OrderID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    OrderItemId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PharmacyBranchId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemID);
+                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderID",
-                        column: x => x.OrderID,
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "OrderID",
+                        principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Pharmacies_PharmacyBranchID",
-                        column: x => x.PharmacyBranchID,
+                        name: "FK_OrderItems_Pharmacies_PharmacyBranchId",
+                        column: x => x.PharmacyBranchId,
                         principalTable: "Pharmacies",
-                        principalColumn: "PharmacyID",
+                        principalColumn: "PharmacyId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1087,11 +1070,10 @@ namespace PillSpot.Migrations
                 name: "PharmacyEmployees",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserID = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    EmployeeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PharmacyID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Role = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HireDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -1101,18 +1083,18 @@ namespace PillSpot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyEmployees", x => x.EmployeeID);
+                    table.PrimaryKey("PK_PharmacyEmployees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployees_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_PharmacyEmployees_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployees_Pharmacies_PharmacyID",
-                        column: x => x.PharmacyID,
+                        name: "FK_PharmacyEmployees_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
-                        principalColumn: "PharmacyID",
+                        principalColumn: "PharmacyId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1121,23 +1103,23 @@ namespace PillSpot.Migrations
                 name: "PharmacyFeedbacks",
                 columns: table => new
                 {
-                    FeedbackID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    PharmacyID = table.Column<ulong>(type: "bigint unsigned", nullable: false)
+                    FeedbackId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyFeedbacks", x => x.FeedbackID);
+                    table.PrimaryKey("PK_PharmacyFeedbacks", x => x.FeedbackId);
                     table.ForeignKey(
-                        name: "FK_PharmacyFeedbacks_Feedbacks_FeedbackID",
-                        column: x => x.FeedbackID,
+                        name: "FK_PharmacyFeedbacks_Feedbacks_FeedbackId",
+                        column: x => x.FeedbackId,
                         principalTable: "Feedbacks",
-                        principalColumn: "FeedbackID",
+                        principalColumn: "FeedbackId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PharmacyFeedbacks_Pharmacies_PharmacyID",
-                        column: x => x.PharmacyID,
+                        name: "FK_PharmacyFeedbacks_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
-                        principalColumn: "PharmacyID",
+                        principalColumn: "PharmacyId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1146,37 +1128,37 @@ namespace PillSpot.Migrations
                 name: "ProductPharmacies",
                 columns: table => new
                 {
-                    ProductID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    PharmacyID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    BatchID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    BatchId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    BatchID1 = table.Column<ulong>(type: "bigint unsigned", nullable: true)
+                    BatchId1 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductPharmacies", x => new { x.ProductID, x.PharmacyID });
+                    table.PrimaryKey("PK_ProductPharmacies", x => new { x.ProductId, x.PharmacyId });
                     table.ForeignKey(
-                        name: "FK_ProductPharmacies_Batches_BatchID",
-                        column: x => x.BatchID,
+                        name: "FK_ProductPharmacies_Batches_BatchId",
+                        column: x => x.BatchId,
                         principalTable: "Batches",
-                        principalColumn: "BatchID",
+                        principalColumn: "BatchId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductPharmacies_Batches_BatchID1",
-                        column: x => x.BatchID1,
+                        name: "FK_ProductPharmacies_Batches_BatchId1",
+                        column: x => x.BatchId1,
                         principalTable: "Batches",
-                        principalColumn: "BatchID");
+                        principalColumn: "BatchId");
                     table.ForeignKey(
-                        name: "FK_ProductPharmacies_Pharmacies_PharmacyID",
-                        column: x => x.PharmacyID,
+                        name: "FK_ProductPharmacies_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
-                        principalColumn: "PharmacyID",
+                        principalColumn: "PharmacyId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductPharmacies_Products_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_ProductPharmacies_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductID",
+                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1185,23 +1167,23 @@ namespace PillSpot.Migrations
                 name: "PharmacyEmployeePermissions",
                 columns: table => new
                 {
-                    EmployeeID = table.Column<ulong>(type: "bigint unsigned", nullable: false),
-                    PermissionID = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PermissionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PharmacyEmployeePermissions", x => new { x.EmployeeID, x.PermissionID });
+                    table.PrimaryKey("PK_PharmacyEmployeePermissions", x => new { x.EmployeeId, x.PermissionId });
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployeePermissions_Permissions_PermissionID",
-                        column: x => x.PermissionID,
+                        name: "FK_PharmacyEmployeePermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
                         principalTable: "Permissions",
-                        principalColumn: "PermissionID",
+                        principalColumn: "PermissionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PharmacyEmployeePermissions_PharmacyEmployees_EmployeeID",
-                        column: x => x.EmployeeID,
+                        name: "FK_PharmacyEmployeePermissions_PharmacyEmployees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "PharmacyEmployees",
-                        principalColumn: "EmployeeID",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1211,24 +1193,24 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "041ae8c2-6891-43b9-ad80-0a1fadc18bc5", null, "Admin", "ADMIN" },
-                    { "34411420-9350-4a7d-92c0-8bf8723f2573", null, "SuperAdmin", "SUPERADMIN" },
-                    { "614ab8c3-62b8-4c1b-825d-2f9dcae43e6d", null, "User", "USER" },
-                    { "93f897e7-cd57-4013-b8e6-1af65ec463b0", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "b57a932d-f05a-41dd-be74-4f71686cadbb", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "be08fa48-ed43-424c-9e7f-338699ad53e2", null, "Doctor", "DOCTOR" },
-                    { "e3c6c020-0cf1-46ef-a083-a3142cced27b", null, "PharmacyOwner", "PHARMACYOWNER" }
+                    { "6c6ffb5f-6391-4d24-ab02-4407cd4b6c34", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "8be0c66e-12d2-4d85-b0f9-5014d4bd3ab1", null, "User", "USER" },
+                    { "8e2fd180-bcc0-4804-b2a5-f242df59ed20", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "96b89c27-aa7a-4e97-b3b1-b5e68156df17", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "a10c82fe-2a8d-442a-a676-72ae0a8e9e00", null, "SuperAdmin", "SUPERADMIN" },
+                    { "c2202abe-b51f-4e25-bde6-fb4d7d08b767", null, "Admin", "ADMIN" },
+                    { "d2f91738-dd11-40cd-9109-89369ce15f33", null, "Doctor", "DOCTOR" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdminPermission_AdminID_PermissionID",
+                name: "IX_AdminPermission_AdminId_PermissionId",
                 table: "AdminPermissions",
-                columns: new[] { "AdminID", "PermissionID" });
+                columns: new[] { "AdminId", "PermissionId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdminPermissions_PermissionID",
+                name: "IX_AdminPermissions_PermissionId",
                 table: "AdminPermissions",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1262,9 +1244,9 @@ namespace PillSpot.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_LocationID",
+                name: "IX_User_LocationId",
                 table: "AspNetUsers",
-                column: "LocationID");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -1316,9 +1298,9 @@ namespace PillSpot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorFeedback_UserID",
+                name: "IX_DoctorFeedback_UserId",
                 table: "DoctorFeedbacks",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DP_DocId",
@@ -1326,9 +1308,9 @@ namespace PillSpot.Migrations
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DP_UsrID",
+                name: "IX_DP_UsrId",
                 table: "DoctorPrescriptions",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctor_IsDeleted",
@@ -1336,9 +1318,9 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_LicenseID",
+                name: "IX_Doctor_LicenseId",
                 table: "Doctors",
-                column: "LicenseID",
+                column: "LicenseId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1347,9 +1329,9 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedback_SenderID",
+                name: "IX_Feedback_SenderId",
                 table: "Feedbacks",
-                column: "SenderID");
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Government_IsDeleted",
@@ -1414,19 +1396,19 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_OrderID_ProductID",
+                name: "IX_OrderItem_OrderId_ProductId",
                 table: "OrderItems",
-                columns: new[] { "OrderID", "ProductID" });
+                columns: new[] { "OrderId", "ProductId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_PharmacyBranchID",
+                name: "IX_OrderItems_PharmacyBranchId",
                 table: "OrderItems",
-                column: "PharmacyBranchID");
+                column: "PharmacyBranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ProductID",
+                name: "IX_OrderItems_ProductId",
                 table: "OrderItems",
-                column: "ProductID");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_IsDeleted",
@@ -1434,14 +1416,14 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserID",
+                name: "IX_Order_UserId",
                 table: "Orders",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_LocationID",
+                name: "IX_Orders_LocationId",
                 table: "Orders",
-                column: "LocationID");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_Name",
@@ -1450,19 +1432,19 @@ namespace PillSpot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pharmacies_LocationID",
+                name: "IX_Pharmacies_LocationId",
                 table: "Pharmacies",
-                column: "LocationID");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pharmacies_OwnerID",
+                name: "IX_Pharmacies_OwnerId",
                 table: "Pharmacies",
-                column: "OwnerID");
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pharmacies_ParentPharmacyID",
+                name: "IX_Pharmacies_ParentPharmacyId",
                 table: "Pharmacies",
-                column: "ParentPharmacyID");
+                column: "ParentPharmacyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pharmacy_IsDeleted",
@@ -1475,14 +1457,14 @@ namespace PillSpot.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyEmployeePermission_EmployeeID_PermissionID",
+                name: "IX_PharmacyEmployeePermission_EmployeeId_PermissionId",
                 table: "PharmacyEmployeePermissions",
-                columns: new[] { "EmployeeID", "PermissionID" });
+                columns: new[] { "EmployeeId", "PermissionId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyEmployeePermissions_PermissionID",
+                name: "IX_PharmacyEmployeePermissions_PermissionId",
                 table: "PharmacyEmployeePermissions",
-                column: "PermissionID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyEmployee_IsDeleted",
@@ -1490,34 +1472,34 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyEmployee_UserID_PharmacyID",
+                name: "IX_PharmacyEmployee_UserId_PharmacyId",
                 table: "PharmacyEmployees",
-                columns: new[] { "UserID", "PharmacyID" });
+                columns: new[] { "UserId", "PharmacyId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyEmployees_PharmacyID",
+                name: "IX_PharmacyEmployees_PharmacyId",
                 table: "PharmacyEmployees",
-                column: "PharmacyID");
+                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyFeedback_PharmacyID",
+                name: "IX_PharmacyFeedback_PharmacyId",
                 table: "PharmacyFeedbacks",
-                column: "PharmacyID");
+                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyRequest_AdminUserID",
+                name: "IX_PharmacyRequest_AdminUserId",
                 table: "PharmacyRequest",
-                column: "AdminUserID");
+                column: "AdminUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyRequest_LocationID",
+                name: "IX_PharmacyRequest_LocationId",
                 table: "PharmacyRequest",
-                column: "LocationID");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyRequest_UserID",
+                name: "IX_PharmacyRequest_UserId",
                 table: "PharmacyRequest",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prescription_IsDeleted",
@@ -1525,44 +1507,44 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductIngredient_ProductID_IngredientsID",
+                name: "IX_ProductIngredient_ProductId_IngredientsId",
                 table: "ProductIngredients",
-                columns: new[] { "ProductID", "IngredientsID" });
+                columns: new[] { "ProductId", "IngredientsId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductIngredients_IngredientsID",
+                name: "IX_ProductIngredients_IngredientsId",
                 table: "ProductIngredients",
-                column: "IngredientsID");
+                column: "IngredientsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPharmacies_BatchID",
+                name: "IX_PharmacyProduct_ProductId_PharmacyId",
                 table: "ProductPharmacies",
-                column: "BatchID");
+                columns: new[] { "ProductId", "PharmacyId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPharmacies_BatchID1",
+                name: "IX_ProductPharmacies_BatchId",
                 table: "ProductPharmacies",
-                column: "BatchID1");
+                column: "BatchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPharmacies_PharmacyID",
+                name: "IX_ProductPharmacies_BatchId1",
                 table: "ProductPharmacies",
-                column: "PharmacyID");
+                column: "BatchId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPharmacy_ProductID_PharmacyID",
+                name: "IX_ProductPharmacies_PharmacyId",
                 table: "ProductPharmacies",
-                columns: new[] { "ProductID", "PharmacyID" });
+                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPrescription_PrescriptionID_ProductID",
+                name: "IX_ProductPrescription_PrescriptionId_ProductId",
                 table: "ProductPrescriptions",
-                columns: new[] { "PrescriptionID", "ProductID" });
+                columns: new[] { "PrescriptionId", "ProductId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductPrescriptions_ProductID",
+                name: "IX_ProductPrescriptions_ProductId",
                 table: "ProductPrescriptions",
-                column: "ProductID");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_IsDeleted",
@@ -1575,9 +1557,9 @@ namespace PillSpot.Migrations
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SubCategoryID",
+                name: "IX_Products_SubCategoryId",
                 table: "Products",
-                column: "SubCategoryID");
+                column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SearchHistories_UserId1",
@@ -1595,9 +1577,9 @@ namespace PillSpot.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubCategories_CategoryID",
+                name: "IX_SubCategories_CategoryId",
                 table: "SubCategories",
-                column: "CategoryID");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategory_IsDeleted",
@@ -1615,14 +1597,14 @@ namespace PillSpot.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Support_UserID",
+                name: "IX_Support_UserId",
                 table: "Supports",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserChat_UserID_ChatId",
+                name: "IX_UserChat_UserId_ChatId",
                 table: "UserChats",
-                columns: new[] { "UserID", "ChatId" });
+                columns: new[] { "UserId", "ChatId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserChats_ChatId",
@@ -1630,19 +1612,19 @@ namespace PillSpot.Migrations
                 column: "ChatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserNotification_ReceiverId_NotificationID",
+                name: "IX_UserNotification_ReceiverId_NotificationId",
                 table: "UserNotifications",
-                columns: new[] { "ReceiverId", "NotificationID" });
+                columns: new[] { "ReceiverId", "NotificationId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserNotifications_NotificationID",
+                name: "IX_UserNotifications_NotificationId",
                 table: "UserNotifications",
-                column: "NotificationID");
+                column: "NotificationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPrescriptions_UserID",
+                name: "IX_UserPrescriptions_UserId",
                 table: "UserPrescriptions",
-                column: "UserID");
+                column: "UserId");
         }
 
         /// <inheritdoc />

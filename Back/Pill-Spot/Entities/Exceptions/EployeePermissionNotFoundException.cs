@@ -2,11 +2,11 @@
 {
     public class EployeePermissionNotFoundException : NotFoundException
     {
-        public EployeePermissionNotFoundException(ulong employeeId)
+        public EployeePermissionNotFoundException(Guid employeeId)
             : base($"No permissions found for Employee with ID: {employeeId}.")
         { }
 
-        public EployeePermissionNotFoundException(ulong employeeId, int permissionId)
+        public EployeePermissionNotFoundException(Guid employeeId, Guid permissionId)
             : base($"Permission with ID: {permissionId} not found for Employee with ID: {employeeId}.")
         { }
     }

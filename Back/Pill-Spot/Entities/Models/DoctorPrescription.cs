@@ -6,16 +6,16 @@ namespace Entities.Models
     public class DoctorPrescription
     {
         [Key]
-        public ulong PrescriptionId { get; set; }
+        public Guid PrescriptionId { get; set; }
 
         [Required(ErrorMessage = "Doctor ID is required.")]
-        public string DoctorId { get; set; }
+        public required string DoctorId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
 
         [MaxLength(500, ErrorMessage = "Instructions cannot exceed 500 characters.")]
-        public string Instructions { get; set; }
+        public required string Instructions { get; set; }
 
         [ForeignKey("PrescriptionId")]
         public virtual Prescription Prescription { get; set; }

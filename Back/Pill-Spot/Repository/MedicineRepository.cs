@@ -1,11 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -17,7 +12,7 @@ namespace Repository
 
         public void DeleteMedicine(Medicine medicine) => Delete(medicine);
 
-        public async Task<Medicine> GetMedicineAsync(ulong productId, bool trackChanges) =>
+        public async Task<Medicine> GetMedicineAsync(Guid productId, bool trackChanges) =>
             await FindByCondition(m => m.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
     }
 }

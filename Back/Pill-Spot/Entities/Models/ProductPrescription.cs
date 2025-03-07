@@ -6,10 +6,10 @@ namespace Entities.Models
     public class ProductPrescription
     {
         [Key, Column(Order = 0)]
-        public ulong PrescriptionId { get; set; }
+        public Guid PrescriptionId { get; set; }
 
         [Key, Column(Order = 1)]
-        public ulong ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [ForeignKey("PrescriptionId")]
         public virtual Prescription Prescription { get; set; }

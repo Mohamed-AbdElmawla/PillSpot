@@ -4,12 +4,7 @@ using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -30,10 +25,10 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacies);
         }
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetPharmacy(long id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetPharmacy(Guid id)
         {
-            var pharmacy = await _service.PharmacyService.GetPharmacyAsync((ulong)id, trackChanges: false);
+            var pharmacy = await _service.PharmacyService.GetPharmacyAsync(id, trackChanges: false);
             return Ok(pharmacy);
         }
 
@@ -58,7 +53,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpGet("collection/{ids}")]
         public async Task<IActionResult> GetByIds([FromRoute] string ids, [FromQuery] PharmaciesParameters parameters)
         {
-            var idArray = ids.Split(',').Select(ulong.Parse);
+            var idArray = ids.Split(',').Select(Guid.Parse);
             var pagedResult = await _service.PharmacyService.GetByIdsAsync(idArray, parameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
@@ -66,20 +61,20 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacies);
         }
 
-        [HttpPut("{id:long}")]
+        [HttpPut("{id:Guid}")]
        // [Authorize(Roles ="Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdatePharmacy(long id, [FromBody] PharmacyForUpdateDto pharmacyDto)
+        public async Task<IActionResult> UpdatePharmacy(Guid id, [FromBody] PharmacyForUpdateDto pharmacyDto)
         {
-            await _service.PharmacyService.UpdatePharmacy((ulong)id, pharmacyDto, trackChanges: true);
+            await _service.PharmacyService.UpdatePharmacy(id, pharmacyDto, trackChanges: true);
             return NoContent();
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeletePharmacy(long id)
+        public async Task<IActionResult> DeletePharmacy(Guid id)
         {
-            await _service.PharmacyService.DeletePharmacy((ulong)id, trackChanges: true);
+            await _service.PharmacyService.DeletePharmacy(id, trackChanges: true);
             return NoContent();
         }
     }

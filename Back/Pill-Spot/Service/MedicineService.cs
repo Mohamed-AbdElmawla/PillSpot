@@ -4,11 +4,6 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -31,7 +26,7 @@ namespace Service
             return _mapper.Map<MedicineDto>(medicineEntity);
         }
 
-        public async Task DeleteMedicine(ulong productId, bool trackChanges)
+        public async Task DeleteMedicine(Guid productId, bool trackChanges)
         {
             var medicine = await _repository.MedicineRepository.GetMedicineAsync(productId, trackChanges);
             if (medicine == null)
@@ -41,7 +36,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<MedicineDto> GetMedicineAsync(ulong productId, bool trackChanges)
+        public async Task<MedicineDto> GetMedicineAsync(Guid productId, bool trackChanges)
         {
             var medicine = await _repository.MedicineRepository.GetMedicineAsync(productId, trackChanges);
             if (medicine == null)

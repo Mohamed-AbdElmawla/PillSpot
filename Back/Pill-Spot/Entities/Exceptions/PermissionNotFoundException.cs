@@ -2,7 +2,7 @@
 {
     public class PermissionNotFoundException : NotFoundException
     {
-        public PermissionNotFoundException(int permissionId)
+        public PermissionNotFoundException(Guid permissionId)
             : base($"Permission with id: {permissionId} was not found.")
         {
         }

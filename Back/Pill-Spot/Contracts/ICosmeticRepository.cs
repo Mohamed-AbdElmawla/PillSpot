@@ -9,7 +9,7 @@ namespace Contracts
 {
     public interface ICosmeticRepository
     {
-        Task<Cosmetic> GetCosmeticAsync(ulong productId, bool trackChanges);
+        Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges);
         void CreateCosmetic(Cosmetic cosmetic);
         void DeleteCosmetic(Cosmetic cosmetic);
     }

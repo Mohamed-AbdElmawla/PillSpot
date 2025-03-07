@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
     public class Prescription
     {
         [Key]
-        public ulong PrescriptionId { get; set; }
+        public Guid PrescriptionId { get; set; }
 
         [Required(ErrorMessage = "Created date is required.")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [MaxLength(500, ErrorMessage = "File path cannot exceed 500 characters.")]
-        public string FilePath { get; set; }
+        public string? FilePath { get; set; }
 
         public virtual ICollection<ProductPrescription> ProductPrescriptions { get; set; } = new List<ProductPrescription>();
 

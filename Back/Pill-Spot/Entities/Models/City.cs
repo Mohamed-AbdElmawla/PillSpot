@@ -11,7 +11,7 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "City name is required.")]
         [MaxLength(250, ErrorMessage = "City name cannot exceed 250 characters.")]
-        public string CityName { get; set; }
+        public required string CityName { get; set; }
 
         [Required(ErrorMessage = "Government ID is required.")]
         public Guid GovernmentId { get; set; }

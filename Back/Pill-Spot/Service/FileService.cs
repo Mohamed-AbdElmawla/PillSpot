@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -35,7 +30,6 @@ namespace Service
 
             return $"/uploads/{folderName}/{newFileName}";
         }
-
         public async Task<bool> DeleteFileAsync(string fileUrl)
         {
             if (string.IsNullOrWhiteSpace(fileUrl))

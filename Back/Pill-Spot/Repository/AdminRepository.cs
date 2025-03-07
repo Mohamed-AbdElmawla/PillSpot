@@ -15,6 +15,6 @@ namespace Repository
 
         public async Task<User?> GetUserByIdAsync(string userId) => await _userManager.FindByIdAsync(userId);
 
-        public async Task UpdateUserAsync(User user) => await _userManager.UpdateAsync(user);
+        public void UpdateUserAsync(User user) => _userManager.UpdateAsync(user);
     }
 }

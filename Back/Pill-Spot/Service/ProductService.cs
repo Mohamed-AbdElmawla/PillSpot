@@ -4,11 +4,6 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -31,7 +26,7 @@ namespace Service
             return _mapper.Map<ProductDto>(productEntity);
         }
 
-        public async Task DeleteProduct(ulong productId, bool trackChanges)
+        public async Task DeleteProduct(Guid productId, bool trackChanges)
         {
             var product = await _repository.ProductRepository.GetProductAsync(productId, trackChanges);
             if (product == null)
@@ -47,7 +42,7 @@ namespace Service
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public async Task<ProductDto> GetProductAsync(ulong productId, bool trackChanges)
+        public async Task<ProductDto> GetProductAsync(Guid productId, bool trackChanges)
         {
             var product = await _repository.ProductRepository.GetProductAsync(productId, trackChanges);
             if (product == null)

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Entities.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Entities.Models;
 
 namespace Shared.DataTransferObjects
 {
     public class PharmacyRequestDto
     {
-        public ulong RequestId { get; init; }
+        public Guid RequestId { get; init; }
         public string Name { get; init; }
         public string? LogoURL { get; init; }
         public LocationDto LocationDto { get; init; }

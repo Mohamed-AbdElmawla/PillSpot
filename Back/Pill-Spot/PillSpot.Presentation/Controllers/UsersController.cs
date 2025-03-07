@@ -5,7 +5,6 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {

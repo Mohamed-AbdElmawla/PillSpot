@@ -8,26 +8,32 @@ namespace Repository
     {
         public AdminPermissionRepository(RepositoryContext context) : base(context) { }
 
-        public async Task AssignPermissionToAdminAsync(AdminPermission adminPermission)
-        {
-            Create(adminPermission);
-            await Task.CompletedTask;
-        }
+        public async Task<bool> AdminHasPermissionAsync(string adminId, Guid permissionId) =>
+            await FindByCondition(ap => ap.AdminId.Equals(adminId) &&
+            ap.PermissionId.Equals(permissionId), trackChanges: false)
+            .AnyAsync();
 
-        public async Task AssignPermissionsToAdminAsync(IEnumerable<AdminPermission> adminPermissions)
+        public async Task<bool> AdminHasAnyPermissionAsync(string adminId, IEnumerable<Guid> permissionIds) =>
+            await FindByCondition(ap => ap.AdminId.Equals(adminId) &&
+            permissionIds.Contains(ap.PermissionId), trackChanges: false).AnyAsync();
+
+        public void AssignPermissionToAdminAsync(AdminPermission adminPermission) => Create(adminPermission);
+
+        public void AssignPermissionsToAdminAsync(IEnumerable<AdminPermission> adminPermissions)
         {
-            foreach (var adminPermission in adminPermissions) 
+            foreach (var adminPermission in adminPermissions)
                 Create(adminPermission);
-            await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<AdminPermission>> GetAdminPermissionsAsync(string adminId, bool trackChanges)
-        {
-            var adminPermissions = await FindByCondition(ap => ap.AdminId == adminId, trackChanges)
-                .Include(ap => ap.Permission)
-                .ToListAsync();
-            return adminPermissions;
-        }
+        public async Task<IEnumerable<AdminPermission>> GetAdminPermissionsAsync(string adminId, bool trackChanges) =>
+            await FindByCondition(ap => ap.AdminId.Equals(adminId), trackChanges)
+            .Include(ap => ap.Permission)
+            .ToListAsync();
+
+        public async Task<IEnumerable<AdminPermission>> GetAdminPermissionsByIdsAsync(string adminId, IEnumerable<Guid> permissionIds, bool trackChanges) =>
+            await FindByCondition(ap => ap.AdminId.Equals(adminId) && permissionIds.Contains(ap.PermissionId), trackChanges)
+            .Include(ap => ap.Permission)
+            .ToListAsync();
 
         public void RemovePermissionFromAdmin(AdminPermission adminPermission) => Delete(adminPermission);
 

@@ -6,12 +6,12 @@ namespace Entities.Models
     public class PharmacyProduct
     {
         [Key, Column(Order = 0)]
-        public ulong PharmacyId { get; set; }
+        public Guid PharmacyId { get; set; }
         [Key, Column(Order = 1)]
-        public ulong ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [Required(ErrorMessage = "Batch ID is required.")]
-        public ulong BatchId { get; set; }
+        public Guid BatchId { get; set; }
 
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]

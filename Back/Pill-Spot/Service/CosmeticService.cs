@@ -4,11 +4,6 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -31,7 +26,7 @@ namespace Service
             return _mapper.Map<CosmeticDto>(cosmeticEntity);
         }
 
-        public async Task DeleteCosmetic(ulong productId, bool trackChanges)
+        public async Task DeleteCosmetic(Guid productId, bool trackChanges)
         {
             var cosmetic = await _repository.CosmeticRepository.GetCosmeticAsync(productId, trackChanges);
             if (cosmetic == null)
@@ -41,7 +36,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<CosmeticDto> GetCosmeticAsync(ulong productId, bool trackChanges)
+        public async Task<CosmeticDto> GetCosmeticAsync(Guid productId, bool trackChanges)
         {
             var cosmetic = await _repository.CosmeticRepository.GetCosmeticAsync(productId, trackChanges);
             if (cosmetic == null)

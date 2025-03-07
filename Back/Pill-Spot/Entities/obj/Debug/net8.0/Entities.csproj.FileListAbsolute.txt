@@ -24,3 +24,16 @@ D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
 D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.deps.json
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.pdb
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.AssemblyReference.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll

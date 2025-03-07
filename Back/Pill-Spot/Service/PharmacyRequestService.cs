@@ -2,17 +2,11 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace Service
 {
     internal class PharmacyRequestService : IPharmacyRequestService
@@ -65,7 +59,7 @@ namespace Service
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
             await _repository.SaveAsync();
         }
-        public async Task ApproveRequestAsync(ulong requestId, bool trackChanges)
+        public async Task ApproveRequestAsync(Guid requestId, bool trackChanges)
         {
             var request = await _repository.PharmacyRequestRepository.GetByIdAsync(requestId, trackChanges);
 
@@ -106,7 +100,7 @@ namespace Service
             return (pharmacyRequests: pharmacyRequestsDto, metaData: requestsWithMetaData.MetaData);
         }
 
-        public async Task RejectRequestAsync(ulong requestId, bool trackChanges)
+        public async Task RejectRequestAsync(Guid requestId, bool trackChanges)
         {
             var request = await _repository.PharmacyRequestRepository.GetByIdAsync(requestId, trackChanges);
 

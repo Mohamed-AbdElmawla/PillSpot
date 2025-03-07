@@ -28,8 +28,8 @@ namespace PillSpot.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.HasKey("AdminId", "PermissionId");
@@ -37,18 +37,16 @@ namespace PillSpot.Migrations
                     b.HasIndex("PermissionId");
 
                     b.HasIndex("AdminId", "PermissionId")
-                        .HasDatabaseName("IX_AdminPermission_AdminID_PermissionID");
+                        .HasDatabaseName("IX_AdminPermission_AdminId_PermissionId");
 
                     b.ToTable("AdminPermissions");
                 });
 
             modelBuilder.Entity("Entities.Models.Batch", b =>
                 {
-                    b.Property<ulong>("BatchId")
+                    b.Property<Guid>("BatchId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("BatchId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("BatchNumber")
                         .IsRequired()
@@ -92,11 +90,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CategoryId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -129,11 +125,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Chat", b =>
                 {
-                    b.Property<ulong>("ChatId")
+                    b.Property<Guid>("ChatId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("ChatId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -236,8 +230,8 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.DoctorFeedback", b =>
                 {
-                    b.Property<ulong>("FeedbackId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("FeedbackId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -255,8 +249,8 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.DoctorPrescription", b =>
                 {
-                    b.Property<ulong>("PrescriptionId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -289,11 +283,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Feedback", b =>
                 {
-                    b.Property<ulong>("FeedbackId")
+                    b.Property<Guid>("FeedbackId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("FeedbackId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -372,11 +364,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Ingredient", b =>
                 {
-                    b.Property<ulong>("IngredientsId")
+                    b.Property<Guid>("IngredientsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("IngredientsId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -454,14 +444,12 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Message", b =>
                 {
-                    b.Property<ulong>("MessageId")
+                    b.Property<Guid>("MessageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("MessageId"));
-
-                    b.Property<ulong>("ChatId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -501,11 +489,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
                 {
-                    b.Property<ulong>("NotificationId")
+                    b.Property<Guid>("NotificationId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("NotificationId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ActorId")
                         .IsRequired()
@@ -552,11 +538,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Order", b =>
                 {
-                    b.Property<ulong>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("OrderId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -611,20 +595,18 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.OrderItem", b =>
                 {
-                    b.Property<ulong>("OrderItemId")
+                    b.Property<Guid>("OrderItemId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("OrderItemId"));
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<ulong>("OrderId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("PharmacyBranchId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<ulong>("PharmacyBranchId")
-                        .HasColumnType("bigint unsigned");
-
-                    b.Property<ulong>("ProductId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -646,11 +628,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Permission", b =>
                 {
-                    b.Property<int>("PermissionId")
+                    b.Property<Guid>("PermissionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("PermissionId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -669,11 +649,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Pharmacy", b =>
                 {
-                    b.Property<ulong>("PharmacyId")
+                    b.Property<Guid>("PharmacyId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("PharmacyId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<TimeSpan>("ClosingTime")
                         .HasColumnType("time(6)");
@@ -733,8 +711,8 @@ namespace PillSpot.Migrations
                         .IsUnicode(true)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<ulong?>("ParentPharmacyId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid?>("ParentPharmacyId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("RowVersion")
                         .IsConcurrencyToken()
@@ -760,11 +738,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployee", b =>
                 {
-                    b.Property<ulong>("EmployeeId")
+                    b.Property<Guid>("EmployeeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("EmployeeId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -780,8 +756,8 @@ namespace PillSpot.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<ulong>("PharmacyId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("PharmacyId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -810,12 +786,12 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeePermission", b =>
                 {
-                    b.Property<ulong>("EmployeeId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(0);
 
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.HasKey("EmployeeId", "PermissionId");
@@ -830,11 +806,11 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyFeedback", b =>
                 {
-                    b.Property<ulong>("FeedbackId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("FeedbackId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<ulong>("PharmacyId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("PharmacyId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("FeedbackId");
 
@@ -846,19 +822,19 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyProduct", b =>
                 {
-                    b.Property<ulong>("ProductId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
-                    b.Property<ulong>("PharmacyId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("PharmacyId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(0);
 
-                    b.Property<ulong>("BatchId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<ulong?>("BatchId1")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid?>("BatchId1")
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -879,11 +855,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyRequest", b =>
                 {
-                    b.Property<ulong>("RequestId")
+                    b.Property<Guid>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("RequestId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AdminMessage")
                         .HasColumnType("longtext");
@@ -958,17 +932,14 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Prescription", b =>
                 {
-                    b.Property<ulong>("PrescriptionId")
+                    b.Property<Guid>("PrescriptionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("PrescriptionId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
@@ -991,11 +962,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
-                    b.Property<ulong>("ProductId")
+                    b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("ProductId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -1034,8 +1003,8 @@ namespace PillSpot.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp(6)");
 
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SubCategoryId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("ProductId");
 
@@ -1054,12 +1023,12 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.ProductIngredient", b =>
                 {
-                    b.Property<ulong>("ProductId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(0);
 
-                    b.Property<ulong>("IngredientsId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("IngredientsId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.HasKey("ProductId", "IngredientsId");
@@ -1074,12 +1043,12 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.ProductPrescription", b =>
                 {
-                    b.Property<ulong>("PrescriptionId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(0);
 
-                    b.Property<ulong>("ProductId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.HasKey("PrescriptionId", "ProductId");
@@ -1087,15 +1056,16 @@ namespace PillSpot.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasIndex("PrescriptionId", "ProductId")
-                        .HasDatabaseName("IX_ProductPrescription_PrescriptionID_ProductID");
+                        .HasDatabaseName("IX_ProductPrescription_PrescriptionId_ProductId");
 
                     b.ToTable("ProductPrescriptions");
                 });
 
             modelBuilder.Entity("Entities.Models.SearchHistory", b =>
                 {
-                    b.Property<string>("SearchId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<Guid>("SearchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1135,14 +1105,12 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.SubCategory", b =>
                 {
-                    b.Property<int>("SubCategoryId")
+                    b.Property<Guid>("SubCategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SubCategoryId"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -1176,11 +1144,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Support", b =>
                 {
-                    b.Property<ulong>("SupportId")
+                    b.Property<Guid>("SupportId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint unsigned");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<ulong>("SupportId"));
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AssignedTo")
                         .IsRequired()
@@ -1358,12 +1324,11 @@ namespace PillSpot.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(0);
 
-                    b.Property<ulong>("ChatId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
@@ -1384,8 +1349,8 @@ namespace PillSpot.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(0);
 
-                    b.Property<ulong>("NotificationId")
-                        .HasColumnType("bigint unsigned")
+                    b.Property<Guid>("NotificationId")
+                        .HasColumnType("char(36)")
                         .HasColumnOrder(1);
 
                     b.HasKey("ReceiverId", "NotificationId");
@@ -1400,8 +1365,8 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.UserPrescription", b =>
                 {
-                    b.Property<ulong>("PrescriptionId")
-                        .HasColumnType("bigint unsigned");
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -1443,43 +1408,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d289d787-a121-498b-b484-8355f49b8d2e",
+                            Id = "8be0c66e-12d2-4d85-b0f9-5014d4bd3ab1",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "3497adcf-edaa-4e0c-9ef7-218966c12172",
+                            Id = "d2f91738-dd11-40cd-9109-89369ce15f33",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "c7a13146-994c-4ad8-9df5-d992f2b171c4",
+                            Id = "8e2fd180-bcc0-4804-b2a5-f242df59ed20",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "b38726e2-d8c3-483a-9593-b255b5d6372b",
+                            Id = "96b89c27-aa7a-4e97-b3b1-b5e68156df17",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "0ef662b8-d887-4320-9e35-df2e703f5f2f",
+                            Id = "6c6ffb5f-6391-4d24-ab02-4407cd4b6c34",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "52376ba3-d735-44d3-baad-4ecc7955660d",
+                            Id = "a10c82fe-2a8d-442a-a676-72ae0a8e9e00",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "1ec15fc3-bdc3-44c4-8772-c5d665f8de6c",
+                            Id = "c2202abe-b51f-4e25-bde6-fb4d7d08b767",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

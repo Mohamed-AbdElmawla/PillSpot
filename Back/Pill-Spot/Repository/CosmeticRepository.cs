@@ -17,7 +17,7 @@ namespace Repository
 
         public void DeleteCosmetic(Cosmetic cosmetic) => Delete(cosmetic);
 
-        public async Task<Cosmetic> GetCosmeticAsync(ulong productId, bool trackChanges) =>
+        public async Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges) =>
             await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
     }
 }

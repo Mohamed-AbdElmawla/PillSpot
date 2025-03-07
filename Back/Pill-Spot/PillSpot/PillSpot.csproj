@@ -6,9 +6,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Images\**" />
+    <Compile Remove="Logs\**" />
     <Content Remove="Images\**" />
+    <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Images\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <None Remove="Images\**" />
+    <None Remove="Logs\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
@@ -28,8 +32,5 @@
     <ProjectReference Include="..\PillSpot.Presentation\PillSpot.Presentation.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logs\" />
   </ItemGroup>
 </Project>

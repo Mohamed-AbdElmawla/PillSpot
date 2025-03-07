@@ -5,35 +5,46 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Admin/bulk-user-management": {
+    "/api/admin/bulk-user-management": {
       "post": {
         "tags": [
           "Admin"
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "UserIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "Action": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "UserIds": {
-                  "style": "form"
-                },
-                "Action": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUserManagementDto"
               }
             }
           }
@@ -45,32 +56,46 @@
         }
       }
     },
-    "/api/Admin/assign-user-role": {
+    "/api/admin/assign-user-role": {
       "post": {
         "tags": [
           "Admin"
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "UserId": {
-                    "type": "string"
-                  },
-                  "Role": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "UserId": {
-                  "style": "form"
-                },
-                "Role": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRoleDto"
               }
             }
           }
@@ -316,8 +341,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -337,8 +362,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -397,11 +422,488 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cosmetics/{id}": {
+      "get": {
+        "tags": [
+          "Cosmetic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cosmetic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cosmetics": {
+      "post": {
+        "tags": [
+          "Cosmetic"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CosmeticForCreationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeePermission/assign": {
+      "post": {
+        "tags": [
+          "EmployeePermission"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignEmployeePermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeePermission/assign-multiple/{employeeId}": {
+      "post": {
+        "tags": [
+          "EmployeePermission"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeePermission/{employeeId}": {
+      "get": {
+        "tags": [
+          "EmployeePermission"
+        ],
+        "operationId": "GetEmployeePermissions",
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeePermission/remove/{employeeId}/{permissionId}": {
+      "delete": {
+        "tags": [
+          "EmployeePermission"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmployeePermission/remove-multiple/{employeeId}": {
+      "delete": {
+        "tags": [
+          "EmployeePermission"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/medicines/{id}": {
+      "get": {
+        "tags": [
+          "Medicine"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicine"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/medicines": {
+      "post": {
+        "tags": [
+          "Medicine"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicineForCreationDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -506,8 +1008,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -527,8 +1029,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -587,8 +1089,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -716,6 +1218,186 @@
         }
       }
     },
+    "/api/pharmacyproducts": {
+      "get": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PharmacyProductForCreationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}": {
+      "get": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "parameters": [
+          {
+            "name": "pharmacyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "parameters": [
+          {
+            "name": "pharmacyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}/batch": {
+      "get": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "parameters": [
+          {
+            "name": "pharmacyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/pharmacy-requests/submit": {
       "post": {
         "tags": [
@@ -730,7 +1412,7 @@
                   "ContactNumber",
                   "DaysOpen",
                   "IsOpen24",
-                  "LicenseID",
+                  "LicenseId",
                   "Location.AdditionalInfo",
                   "Location.CityName",
                   "Location.GovernmentName",
@@ -774,7 +1456,7 @@
                     "maxLength": 250,
                     "type": "string"
                   },
-                  "LicenseID": {
+                  "LicenseId": {
                     "maxLength": 450,
                     "type": "string"
                   },
@@ -825,7 +1507,7 @@
                 "Location.GovernmentName": {
                   "style": "form"
                 },
-                "LicenseID": {
+                "LicenseId": {
                   "style": "form"
                 },
                 "ContactNumber": {
@@ -868,8 +1550,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -891,8 +1573,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -940,6 +1622,111 @@
         }
       }
     },
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductForCreationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/categories/{categoryId}/subcategories": {
       "get": {
         "tags": [
@@ -951,8 +1738,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -972,8 +1759,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1034,8 +1821,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -1043,8 +1830,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1064,8 +1851,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -1073,8 +1860,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1133,8 +1920,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -1142,8 +1929,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1154,7 +1941,7 @@
         }
       }
     },
-    "/api/SuperAdmin/get-logs": {
+    "/api/SuperAdmin/system/get-logs": {
       "get": {
         "tags": [
           "SuperAdmin"
@@ -1166,7 +1953,7 @@
         }
       }
     },
-    "/api/SuperAdmin/get-logs-by-day": {
+    "/api/SuperAdmin/system/get-logs-by-day": {
       "get": {
         "tags": [
           "SuperAdmin"
@@ -1188,7 +1975,7 @@
         }
       }
     },
-    "/api/SuperAdmin/delete-logs": {
+    "/api/SuperAdmin/system/delete-logs": {
       "delete": {
         "tags": [
           "SuperAdmin"
@@ -1200,7 +1987,7 @@
         }
       }
     },
-    "/api/SuperAdmin/delete-logs-by-day": {
+    "/api/SuperAdmin/system/delete-logs-by-day": {
       "delete": {
         "tags": [
           "SuperAdmin"
@@ -1222,7 +2009,7 @@
         }
       }
     },
-    "/api/SuperAdmin/get-all-permissions": {
+    "/api/SuperAdmin/permissions-management/get-all": {
       "get": {
         "tags": [
           "SuperAdmin"
@@ -1259,7 +2046,7 @@
         }
       }
     },
-    "/api/SuperAdmin/get-permissions-by-/{id}": {
+    "/api/SuperAdmin/permissions-management/get-by-/{id}": {
       "get": {
         "tags": [
           "SuperAdmin"
@@ -1270,8 +2057,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1282,29 +2069,117 @@
         }
       }
     },
-    "/api/SuperAdmin/create-permission": {
+    "/api/SuperAdmin/permissions-management/create": {
       "post": {
         "tags": [
           "SuperAdmin"
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "required": [
-                  "Name"
-                ],
-                "type": "object",
-                "properties": {
-                  "Name": {
-                    "maxLength": 50,
-                    "type": "string"
-                  }
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SuperAdmin/permissions-management/create-collection": {
+      "post": {
+        "tags": [
+          "SuperAdmin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
                 }
-              },
-              "encoding": {
-                "Name": {
-                  "style": "form"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
+                }
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
+                }
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreatePermissionDto"
                 }
               }
             }
@@ -1317,41 +2192,7 @@
         }
       }
     },
-    "/api/SuperAdmin/create-collection-permission": {
-      "post": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "permissions": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/CreatePermissionDto"
-                    }
-                  }
-                }
-              },
-              "encoding": {
-                "permissions": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/update-permission/{id}": {
+    "/api/SuperAdmin/permissions-management/update/{id}": {
       "put": {
         "tags": [
           "SuperAdmin"
@@ -1362,30 +2203,46 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "required": [
-                  "Name"
-                ],
-                "type": "object",
-                "properties": {
-                  "Name": {
-                    "maxLength": 50,
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "Name": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
               }
             }
           }
@@ -1397,7 +2254,7 @@
         }
       }
     },
-    "/api/SuperAdmin/delete-permission/{id}": {
+    "/api/SuperAdmin/permissions-management/delete-permission/{id}": {
       "delete": {
         "tags": [
           "SuperAdmin"
@@ -1408,8 +2265,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1420,36 +2277,46 @@
         }
       }
     },
-    "/api/SuperAdmin/assign": {
+    "/api/SuperAdmin/admin-permission/assign": {
       "post": {
         "tags": [
           "SuperAdmin"
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "required": [
-                  "AdminID"
-                ],
-                "type": "object",
-                "properties": {
-                  "AdminID": {
-                    "type": "string"
-                  },
-                  "PermissionID": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
-              },
-              "encoding": {
-                "AdminID": {
-                  "style": "form"
-                },
-                "PermissionID": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignAdminPermissionDto"
               }
             }
           }
@@ -1461,7 +2328,7 @@
         }
       }
     },
-    "/api/SuperAdmin/assign-multiple/{adminId}": {
+    "/api/SuperAdmin/admin-permission/assign-multiple/{adminId}": {
       "post": {
         "tags": [
           "SuperAdmin"
@@ -1478,22 +2345,66 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "permissionIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer",
-                      "format": "int32"
-                    }
-                  }
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
-              },
-              "encoding": {
-                "permissionIds": {
-                  "style": "form"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1506,7 +2417,7 @@
         }
       }
     },
-    "/api/SuperAdmin/{adminId}": {
+    "/api/SuperAdmin/admin-permission/{adminId}": {
       "get": {
         "tags": [
           "SuperAdmin"
@@ -1529,7 +2440,7 @@
         }
       }
     },
-    "/api/SuperAdmin/remove/{adminId}/{permissionId}": {
+    "/api/SuperAdmin/admin-permission/remove/{adminId}/{permissionId}": {
       "delete": {
         "tags": [
           "SuperAdmin"
@@ -1548,8 +2459,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -1560,7 +2471,7 @@
         }
       }
     },
-    "/api/SuperAdmin/remove-multiple-from-employee/{adminId}": {
+    "/api/SuperAdmin/admin-permission/remove-multiple/{adminId}": {
       "delete": {
         "tags": [
           "SuperAdmin"
@@ -1577,212 +2488,66 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json-patch+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "permissionIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer",
-                      "format": "int32"
-                    }
-                  }
-                }
-              },
-              "encoding": {
-                "permissionIds": {
-                  "style": "form"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/assign-employee-permission": {
-      "post": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
+            },
+            "application/json": {
               "schema": {
-                "required": [
-                  "EmployeeID"
-                ],
-                "type": "object",
-                "properties": {
-                  "EmployeeID": {
-                    "type": "integer",
-                    "format": "int64"
-                  },
-                  "PermissionID": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
-              },
-              "encoding": {
-                "EmployeeID": {
-                  "style": "form"
-                },
-                "PermissionID": {
-                  "style": "form"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/assign-employee-multiple-permission/{employeeId}": {
-      "post": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "parameters": [
-          {
-            "name": "employeeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
+            },
+            "text/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "permissionIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer",
-                      "format": "int32"
-                    }
-                  }
-                }
-              },
-              "encoding": {
-                "permissionIds": {
-                  "style": "form"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/{employeeId}": {
-      "get": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "operationId": "GetEmployeePermissions",
-        "parameters": [
-          {
-            "name": "employeeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/remove/{employeeId}/{permissionId}": {
-      "delete": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "parameters": [
-          {
-            "name": "employeeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "permissionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/SuperAdmin/remove-multiple/{employeeId}": {
-      "delete": {
-        "tags": [
-          "SuperAdmin"
-        ],
-        "parameters": [
-          {
-            "name": "employeeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
+            },
+            "application/*+json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "permissionIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "integer",
-                      "format": "int32"
-                    }
-                  }
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
-              },
-              "encoding": {
-                "permissionIds": {
-                  "style": "form"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -1839,6 +2604,18 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/token/csrf": {
+      "get": {
+        "tags": [
+          "Token"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -2086,6 +2863,28 @@
         }
       }
     },
+    "/api/users/{userName}/roles": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/users": {
       "get": {
         "tags": [
@@ -2236,55 +3035,80 @@
           }
         }
       }
-    },
-    "/api/users/{userName}/roles": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/users/send-email-confirmation/{userName}": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "userName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
+      "AssignAdminPermissionDto": {
+        "required": [
+          "adminId"
+        ],
+        "type": "object",
+        "properties": {
+          "adminId": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssignEmployeePermissionDto": {
+        "type": "object",
+        "properties": {
+          "employeeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "permissionId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssignUserRoleDto": {
+        "required": [
+          "role",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BulkUserManagementDto": {
+        "type": "object",
+        "properties": {
+          "userIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "action": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CategoryForCreateDto": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -2295,11 +3119,59 @@
         "additionalProperties": false
       },
       "CategoryForUpdateDto": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CosmeticForCreationDto": {
+        "required": [
+          "brand",
+          "usageInstructions"
+        ],
+        "type": "object",
+        "properties": {
+          "subCategoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "imageURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true
+          },
+          "skinType": {
+            "$ref": "#/components/schemas/SkinType"
+          },
+          "usageInstructions": {
+            "type": "string",
+            "nullable": true
+          },
+          "volume": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -2344,6 +3216,51 @@
         ],
         "type": "string"
       },
+      "MedicineForCreationDto": {
+        "required": [
+          "manufacturer",
+          "sideEffects"
+        ],
+        "type": "object",
+        "properties": {
+          "subCategoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "imageURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "dosage": {
+            "type": "number",
+            "format": "float"
+          },
+          "sideEffects": {
+            "type": "string",
+            "nullable": true
+          },
+          "isPrescriptionRequired": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "PasswordUpdateDto": {
         "required": [
           "confirmPassword",
@@ -2369,14 +3286,21 @@
         "additionalProperties": false
       },
       "PharmacyForCreationDto": {
+        "required": [
+          "contactNumber",
+          "daysOpen",
+          "licenseId",
+          "name",
+          "ownerId"
+        ],
         "type": "object",
         "properties": {
-          "parentPharmacyID": {
-            "type": "integer",
-            "format": "int64",
+          "parentPharmacyId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
-          "ownerID": {
+          "ownerId": {
             "type": "string",
             "nullable": true
           },
@@ -2388,11 +3312,11 @@
             "type": "string",
             "nullable": true
           },
-          "locationID": {
+          "locationId": {
             "type": "string",
             "format": "uuid"
           },
-          "licenseID": {
+          "licenseId": {
             "type": "string",
             "nullable": true
           },
@@ -2422,14 +3346,17 @@
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 255,
             "type": "string",
             "nullable": true
           },
-          "logoURL": {
+          "logo": {
             "type": "string",
+            "format": "binary",
             "nullable": true
           },
           "contactNumber": {
+            "maxLength": 11,
             "type": "string",
             "nullable": true
           },
@@ -2448,6 +3375,55 @@
             "nullable": true
           },
           "daysOpen": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PharmacyProductForCreationDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pharmacyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "batchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductForCreationDto": {
+        "type": "object",
+        "properties": {
+          "subCategoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "imageURL": {
             "type": "string",
             "nullable": true
           }
@@ -2467,7 +3443,20 @@
         },
         "additionalProperties": false
       },
+      "SkinType": {
+        "enum": [
+          "Normal",
+          "Oily",
+          "Dry",
+          "Combination",
+          "Sensitive"
+        ],
+        "type": "string"
+      },
       "SubCategoryForCreateDto": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
           "name": {
@@ -2497,6 +3486,20 @@
           "refreshToken": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePermissionDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

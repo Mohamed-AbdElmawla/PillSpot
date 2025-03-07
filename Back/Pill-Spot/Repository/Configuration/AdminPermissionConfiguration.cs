@@ -21,7 +21,7 @@ namespace Repository.Configuration
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(ae => new { ae.AdminId, ae.PermissionId })
-                .HasDatabaseName("IX_AdminPermission_AdminID_PermissionID");
+                .HasDatabaseName("IX_AdminPermission_AdminId_PermissionId");
         }
     }
 }

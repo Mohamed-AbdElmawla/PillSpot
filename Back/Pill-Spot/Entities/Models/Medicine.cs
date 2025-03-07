@@ -6,7 +6,7 @@
     {
         [Required(ErrorMessage = "Manufacturer is required.")]
         [MaxLength(250, ErrorMessage = "Manufacturer cannot exceed 250 characters.")]
-        public string Manufacturer { get; set; }
+        public required string Manufacturer { get; set; }
 
         [Required(ErrorMessage = "Dosage is required.")]
         [Range(0.01, float.MaxValue, ErrorMessage = "Dosage must be greater than zero.")]
@@ -14,7 +14,7 @@
 
         [Required(ErrorMessage = "Side effects are required.")]
         [MaxLength(500, ErrorMessage = "Side effects cannot exceed 500 characters.")]
-        public string SideEffects { get; set; }
+        public required string SideEffects { get; set; }
 
         [Required(ErrorMessage = "Prescription requirement is required.")]
         public bool IsPrescriptionRequired { get; set; }

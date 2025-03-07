@@ -8,17 +8,17 @@ namespace Entities.Models
     public class PharmacyEmployee
     {
         [Key]
-        public ulong EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy ID is required.")]
-        public ulong PharmacyId { get; set; }
+        public Guid PharmacyId { get; set; }
 
         [Required(ErrorMessage = "Role is required.")]
         [MaxLength(100, ErrorMessage = "Role cannot exceed 100 characters.")]
-        public string Role { get; set; }
+        public required string Role { get; set; }
 
         [Required(ErrorMessage = "Hire date is required.")]
         public DateTime HireDate { get; set; }

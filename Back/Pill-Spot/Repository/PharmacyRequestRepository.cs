@@ -3,11 +3,6 @@ using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extentions;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -20,8 +15,9 @@ namespace Repository
         public void CreatePharmacyRequest(PharmacyRequest request) => Create(request);
         public void DeletePharmacyRequest(PharmacyRequest request) => Delete(request);
 
-        public async Task<PharmacyRequest> GetByIdAsync(ulong id, bool trackChanges) =>
-           await FindByCondition(pr => pr.RequestId.Equals(id), trackChanges).SingleOrDefaultAsync();
+        public async Task<PharmacyRequest> GetByIdAsync(Guid pharmacyRequestId, bool trackChanges) =>
+           await FindByCondition(pr => pr.RequestId.Equals(pharmacyRequestId), trackChanges).SingleOrDefaultAsync();
+
         public async Task<IEnumerable<PharmacyRequest>> GetByStatusAsync(string userId, PharmacyRequestStatus status, bool trackChanges) =>
            await FindByCondition(pr => pr.UserId.Equals(userId) && pr.Status.Equals(status), trackChanges).ToListAsync();
 
@@ -39,6 +35,6 @@ namespace Repository
         }
 
 
-        public async Task UpdateAsync(PharmacyRequest request) => Update(request);
+        public void UpdateRequest(PharmacyRequest request) => Update(request);
     }
 }
