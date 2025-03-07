@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -13,18 +14,20 @@ import InventoryPage from "../pages/PharmacyManagement/Inventory";
 import PharManagementHome from "../pages/PharmacyManagement/ManagementHome";
 import OrderManagementHome from "../pages/PharmacyManagement/OrdersManagemnt";
 import StaffManagement from "../pages/PharmacyManagement/StaffManagement";
+import DataChart from "../pages/PharmacyManagement/DataChart";
 
 // Define the router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootPage />}>
+      <Route index element={<Navigate to="landing" replace />} /> 
       <Route path="landing" element={<Home />} />
       <Route path="result" element={<ResultPage />} />
       <Route path="pharmacymanagement" element={<PharManagementLayout />}>
         <Route path="pharmanhome" element={<PharManagementHome/>} />
         <Route path="pharmaninventory" element={<InventoryPage/>} />
         <Route path="pharmanstaff" element={<StaffManagement/>} />
-        <Route path="pharmananalytics" element={"pharmacy analytics"} />
+        <Route path="pharmananalytics" element={<DataChart/>} />
         <Route path="pharmanorders" element={<OrderManagementHome/>} />
       </Route>
     </Route>

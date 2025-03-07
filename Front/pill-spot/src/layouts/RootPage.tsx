@@ -2,10 +2,10 @@ import { Toaster } from 'sonner'
 import {  Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../app/store'
-import HomePageMain from '../pages/HomePage'
-import RegPharmacy from '../pages/RegisterPharmacy'
-import SelectLocationMap from '../pages/RegisterPharmacy/SecondPage'
-import Map from '../pages/RegisterPharmacy/SecondPage'
+// import HomePageMain from '../pages/HomePage'
+// import RegPharmacy from '../pages/RegisterPharmacy'
+// import SelectLocationMap from '../pages/RegisterPharmacy/SecondPage'
+// import Map from '../pages/RegisterPharmacy/SecondPage'
 
 
 const RootPage = () => {

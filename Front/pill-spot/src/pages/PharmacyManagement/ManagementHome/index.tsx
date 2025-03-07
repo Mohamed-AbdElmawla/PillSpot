@@ -8,7 +8,7 @@ const PharManagementHome = () => {
       <div className="w-full m-auto">
         <HomeHeader />
       </div>
-      <div className="flex gap-30 ">
+      <div className="flex absolute top-70 gap-30 ">
         <div className="">
           <DataEditForm />
         </div>
