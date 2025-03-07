@@ -2,20 +2,15 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.AdminController",
     "Method": "AssignUserRole",
-    "RelativePath": "api/Admin/assign-user-role",
+    "RelativePath": "api/admin/assign-user-role",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Role",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "dto",
+        "Type": "Shared.DataTransferObjects.AssignUserRoleDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -23,20 +18,15 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.AdminController",
     "Method": "BulkUserManagement",
-    "RelativePath": "api/Admin/bulk-user-management",
+    "RelativePath": "api/admin/bulk-user-management",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserIds",
-        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "Action",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "dto",
+        "Type": "Shared.DataTransferObjects.BulkUserManagementDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -159,7 +149,7 @@
     "Parameters": [
       {
         "Name": "categoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -175,7 +165,7 @@
     "Parameters": [
       {
         "Name": "categoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -196,12 +186,12 @@
     "Parameters": [
       {
         "Name": "categoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
         "Name": "subCategoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -217,12 +207,12 @@
     "Parameters": [
       {
         "Name": "categoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
         "Name": "subCategoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -243,12 +233,12 @@
     "Parameters": [
       {
         "Name": "categoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
         "Name": "subCategoryId",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -264,7 +254,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -280,7 +270,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -301,7 +291,199 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.CosmeticController",
+    "Method": "CreateCosmetic",
+    "RelativePath": "api/cosmetics",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cosmeticDto",
+        "Type": "Shared.DataTransferObjects.CosmeticForCreationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.CosmeticController",
+    "Method": "GetCosmetic",
+    "RelativePath": "api/cosmetics/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.CosmeticController",
+    "Method": "DeleteCosmetic",
+    "RelativePath": "api/cosmetics/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.EmployeePermissionController",
+    "Method": "GetPermissionsToEmployee",
+    "RelativePath": "api/EmployeePermission/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetEmployeePermissions"
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.EmployeePermissionController",
+    "Method": "AssignPermissionToEmployee",
+    "RelativePath": "api/EmployeePermission/assign",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assignEmployeePermissionDto",
+        "Type": "Shared.DataTransferObjects.AssignEmployeePermissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.EmployeePermissionController",
+    "Method": "AssignPermissionsToEmployee",
+    "RelativePath": "api/EmployeePermission/assign-multiple/{employeeId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.EmployeePermissionController",
+    "Method": "RemovePermissionsFromEmployee",
+    "RelativePath": "api/EmployeePermission/remove-multiple/{employeeId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.EmployeePermissionController",
+    "Method": "RemovePermissionFromEmployee",
+    "RelativePath": "api/EmployeePermission/remove/{employeeId}/{permissionId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.MedicineController",
+    "Method": "CreateMedicine",
+    "RelativePath": "api/medicines",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "medicineDto",
+        "Type": "Shared.DataTransferObjects.MedicineForCreationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.MedicineController",
+    "Method": "GetMedicine",
+    "RelativePath": "api/medicines/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.MedicineController",
+    "Method": "DeleteMedicine",
+    "RelativePath": "api/medicines/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -359,7 +541,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int64",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -375,7 +557,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int64",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -396,7 +578,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int64",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -459,7 +641,7 @@
     "Parameters": [
       {
         "Name": "requestId",
-        "Type": "System.UInt64",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -475,7 +657,7 @@
     "Parameters": [
       {
         "Name": "requestId",
-        "Type": "System.UInt64",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -551,7 +733,7 @@
         "IsRequired": false
       },
       {
-        "Name": "LicenseID",
+        "Name": "LicenseId",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -589,9 +771,172 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PillSpot.Presentation.Controllers.PharmacyProductController",
+    "Method": "GetAllPharmacyProducts",
+    "RelativePath": "api/pharmacyproducts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.PharmacyProductController",
+    "Method": "CreatePharmacyProduct",
+    "RelativePath": "api/pharmacyproducts",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyProductDto",
+        "Type": "Shared.DataTransferObjects.PharmacyProductForCreationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.PharmacyProductController",
+    "Method": "GetPharmacyProduct",
+    "RelativePath": "api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.PharmacyProductController",
+    "Method": "DeletePharmacyProduct",
+    "RelativePath": "api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.PharmacyProductController",
+    "Method": "GetBatchForPharmacyProduct",
+    "RelativePath": "api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}/batch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pharmacyId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.ProductController",
+    "Method": "GetAllProducts",
+    "RelativePath": "api/products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.ProductController",
+    "Method": "CreateProduct",
+    "RelativePath": "api/products",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productDto",
+        "Type": "Shared.DataTransferObjects.ProductForCreationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.ProductController",
+    "Method": "GetProduct",
+    "RelativePath": "api/products/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.ProductController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/products/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "GetPermissionsToAdmin",
-    "RelativePath": "api/SuperAdmin/{adminId}",
+    "RelativePath": "api/SuperAdmin/admin-permission/{adminId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -607,80 +952,16 @@
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "GetPermissionsToEmployee",
-    "RelativePath": "api/SuperAdmin/{employeeId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "employeeId",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [],
-    "EndpointName": "GetEmployeePermissions"
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "AssignPermissionToAdmin",
-    "RelativePath": "api/SuperAdmin/assign",
+    "RelativePath": "api/SuperAdmin/admin-permission/assign",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "AdminID",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "PermissionID",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "AssignPermissionsToEmployee",
-    "RelativePath": "api/SuperAdmin/assign-employee-multiple-permission/{employeeId}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "employeeId",
-        "Type": "System.UInt64",
+        "Name": "assignAdminPermissionDto",
+        "Type": "Shared.DataTransferObjects.AssignAdminPermissionDto",
         "IsRequired": true
-      },
-      {
-        "Name": "permissionIds",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "AssignPermissionToEmployee",
-    "RelativePath": "api/SuperAdmin/assign-employee-permission",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "EmployeeID",
-        "Type": "System.UInt64",
-        "IsRequired": false
-      },
-      {
-        "Name": "PermissionID",
-        "Type": "System.Int32",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -688,7 +969,7 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "AssignPermissionsToAdmin",
-    "RelativePath": "api/SuperAdmin/assign-multiple/{adminId}",
+    "RelativePath": "api/SuperAdmin/admin-permission/assign-multiple/{adminId}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -700,24 +981,50 @@
       },
       {
         "Name": "permissionIds",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "CreatePharmacyCollection",
-    "RelativePath": "api/SuperAdmin/create-collection-permission",
-    "HttpMethod": "POST",
+    "Method": "RemovePermissionsFromAdmin",
+    "RelativePath": "api/SuperAdmin/admin-permission/remove-multiple/{adminId}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "permissions",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Shared.DataTransferObjects.CreatePermissionDto, Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "IsRequired": false
+        "Name": "adminId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Guid, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
+    "Method": "RemovePermissionFromAdmin",
+    "RelativePath": "api/SuperAdmin/admin-permission/remove/{adminId}/{permissionId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionId",
+        "Type": "System.Guid",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -725,41 +1032,31 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "CreatePermission",
-    "RelativePath": "api/SuperAdmin/create-permission",
+    "RelativePath": "api/SuperAdmin/permissions-management/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "permissionDto",
+        "Type": "Shared.DataTransferObjects.CreatePermissionDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "DeleteTodayLogs",
-    "RelativePath": "api/SuperAdmin/delete-logs",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "DeleteLogsByDay",
-    "RelativePath": "api/SuperAdmin/delete-logs-by-day",
-    "HttpMethod": "DELETE",
+    "Method": "CreatePermissionCollection",
+    "RelativePath": "api/SuperAdmin/permissions-management/create-collection",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "date",
-        "Type": "System.DateTime",
-        "IsRequired": false
+        "Name": "permissions",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Shared.DataTransferObjects.CreatePermissionDto, Shared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -767,14 +1064,14 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "DeletePermission",
-    "RelativePath": "api/SuperAdmin/delete-permission/{id}",
+    "RelativePath": "api/SuperAdmin/permissions-management/delete-permission/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -783,7 +1080,7 @@
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
     "Method": "GetAllPermissions",
-    "RelativePath": "api/SuperAdmin/get-all-permissions",
+    "RelativePath": "api/SuperAdmin/permissions-management/get-all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -808,9 +1105,46 @@
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "GetLogs",
-    "RelativePath": "api/SuperAdmin/get-logs",
+    "Method": "GetPermissionbyId",
+    "RelativePath": "api/SuperAdmin/permissions-management/get-by-/{id}",
     "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
+    "Method": "UpdatePermission",
+    "RelativePath": "api/SuperAdmin/permissions-management/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionDto",
+        "Type": "UpdatePermissionDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
+    "Method": "DeleteTodayLogs",
+    "RelativePath": "api/SuperAdmin/system/delete-logs",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
@@ -818,9 +1152,9 @@
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "GetLogsByDay",
-    "RelativePath": "api/SuperAdmin/get-logs-by-day",
-    "HttpMethod": "GET",
+    "Method": "DeleteLogsByDay",
+    "RelativePath": "api/SuperAdmin/system/delete-logs-by-day",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -834,123 +1168,38 @@
   },
   {
     "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "GetPermissionbyId",
-    "RelativePath": "api/SuperAdmin/get-permissions-by-/{id}",
+    "Method": "GetLogs",
+    "RelativePath": "api/SuperAdmin/system/get-logs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
+    "Method": "GetLogsByDay",
+    "RelativePath": "api/SuperAdmin/system/get-logs-by-day",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "RemovePermissionsFromAdmin",
-    "RelativePath": "api/SuperAdmin/remove-multiple-from-employee/{adminId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "adminId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "permissionIds",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "date",
+        "Type": "System.DateTime",
         "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "RemovePermissionsFromEmployee",
-    "RelativePath": "api/SuperAdmin/remove-multiple/{employeeId}",
-    "HttpMethod": "DELETE",
+    "ContainingType": "PillSpot.Presentation.Controllers.TokenController",
+    "Method": "GenerateCsrfToken",
+    "RelativePath": "api/token/csrf",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "employeeId",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      },
-      {
-        "Name": "permissionIds",
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "RemovePermissionFromAdmin",
-    "RelativePath": "api/SuperAdmin/remove/{adminId}/{permissionId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "adminId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "permissionId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "RemovePermissionFromEmployee",
-    "RelativePath": "api/SuperAdmin/remove/{employeeId}/{permissionId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "employeeId",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      },
-      {
-        "Name": "permissionId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.SuperAdminController",
-    "Method": "UpdatePermission",
-    "RelativePath": "api/SuperAdmin/update-permission/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -1184,22 +1433,6 @@
       {
         "Name": "passwordDto",
         "Type": "Shared.DataTransferObjects.PasswordUpdateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "PillSpot.Presentation.Controllers.UsersController",
-    "Method": "SendEmailConfirmation",
-    "RelativePath": "api/users/send-email-confirmation/{userName}",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userName",
-        "Type": "System.String",
         "IsRequired": true
       }
     ],

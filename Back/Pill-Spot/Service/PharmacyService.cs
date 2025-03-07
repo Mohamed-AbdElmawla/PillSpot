@@ -3,15 +3,9 @@ using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -55,7 +49,7 @@ namespace Service
             return (pharmacies: pharmacyCollectionToReturn, ids: ids);
         }
 
-        public async Task DeletePharmacy(ulong pharmacyId, bool trackChanges)
+        public async Task DeletePharmacy(Guid pharmacyId, bool trackChanges)
         {
             var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
 
@@ -75,7 +69,7 @@ namespace Service
         }
 
 
-        public async Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetByIdsAsync(IEnumerable<ulong> ids, PharmaciesParameters pharmaciesparameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetByIdsAsync(IEnumerable<Guid> ids, PharmaciesParameters pharmaciesparameters, bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
@@ -90,7 +84,7 @@ namespace Service
             return (pharmacies: pharmaciesDto, pharmacies.MetaData);
         }
 
-        public async Task<PharmacyDto> GetPharmacyAsync(ulong pharmacyId, bool trackChanges)
+        public async Task<PharmacyDto> GetPharmacyAsync(Guid pharmacyId, bool trackChanges)
         {
             var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
 
@@ -101,7 +95,7 @@ namespace Service
             return pharmacyDto;
         }
 
-        public async Task UpdatePharmacy(ulong pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges)
+        public async Task UpdatePharmacy(Guid pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges)
         {
             var pharmacyEntity = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
 

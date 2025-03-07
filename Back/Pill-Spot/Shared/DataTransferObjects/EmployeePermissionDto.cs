@@ -2,8 +2,8 @@
 {
     public record EmployeePermissionDto
     {
-        public required ulong EmployeeId { get; init; }
-        public int PermissionId { get; init; }
+        public required Guid EmployeeId { get; init; }
+        public Guid PermissionId { get; init; }
         public required string PermissionName { get; init; }
     }
 }

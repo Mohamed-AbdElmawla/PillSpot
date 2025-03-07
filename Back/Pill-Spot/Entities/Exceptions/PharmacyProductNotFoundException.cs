@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entities.Exceptions
+﻿namespace Entities.Exceptions
 {
     public class PharmacyProductNotFoundException : NotFoundException
     {
-        public PharmacyProductNotFoundException(ulong productId, ulong pharmacyId)
+        public PharmacyProductNotFoundException(Guid productId, Guid pharmacyId)
             : base($"PharmacyProduct with PharmacyId: {pharmacyId} and ProductId: {productId} was not found.")
         {
         }

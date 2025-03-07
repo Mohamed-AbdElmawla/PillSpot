@@ -7,11 +7,11 @@ namespace Entities.Models
     public class Category
     {
         [Key]
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         [Required(ErrorMessage = "Category name is required.")]
         [MaxLength(250, ErrorMessage = "Category name cannot exceed 250 characters.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public virtual ICollection<SubCategory> SubCategories { get; set; }
 

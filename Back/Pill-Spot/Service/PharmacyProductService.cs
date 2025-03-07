@@ -5,8 +5,6 @@ using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -29,7 +27,7 @@ namespace Service
             return (pharmacyProducts: pharmacyProductsDto, metaData: pharmacyProducts.MetaData);
         }
 
-        public async Task<PharmacyProductDto> GetPharmacyProductAsync(ulong productId, ulong pharmacyId, bool trackChanges)
+        public async Task<PharmacyProductDto> GetPharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges)
         {
             var pharmacyProduct = await _repository.PharmacyProductRepository.GetPharmacyProductAsync(productId, pharmacyId, trackChanges);
 
@@ -49,7 +47,7 @@ namespace Service
             return _mapper.Map<PharmacyProductDto>(pharmacyProductEntity);
         }
 
-        public async Task DeletePharmacyProductAsync(ulong productId, ulong pharmacyId, bool trackChanges)
+        public async Task DeletePharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges)
         {
             var pharmacyProduct = await _repository.PharmacyProductRepository.GetPharmacyProductAsync(productId, pharmacyId, trackChanges);
 
@@ -60,7 +58,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<(IEnumerable<PharmacyProductDto> pharmacyProducts, MetaData metaData)> GetPharmacyProductsByPharmacyIdAsync(ulong pharmacyId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyProductDto> pharmacyProducts, MetaData metaData)> GetPharmacyProductsByPharmacyIdAsync(Guid pharmacyId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
             var pharmacyProducts = await _repository.PharmacyProductRepository.GetPharmacyProductsByPharmacyIdAsync(pharmacyId, pharmacyProductParameters, trackChanges);
             var pharmacyProductsDto = _mapper.Map<IEnumerable<PharmacyProductDto>>(pharmacyProducts);
@@ -68,7 +66,7 @@ namespace Service
             return (pharmacyProducts: pharmacyProductsDto, metaData: pharmacyProducts.MetaData);
         }
 
-        public async Task<(IEnumerable<PharmacyProductDto> pharmacyProducts, MetaData metaData)> GetPharmacyProductsByProductIdAsync(ulong productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyProductDto> pharmacyProducts, MetaData metaData)> GetPharmacyProductsByProductIdAsync(Guid productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
             var pharmacyProducts = await _repository.PharmacyProductRepository.GetPharmacyProductsByProductIdAsync(productId, pharmacyProductParameters, trackChanges);
             var pharmacyProductsDto = _mapper.Map<IEnumerable<PharmacyProductDto>>(pharmacyProducts);
@@ -76,7 +74,7 @@ namespace Service
             return (pharmacyProducts: pharmacyProductsDto, metaData: pharmacyProducts.MetaData);
         }
 
-        public async Task<BatchDto> GetBatchForPharmacyProductAsync(ulong productId, ulong pharmacyId, bool trackChanges)
+        public async Task<BatchDto> GetBatchForPharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges)
         {
             var batch = await _repository.PharmacyProductRepository.GetBatchForPharmacyProductAsync(productId, pharmacyId, trackChanges);
 

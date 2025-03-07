@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -25,8 +20,8 @@ namespace PillSpot.Presentation.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetCategoryById(Guid id)
         {
             var category = await _service.CategoryService.GetCategoryByIdAsync(id, trackChanges: false);
             return Ok(category);
@@ -41,19 +36,19 @@ namespace PillSpot.Presentation.Controllers
             return StatusCode(201);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:Guid}")]
         [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryForUpdateDto categoryForUpdateDto)
+        public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] CategoryForUpdateDto categoryForUpdateDto)
         {
             await _service.CategoryService.UpdateCategory(id, categoryForUpdateDto, trackChanges: true);
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(Guid id)
         {
             await _service.CategoryService.DeleteCategory(id, trackChanges:true);
             return NoContent();

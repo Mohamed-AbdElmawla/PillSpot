@@ -16,13 +16,13 @@ namespace Repository
         public async Task<IEnumerable<SubCategory>> GetAllSubCategoriesAsync(bool trackChanges) =>
             await FindAll(trackChanges).ToListAsync();
 
-        public async Task<SubCategory> GetSubCategoryByIdAsync(int categoryId, int subCategoryId, bool trackChanges) =>
+        public async Task<SubCategory> GetSubCategoryByIdAsync(Guid categoryId, Guid subCategoryId, bool trackChanges) =>
             await FindByCondition(sc => sc.SubCategoryId.Equals(subCategoryId) && sc.CategoryId.Equals(categoryId), trackChanges).FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryIdAsync(int categoryId, bool trackChanges) =>
+        public async Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryIdAsync(Guid categoryId, bool trackChanges) =>
             await FindByCondition(sc => sc.CategoryId.Equals(categoryId), trackChanges).ToListAsync();
 
-        public void CreateSubCategory(SubCategory subCategory)=> Create(subCategory);
+        public void CreateSubCategory(SubCategory subCategory) => Create(subCategory);
 
         public void UpdateSubCategory(SubCategory subCategory) => Update(subCategory);
 

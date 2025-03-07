@@ -1,5 +1,4 @@
 ﻿using Entities.Exceptions;
-using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Service.Contracts;
 using System.Text;

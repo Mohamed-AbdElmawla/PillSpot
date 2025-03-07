@@ -30,8 +30,8 @@ namespace Repository
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }
 
-        public async Task<PharmacyProduct> GetPharmacyProductAsync(ulong productId, ulong pharmacyId, bool trackChanges) =>
-            await FindByCondition(pp => pp.ProductId == productId && pp.PharmacyId == pharmacyId, trackChanges)
+        public async Task<PharmacyProduct> GetPharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges) =>
+            await FindByCondition(pp => pp.ProductId.Equals(productId) && pp.PharmacyId.Equals(pharmacyId), trackChanges)
                 .Include(pp => pp.Product)
                 .Include(pp => pp.Pharmacy)
                 .Include(pp => pp.Batch)
@@ -41,9 +41,9 @@ namespace Repository
 
         public void DeletePharmacyProduct(PharmacyProduct pharmacyProduct) => Delete(pharmacyProduct);
 
-        public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByPharmacyIdAsync(ulong pharmacyId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
+        public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByPharmacyIdAsync(Guid pharmacyId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
-            var pharmacyProducts = await FindByCondition(pp => pp.PharmacyId == pharmacyId, trackChanges)
+            var pharmacyProducts = await FindByCondition(pp => pp.PharmacyId.Equals(pharmacyId), trackChanges)
                 .Include(pp => pp.Product)
                 .Include(pp => pp.Batch)
                 .OrderBy(pp => pp.ProductId)
@@ -51,14 +51,14 @@ namespace Repository
                 .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(pp => pp.PharmacyId == pharmacyId, trackChanges).CountAsync();
+            var count = await FindByCondition(pp => pp.PharmacyId.Equals(pharmacyId), trackChanges).CountAsync();
 
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }
 
-        public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByProductIdAsync(ulong productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
+        public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByProductIdAsync(Guid productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
-            var pharmacyProducts = await FindByCondition(pp => pp.ProductId == productId, trackChanges)
+            var pharmacyProducts = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges)
                 .Include(pp => pp.Pharmacy)
                 .Include(pp => pp.Batch)
                 .OrderBy(pp => pp.PharmacyId)
@@ -66,14 +66,14 @@ namespace Repository
                 .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(pp => pp.ProductId == productId, trackChanges).CountAsync();
+            var count = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges).CountAsync();
 
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }
 
-        public async Task<Batch> GetBatchForPharmacyProductAsync(ulong productId, ulong pharmacyId, bool trackChanges)
+        public async Task<Batch?> GetBatchForPharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges)
         {
-            var pharmacyProduct = await FindByCondition(pp => pp.ProductId == productId && pp.PharmacyId == pharmacyId, trackChanges)
+            var pharmacyProduct = await FindByCondition(pp => pp.ProductId.Equals(productId) && pp.PharmacyId.Equals(pharmacyId), trackChanges)
                 .Include(pp => pp.Batch)
                 .SingleOrDefaultAsync();
 

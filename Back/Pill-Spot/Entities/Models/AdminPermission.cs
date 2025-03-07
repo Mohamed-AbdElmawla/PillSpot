@@ -11,7 +11,7 @@ namespace Entities.Models
         public string AdminId { get; set; }
 
         [Key, Column(Order = 1)]
-        public int PermissionId { get; set; }
+        public Guid PermissionId { get; set; }
 
         [ForeignKey("AdminId")]
         public virtual User Admin { get; set; }

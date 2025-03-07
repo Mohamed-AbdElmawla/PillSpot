@@ -13,24 +13,20 @@ namespace Repository
     {
         public ProductRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        public void CreateProduct(Product product) => Create(product);
-
-        public void DeleteProduct(Product product) => Delete(product);
+        public void CreateProduct(Product product) => Create(product); 
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges) =>
             await FindAll(trackChanges).ToListAsync();
 
-        public async Task<Product> GetProductAsync(ulong productId, bool trackChanges) =>
+        public async Task<Product> GetProductAsync(Guid productId, bool trackChanges) =>
             await FindByCondition(p => p.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
 
-        public async Task LoadIngredientsAsync(Product product)
-        {
+        public async Task LoadIngredientsAsync(Product product) => 
             await RepositoryContext.Entry(product).Collection(p => p.ProductIngredients).LoadAsync();
-        }
 
-        public async Task LoadProductPharmaciesAsync(Product product)
-        {
+        public async Task LoadProductPharmaciesAsync(Product product) =>
             await RepositoryContext.Entry(product).Collection(p => p.PharmacyProducts).LoadAsync();
-        }
+
+        public void DeleteProduct(Product product) => Delete(product);
     }
 }

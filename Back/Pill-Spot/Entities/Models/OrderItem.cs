@@ -6,16 +6,16 @@ namespace Entities.Models
     public class OrderItem
     {
         [Key]
-        public ulong OrderItemId { get; set; }
+        public Guid OrderItemId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy Branch ID is required.")]
-        public ulong PharmacyBranchId { get; set; }
+        public Guid PharmacyBranchId { get; set; }
 
         [Required(ErrorMessage = "Product ID is required.")]
-        public ulong ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [Required(ErrorMessage = "Order ID is required.")]
-        public ulong OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         [Required(ErrorMessage = "Unit price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Unit price must be greater than zero.")]

@@ -32,12 +32,12 @@ namespace Entities.Models
         [Required(ErrorMessage = "First name is required.")]
         [MaxLength(100, ErrorMessage = "First name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]+$", ErrorMessage = "First name can only contain letters, spaces, hyphens, and apostrophes.")]
-        public string FirstName { get; set; }
+        public required string FirstName { get; set; }
       
         [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
-        public string LastName { get; set; }
+        public required string LastName { get; set; }
 
         public string? RefreshToken { get; set; }
 

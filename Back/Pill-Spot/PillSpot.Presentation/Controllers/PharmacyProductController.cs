@@ -26,10 +26,10 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
 
-        [HttpGet("pharmacies/{pharmacyId:long}/products/{productId:long}")]
-        public async Task<IActionResult> GetPharmacyProduct(long pharmacyId, long productId)
+        [HttpGet("pharmacies/{pharmacyId:Guid}/products/{productId:Guid}")]
+        public async Task<IActionResult> GetPharmacyProduct(Guid pharmacyId, Guid productId)
         {
-            var pharmacyProduct = await _service.PharmacyProductService.GetPharmacyProductAsync((ulong)productId, (ulong)pharmacyId, trackChanges: false);
+            var pharmacyProduct = await _service.PharmacyProductService.GetPharmacyProductAsync(productId, pharmacyId, trackChanges: false);
             return Ok(pharmacyProduct);
         }
 
@@ -42,18 +42,18 @@ namespace PillSpot.Presentation.Controllers
             return CreatedAtAction(nameof(GetPharmacyProduct), new { pharmacyId = createdPharmacyProduct.PharmacyId, productId = createdPharmacyProduct.ProductId }, createdPharmacyProduct);
         }
 
-        [HttpDelete("pharmacies/{pharmacyId:long}/products/{productId:long}")]
+        [HttpDelete("pharmacies/{pharmacyId:Guid}/products/{productId:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeletePharmacyProduct(long pharmacyId, long productId)
+        public async Task<IActionResult> DeletePharmacyProduct(Guid pharmacyId, Guid productId)
         {
-            await _service.PharmacyProductService.DeletePharmacyProductAsync((ulong)productId, (ulong)pharmacyId, trackChanges: true);
+            await _service.PharmacyProductService.DeletePharmacyProductAsync(productId, pharmacyId, trackChanges: true);
             return NoContent();
         }
 
-        [HttpGet("pharmacies/{pharmacyId:long}/products/{productId:long}/batch")]
-        public async Task<IActionResult> GetBatchForPharmacyProduct(long pharmacyId, long productId)
+        [HttpGet("pharmacies/{pharmacyId:Guid}/products/{productId:Guid}/batch")]
+        public async Task<IActionResult> GetBatchForPharmacyProduct(Guid pharmacyId, Guid productId)
         {
-            var batch = await _service.PharmacyProductService.GetBatchForPharmacyProductAsync((ulong)productId, (ulong)pharmacyId, trackChanges: false);
+            var batch = await _service.PharmacyProductService.GetBatchForPharmacyProductAsync(productId, pharmacyId, trackChanges: false);
             return Ok(batch);
         }
     }
