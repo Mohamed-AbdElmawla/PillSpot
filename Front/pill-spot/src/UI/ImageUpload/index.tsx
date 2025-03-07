@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProfilePicture } from "../../features/uploadPhoto/upload";
 import { RootState } from "../../app/store";
 
-const ImageUpload = () => {
+interface Iprops{
+  width? : string ;
+}
+
+const ImageUpload = ({width}:Iprops) => {
   const [preview, setPreview] = useState<string | null>(null);
   const dispatch = useDispatch();
   const imgae = useSelector(
@@ -22,12 +26,14 @@ const ImageUpload = () => {
     }
   };
 
+  const usedWidth = (width)?width:" w-50 h-50" ;
+
   return (
     <div>
       <div className="flex flex-col items-center gap-4 relative">
         <label
           htmlFor="avatar-upload"
-          className="mb-5 w-50 h-50 rounded-full border-2 border-gray-300 flex items-center justify-center cursor-pointer overflow-hidden bg-gray-100 relative"
+          className={`mb-5 rounded-full border-2 border-gray-300 flex items-center justify-center cursor-pointer overflow-hidden bg-gray-100 relative ${usedWidth}`}
         >
           {preview ? (
             <img

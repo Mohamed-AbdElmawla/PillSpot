@@ -1,4 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+US+Modern:wght@100..400&display=swap");
 @import "tailwindcss";
+
 @plugin "daisyui" {
-    themes: light --default;
-  }
+  themes: light --default;
+}
+
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+  --font-logo: "Playwrite US Modern", sans-serif; 
+}

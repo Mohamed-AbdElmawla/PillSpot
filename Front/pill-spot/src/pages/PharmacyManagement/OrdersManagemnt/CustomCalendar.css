@@ -1,0 +1,46 @@
+/* Remove default React-Calendar styles */
+.custom-calendar {
+    border: none !important;
+    width: 100%;
+    max-width: 350px;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .custom-calendar .react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2563eb;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .custom-calendar .react-calendar__tile {
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+  }
+  
+  /* Default day styling */
+  .default-day {
+    background-color: white;
+    color: #1f2937;
+  }
+  
+  .default-day:hover {
+    background-color: #e5e7eb;
+    transform: scale(1.1);
+  }
+  
+  /* Selected day (today) */
+  .selected-day {
+    background-color: #2563eb !important;
+    color: white !important;
+    border-radius: 10px;
+    font-weight: bold;
+    transform: scale(1.1);
+  }
+  
