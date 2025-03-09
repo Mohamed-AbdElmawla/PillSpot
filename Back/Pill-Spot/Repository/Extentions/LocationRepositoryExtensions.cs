@@ -10,7 +10,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extentions
 {
-    public static class RepositoryLocationExtensions
+    public static class LocationRepositoryExtensions
     {
         public static IQueryable<Location> Sort(this IQueryable<Location> Locations, string orderByQueryString)
         {

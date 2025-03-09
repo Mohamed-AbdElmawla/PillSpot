@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extentions;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,22 @@ namespace Repository
 
         public void CreateProduct(Product product) => Create(product); 
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+        public async Task<PagedList<Product>> GetAllProductsAsync(ProductRequestParameters productRequestParameters, bool trackChanges)
+        {
+            var products = await FindAll(trackChanges)
+                .Sort(productRequestParameters.OrderBy)
+                .Skip((productRequestParameters.PageNumber - 1) * productRequestParameters.PageSize)
+                .Take(productRequestParameters.PageSize)
+                .Include(p => p.SubCategory)
+                .ToListAsync();
+
+                var count = await FindAll(trackChanges).CountAsync();
+
+                return new PagedList<Product>(products, count, productRequestParameters.PageNumber, productRequestParameters.PageSize);
+        }
 
         public async Task<Product> GetProductAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(p => p.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(p => p.ProductId.Equals(productId), trackChanges).Include(p => p.SubCategory).SingleOrDefaultAsync();
 
         public async Task LoadIngredientsAsync(Product product) => 
             await RepositoryContext.Entry(product).Collection(p => p.ProductIngredients).LoadAsync();
@@ -28,5 +41,6 @@ namespace Repository
             await RepositoryContext.Entry(product).Collection(p => p.PharmacyProducts).LoadAsync();
 
         public void DeleteProduct(Product product) => Delete(product);
+        public void UpdateProduct(Product product) => Update(product);
     }
 }

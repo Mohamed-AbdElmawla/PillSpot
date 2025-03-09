@@ -930,10 +930,7 @@
           "Shared": "1.0.0"
         },
         "runtime": {
-          "Contracts.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Contracts.dll": {}
         }
       },
       "Entities/1.0.0": {
@@ -947,10 +944,7 @@
           "Serilog.Sinks.File": "6.0.0"
         },
         "runtime": {
-          "Entities.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Entities.dll": {}
         }
       },
       "Service.Contracts/1.0.0": {
@@ -959,10 +953,7 @@
           "Shared": "1.0.0"
         },
         "runtime": {
-          "Service.Contracts.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Service.Contracts.dll": {}
         }
       },
       "Shared/1.0.0": {
@@ -971,10 +962,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0"
         },
         "runtime": {
-          "Shared.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Shared.dll": {}
         }
       }
     }

@@ -1378,10 +1378,7 @@
           "Shared": "1.0.0"
         },
         "runtime": {
-          "Contracts.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Contracts.dll": {}
         }
       },
       "Entities/1.0.0": {
@@ -1395,10 +1392,7 @@
           "Serilog.Sinks.File": "6.0.0"
         },
         "runtime": {
-          "Entities.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Entities.dll": {}
         }
       },
       "PillSpot.Presentation/1.0.0": {
@@ -1415,10 +1409,7 @@
           "Service.Contracts": "1.0.0"
         },
         "runtime": {
-          "PillSpot.Presentation.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "PillSpot.Presentation.dll": {}
         }
       },
       "Repository/1.0.0": {
@@ -1432,10 +1423,7 @@
           "System.Linq.Dynamic.Core": "1.6.0.2"
         },
         "runtime": {
-          "Repository.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Repository.dll": {}
         }
       },
       "Service/1.0.0": {
@@ -1451,10 +1439,7 @@
           "System.IdentityModel.Tokens.Jwt": "7.1.2"
         },
         "runtime": {
-          "Service.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Service.dll": {}
         }
       },
       "Service.Contracts/1.0.0": {
@@ -1463,10 +1448,7 @@
           "Shared": "1.0.0"
         },
         "runtime": {
-          "Service.Contracts.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Service.Contracts.dll": {}
         }
       },
       "Shared/1.0.0": {
@@ -1475,10 +1457,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0"
         },
         "runtime": {
-          "Shared.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Shared.dll": {}
         }
       }
     }

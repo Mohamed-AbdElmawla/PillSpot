@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 namespace Repository.Extentions
 {
-    public static class RepositoryGovernmentExtensions
+    public static class GovernmentRepositoryExtensions
     {
         public static IQueryable<Government> Sort(this IQueryable<Government> governments, string orderByQueryString)
         {

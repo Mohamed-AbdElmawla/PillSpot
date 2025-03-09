@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extentions
 {
-    public static class RepositoryPharmacyExtensions
+    public static class PharmacyRepositoryExtensions
     {
         public static IQueryable<Pharmacy> Sort(this IQueryable<Pharmacy> Pharmacies, string orderByQueryString)
         {
