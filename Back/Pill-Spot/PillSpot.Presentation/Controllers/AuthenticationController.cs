@@ -58,10 +58,14 @@ namespace PillSpot.Presentation.Controllers
         public async Task<IActionResult> Logout()
         {
             var userName = User.Identity?.Name;
-            if (userName == null)
+            if (string.IsNullOrEmpty(userName))
                 return Unauthorized();
 
             await _service.AuthenticationService.LogoutAsync(userName);
+
+            Response.Cookies.Delete("AccessToken");
+            Response.Cookies.Delete("RefreshToken");
+
             return NoContent();
         }
 

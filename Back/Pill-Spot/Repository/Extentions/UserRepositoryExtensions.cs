@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extentions
 {
-    public static class RepositoryUserExtensions
+    public static class UserRepositoryExtensions
     {
         public static IQueryable<User> Sort(this IQueryable<User> users, string orderByQueryString)
         {

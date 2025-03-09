@@ -12,5 +12,6 @@ namespace Service.Contracts
         Task<string> SaveFileAsync(IFormFile file, string folderName);
         Task<bool> DeleteFileAsync(string fileUrl);
         Task<IFormFile> GetFileAsync(string fileUrl);
+        Task<string> AddProductImageIfNotNull(IFormFile Image);
     }
 }

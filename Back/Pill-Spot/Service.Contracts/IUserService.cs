@@ -11,8 +11,6 @@ namespace Service.Contracts
 {
     public interface IUserService
     {
-        Task<User> GetUserByNameAndCheckIfItExist(string userName, bool trackChanges = true);
-        Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true);
         Task<UserDto> GetUserAsync(string userName, bool trackChanges);
         Task<(IEnumerable<UserDto> users, MetaData metaData)> GetUsersAsync(UserParameters userParameters, bool trackChanges);
         Task DeleteUserAsync(string userName, bool trackChanges);

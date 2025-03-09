@@ -11,12 +11,12 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Category name is required.")]
         [MaxLength(250, ErrorMessage = "Category name cannot exceed 250 characters.")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<SubCategory> SubCategories { get; set; }
 
         [Required]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? ModifiedDate { get; set; }
 

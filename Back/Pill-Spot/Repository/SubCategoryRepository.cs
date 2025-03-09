@@ -14,13 +14,16 @@ namespace Repository
         public SubCategoryRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
         public async Task<IEnumerable<SubCategory>> GetAllSubCategoriesAsync(bool trackChanges) =>
-            await FindAll(trackChanges).ToListAsync();
+            await FindAll(trackChanges).Include(sc => sc.Category).ToListAsync();
 
         public async Task<SubCategory> GetSubCategoryByIdAsync(Guid categoryId, Guid subCategoryId, bool trackChanges) =>
-            await FindByCondition(sc => sc.SubCategoryId.Equals(subCategoryId) && sc.CategoryId.Equals(categoryId), trackChanges).FirstOrDefaultAsync();
+            await FindByCondition(sc => sc.SubCategoryId.Equals(subCategoryId) && sc.CategoryId.Equals(categoryId), trackChanges).Include(sc => sc.Category).FirstOrDefaultAsync();
+
+        public async Task<SubCategory> GetSubCategoryByIdAsync(Guid subCategoryId, bool trackChanges) =>
+            await FindByCondition(sc => sc.SubCategoryId.Equals(subCategoryId), trackChanges).Include(sc => sc.Category).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryIdAsync(Guid categoryId, bool trackChanges) =>
-            await FindByCondition(sc => sc.CategoryId.Equals(categoryId), trackChanges).ToListAsync();
+            await FindByCondition(sc => sc.CategoryId.Equals(categoryId), trackChanges).Include(sc => sc.Category).ToListAsync();
 
         public void CreateSubCategory(SubCategory subCategory) => Create(subCategory);
 

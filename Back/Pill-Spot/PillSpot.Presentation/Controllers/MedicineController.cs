@@ -21,19 +21,28 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateMedicine([FromBody] MedicineForCreationDto medicineDto)
+        public async Task<IActionResult> CreateMedicine([FromForm] MedicineForCreationDto medicineDto)
         {
-            var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto);
+            var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto, trackChanges: true);
             return CreatedAtAction(nameof(GetMedicine), new { id = createdMedicine.ProductId }, createdMedicine);
         }
 
+        [HttpPatch("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateMedicine(Guid id, [FromForm] MedicineForUpdateDto medicineForUpdateDto)
+        {
+            await _service.MedicineService.UpdateMedicineAsync(id, medicineForUpdateDto, trackChanges: true);
+            return NoContent();
+        }
+
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMedicine(Guid id)
         {
-            await _service.MedicineService.DeleteMedicine(id, trackChanges: true);
+            await _service.MedicineService.DeleteMedicineAsync(id, trackChanges: true);
             return NoContent();
         }
     }

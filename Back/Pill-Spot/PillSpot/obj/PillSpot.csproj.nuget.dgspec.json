@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj": {}
+    "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj": {}
   },
   "projects": {
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj",
         "projectName": "Contracts",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,18 +22,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj"
               },
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj"
               }
             }
           }
@@ -46,13 +41,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -73,25 +62,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -99,7 +84,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -112,13 +96,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -169,25 +147,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj",
         "projectName": "PillSpot.Presentation",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -195,18 +169,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
               },
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj"
               }
             }
           }
@@ -215,13 +188,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -276,25 +243,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
         "projectName": "PillSpot",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\PillSpot.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -302,21 +265,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot.Presentation\\PillSpot.Presentation.csproj"
               },
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\Repository.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\Repository.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj"
               },
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\Service.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\Service.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\Service.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\Service.csproj"
               }
             }
           }
@@ -325,13 +287,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -395,25 +351,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\Repository.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\Repository.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Repository\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Repository\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -421,15 +373,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
               }
             }
           }
@@ -438,13 +389,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -491,25 +436,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj",
         "projectName": "Service.Contracts",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -517,15 +458,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj"
               }
             }
           }
@@ -534,13 +474,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -567,25 +501,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\Service.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\Service.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -593,18 +523,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Contracts\\Contracts.csproj"
               },
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Service.Contracts\\Service.Contracts.csproj"
               }
             }
           }
@@ -613,13 +542,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -670,25 +593,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
+    "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj",
         "projectName": "Shared",
-        "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\Shared.csproj",
-        "packagesPath": "C:\\Users\\Khaled Ibrahem\\.nuget\\packages\\",
-        "outputPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Shared\\obj\\",
+        "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\Shared.csproj",
+        "packagesPath": "C:\\Users\\Abd ELmawla\\.nuget\\packages\\",
+        "outputPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Shared\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Khaled Ibrahem\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Abd ELmawla\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -696,15 +615,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
-                "projectPath": "E:\\Graduation Project\\Pill-Spot\\Back\\Pill-Spot\\Entities\\Entities.csproj"
+              "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\Graduation Project\\Back\\Pill-Spot\\Entities\\Entities.csproj"
               }
             }
           }
@@ -713,13 +631,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.200"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -746,7 +658,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -25,14 +25,14 @@ namespace Service
             _fileService = fileService;
             _emailService = emailService;
         }
-        public async Task<User> GetUserByNameAndCheckIfItExist(string userName, bool trackChanges = true)
+        private async Task<User> GetUserByNameAndCheckIfItExist(string userName, bool trackChanges = true)
         {
             var user = await _repository.UserRepository.GetUserAsync(userName, trackChanges);
             if (user == null)
                 throw new UserNotFoundException(userName);
             return user;
         }
-        public async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
+        private async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
         {
             var user = await _userManager.FindByEmailAsync(Email);
             if (user == null)

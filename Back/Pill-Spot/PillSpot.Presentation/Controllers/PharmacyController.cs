@@ -64,7 +64,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPut("{id:Guid}")]
        // [Authorize(Roles ="Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdatePharmacy(Guid id, [FromBody] PharmacyForUpdateDto pharmacyDto)
+        public async Task<IActionResult> UpdatePharmacy(Guid id, [FromForm] PharmacyForUpdateDto pharmacyDto)
         {
             await _service.PharmacyService.UpdatePharmacy(id, pharmacyDto, trackChanges: true);
             return NoContent();
