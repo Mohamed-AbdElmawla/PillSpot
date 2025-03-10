@@ -18,7 +18,7 @@ const InventoryRow = (props:Iprops) => {
     myMap.set("No Stock", "badge badge-soft badge-error");
     
   return (
-    <tr className="font-bold">
+    <tr className="font-bold ">
       <th>{props.id}</th>
         <th></th>
       <td>{props.name}</td>

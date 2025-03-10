@@ -12,7 +12,9 @@ namespace Repository
 
         public void DeleteMedicine(Medicine medicine) => Delete(medicine);
 
+        public void UpdateMedicine(Medicine medicine) => Update(medicine);
+
         public async Task<Medicine> GetMedicineAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(m => m.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(m => m.ProductId.Equals(productId), trackChanges).Include(m => m.SubCategory).SingleOrDefaultAsync();
     }
 }

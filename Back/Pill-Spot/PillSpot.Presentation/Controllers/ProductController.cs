@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 
 namespace PillSpot.Presentation.Controllers
@@ -15,10 +17,11 @@ namespace PillSpot.Presentation.Controllers
         public ProductController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery] ProductRequestParameters ProductRequestParameters)
         {
-            var products = await _service.ProductService.GetAllProductsAsync(trackChanges: false);
-            return Ok(products);
+            var pagedResult = await _service.ProductService.GetAllProductsAsync(ProductRequestParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.products);
         }
 
         [HttpGet("{id:Guid}")]
@@ -29,28 +32,28 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductForCreationDto productDto)
+        public async Task<IActionResult> CreateProduct([FromForm] ProductForCreationDto productDto)
         {
-            var createdProduct = await _service.ProductService.CreateProductAsync(productDto);
+            var createdProduct = await _service.ProductService.CreateProductAsync(productDto, trackChanges: true);
             return CreatedAtAction(nameof(GetProduct), new { id = createdProduct.ProductId }, createdProduct);
         }
 
-        /*[HttpPut("{id:long}")]
-        [Authorize(Roles = "Admin")]
+        [HttpPatch("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateProduct(long id, [FromBody] ProductForUpdateDto productDto)
+        public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductForUpdateDto productForUpdateDto)
         {
-            await _service.ProductService.UpdateProduct((ulong)id, productDto, trackChanges: true);
+            await _service.ProductService.UpdateProductAsync(id, productForUpdateDto, trackChanges: true);
             return NoContent();
-        }*/
+        }
 
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            await _service.ProductService.DeleteProduct(id, trackChanges: true);
+            await _service.ProductService.DeleteProductAsync(id, trackChanges: true);
             return NoContent();
         }
     }

@@ -559,3 +559,4 @@ E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cs

@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extentions
 {
-    public static class RepositoryPharmacyRequestExtensions
+    public static class PharmacyRequestRepositoryExtensions
     {
         public static IQueryable<PharmacyRequest> Sort(this IQueryable<PharmacyRequest> PharmacyRequests, string orderByQueryString)
         {

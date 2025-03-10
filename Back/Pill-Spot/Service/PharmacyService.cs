@@ -104,6 +104,12 @@ namespace Service
 
             _mapper.Map(pharmacyForUpdate, pharmacyEntity);
 
+            if (_fileService != null && pharmacyForUpdate.logo != null)
+            {
+                string logoPath = await _fileService.SaveFileAsync(pharmacyForUpdate.logo, "Logos");
+                pharmacyEntity.LogoURL = logoPath;
+            }
+
             await _repository.SaveAsync();
         }
     }

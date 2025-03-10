@@ -21,19 +21,28 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateCosmetic([FromBody] CosmeticForCreationDto cosmeticDto)
+        public async Task<IActionResult> CreateCosmetic([FromForm] CosmeticForCreationDto cosmeticForCreationDto)
         {
-            var createdCosmetic = await _service.CosmeticService.CreateCosmeticAsync(cosmeticDto);
+            var createdCosmetic = await _service.CosmeticService.CreateCosmeticAsync(cosmeticForCreationDto, trackChanges: true);
             return CreatedAtAction(nameof(GetCosmetic), new { id = createdCosmetic.ProductId }, createdCosmetic);
         }
 
+        [HttpPatch("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateCosmetic(Guid id,[FromForm] CosmeticForUpdateDto cosmeticForUpdateDto)
+        {
+            await _service.CosmeticService.UpdateCosmeticAsync(id, cosmeticForUpdateDto, trackChanges: true);
+            return NoContent();
+        }
+
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCosmetic(Guid id)
         {
-            await _service.CosmeticService.DeleteCosmetic(id, trackChanges: true);
+            await _service.CosmeticService.DeleteCosmeticAsync(id, trackChanges: true);
             return NoContent();
         }
     }

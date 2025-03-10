@@ -10,8 +10,8 @@ namespace Repository.Configuration
         {
             builder.HasKey(pp => new { pp.ProductId, pp.PharmacyId });
 
-            builder.Property(pp => pp.BatchId)
-                .IsRequired();
+            /*builder.Property(pp => pp.BatchId)
+                .IsRequired();*/
 
             builder.Property(pp => pp.Quantity)
                 .IsRequired();
@@ -26,11 +26,11 @@ namespace Repository.Configuration
                 .HasForeignKey(pp => pp.PharmacyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(pp => pp.Batch)
+            /*builder.HasOne(pp => pp.Batch)
                 .WithMany()
                 .HasForeignKey(pp => pp.BatchId)
                 .OnDelete(DeleteBehavior.Restrict);
-
+*/
             builder.HasIndex(pp => new { pp.ProductId, pp.PharmacyId })
                 .HasDatabaseName("IX_PharmacyProduct_ProductId_PharmacyId");
         }

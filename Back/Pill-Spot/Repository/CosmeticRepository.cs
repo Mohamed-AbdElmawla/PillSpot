@@ -17,7 +17,9 @@ namespace Repository
 
         public void DeleteCosmetic(Cosmetic cosmetic) => Delete(cosmetic);
 
+        public void UpdateCosmetic(Cosmetic cosmetic) => Update(cosmetic);
+
         public async Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).Include(c => c.SubCategory).SingleOrDefaultAsync();
     }
 }

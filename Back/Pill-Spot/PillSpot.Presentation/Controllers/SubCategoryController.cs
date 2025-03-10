@@ -28,7 +28,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateSubCategory(Guid categoryId, [FromBody] SubCategoryForCreateDto subCategoryDto)
         {
@@ -37,7 +37,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{subCategoryId:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateSubCategory(Guid categoryId, Guid subCategoryId, [FromBody] SubCategoryForUpdateDto subCategoryDto)
         {
@@ -46,7 +46,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{subCategoryId:Guid}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSubCategory(Guid categoryId, Guid subCategoryId)
         {
             await _service.SubCategoryService.DeleteSubCategory(categoryId, subCategoryId, trackChanges: true);

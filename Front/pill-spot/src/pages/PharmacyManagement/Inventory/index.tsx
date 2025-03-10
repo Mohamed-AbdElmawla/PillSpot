@@ -33,8 +33,9 @@ const InventoryPage = () => {
       {(renderedRows.length>0) ?  
       <div className="m-10 absolute top-20 left-14">
         <table className="table table-lg">
-          <thead className="sticky top-0 bg-gray-300 z-10">
-            <tr className="text-gray-900">
+        <thead className="sticky top-0 bg-gradient-to-r from-[#99cbf3] to-[#8abaf0] z-10">
+
+            <tr className="text-gray-900 ">
               <th></th>
               <th></th>
               <th>Name</th>

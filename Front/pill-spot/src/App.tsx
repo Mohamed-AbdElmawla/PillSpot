@@ -2,9 +2,6 @@ import './App.css'
 import Router from './Router'
 import { I18nextProvider } from "react-i18next";
 import i18n from "./translation";
-import { Toaster } from 'sonner';
-
-
 function App() {
  
 

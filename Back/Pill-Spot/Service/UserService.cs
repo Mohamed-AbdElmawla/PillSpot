@@ -32,7 +32,7 @@ namespace Service
                 throw new UserNotFoundException(userName);
             return user;
         }
-        public async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
+        private async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
         {
             var user = await _userManager.FindByEmailAsync(Email);
             if (user == null)

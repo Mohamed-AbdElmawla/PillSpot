@@ -2,6 +2,7 @@
 {
     public record CategoryDto
     {
-        public required string Name { get; init; }
+        public Guid CategoryId { get; init; }
+        public string Name { get; init; }
     }
 }

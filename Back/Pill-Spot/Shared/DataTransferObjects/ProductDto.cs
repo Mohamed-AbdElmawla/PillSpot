@@ -3,7 +3,7 @@
     public record ProductDto
     {
         public Guid ProductId { get; init; }
-        public Guid SubCategoryId { get; init; }
+        public SubCategoryDto subCategoryDto { get; init; }
         public string Name { get; init; }
         public string Description { get; init; }
         public double Price { get; init; }

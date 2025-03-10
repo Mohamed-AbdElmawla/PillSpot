@@ -10,7 +10,8 @@ namespace Service.Contracts
     public interface ICosmeticService
     {
         Task<CosmeticDto> GetCosmeticAsync(Guid productId, bool trackChanges);
-        Task<CosmeticDto> CreateCosmeticAsync(CosmeticForCreationDto cosmetic);
-        Task DeleteCosmetic(Guid productId, bool trackChanges);
+        Task<CosmeticDto> CreateCosmeticAsync(CosmeticForCreationDto cosmeticForCreationDto, bool trackChanges);
+        Task DeleteCosmeticAsync(Guid productId, bool trackChanges);
+        Task UpdateCosmeticAsync(Guid productId, CosmeticForUpdateDto cosmeticForUpdateDto, bool trackChanges);
     }
 }

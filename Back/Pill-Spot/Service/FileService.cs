@@ -28,7 +28,7 @@ namespace Service
                 await file.CopyToAsync(stream);
             }
 
-            return $"/uploads/{folderName}/{newFileName}";
+            return $"/{folderName}/{newFileName}";
         }
         public async Task<bool> DeleteFileAsync(string fileUrl)
         {
@@ -78,6 +78,15 @@ namespace Service
             {
                 return null;
             }
+        }
+        public async Task<string> AddProductImageIfNotNull(IFormFile Image)
+        {
+            if (Image != null)
+            {
+                return await SaveFileAsync(Image, "ProductImages");
+
+            }
+            return null;
         }
     }
 }

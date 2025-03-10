@@ -66,6 +66,8 @@ namespace Service
             if (request == null)
                 throw new PharmacyRequestNotFoundException(requestId);
 
+            if (!request.Status.Equals(PharmacyRequestStatus.Pending))
+                throw new PharmacyRequestAlreadyReviewedBadRequestException(requestId, request.Status.ToString());
             request.Status = PharmacyRequestStatus.Approved;
 
             var pharmacy = _mapper.Map<Pharmacy>(request);

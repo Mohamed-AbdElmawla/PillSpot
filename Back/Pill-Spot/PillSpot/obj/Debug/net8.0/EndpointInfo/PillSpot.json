@@ -456,6 +456,98 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "Cosmetic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Brand": {
+                    "type": "string"
+                  },
+                  "SkinType": {
+                    "$ref": "#/components/schemas/SkinType"
+                  },
+                  "UsageInstructions": {
+                    "type": "string"
+                  },
+                  "Volume": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Brand": {
+                  "style": "form"
+                },
+                "SkinType": {
+                  "style": "form"
+                },
+                "UsageInstructions": {
+                  "style": "form"
+                },
+                "Volume": {
+                  "style": "form"
+                },
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Cosmetic"
@@ -485,39 +577,88 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "text/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
-              }
-            },
-            "application/*+xml": {
-              "schema": {
-                "$ref": "#/components/schemas/CosmeticForCreationDto"
+                "required": [
+                  "Brand",
+                  "Description",
+                  "Name",
+                  "Price",
+                  "SkinType",
+                  "SubCategoryId",
+                  "UsageInstructions",
+                  "Volume"
+                ],
+                "type": "object",
+                "properties": {
+                  "Brand": {
+                    "maxLength": 250,
+                    "type": "string"
+                  },
+                  "SkinType": {
+                    "$ref": "#/components/schemas/SkinType"
+                  },
+                  "UsageInstructions": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Volume": {
+                    "maximum": 2147483647,
+                    "minimum": 1,
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "maxLength": 250,
+                    "type": "string"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Price": {
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Brand": {
+                  "style": "form"
+                },
+                "SkinType": {
+                  "style": "form"
+                },
+                "UsageInstructions": {
+                  "style": "form"
+                },
+                "Volume": {
+                  "style": "form"
+                },
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -838,6 +979,98 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "Medicine"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Manufacturer": {
+                    "type": "string"
+                  },
+                  "Dosage": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "SideEffects": {
+                    "type": "string"
+                  },
+                  "IsPrescriptionRequired": {
+                    "type": "boolean"
+                  },
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Manufacturer": {
+                  "style": "form"
+                },
+                "Dosage": {
+                  "style": "form"
+                },
+                "SideEffects": {
+                  "style": "form"
+                },
+                "IsPrescriptionRequired": {
+                  "style": "form"
+                },
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Medicine"
@@ -867,39 +1100,87 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "text/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
-              }
-            },
-            "application/*+xml": {
-              "schema": {
-                "$ref": "#/components/schemas/MedicineForCreationDto"
+                "required": [
+                  "Description",
+                  "Dosage",
+                  "IsPrescriptionRequired",
+                  "Manufacturer",
+                  "Name",
+                  "Price",
+                  "SideEffects",
+                  "SubCategoryId"
+                ],
+                "type": "object",
+                "properties": {
+                  "Manufacturer": {
+                    "maxLength": 250,
+                    "type": "string"
+                  },
+                  "Dosage": {
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "SideEffects": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "IsPrescriptionRequired": {
+                    "type": "boolean"
+                  },
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "maxLength": 250,
+                    "type": "string"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Price": {
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Manufacturer": {
+                  "style": "form"
+                },
+                "Dosage": {
+                  "style": "form"
+                },
+                "SideEffects": {
+                  "style": "form"
+                },
+                "IsPrescriptionRequired": {
+                  "style": "form"
+                },
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1036,39 +1317,61 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "text/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
-              }
-            },
-            "application/*+xml": {
-              "schema": {
-                "$ref": "#/components/schemas/PharmacyForUpdateDto"
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "ContactNumber": {
+                    "maxLength": 11,
+                    "type": "string"
+                  },
+                  "OpeningTime": {
+                    "type": "string",
+                    "format": "date-span"
+                  },
+                  "ClosingTime": {
+                    "type": "string",
+                    "format": "date-span"
+                  },
+                  "IsOpen24": {
+                    "type": "boolean"
+                  },
+                  "DaysOpen": {
+                    "maxLength": 50,
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "logo": {
+                  "style": "form"
+                },
+                "ContactNumber": {
+                  "style": "form"
+                },
+                "OpeningTime": {
+                  "style": "form"
+                },
+                "ClosingTime": {
+                  "style": "form"
+                },
+                "IsOpen24": {
+                  "style": "form"
+                },
+                "DaysOpen": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1304,7 +1607,7 @@
         }
       }
     },
-    "/api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}": {
+    "/api/pharmacyproducts/pharmacy/{pharmacyId}/product/{productId}": {
       "get": {
         "tags": [
           "PharmacyProduct"
@@ -1366,7 +1669,7 @@
         }
       }
     },
-    "/api/pharmacyproducts/pharmacies/{pharmacyId}/products/{productId}/batch": {
+    "/api/pharmacyproducts/pharmacy/{pharmacyId}/products": {
       "get": {
         "tags": [
           "PharmacyProduct"
@@ -1382,12 +1685,72 @@
             }
           },
           {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/pharmacyproducts/product/{productId}/pharmacies": {
+      "get": {
+        "tags": [
+          "PharmacyProduct"
+        ],
+        "parameters": [
+          {
             "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -1627,6 +1990,31 @@
         "tags": [
           "Product"
         ],
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1639,39 +2027,55 @@
         ],
         "requestBody": {
           "content": {
-            "application/json-patch+json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "text/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
-              }
-            },
-            "application/*+xml": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductForCreationDto"
+                "required": [
+                  "Description",
+                  "Name",
+                  "Price",
+                  "SubCategoryId"
+                ],
+                "type": "object",
+                "properties": {
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "maxLength": 250,
+                    "type": "string"
+                  },
+                  "Description": {
+                    "maxLength": 500,
+                    "type": "string"
+                  },
+                  "Price": {
+                    "minimum": 0.01,
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -1699,6 +2103,73 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Product"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "SubCategoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "SubCategoryId": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -3135,51 +3606,6 @@
         },
         "additionalProperties": false
       },
-      "CosmeticForCreationDto": {
-        "required": [
-          "brand",
-          "usageInstructions"
-        ],
-        "type": "object",
-        "properties": {
-          "subCategoryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "imageURL": {
-            "type": "string",
-            "nullable": true
-          },
-          "brand": {
-            "type": "string",
-            "nullable": true
-          },
-          "skinType": {
-            "$ref": "#/components/schemas/SkinType"
-          },
-          "usageInstructions": {
-            "type": "string",
-            "nullable": true
-          },
-          "volume": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "CreatePermissionDto": {
         "required": [
           "name"
@@ -3219,51 +3645,6 @@
           "Female"
         ],
         "type": "string"
-      },
-      "MedicineForCreationDto": {
-        "required": [
-          "manufacturer",
-          "sideEffects"
-        ],
-        "type": "object",
-        "properties": {
-          "subCategoryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "imageURL": {
-            "type": "string",
-            "nullable": true
-          },
-          "manufacturer": {
-            "type": "string",
-            "nullable": true
-          },
-          "dosage": {
-            "type": "number",
-            "format": "float"
-          },
-          "sideEffects": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPrescriptionRequired": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
       },
       "PasswordUpdateDto": {
         "required": [
@@ -3346,47 +3727,10 @@
         },
         "additionalProperties": false
       },
-      "PharmacyForUpdateDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "maxLength": 255,
-            "type": "string",
-            "nullable": true
-          },
-          "logo": {
-            "type": "string",
-            "format": "binary",
-            "nullable": true
-          },
-          "contactNumber": {
-            "maxLength": 11,
-            "type": "string",
-            "nullable": true
-          },
-          "openingTime": {
-            "type": "string",
-            "format": "date-span",
-            "nullable": true
-          },
-          "closingTime": {
-            "type": "string",
-            "format": "date-span",
-            "nullable": true
-          },
-          "isOpen24": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "daysOpen": {
-            "maxLength": 50,
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "PharmacyProductForCreationDto": {
+        "required": [
+          "quantity"
+        ],
         "type": "object",
         "properties": {
           "productId": {
@@ -3397,39 +3741,11 @@
             "type": "string",
             "format": "uuid"
           },
-          "batchId": {
-            "type": "string",
-            "format": "uuid"
-          },
           "quantity": {
+            "maximum": 2147483647,
+            "minimum": 0,
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductForCreationDto": {
-        "type": "object",
-        "properties": {
-          "subCategoryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "imageURL": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

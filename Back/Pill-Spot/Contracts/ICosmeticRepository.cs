@@ -12,5 +12,6 @@ namespace Contracts
         Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges);
         void CreateCosmetic(Cosmetic cosmetic);
         void DeleteCosmetic(Cosmetic cosmetic);
+        void UpdateCosmetic(Cosmetic cosmetic);
     }
 }
