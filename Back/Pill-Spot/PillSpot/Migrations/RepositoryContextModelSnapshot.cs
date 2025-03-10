@@ -830,10 +830,7 @@ namespace PillSpot.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnOrder(0);
 
-                    b.Property<Guid>("BatchId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("BatchId1")
+                    b.Property<Guid?>("BatchId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -842,8 +839,6 @@ namespace PillSpot.Migrations
                     b.HasKey("ProductId", "PharmacyId");
 
                     b.HasIndex("BatchId");
-
-                    b.HasIndex("BatchId1");
 
                     b.HasIndex("PharmacyId");
 
@@ -1408,43 +1403,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "940d4388-d0f6-46ac-9cd2-8ddeb62edf27",
+                            Id = "89f5856d-c566-4d9e-aefa-b85f02731f64",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "cda11c62-ea73-4f16-b6b7-8c8fd2df57f0",
+                            Id = "1719d7a1-e45d-434b-adb6-1048ac583af1",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "14248385-8460-4b25-89bc-e183e4558e3a",
+                            Id = "cbfdb6dd-15b9-4b0d-a732-05c6a0cb547f",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "b696ae24-707e-4aa7-a65a-43dd5126b0f1",
+                            Id = "e6b081e5-c99d-40f8-9a8d-19a2792322ee",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "5973ed89-816c-4f12-a23c-6dc2190599ab",
+                            Id = "449ed6c3-cde2-487a-a390-ca42a675ec10",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "5ae8d6c7-31e8-4342-93f4-72db2b96b56d",
+                            Id = "5114b881-e0ea-4ebc-b689-2de934014a27",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "d7673556-41ed-4a3f-b444-4d03df7fa6d8",
+                            Id = "50e77029-0fce-43a6-b498-2eb877a69b47",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1884,15 +1879,9 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyProduct", b =>
                 {
-                    b.HasOne("Entities.Models.Batch", "Batch")
-                        .WithMany()
-                        .HasForeignKey("BatchId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.Batch", null)
                         .WithMany("ProductPharmacies")
-                        .HasForeignKey("BatchId1");
+                        .HasForeignKey("BatchId");
 
                     b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany("PharmacyProducts")
@@ -1905,8 +1894,6 @@ namespace PillSpot.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Batch");
 
                     b.Navigation("Pharmacy");
 

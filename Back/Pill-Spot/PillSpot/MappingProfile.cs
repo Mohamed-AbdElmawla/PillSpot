@@ -65,6 +65,13 @@ namespace PillSpot
             CreateMap<Cosmetic, CosmeticDto>().ForMember(dest => dest.subCategoryDto, opt => opt.MapFrom(src => src.SubCategory));
             CreateMap<CosmeticForCreationDto, Cosmetic>();
             CreateMap<CosmeticForUpdateDto, Cosmetic>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null && (!(srcMember is Guid) || (Guid)srcMember != Guid.Empty)));
+
+
+            CreateMap<PharmacyProduct, PharmacyProductDto>()
+            .ForMember(dest => dest.ProductDto, opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy));
+
+            CreateMap<PharmacyProductForCreationDto, PharmacyProduct>();
         }
     }
 }

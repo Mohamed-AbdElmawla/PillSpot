@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QuXiNWa/7OXWiei+evvMwfFmYHu+JtXs9A1oPfcqN5c=",
+  "Hash": "8wrqsNbzefji9yDBMu/8neOi3hcB4cBMDuVyEzcyrlI=",
   "Source": "PillSpot",
   "BasePath": "_content/PillSpot",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\7dba62cc-2dce-4c89-a5b8-394c5eed8822.jpg"
+    },
+    {
+      "Identity": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Images\\a45a5c90-372a-4298-bfa3-cf73cabc4755.jpg",
+      "SourceId": "PillSpot",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\",
+      "BasePath": "_content/PillSpot",
+      "RelativePath": "Images/a45a5c90-372a-4298-bfa3-cf73cabc4755.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\a45a5c90-372a-4298-bfa3-cf73cabc4755.jpg"
     },
     {
       "Identity": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\Logos\\12feac8a-4fd7-4816-a281-330153a3dd7e.JPG",
@@ -300,6 +319,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\PharmacistLicenses\\934d450d-6b54-4ed1-85bf-2e6465675a8f.jpg"
+    },
+    {
+      "Identity": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\PharmacistLicenses\\954f3266-f17c-40c9-adf5-5d34c76e6961.jpg",
+      "SourceId": "PillSpot",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\",
+      "BasePath": "_content/PillSpot",
+      "RelativePath": "PharmacistLicenses/954f3266-f17c-40c9-adf5-5d34c76e6961.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\PharmacistLicenses\\954f3266-f17c-40c9-adf5-5d34c76e6961.jpg"
     },
     {
       "Identity": "D:\\Graduation Project\\Back\\Pill-Spot\\PillSpot\\wwwroot\\PharmacistLicenses\\c669e878-0fdf-4c31-a95a-c8e416483b98.jpg",
