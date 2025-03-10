@@ -15,21 +15,30 @@ import PharManagementHome from "../pages/PharmacyManagement/ManagementHome";
 import OrderManagementHome from "../pages/PharmacyManagement/OrdersManagemnt";
 import StaffManagement from "../pages/PharmacyManagement/StaffManagement";
 import DataChart from "../pages/PharmacyManagement/DataChart";
+import HomePageMain from "../pages/HomePage";
+import UserHomePage from "../layouts/HomePage";
 
 // Define the router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootPage />}>
-      <Route index element={<Navigate to="landing" replace />} /> 
+      <Route index element={<Navigate to="landing" replace />} />
       <Route path="landing" element={<Home />} />
       <Route path="result" element={<ResultPage />} />
-      <Route path="pharmacymanagement" element={<PharManagementLayout />}>
-        <Route path="pharmanhome" element={<PharManagementHome/>} />
-        <Route path="pharmaninventory" element={<InventoryPage/>} />
-        <Route path="pharmanstaff" element={<StaffManagement/>} />
-        <Route path="pharmananalytics" element={<DataChart/>} />
-        <Route path="pharmanorders" element={<OrderManagementHome/>} />
+
+      // main home page layout and routes
+      <Route element={<UserHomePage />}>
+        <Route path="homepage" element={<HomePageMain />} />
+        <Route path="pharmacymanagement" element={<PharManagementLayout />}>
+          <Route path="pharmanhome" element={<PharManagementHome />} />
+          <Route path="pharmaninventory" element={<InventoryPage />} />
+          <Route path="pharmanstaff" element={<StaffManagement />} />
+          <Route path="pharmananalytics" element={<DataChart />} />
+          <Route path="pharmanorders" element={<OrderManagementHome />} />
+        </Route>
       </Route>
+
+      
     </Route>
   )
 );
