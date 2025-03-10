@@ -372,6 +372,13 @@ D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\PillSpot.d
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 D:\Graduation Project\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.AssemblyReference.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.GeneratedMSBuildEditorConfig.editorconfig
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfoInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfo.cs
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.CoreCompileInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.Development.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\appsettings.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\PillSpot.staticwebassets.endpoints.json
@@ -535,14 +542,6 @@ E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Contrac
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Entities.pdb
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Service.Contracts.pdb
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\bin\Debug\net8.0\Shared.pdb
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.AssemblyReference.cache
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.GeneratedMSBuildEditorConfig.editorconfig
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfoInputs.cache
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.AssemblyInfo.cs
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.csproj.CoreCompileInputs.cache
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cs
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cache
-E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.sourcelink.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\scopedcss\bundle\PillSpot.styles.css
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.build.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\staticwebassets.development.json
@@ -560,3 +559,4 @@ E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\refint\
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.pdb
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.genruntimeconfig.cache
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\ref\PillSpot.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\PillSpot\obj\Debug\net8.0\PillSpot.MvcApplicationPartsAssemblyInfo.cs

@@ -42,7 +42,7 @@ namespace Service
             _permissionService = new Lazy<IPermissionService>(() => new PermissionService(repositoryManager , mapper));
             _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager,mapper,userManager));
             _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper,userManager));
-            _adminService = new Lazy<IAdminService>(() => new AdminService(userManager, roleManager));
+            _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager,userManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
             _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));

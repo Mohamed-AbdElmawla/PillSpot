@@ -8,7 +8,6 @@ namespace Contracts
         void CreatePermissionAsync(Permission permission);
         Task<PagedList<Permission>> GetAllPermissionAsync(PermissionParameters permissionParameters, bool trackChanges);
         Task<Permission> GetPermissionByIdAsync(Guid permissionId, bool trackChanges);
-        void UpdatePermission(Permission permission, bool trackChanges);
         void DeletePermission(Permission permission);
     }
 }

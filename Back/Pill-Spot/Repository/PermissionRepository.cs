@@ -25,8 +25,6 @@ namespace Repository
         public async Task<Permission> GetPermissionByIdAsync(Guid permissionId, bool trackChanges) =>
             await FindByCondition(p => p.PermissionId.Equals(permissionId), trackChanges).SingleOrDefaultAsync();
 
-        public void UpdatePermission(Permission permission, bool trackChanges) => Update(permission);
-
         public void DeletePermission(Permission permission) => Delete(permission);
     }
 }
