@@ -18,6 +18,7 @@
         IMedicineRepository MedicineRepository { get; }
         ICosmeticRepository CosmeticRepository { get; }
         IPharmacyProductRepository PharmacyProductRepository { get; }
+        IPharmacyEmployeeRepository PharmacyEmployeeRepository { get; }
         Task SaveAsync();
     }
 }

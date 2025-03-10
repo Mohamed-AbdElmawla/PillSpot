@@ -3089,6 +3089,10 @@
         "additionalProperties": false
       },
       "BulkUserManagementDto": {
+        "required": [
+          "action",
+          "userIds"
+        ],
         "type": "object",
         "properties": {
           "userIds": {

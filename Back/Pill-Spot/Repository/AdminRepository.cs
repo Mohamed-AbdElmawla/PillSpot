@@ -1,20 +1,13 @@
 ﻿using Contracts;
 using Entities.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminRepository(RepositoryContext context) : RepositoryBase<User>(context), IAdminRepository
     {
-        private readonly UserManager<User> _userManager;
 
-        public AdminRepository(UserManager<User> userManager) => _userManager = userManager;
-
-        public async Task<IEnumerable<User>> GetAllUsersAsync() => await _userManager.Users.ToListAsync();
-
-        public async Task<User?> GetUserByIdAsync(string userId) => await _userManager.FindByIdAsync(userId);
-
-        public void UpdateUserAsync(User user) => _userManager.UpdateAsync(user);
+        public async Task<User?> GetUserByIdAsync(string userId, bool trackChanges) => 
+            await FindByCondition(a => a.Id.Equals(userId), trackChanges).SingleOrDefaultAsync();
     }
 }
