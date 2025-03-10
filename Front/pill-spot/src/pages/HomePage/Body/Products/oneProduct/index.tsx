@@ -14,11 +14,11 @@ const OneProduct = () => {
   }, [dispatch]);
 
   return (
-    <div className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-6">
+    <div className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-5">
     
       <div className="w-full h-56 flex justify-center">
         <img
-          className="object-cover w-full h-full rounded-md"
+          className="object-cover w-full h-full rounded-tl-3xl rounded-br-3xl"
           src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
           alt="Product Image"
         />
@@ -37,7 +37,7 @@ const OneProduct = () => {
         </div>
 
        
-        <a href="#" className="block text-lg font-semibold text-gray-900 hover:underline">
+        <a href="#" className="block text-lg font-semibold text-[#334c83] hover:underline">
           Product Name Lorem ipsum dolor sit amet.
         </a>
 
@@ -87,9 +87,9 @@ const OneProduct = () => {
 
        
         <div className="mt-4 flex items-center justify-between">
-          <p className="text-2xl font-extrabold text-gray-900">$16</p>
+          <p className="text-2xl font-extrabold text-[#334c83]">$16</p>
           <button
-            className="flex items-center bg-blue-700 text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+            className="flex items-center bg-[#334c83] text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-[#99aeda] duration-100 cursor-pointer hover:text-[#334c83] focus:ring-4 focus:ring-blue-300"
             onClick={() => toast.success("Added to cart")}
           >
             <TbShoppingCartPlus className="text-xl mr-2" />

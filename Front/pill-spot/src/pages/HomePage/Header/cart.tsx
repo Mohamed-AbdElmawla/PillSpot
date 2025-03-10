@@ -7,7 +7,7 @@ const HomeCart = () => {
       <div className="drawer-content mx-auto">
         
         <label htmlFor="my-drawer-4" className="drawer-button">
-          <MdOutlineShoppingBag className="text-4xl hover:cursor-pointer hover:scale-140 duration-200" />
+          <MdOutlineShoppingBag className="text-4xl hover:cursor-pointer hover:scale-140 duration-200 text-white" />
         </label>
       </div>
       <div className="drawer-side">

@@ -1,24 +1,25 @@
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 import OneDoctor from "./oneDoctor/OneDoctor";
+import Marquee from "react-fast-marquee";
 
 const DoctorsCons = () => {
-  const categories = [
-    "Category 1",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5",
-  ];
+  // const categories = [
+  //   "Category 1",
+  //   "Category 2",
+  //   "Category 3",
+  //   "Category 4",
+  //   "Category 5",
+  // ];
   return (
     <div className="container mt-5">
-      <div className="flex justify-center items-center py-8 bg-gradient-to-r from-gray-300  to-gray-400 text-white rounded-2xl my-5">
+      <div className="flex justify-center items-center py-8 bg-gradient-to-r text-[#334c83] font-bold rounded-5xl my-5">
         <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
-          Connect with Our Doctors
+          Connect Our Doctors
         </h1>
       </div>
 
       <div className="flex">
-        <div className="flex-1">
+        {/* <div className="flex-1">
           <aside className="flex-[1] bg-gray-100 rounded-2xl p-5 hidden sm:block sticky top-5">
             <div className="hidden sm:flex justify-center">
               <div className="relative w-full max-w-3xl">
@@ -48,17 +49,40 @@ const DoctorsCons = () => {
 
             
           </aside>
-        </div>
+        </div> */}
         <div className="flex-4">
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
+          <Marquee className="rounded-2xl" speed={50} pauseOnClick >
+
+          <div className="flex flex-wrap justify-center gap-6 mb-10 mx-3">
             <OneDoctor />
             <OneDoctor />
             <OneDoctor />
             <OneDoctor />
             <OneDoctor />
           </div>
+          </Marquee>
         </div>
       </div>
+
+
+      <div className="flex mb-10">
+        <div className="flex-4">
+          <Marquee className="rounded-2xl" speed={100} pauseOnClick direction="right">
+
+          <div className="flex flex-wrap justify-center gap-6 mb-10 mx-3">
+            <OneDoctor />
+            <OneDoctor />
+            <OneDoctor />
+            <OneDoctor />
+            <OneDoctor />
+          </div>
+          </Marquee>
+        </div>
+      </div>
+
+      
+
+      
     </div>
   );
 };
