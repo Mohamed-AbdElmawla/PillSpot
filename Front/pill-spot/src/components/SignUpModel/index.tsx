@@ -63,7 +63,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
       dispatch(setColor());
       dispatch(setSignupState(true));
       
-      navigate("/");
+      navigate("/homepage");
     }
 
     dispatch(reset());

@@ -42,7 +42,7 @@ export default function LoginModal({ buttonText }: Iprops) {
     if (userState.isSuccessLogin) {
       dispatch(setColor());
       toast.success("Welcome Back!");
-      navigate("/");
+      navigate("/homepage");
       console.log(userState.userLogin);
     }
     dispatch(resetLogin());

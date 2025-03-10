@@ -5,6 +5,9 @@ import  toastSlice  from "../features/Toasts/toastSlice";
 import  authLoginSlice  from "../features/auth/authLogin";
 import  pharmacyRegisterSlice  from "../features/RegisterPharmacy/PharmacyRegisterSlice";
 import  RequestAddPharmacySlice  from "../features/RegisterPharmacy/PharmacyRequestToBack";
+import { loadState, saveState } from "./sessionStorageHelper"
+
+const preloadedState = loadState();
 
 export const store = configureStore({
   reducer: {
@@ -15,11 +18,18 @@ export const store = configureStore({
     pharRegister : pharmacyRegisterSlice ,
     requestPharmacyAdd : RequestAddPharmacySlice ,
   },
+  preloadedState,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 });
+
+
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -27,6 +27,7 @@ const login = async(userData:IloginData) => {
     if(response.data){
       localStorage.setItem('loginData',JSON.stringify(response.data)) ;
     }
+    console.log(response.data)
     return response.data ;
 }
 
