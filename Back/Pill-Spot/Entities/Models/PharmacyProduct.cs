@@ -10,8 +10,7 @@ namespace Entities.Models
         [Key, Column(Order = 1)]
         public Guid ProductId { get; set; }
 
-        [Required(ErrorMessage = "Batch ID is required.")]
-        public Guid BatchId { get; set; }
+        /*public Guid? BatchId { get; set; }*/
 
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
@@ -23,7 +22,7 @@ namespace Entities.Models
         [ForeignKey("PharmacyId")]
         public virtual Pharmacy Pharmacy { get; set; }
 
-        [ForeignKey("BatchId")]
-        public virtual Batch Batch { get; set; }
+        /*[ForeignKey("BatchId")]
+        public virtual Batch? Batch { get; set; }*/
     }
 }
