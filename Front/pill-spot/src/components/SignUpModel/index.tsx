@@ -47,7 +47,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
   const dispatch1 = useDispatch<AppDispatch>();
 
   const userState: IState = useSelector((state: RootState) => state.auth);
-  const toastState = useSelector((state:RootState)=>state.toastSlice) ;
+  // const toastState = useSelector((state:RootState)=>state.toastSlice) ;
   const userImage = useSelector(
     (state: RootState) => state.imgaeUploadSlice.profilePicture
   );
@@ -60,8 +60,8 @@ export default function SignUpModal({ buttonText }: Iprops) {
     }
 
     if (userState.isSuccess || userState.user) {
-      dispatch(setColor());
-      dispatch(setSignupState(true));
+       dispatch(setColor());
+       toast.success("Account Created Successfully") ;
       
       navigate("/homepage");
     }
@@ -76,13 +76,13 @@ export default function SignUpModal({ buttonText }: Iprops) {
     dispatch,
   ]);
 
-  useEffect(()=>{
-    if(toastState.signUpState===1){
-      toast.success("Account Created Successfully") ;
-    } else if(toastState.signUpState === 2){
-      toast.error("An error occured") ;
-    }
-  },[toastState.signUpState,dispatch])
+  // useEffect(()=>{
+  //   if(toastState.signUpState===1){
+  //     toast.success("Account Created Successfully") ;
+  //   } else if(toastState.signUpState === 2){
+  //     toast.error("An error occured") ;
+  //   }
+  // },[toastState.signUpState,dispatch])
 
   //___________________________Handlers______________________________//
 
