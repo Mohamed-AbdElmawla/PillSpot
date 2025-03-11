@@ -2,7 +2,7 @@ import { iconMap, thirdPage } from "../common";
 import OneInput from "../oneInput";
 import { ChangeEvent, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setTimingInfo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setTimingInfo } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { RootState } from "../../../app/store";
 
 const days = [

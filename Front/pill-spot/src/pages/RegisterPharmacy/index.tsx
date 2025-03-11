@@ -8,7 +8,7 @@ import PharPic from "./PicturePage";
 import Map from "./SecondPage";
 import TimeDetails from "./ThirdPage";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocationInfo } from "../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setLocationInfo } from "../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { RootState } from "../../app/store";
 import OneInput from "./oneInput";
 import { PiCityLight } from "react-icons/pi";

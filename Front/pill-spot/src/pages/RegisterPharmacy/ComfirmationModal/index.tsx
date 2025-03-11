@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import {
   resetPharmacyRequest,
   SendPharmacyRegisterRequest,
-} from "../../../features/RegisterPharmacy/PharmacyRequestToBack";
+} from "../../../features/Pharmacy/Register/PharmacyRequestToBack";
 import { useNavigate } from "react-router-dom";
 import { setColor } from "../../../features/Toasts/toastSlice";
 
