@@ -2,6 +2,8 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { logOut } from "../../../features/auth/authLogin";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+
 
 const InfoOptions = () => {
   const dispatch = useDispatch();
@@ -29,9 +31,9 @@ const InfoOptions = () => {
     >
       <li className="px-4 py-2 text-gray-700 hover:bg-gray-100">email@email.com</li>
       <li>
-        <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+        <Link to={"/usersettingpage"} replace className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
           Profile Settings
-        </a>
+        </Link>
       </li>
       <hr className="border-t border-gray-200 my-1" />
       <li>
