@@ -17,6 +17,10 @@ import StaffManagement from "../pages/PharmacyManagement/StaffManagement";
 import DataChart from "../pages/PharmacyManagement/DataChart";
 import HomePageMain from "../pages/HomePage";
 import UserHomePage from "../layouts/HomePage";
+import UserSettingPage from "../layouts/UserPage";
+import UserSettingMain from "../pages/UserSettings";
+import PharmacyReg from "../layouts/PharmacyReg";
+import RegPharmacy from "../pages/RegisterPharmacy";
 
 // Define the router
 const router = createBrowserRouter(
@@ -27,7 +31,7 @@ const router = createBrowserRouter(
       <Route path="result" element={<ResultPage />} />
 
       // main home page layout and routes
-      <Route element={<UserHomePage />}>
+      <Route element={<UserHomePage />}>  // this is for protect router
         <Route path="homepage" element={<HomePageMain />} />
         <Route path="pharmacymanagement" element={<PharManagementLayout />}>
           <Route path="pharmanhome" element={<PharManagementHome />} />
@@ -37,6 +41,12 @@ const router = createBrowserRouter(
           <Route path="pharmanorders" element={<OrderManagementHome />} />
         </Route>
       </Route>
+
+      <Route element={<UserSettingPage />}> // this is for protect router
+        <Route path="usersettingpage" element={<UserSettingMain />} />
+      <Route path="pharmacyregister" element={ <RegPharmacy/>} /> // this is for protect router
+      </Route>
+
 
       
     </Route>
