@@ -95,8 +95,7 @@ namespace PillSpot.Presentation.Controllers
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
             return NoContent();
         }
-
-        //=====================================================================      ADMIN      ========================================================================
+        
 
         [HttpPost("admin-permission/assign")]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)

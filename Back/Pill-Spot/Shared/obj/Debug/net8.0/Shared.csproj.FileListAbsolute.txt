@@ -1,32 +1,16 @@
-E:\GP\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.deps.json
-E:\GP\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.dll
-E:\GP\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.pdb
-E:\GP\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.dll
-E:\GP\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.pdb
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.AssemblyReference.cache
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.GeneratedMSBuildEditorConfig.editorconfig
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.sourcelink.json
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.Up2Date
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.dll
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\refint\Shared.dll
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.pdb
-E:\GP\Back\Pill-Spot\Shared\obj\Debug\net8.0\ref\Shared.dll
-D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.deps.json
-D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.dll
-D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.pdb
-D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.dll
-D:\Graduation Project\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.pdb
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.AssemblyReference.cache
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.GeneratedMSBuildEditorConfig.editorconfig
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.sourcelink.json
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.CopyComplete
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.dll
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\refint\Shared.dll
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.pdb
-D:\Graduation Project\Back\Pill-Spot\Shared\obj\Debug\net8.0\ref\Shared.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.deps.json
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\bin\Debug\net8.0\Shared.pdb
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\bin\Debug\net8.0\Entities.pdb
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.AssemblyReference.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.sourcelink.json
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.csproj.Up2Date
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\refint\Shared.dll
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\Shared.pdb
+E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Shared\obj\Debug\net8.0\ref\Shared.dll
