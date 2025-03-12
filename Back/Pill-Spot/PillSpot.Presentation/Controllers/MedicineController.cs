@@ -16,11 +16,11 @@ namespace PillSpot.Presentation.Controllers
         public MedicineController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCosmetics([FromQuery] CosmeticRequestParameters cosmeticRequestParameters)
+        public async Task<IActionResult> GetAllMedicines([FromQuery] MedicinesRequestParameters medicinesRequestParameters)
         {
-            var pagedResult = await _service.CosmeticService.GetAllCosmeticsAsync(cosmeticRequestParameters, trackChanges: false);
+            var pagedResult = await _service.MedicineService.GetAllMedicinesAsync(medicinesRequestParameters, trackChanges: false);
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
-            return Ok(pagedResult.cosmetics);
+            return Ok(pagedResult.medicines);
         }
 
         [HttpGet("{id:Guid}")]
