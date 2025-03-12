@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -17,6 +18,15 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
             _fileService = fileService;
+        }
+
+        public async Task<(IEnumerable<CosmeticDto> cosmetics, MetaData metaData)> GetAllCosmeticsAsync(CosmeticRequestParameters cosmeticRequestParameters, bool trackChanges)
+        {
+            var cosmeticsWithMetaData = await _repository.CosmeticRepository.GetAllCosmeticsAsync(cosmeticRequestParameters, trackChanges);
+
+            var cosmeticsDto = _mapper.Map<IEnumerable<CosmeticDto>>(cosmeticsWithMetaData);
+
+            return (cosmetics: cosmeticsDto, metaData: cosmeticsWithMetaData.MetaData);
         }
 
         public async Task<CosmeticDto> CreateCosmeticAsync(CosmeticForCreationDto cosmeticForCreationDto, bool trackChanges)

@@ -57,10 +57,11 @@ namespace Repository
         public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByProductIdAsync(Guid productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
             var pharmacyProducts = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges)
+                .Include(pp => pp.Product)
+                .Include(pp => pp.Pharmacy)
+                .Search(pharmacyProductParameters.SearchTerm)
                 .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
                 .Take(pharmacyProductParameters.PageSize)
-                .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product)
                 .ToListAsync();
 
             var count = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges).CountAsync();

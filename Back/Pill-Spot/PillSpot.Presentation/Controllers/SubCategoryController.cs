@@ -20,7 +20,9 @@ namespace PillSpot.Presentation.Controllers
         public async Task<IActionResult> GetSubCategoriesByCategoryId(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters)
         {
             var pagedResult = await _service.SubCategoryService.GetSubCategoriesByCategoryIdAsync(categoryId, subCategoriesRequestParameters, trackChanges: false);
+
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
             return Ok(pagedResult.subCategories);
         }
 
