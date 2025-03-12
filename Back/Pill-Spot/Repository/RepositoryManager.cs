@@ -1,8 +1,4 @@
 ﻿using Contracts;
-using Entities.Models;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -26,6 +22,7 @@ namespace Repository
         private readonly Lazy<ICosmeticRepository> _cosmeticRepository;
         private readonly Lazy<IPharmacyProductRepository> _pharmacyProductRepository;
         private readonly Lazy<IPharmacyEmployeeRepository> _pharmacyEmployeeRepository;
+        private readonly Lazy<IPharmacyEmployeeRequestRepository> _pharmacyEmployeeRequestRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -47,6 +44,7 @@ namespace Repository
             _pharmacyProductRepository = new Lazy<IPharmacyProductRepository>(() => new PharmacyProductRepository(repositoryContext));
             _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(repositoryContext));
             _pharmacyEmployeeRepository = new Lazy<IPharmacyEmployeeRepository>(() => new PharmacyEmployeeRepository(repositoryContext));
+            _pharmacyEmployeeRequestRepository = new Lazy<IPharmacyEmployeeRequestRepository>(() => new PharmacyEmployeeRequestRepository(repositoryContext));
         }
 
         public IUserRepository UserRepository => _userRepository.Value;
@@ -66,6 +64,7 @@ namespace Repository
         public ICosmeticRepository CosmeticRepository => _cosmeticRepository.Value;
         public IPharmacyProductRepository PharmacyProductRepository => _pharmacyProductRepository.Value;
         public IPharmacyEmployeeRepository PharmacyEmployeeRepository => _pharmacyEmployeeRepository.Value;
+        public IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository => _pharmacyEmployeeRequestRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

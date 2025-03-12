@@ -1,29 +1,3 @@
-E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.deps.json
-E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.dll
-E:\GP\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.pdb
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.AssemblyReference.cache
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
-E:\GP\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
-D:\Graduation Project\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.deps.json
-D:\Graduation Project\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.dll
-D:\Graduation Project\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.pdb
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.AssemblyReference.cache
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfoInputs.cache
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.AssemblyInfo.cs
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.csproj.CoreCompileInputs.cache
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.sourcelink.json
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.dll
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\refint\Entities.dll
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\Entities.pdb
-D:\Graduation Project\Back\Pill-Spot\Entities\obj\Debug\net8.0\ref\Entities.dll
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.deps.json
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.dll
 E:\Graduation Project\Pill-Spot\Back\Pill-Spot\Entities\bin\Debug\net8.0\Entities.pdb

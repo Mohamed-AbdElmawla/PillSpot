@@ -13,21 +13,21 @@ namespace PillSpot
             CreateMap<UserForUpdateDto, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null && (!(srcMember is Guid) || (Guid)srcMember != Guid.Empty)));
 
             CreateMap<Permission, CreatePermissionDto>();
-            CreateMap<Permission, PermissionDto>().ReverseMap();
-            CreateMap<Permission, UpdatePermissionDto>().ReverseMap();
+            CreateMap<Permission, PermissionDto>();
+            CreateMap<UpdatePermissionDto, Permission>();
 
 
-            CreateMap<AdminPermission, AssignAdminPermissionDto>().ReverseMap();
-            CreateMap<AdminPermission, AdminPermissionDto>().ReverseMap();
+            CreateMap<AssignAdminPermissionDto, AdminPermission>();
+            CreateMap<AdminPermission, AdminPermissionDto>();
 
-            CreateMap<PharmacyEmployeePermission, AssignEmployeePermissionDto>().ReverseMap();
+            CreateMap<AssignEmployeePermissionDto, PharmacyEmployeePermission>();
             CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>().ReverseMap();
 
             CreateMap<PharmacyRequestCreateDto, PharmacyRequest>();
             CreateMap<PharmacyRequest, PharmacyRequestDto>()
             .ForMember(dest => dest.LocationDto, opt => opt.MapFrom(src => src.Location));
 
-            
+
 
             CreateMap<Government, GovernmentDto>();
             CreateMap<LocationForCreationDto, Location>();
@@ -72,6 +72,8 @@ namespace PillSpot
             .ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy));
 
             CreateMap<PharmacyProductForCreationDto, PharmacyProduct>();
+
+            CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>();
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Entities.Models
         Approved,
         Rejected
     }
-
     public class PharmacyRequest
     {
         [Key]

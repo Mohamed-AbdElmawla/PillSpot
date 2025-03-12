@@ -30,7 +30,9 @@ namespace Repository
         public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<PharmacyRequest> PharmacyRequests { get; set; }
         public DbSet<PharmacyEmployee> PharmacyEmployees { get; set; }
+        public DbSet<PharmacyEmployeeRequest> PharmacyEmployeeRequests { get; set; }
         public DbSet<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; }
         public DbSet<PharmacyFeedback> PharmacyFeedbacks { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
@@ -105,8 +107,12 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new PharmacyConfiguration());
             modelBuilder.Entity<Pharmacy>().HasQueryFilter(p => !p.IsDeleted);
 
+            modelBuilder.ApplyConfiguration(new PharmacyRequestConfiguration());
+
             modelBuilder.ApplyConfiguration(new PharmacyEmployeeConfiguration());
             modelBuilder.Entity<PharmacyEmployee>().HasQueryFilter(pe => !pe.IsDeleted);
+
+            modelBuilder.ApplyConfiguration(new PharmacyEmployeeRequestConfiguration());
 
             modelBuilder.ApplyConfiguration(new PharmacyEmployeePermissionConfiguration());
 

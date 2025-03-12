@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Service.Contracts;
-using System;
 
 namespace Service
 {
@@ -28,6 +27,7 @@ namespace Service
         private readonly Lazy<IMedicineService> _medicineService;
         private readonly Lazy<ICosmeticService> _cosmeticService;
         private readonly Lazy<IPharmacyProductService> _pharmacyProductService;
+        private readonly Lazy<IPharmacyEmployeeRequestService> _pharmacyEmployeeRequestService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -51,6 +51,7 @@ namespace Service
             _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper, fileService));
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper, fileService));
             _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
+            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -69,5 +70,6 @@ namespace Service
         public IMedicineService MedicineService => _medicineService.Value;
         public ICosmeticService CosmeticService => _cosmeticService.Value;
         public IPharmacyProductService PharmacyProductService => _pharmacyProductService.Value;
+        public IPharmacyEmployeeRequestService PharmacyEmployeeRequestService => _pharmacyEmployeeRequestService.Value;
     }
 }

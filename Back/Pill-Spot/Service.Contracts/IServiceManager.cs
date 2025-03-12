@@ -18,5 +18,6 @@
         IMedicineService MedicineService { get; }
         ICosmeticService CosmeticService { get; }
         IPharmacyProductService PharmacyProductService { get; }
+        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
     }
 }

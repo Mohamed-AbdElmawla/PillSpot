@@ -37,7 +37,6 @@ namespace PillSpot.Extensions
                                 BadRequestException => StatusCodes.Status400BadRequest,
                                 IOException => StatusCodes.Status409Conflict,
                                 NotAuthorizedException => StatusCodes.Status401Unauthorized,
-                                Entities.Exceptions.ArgumentNullException => StatusCodes.Status400BadRequest,
                                 _ => StatusCodes.Status500InternalServerError
                             };
 
