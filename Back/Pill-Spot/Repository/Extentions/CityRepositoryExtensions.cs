@@ -9,7 +9,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Repository.Extentions
 {
-    public static class RepositoryCityExtensions
+    public static class CityRepositoryExtensions
     {
         public static IQueryable<City> Sort(this IQueryable<City> cities, string orderByQueryString)
         {

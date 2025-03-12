@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -14,10 +17,13 @@ namespace PillSpot.Presentation.Controllers
         public SubCategoryController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetSubCategoriesByCategoryId(Guid categoryId)
+        public async Task<IActionResult> GetSubCategoriesByCategoryId(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters)
         {
-            var subCategories = await _service.SubCategoryService.GetSubCategoriesByCategoryIdAsync(categoryId, trackChanges: false);
-            return Ok(subCategories);
+            var pagedResult = await _service.SubCategoryService.GetSubCategoriesByCategoryIdAsync(categoryId, subCategoriesRequestParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.subCategories);
         }
 
         [HttpGet("{subCategoryId:Guid}")]

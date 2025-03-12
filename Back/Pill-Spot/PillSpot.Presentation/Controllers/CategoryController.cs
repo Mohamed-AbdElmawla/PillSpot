@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -14,9 +15,9 @@ namespace PillSpot.Presentation.Controllers
         public CategoryController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories(CategoriesRequestParameters categoriesRequestParameters)
         {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(trackChanges: false);
+            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges: false);
             return Ok(categories);
         }
 

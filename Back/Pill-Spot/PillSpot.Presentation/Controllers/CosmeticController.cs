@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -12,6 +14,14 @@ namespace PillSpot.Presentation.Controllers
     {
         private readonly IServiceManager _service;
         public CosmeticController(IServiceManager service) => _service = service;
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllMedicines([FromQuery] MedicinesRequestParameters medicinesRequestParameters)
+        {
+            var pagedResult = await _service.MedicineService.GetAllMedicinesAsync(medicinesRequestParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.medicines);
+        }
 
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetCosmetic(Guid id)

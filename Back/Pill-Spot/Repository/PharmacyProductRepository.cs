@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extentions;
 using Shared.RequestFeatures;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace Repository
         public async Task<PagedList<PharmacyProduct>> GetAllPharmacyProductsAsync(PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
             var pharmacyProducts = await FindAll(trackChanges)
-                .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
-                .Take(pharmacyProductParameters.PageSize)
-                .OrderBy(pp => pp.ProductId)
                 .Include(pp => pp.Product)
                 .Include(pp => pp.Pharmacy)
+                .Search(pharmacyProductParameters.SearchTerm)
+                .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
+                .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
             var count = await FindAll(trackChanges).CountAsync();
@@ -56,10 +57,11 @@ namespace Repository
         public async Task<PagedList<PharmacyProduct>> GetPharmacyProductsByProductIdAsync(Guid productId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
         {
             var pharmacyProducts = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges)
+                .Include(pp => pp.Product)
+                .Include(pp => pp.Pharmacy)
+                .Search(pharmacyProductParameters.SearchTerm)
                 .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
                 .Take(pharmacyProductParameters.PageSize)
-                .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product)
                 .ToListAsync();
 
             var count = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges).CountAsync();

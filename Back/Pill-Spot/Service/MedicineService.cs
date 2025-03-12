@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.IdentityModel.Tokens;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -18,6 +19,15 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
             _fileService = fileService;
+        }
+
+        public async Task<(IEnumerable<MedicineDto> medicines, MetaData metaData)> GetAllMedicinesAsync(MedicinesRequestParameters medicinesRequestParameters, bool trackChanges)
+        {
+            var medicinesWithMetaData = await _repository.MedicineRepository.GetAllMedicinesAsync(medicinesRequestParameters, trackChanges);
+
+            var medicinesDto = _mapper.Map<IEnumerable<MedicineDto>>(medicinesWithMetaData);
+
+            return (medicines: medicinesDto, metaData: medicinesWithMetaData.MetaData);
         }
 
         public async Task<MedicineDto> CreateMedicineAsync(MedicineForCreationDto medicineForCreationDto, bool trackChanges)
