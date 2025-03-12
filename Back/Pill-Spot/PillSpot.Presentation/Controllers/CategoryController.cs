@@ -15,7 +15,7 @@ namespace PillSpot.Presentation.Controllers
         public CategoryController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories(CategoriesRequestParameters categoriesRequestParameters)
+        public async Task<IActionResult> GetAllCategories([FromQuery]CategoriesRequestParameters categoriesRequestParameters)
         {
             var categories = await _service.CategoryService.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges: false);
             return Ok(categories);

@@ -73,8 +73,14 @@ namespace Service
             var pharmacy = _mapper.Map<Pharmacy>(request);
 
             _repository.PharmacyRepository.CreatePharmacy(pharmacy);
-
-            await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
+            var newEmployee = new PharmacyEmployee
+            {
+                Role = "PharmacyOwner",
+                PharmacyId = pharmacy.PharmacyId,
+                UserId = request.UserId
+            };
+            _repository.PharmacyEmployeeRepository.AddPharmacyEmployeeAsync(newEmployee);
+           // await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
 
             await _repository.SaveAsync();
 

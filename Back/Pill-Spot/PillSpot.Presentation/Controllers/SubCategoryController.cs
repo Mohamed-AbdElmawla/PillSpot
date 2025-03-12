@@ -17,7 +17,7 @@ namespace PillSpot.Presentation.Controllers
         public SubCategoryController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetSubCategoriesByCategoryId(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters)
+        public async Task<IActionResult> GetSubCategoriesByCategoryId(Guid categoryId, [FromQuery]SubCategoriesRequestParameters subCategoriesRequestParameters)
         {
             var pagedResult = await _service.SubCategoryService.GetSubCategoriesByCategoryIdAsync(categoryId, subCategoriesRequestParameters, trackChanges: false);
 
