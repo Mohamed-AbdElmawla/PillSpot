@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -17,8 +19,11 @@ namespace PillSpot.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategories([FromQuery]CategoriesRequestParameters categoriesRequestParameters)
         {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges: false);
-            return Ok(categories);
+            var pagedResult = await _service.CategoryService.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.categories);
         }
 
         [HttpGet("{id:Guid}")]
