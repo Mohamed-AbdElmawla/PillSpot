@@ -23,7 +23,7 @@ namespace Entities.Models
         public double Price { get; set; }
 
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
-        public string ImageURL { get; set; }
+        public string? ImageURL { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
