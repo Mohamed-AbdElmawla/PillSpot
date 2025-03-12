@@ -39,7 +39,7 @@ namespace PillSpot
             CreateMap<Government, GovernmentReferenceDto>();
             CreateMap<GovernmentForCreationDto, Government>();
             CreateMap<GovernmentForUpdateDto, Government>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null && (!(srcMember is Guid) || (Guid)srcMember != Guid.Empty)));
-            CreateMap<PharmacyRequest, Pharmacy>().ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.UserId));
+            CreateMap<PharmacyRequest, Pharmacy>();
 
 
             CreateMap<Pharmacy, PharmacyDto>().ForMember(dest => dest.LocationDto, opt => opt.MapFrom(src => src.Location));
@@ -74,6 +74,8 @@ namespace PillSpot
             CreateMap<PharmacyProductForCreationDto, PharmacyProduct>();
 
             CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>();
+
+            CreateMap<PharmacyEmployee, PharmacyEmployeeProfileDto>().ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy)); ;
         }
     }
 }

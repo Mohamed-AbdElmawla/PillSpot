@@ -26,8 +26,6 @@ namespace Repository.Configuration
             builder.Property(pe => pe.HireDate)
                 .IsRequired();
 
-            builder.Property(pe => pe.CreatedDate)
-                .IsRequired();
 
             builder.Property(pe => pe.IsDeleted)
                 .HasDefaultValue(false);

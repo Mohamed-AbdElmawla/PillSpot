@@ -28,6 +28,7 @@ namespace Service
         private readonly Lazy<ICosmeticService> _cosmeticService;
         private readonly Lazy<IPharmacyProductService> _pharmacyProductService;
         private readonly Lazy<IPharmacyEmployeeRequestService> _pharmacyEmployeeRequestService;
+        private readonly Lazy<IPharmacyEmployeeService> _pharmacyEmployeeService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -52,6 +53,7 @@ namespace Service
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper, fileService));
             _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
             _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper));
+            _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -71,5 +73,6 @@ namespace Service
         public ICosmeticService CosmeticService => _cosmeticService.Value;
         public IPharmacyProductService PharmacyProductService => _pharmacyProductService.Value;
         public IPharmacyEmployeeRequestService PharmacyEmployeeRequestService => _pharmacyEmployeeRequestService.Value;
+        public IPharmacyEmployeeService PharmacyEmployeeService => _pharmacyEmployeeService.Value;
     }
 }

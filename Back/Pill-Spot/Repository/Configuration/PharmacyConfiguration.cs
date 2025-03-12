@@ -10,10 +10,6 @@ namespace Repository.Configuration
         {
             builder.HasKey(p => p.PharmacyId);
 
-            builder.Property(p => p.OwnerId)
-                .IsRequired()
-                .HasMaxLength(450)
-                .IsUnicode(true);
 
             builder.Property(p => p.Name)
                 .IsRequired()
@@ -59,10 +55,6 @@ namespace Repository.Configuration
                 .HasForeignKey(p => p.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Owner)
-                .WithMany()
-                .HasForeignKey(p => p.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(p => p.ParentPharmacy)
                 .WithMany(p => p.Branches)

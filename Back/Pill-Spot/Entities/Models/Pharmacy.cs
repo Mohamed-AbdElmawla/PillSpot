@@ -12,9 +12,6 @@ namespace Entities.Models
         public Guid? ParentPharmacyId { get; set; }
         public virtual Pharmacy? ParentPharmacy { get; set; }
 
-        [Required(ErrorMessage = "Owner ID is required.")]
-        public required string OwnerId { get; set; }
-
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
         public required string Name { get; set; }
@@ -49,9 +46,6 @@ namespace Entities.Models
         [Required]
         [ForeignKey("LocationId")]
         public Location Location { get; set; }
-
-        [ForeignKey("OwnerId")]
-        public virtual User Owner { get; set; }
 
         public virtual ICollection<Pharmacy> Branches { get; set; } = new List<Pharmacy>();
         public virtual ICollection<PharmacyEmployee> Employees { get; set; } = new List<PharmacyEmployee>();

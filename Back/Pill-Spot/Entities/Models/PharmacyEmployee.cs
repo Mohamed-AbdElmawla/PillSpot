@@ -19,7 +19,7 @@ namespace Entities.Models
         public required string Role { get; set; }
 
         [Required(ErrorMessage = "Hire date is required.")]
-        public DateTime HireDate { get; set; }
+        public DateTime HireDate { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
@@ -29,8 +29,6 @@ namespace Entities.Models
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
 
-        [Required]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime? ModifiedDate { get; set; }
 
         [Required]

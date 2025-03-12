@@ -19,5 +19,6 @@
         ICosmeticService CosmeticService { get; }
         IPharmacyProductService PharmacyProductService { get; }
         IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
+        IPharmacyEmployeeService PharmacyEmployeeService { get;}
     }
 }
