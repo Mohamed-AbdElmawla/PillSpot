@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Service.Contracts
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(bool trackChanges);
+        Task<(IEnumerable<CategoryDto> categories, MetaData metaData)> GetAllCategoriesAsync(CategoriesRequestParameters categoriesRequestParameters,bool trackChanges);
         Task<CategoryDto> GetCategoryByIdAsync(Guid categoryId, bool trackChanges);
         Task CreateCategoryAsync(CategoryForCreateDto categoryForCreateDto);
         Task UpdateCategory(Guid categoryId, CategoryForUpdateDto categoryForUpdateDto, bool trackChanges);

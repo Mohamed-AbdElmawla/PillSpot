@@ -44,11 +44,11 @@ namespace PillSpot.Presentation.Controllers
         }
 
 
-        [HttpGet("pending")]
+        [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetPendiRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
+        public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
-            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetPendingRequestsAsync(pharmacyRequestParameters, trackChanges: false);
+            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 

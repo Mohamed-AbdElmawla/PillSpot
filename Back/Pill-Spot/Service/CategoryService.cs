@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -16,11 +17,11 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(bool trackChanges)
+        public async Task<(IEnumerable<CategoryDto> categories, MetaData metaData)> GetAllCategoriesAsync(CategoriesRequestParameters categoriesRequestParameters,bool trackChanges)
         {
-            var categories = await _repository.CategoryRepository.GetAllCategoriesAsync(trackChanges);
-            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-            return categoriesDto;
+            var categoriesWithMetaData = await _repository.CategoryRepository.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges);
+            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categoriesWithMetaData);
+            return (categories: categoriesDto, metaData: categoriesWithMetaData.MetaData);
         }
 
         public async Task<CategoryDto> GetCategoryByIdAsync(Guid categoryId, bool trackChanges)

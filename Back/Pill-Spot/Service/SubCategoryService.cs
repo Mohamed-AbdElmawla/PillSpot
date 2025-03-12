@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -16,11 +17,11 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync(bool trackChanges)
+        public async Task<(IEnumerable<SubCategoryDto> subCategories, MetaData metaData)> GetAllSubCategoriesAsync(SubCategoriesRequestParameters subCategoriesRequestParameters,bool trackChanges)
         {
-            var subCategories = await _repository.SubCategoryRepository.GetAllSubCategoriesAsync(trackChanges); ;
-            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
-            return subCategoriesDto;
+            var subCategoriesWithMetaData = await _repository.SubCategoryRepository.GetAllSubCategoriesAsync(subCategoriesRequestParameters, trackChanges); ;
+            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategoriesWithMetaData);
+            return (subCategories: subCategoriesDto, metaData: subCategoriesWithMetaData.MetaData);
         }
 
         public async Task<SubCategoryDto> GetSubCategoryByIdAsync(Guid categoryId, Guid subCategoryId, bool trackChanges)
@@ -39,14 +40,14 @@ namespace Service
             return subCategoryDto;
         }
 
-        public async Task<IEnumerable<SubCategoryDto>> GetSubCategoriesByCategoryIdAsync(Guid categoryId, bool trackChanges)
+        public async Task<(IEnumerable<SubCategoryDto> subCategories, MetaData metaData)> GetSubCategoriesByCategoryIdAsync(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
             if (categoryEntity == null)
                 throw new CategoryNotFoundException(categoryId);
-            var subCategories = await _repository.SubCategoryRepository.GetSubCategoriesByCategoryIdAsync(categoryId, trackChanges);
-            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
-            return subCategoriesDto;
+            var subCategoriesWithMetaData = await _repository.SubCategoryRepository.GetSubCategoriesByCategoryIdAsync(categoryId, subCategoriesRequestParameters, trackChanges);
+            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategoriesWithMetaData);
+            return (subCategories: subCategoriesDto, metaData: subCategoriesWithMetaData.MetaData);
         }
         public async Task CreateSubCategory(Guid categoryId, SubCategoryForCreateDto subCategoryForCreateDto, bool trackChanges)
         {

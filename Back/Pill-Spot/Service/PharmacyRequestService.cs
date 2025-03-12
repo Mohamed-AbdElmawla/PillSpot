@@ -93,7 +93,7 @@ namespace Service
             }
         }
 
-        public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetPendingRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)
         {
             var requestsWithMetaData = await _repository.PharmacyRequestRepository.GetRequestsAsync(pharmacyRequestParameters, trackChanges);
 
