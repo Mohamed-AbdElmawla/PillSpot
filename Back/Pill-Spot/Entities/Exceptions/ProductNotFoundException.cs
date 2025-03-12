@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entities.Exceptions
+﻿namespace Entities.Exceptions
 {
     public class ProductNotFoundException: NotFoundException
     {
-        public ProductNotFoundException(ulong productId):base($"Product with id: {productId} wasn't found")
+        public ProductNotFoundException(Guid productId):base($"Product with id: {productId} wasn't found")
         {
             
         }

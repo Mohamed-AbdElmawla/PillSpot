@@ -2,7 +2,7 @@
 {
     public record BulkUserManagementDto
     {
-        public List<string> UserIds { get; init; } = new();
-        public string Action { get; init; } = string.Empty;
+        public required List<string> UserIds { get; init; }
+        public required string Action { get; init; }
     }
 }

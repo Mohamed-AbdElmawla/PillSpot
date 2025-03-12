@@ -10,4 +10,5 @@ namespace Entities.Exceptions
     {
         public InvalidPasswordException() : base("The provided old password is incorrect.") { }
     }
-}
+}   
+    

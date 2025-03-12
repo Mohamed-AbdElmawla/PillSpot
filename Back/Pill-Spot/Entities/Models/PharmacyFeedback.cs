@@ -6,10 +6,10 @@ namespace Entities.Models
     public class PharmacyFeedback
     {
         [Key]
-        public ulong FeedbackId { get; set; }
+        public Guid FeedbackId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy ID is required.")]
-        public ulong PharmacyId { get; set; }
+        public Guid PharmacyId { get; set; }
 
         [ForeignKey("FeedbackId")]
         public virtual Feedback Feedback { get; set; }

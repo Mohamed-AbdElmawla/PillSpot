@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -14,27 +15,43 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public CosmeticController(IServiceManager service) => _service = service;
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetCosmetic(long id)
+        [HttpGet]
+        public async Task<IActionResult> GetAllCosmetics([FromQuery] CosmeticRequestParameters cosmeticRequestParameters)
         {
-            var cosmetic = await _service.CosmeticService.GetCosmeticAsync((ulong)id, trackChanges: false);
+            var pagedResult = await _service.CosmeticService.GetAllCosmeticsAsync(cosmeticRequestParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.cosmetics);
+        }
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetCosmetic(Guid id)
+        {
+            var cosmetic = await _service.CosmeticService.GetCosmeticAsync(id, trackChanges: false);
             return Ok(cosmetic);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateCosmetic([FromBody] CosmeticForCreationDto cosmeticDto)
+        public async Task<IActionResult> CreateCosmetic([FromForm] CosmeticForCreationDto cosmeticForCreationDto)
         {
-            var createdCosmetic = await _service.CosmeticService.CreateCosmeticAsync(cosmeticDto);
+            var createdCosmetic = await _service.CosmeticService.CreateCosmeticAsync(cosmeticForCreationDto, trackChanges: true);
             return CreatedAtAction(nameof(GetCosmetic), new { id = createdCosmetic.ProductId }, createdCosmetic);
         }
 
-        [HttpDelete("{id:long}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCosmetic(long id)
+        [HttpPatch("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateCosmetic(Guid id,[FromForm] CosmeticForUpdateDto cosmeticForUpdateDto)
         {
-            await _service.CosmeticService.DeleteCosmetic((ulong)id, trackChanges: true);
+            await _service.CosmeticService.UpdateCosmeticAsync(id, cosmeticForUpdateDto, trackChanges: true);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCosmetic(Guid id)
+        {
+            await _service.CosmeticService.DeleteCosmeticAsync(id, trackChanges: true);
             return NoContent();
         }
     }

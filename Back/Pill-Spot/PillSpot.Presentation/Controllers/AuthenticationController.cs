@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -51,22 +46,29 @@ namespace PillSpot.Presentation.Controllers
             {
                 HttpOnly = true,
                 Secure = true, // Ensure this is true in production
-                SameSite = SameSiteMode.Strict, // or SameSiteMode.Lax
-                Expires = DateTime.UtcNow.AddDays(7) // Set appropriate expiration
+                SameSite = SameSiteMode.None, // or SameSiteMode.Lax // none to allow Cross-origin requests
+                Expires = DateTime.UtcNow.AddDays(7), // Set appropriate expiration
+                Path = "/",
+                Domain = "localhost"
             };
 
             Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
             Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
         }
 
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             var userName = User.Identity?.Name;
-            if (userName == null)
+            if (string.IsNullOrEmpty(userName))
                 return Unauthorized();
 
             await _service.AuthenticationService.LogoutAsync(userName);
+
+            Response.Cookies.Delete("AccessToken");
+            Response.Cookies.Delete("RefreshToken");
+
             return NoContent();
         }
 

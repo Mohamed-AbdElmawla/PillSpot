@@ -6,10 +6,10 @@ namespace Entities.Models
     public class ProductIngredient
     {
         [Key, Column(Order = 0)]
-        public ulong ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [Key, Column(Order = 1)]
-        public ulong IngredientsId { get; set; }
+        public Guid IngredientsId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }

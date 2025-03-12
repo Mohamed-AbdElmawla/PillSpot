@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
     public class SubCategory
     {
         [Key]
-        public int SubCategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Category ID is required.")]
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(250, ErrorMessage = "Name cannot exceed 250 characters.")]
-        public string Name { get; set; }
-
-        public virtual Category Category { get; set; }
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        public required string Name { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
@@ -27,5 +21,7 @@ namespace Entities.Models
 
         [Required]
         public bool IsDeleted { get; set; } = false;
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

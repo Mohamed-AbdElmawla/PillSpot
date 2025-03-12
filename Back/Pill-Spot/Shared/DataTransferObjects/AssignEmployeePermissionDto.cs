@@ -2,7 +2,7 @@
 {
     public record AssignEmployeePermissionDto
     {
-        public ulong EmployeeId { get; init; }
-        public int PermissionId { get; init; }
+        public Guid EmployeeId { get; init; }
+        public Guid PermissionId { get; init; }
     }
 }

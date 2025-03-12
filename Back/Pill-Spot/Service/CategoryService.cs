@@ -4,11 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -21,14 +17,14 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<CategoryDto>> GetAllCategoriesAsync(bool trackChanges)
+        public async Task<(IEnumerable<CategoryDto> categories, MetaData metaData)> GetAllCategoriesAsync(CategoriesRequestParameters categoriesRequestParameters,bool trackChanges)
         {
-            var categories = await _repository.CategoryRepository.GetAllCategoriesAsync(trackChanges);
-            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-            return categoriesDto;
+            var categoriesWithMetaData = await _repository.CategoryRepository.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges);
+            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categoriesWithMetaData);
+            return (categories: categoriesDto, metaData: categoriesWithMetaData.MetaData);
         }
 
-        public async Task<CategoryDto> GetCategoryByIdAsync(int categoryId, bool trackChanges)
+        public async Task<CategoryDto> GetCategoryByIdAsync(Guid categoryId, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
             if (categoryEntity == null)
@@ -44,7 +40,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdateCategory(int categoryId, CategoryForUpdateDto categoryForUpdateDto, bool trackChanges)
+        public async Task UpdateCategory(Guid categoryId, CategoryForUpdateDto categoryForUpdateDto, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
             if (categoryEntity == null)
@@ -54,7 +50,7 @@ namespace Service
 
         }
 
-        public async Task DeleteCategory(int categoryId, bool trackChanges)
+        public async Task DeleteCategory(Guid categoryId, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
             if (categoryEntity == null)

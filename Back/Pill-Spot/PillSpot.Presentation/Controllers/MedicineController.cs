@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -14,27 +15,44 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public MedicineController(IServiceManager service) => _service = service;
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetMedicine(long id)
+        [HttpGet]
+        public async Task<IActionResult> GetAllMedicines([FromQuery] MedicinesRequestParameters medicinesRequestParameters)
         {
-            var medicine = await _service.MedicineService.GetMedicineAsync((ulong)id, trackChanges: false);
+            var pagedResult = await _service.MedicineService.GetAllMedicinesAsync(medicinesRequestParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
+            return Ok(pagedResult.medicines);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetMedicine(Guid id)
+        {
+            var medicine = await _service.MedicineService.GetMedicineAsync(id, trackChanges: false);
             return Ok(medicine);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateMedicine([FromBody] MedicineForCreationDto medicineDto)
+        public async Task<IActionResult> CreateMedicine([FromForm] MedicineForCreationDto medicineDto)
         {
-            var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto);
+            var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto, trackChanges: true);
             return CreatedAtAction(nameof(GetMedicine), new { id = createdMedicine.ProductId }, createdMedicine);
         }
 
-        [HttpDelete("{id:long}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteMedicine(long id)
+        [HttpPatch("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateMedicine(Guid id, [FromForm] MedicineForUpdateDto medicineForUpdateDto)
         {
-            await _service.MedicineService.DeleteMedicine((ulong)id, trackChanges: true);
+            await _service.MedicineService.UpdateMedicineAsync(id, medicineForUpdateDto, trackChanges: true);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteMedicine(Guid id)
+        {
+            await _service.MedicineService.DeleteMedicineAsync(id, trackChanges: true);
             return NoContent();
         }
     }

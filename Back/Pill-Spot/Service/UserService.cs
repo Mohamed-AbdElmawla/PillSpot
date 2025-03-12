@@ -1,19 +1,11 @@
 ﻿using AutoMapper;
 using Contracts;
-using Entities;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -40,7 +32,7 @@ namespace Service
                 throw new UserNotFoundException(userName);
             return user;
         }
-        public async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
+        private async Task<User> GetUserByEmailAndCheckIfItExist(string Email, bool trackChanges = true)
         {
             var user = await _userManager.FindByEmailAsync(Email);
             if (user == null)
@@ -54,7 +46,6 @@ namespace Service
             user.IsDeleted = true;
             await _repository.SaveAsync();
         }
-
         public async Task<UserDto> GetUserAsync(string userName, bool trackChanges)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName, trackChanges);
@@ -63,7 +54,6 @@ namespace Service
 
             return userDto;
         }
-
         public async Task UpdateUserAsync(string userName, UserForUpdateDto userForUpdateDto, bool trackChanges)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName, trackChanges);
@@ -77,7 +67,6 @@ namespace Service
 
             await _repository.SaveAsync();
         }
-
         public async Task<(IEnumerable<UserDto> users, MetaData metaData)> GetUsersAsync(UserParameters userParameters, bool trackChanges)
         {
             var usersWithMetaData = await _repository.UserRepository.GetUsersAsync(userParameters, trackChanges);
@@ -86,8 +75,6 @@ namespace Service
 
             return (users: usersDto, metaData: usersWithMetaData.MetaData);
         }
-
-
         public async Task UpdatePasswordAsync(string userName, PasswordUpdateDto passwordDto)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -102,8 +89,6 @@ namespace Service
             if (!result.Succeeded)
                 throw new PasswordChangeFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
-
-
         public async Task UpdateEmailAsync(string userName, EmailUpdateDto emailDto)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -132,7 +117,6 @@ namespace Service
 
             await _emailService.SendEmailAsync(user.Email, "Reset Your Password", emailBody);
         }
-
         public async Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
         {
             var user = await GetUserByEmailAndCheckIfItExist(resetPasswordDto.Email);
@@ -141,8 +125,6 @@ namespace Service
             if (!result.Succeeded)
                 throw new PasswordResetFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
-
-
         public async Task AssignRoleAsync(string userName, string newRole)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -155,7 +137,6 @@ namespace Service
             }
 
         }
-
         public async Task LockoutUserAsync(string userName, int days = 30)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -164,16 +145,12 @@ namespace Service
             user.LockoutEnabled = true;
             await _userManager.UpdateAsync(user);
         }
-
         public async Task UnlockUserAsync(string userName)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
             user.LockoutEnabled = false;
             await _userManager.SetLockoutEndDateAsync(user, null);
         }
-
-
-
         public async Task<IEnumerable<string>> GetUserRolesAsync(string userName)
         {
             var user = await GetUserByNameAndCheckIfItExist(userName);
@@ -189,7 +166,6 @@ namespace Service
 
             await _emailService.SendEmailAsync(user.Email, "Confirm Your Email", $"Click <a href='{confirmationUrl}'>here</a> to confirm your email.");
         }
-
         public async Task ConfirmEmailAsync(string email, string token)
         {
             var user = await GetUserByEmailAndCheckIfItExist(email);
@@ -198,7 +174,6 @@ namespace Service
             if (!result.Succeeded)
                 throw new EmailConfirmationFailedException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
-
     }
 }
 

@@ -47,20 +47,20 @@ namespace PillSpot.Presentation.Controllers
 
 
         [HttpGet("permissions-management/get-all")]
-        public async Task<IActionResult> GetAllPermissions([FromQuery]PermissionParameters permissionParameters)
+        public async Task<IActionResult> GetAllPermissions([FromQuery] PermissionParameters permissionParameters)
         {
             var pagedResult = await _service.PermissionService.GetAllPermissionsAsync(permissionParameters, trackChanges: false);
             Response.Headers["X-Pagination"] = JsonSerializer.Serialize(pagedResult.metaData);
             return Ok(pagedResult.permissions);
         }
-        
-        [HttpGet("permissions-management/get-by-/{id:int}")]
-        public async Task<IActionResult> GetPermissionbyId(int id)
+
+        [HttpGet("permissions-management/get-by-/{id:Guid}")]
+        public async Task<IActionResult> GetPermissionbyId(Guid id)
         {
-            var permissions = await _service.PermissionService.GetPermissionByIdAsync(id,trackChanges: false);
+            var permissions = await _service.PermissionService.GetPermissionByIdAsync(id, trackChanges: false);
             return Ok(permissions);
         }
-        
+
         [HttpPost("permissions-management/create")]
         public async Task<IActionResult> CreatePermission([FromBody] CreatePermissionDto permissionDto)
         {
@@ -68,9 +68,9 @@ namespace PillSpot.Presentation.Controllers
                 throw new PermissionBadRequestException();
 
             var createdPermission = await _service.PermissionService.CreatePermissionAsync(permissionDto);
-            return CreatedAtAction(nameof(GetPermissionbyId),new {id=createdPermission.PermissionId},createdPermission);
+            return CreatedAtAction(nameof(GetPermissionbyId), new { id = createdPermission.PermissionId }, createdPermission);
         }
-        
+
         [HttpPost("permissions-management/create-collection")]
         public async Task<IActionResult> CreatePermissionCollection([FromBody] IEnumerable<CreatePermissionDto> permissions)
         {
@@ -78,9 +78,9 @@ namespace PillSpot.Presentation.Controllers
 
             return Created();
         }
-        
-        [HttpPut("permissions-management/update/{id:int}")]
-        public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionDto permissionDto)
+
+        [HttpPut("permissions-management/update/{id:Guid}")]
+        public async Task<IActionResult> UpdatePermission(Guid id, [FromBody] UpdatePermissionDto permissionDto)
         {
             if (permissionDto == null)
                 throw new PermissionBadRequestException();
@@ -88,15 +88,15 @@ namespace PillSpot.Presentation.Controllers
             await _service.PermissionService.UpdatePermissionAsync(id, permissionDto, trackChanges: true);
             return NoContent();
         }
-        
-        [HttpDelete("permissions-management/delete-permission/{id:int}")]
-        public async Task<IActionResult> DeletePermission(int id)
+
+        [HttpDelete("permissions-management/delete-permission/{id:Guid}")]
+        public async Task<IActionResult> DeletePermission(Guid id)
         {
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
             return NoContent();
         }
 
-//=====================================================================      ADMIN      ========================================================================
+        //=====================================================================      ADMIN      ========================================================================
 
         [HttpPost("admin-permission/assign")]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
@@ -104,9 +104,9 @@ namespace PillSpot.Presentation.Controllers
             var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto);
             return CreatedAtRoute("GetAdminPermissions", new { adminId = result.AdminId }, result);
         }
-        
+
         [HttpPost("admin-permission/assign-multiple/{adminId}")]
-        public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<int> permissionIds)
+        public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
             return CreatedAtRoute("GetAdminPermissions", new { adminId = adminId }, result);
@@ -118,20 +118,19 @@ namespace PillSpot.Presentation.Controllers
             var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
             return Ok(result);
         }
-        
-        [HttpDelete("admin-permission/remove/{adminId}/{permissionId:int}")]
-        public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, int permissionId)
+
+        [HttpDelete("admin-permission/remove/{adminId}/{permissionId:Guid}")]
+        public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, Guid permissionId)
         {
             await _service.AdminPermissionService.RemovePermissionFromAdminAsync(adminId, permissionId);
             return NoContent();
         }
 
         [HttpDelete("admin-permission/remove-multiple/{adminId}")]
-        public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<int> permissionIds)
+        public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);
             return NoContent();
         }
-
     }
 }

@@ -5,14 +5,7 @@ using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -36,26 +29,26 @@ namespace PillSpot.Presentation.Controllers
             return Ok();
         }
         [HttpPatch("{requestId}/approve")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ApproveRequest(ulong requestId)
+       // [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
-            await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: false);
+            await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
         [HttpPatch("{requestId}/reject")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RejectRequest(ulong requestId)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectRequest(Guid requestId)
         {
-            await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: false);
+            await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
 
 
-        [HttpGet("pending")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetPendiRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
+        [HttpGet]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
-            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetPendingRequestsAsync(pharmacyRequestParameters, trackChanges: false);
+            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 

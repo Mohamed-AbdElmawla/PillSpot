@@ -1,20 +1,15 @@
 ﻿using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Shared.RequestFeatures;
 namespace Contracts
 {
     public interface ISubCategoryRepository
     {
-        Task<IEnumerable<SubCategory>> GetAllSubCategoriesAsync(bool trackChanges);
-        Task<SubCategory> GetSubCategoryByIdAsync(int categoryId, int subCategoryId, bool trackChanges);
-        Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryIdAsync(int categoryId, bool trackChanges);
+        Task<PagedList<SubCategory>> GetAllSubCategoriesAsync(SubCategoriesRequestParameters subCategoriesRequestParameters, bool trackChanges);
+        Task<SubCategory> GetSubCategoryByIdAsync(Guid categoryId, Guid subCategoryId, bool trackChanges);
+        Task<SubCategory> GetSubCategoryByIdAsync(Guid subCategoryId, bool trackChanges);
+        Task<PagedList<SubCategory>> GetSubCategoriesByCategoryIdAsync(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters, bool trackChanges);
         void CreateSubCategory(SubCategory subCategory);
         void UpdateSubCategory(SubCategory subCategory);
         void DeleteSubCategory(SubCategory subCategory);
     }
-
 }

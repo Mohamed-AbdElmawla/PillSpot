@@ -2,17 +2,11 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace Service
 {
     internal class PharmacyRequestService : IPharmacyRequestService
@@ -65,13 +59,15 @@ namespace Service
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
             await _repository.SaveAsync();
         }
-        public async Task ApproveRequestAsync(ulong requestId, bool trackChanges)
+        public async Task ApproveRequestAsync(Guid requestId, bool trackChanges)
         {
             var request = await _repository.PharmacyRequestRepository.GetByIdAsync(requestId, trackChanges);
 
             if (request == null)
                 throw new PharmacyRequestNotFoundException(requestId);
 
+            if (!request.Status.Equals(PharmacyRequestStatus.Pending))
+                throw new PharmacyRequestAlreadyReviewedBadRequestException(requestId, request.Status.ToString());
             request.Status = PharmacyRequestStatus.Approved;
 
             var pharmacy = _mapper.Map<Pharmacy>(request);
@@ -97,7 +93,7 @@ namespace Service
             }
         }
 
-        public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetPendingRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)
         {
             var requestsWithMetaData = await _repository.PharmacyRequestRepository.GetRequestsAsync(pharmacyRequestParameters, trackChanges);
 
@@ -106,7 +102,7 @@ namespace Service
             return (pharmacyRequests: pharmacyRequestsDto, metaData: requestsWithMetaData.MetaData);
         }
 
-        public async Task RejectRequestAsync(ulong requestId, bool trackChanges)
+        public async Task RejectRequestAsync(Guid requestId, bool trackChanges)
         {
             var request = await _repository.PharmacyRequestRepository.GetByIdAsync(requestId, trackChanges);
 

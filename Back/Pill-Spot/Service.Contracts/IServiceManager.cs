@@ -1,6 +1,4 @@
-﻿
-
-namespace Service.Contracts
+﻿namespace Service.Contracts
 {
     public interface IServiceManager
     {
@@ -20,5 +18,6 @@ namespace Service.Contracts
         IMedicineService MedicineService { get; }
         ICosmeticService CosmeticService { get; }
         IPharmacyProductService PharmacyProductService { get; }
+        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace Service.Contracts
 {
     public interface ICosmeticService
     {
-        Task<CosmeticDto> GetCosmeticAsync(ulong productId, bool trackChanges);
-        Task<CosmeticDto> CreateCosmeticAsync(CosmeticForCreationDto cosmetic);
-        Task DeleteCosmetic(ulong productId, bool trackChanges);
+        Task<(IEnumerable<CosmeticDto> cosmetics, MetaData metaData)> GetAllCosmeticsAsync(CosmeticRequestParameters cosmeticRequestParameters, bool trackChanges);
+        Task<CosmeticDto> GetCosmeticAsync(Guid productId, bool trackChanges);
+        Task<CosmeticDto> CreateCosmeticAsync(CosmeticForCreationDto cosmeticForCreationDto, bool trackChanges);
+        Task DeleteCosmeticAsync(Guid productId, bool trackChanges);
+        Task UpdateCosmeticAsync(Guid productId, CosmeticForUpdateDto cosmeticForUpdateDto, bool trackChanges);
     }
 }

@@ -8,10 +8,10 @@ namespace Entities.Models
     public class Order
     {
         [Key]
-        public ulong OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
         public Guid LocationId { get; set; }

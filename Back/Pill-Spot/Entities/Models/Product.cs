@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
     public class Product
     {
         [Key]
-        public ulong ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [Required(ErrorMessage = "SubCategory ID is required.")]
-        public int SubCategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(250, ErrorMessage = "Name cannot exceed 250 characters.")]
@@ -33,7 +30,7 @@ namespace Entities.Models
 
         public DateTime? ModifiedDate { get; set; }
 
-        public virtual SubCategory SubCategory { get; set; }
+        public virtual SubCategory? SubCategory { get; set; }
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 

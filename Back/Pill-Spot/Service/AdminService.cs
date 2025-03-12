@@ -1,81 +1,138 @@
-﻿using Entities.Models;
+﻿using Contracts;
+using Entities.Exceptions;
+using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
     public class AdminService : IAdminService
     {
+        private readonly IRepositoryManager _repositoryManager;
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminService(IRepositoryManager repositoryManager, UserManager<User> userManager)
         {
+            _repositoryManager = repositoryManager;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
-
-        public async Task BulkManageUsersAsync(BulkUserManagementDto dto)
+        public async Task BulkManageUsersAsync(BulkUserManagementDto dto, string currentUserId ,bool trackChanges)
         {
+            if (dto == null || dto.UserIds.All(string.IsNullOrWhiteSpace))
+                throw new DtoArgumentNullException(nameof(dto));
+
+            if (string.IsNullOrEmpty(currentUserId))
+                throw new UsersIdArgumentNullException(currentUserId);
+
+            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true);
+
+            var errorMessages = new List<string>();
+
             foreach (var userId in dto.UserIds)
             {
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user != null)
+                if (string.IsNullOrWhiteSpace(userId))
+                    continue;
+
+                var targetUser = await _repositoryManager.AdminRepository.GetUserByIdAsync(userId, trackChanges);
+                if (targetUser == null)
                 {
-                    switch (dto.Action)
-                    {
-                        case "Activate":
-                            user.LockoutEnd = null;
-                            break;
-                        case "Deactivate":
-                            user.LockoutEnd = DateTimeOffset.MaxValue;
-                            break;
-                        case "Delete":
-                            await _userManager.DeleteAsync(user);
-                            break;
-                    }
-                    await _userManager.UpdateAsync(user);
+                    errorMessages.Add($"User with Id '{userId}' does not exist.");
+                    continue;
                 }
+
+                var targetUserRoles = await _userManager.GetRolesAsync(targetUser);
+
+                if (!IsAllowedToManageUser(currentUserRoles, targetUserRoles))
+                {
+                    string roles = string.Join(", ", targetUserRoles);
+                    errorMessages.Add($"User with Id '{targetUser.UserName}' and Roles '{roles}' cannot be modified.");
+                    continue;
+                }
+
+                await ApplyUserAction(targetUser, dto.Action);
             }
+
+            if (errorMessages.Count > 0)
+                throw new UnauthorizedAccessException(string.Join(Environment.NewLine, errorMessages));
         }
 
-        public async Task AssignUserRoleAsync(AssignUserRoleDto dto)
+        public async Task AssignUserRoleAsync(AssignUserRoleDto dto, string currentUserId)
         {
-            var user = await _userManager.FindByIdAsync(dto.UserId);
-            if (user != null)
-            {
-                var currentRoles = await _userManager.GetRolesAsync(user);
-                await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                await _userManager.AddToRoleAsync(user, dto.Role);
-            }
+            if (dto == null)
+                throw new System.ArgumentNullException(nameof(dto));
+
+            if (string.IsNullOrEmpty(currentUserId))
+                throw new ArgumentException("Current user id must be provided.", nameof(currentUserId));
+
+            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true);
+
+            var (targetUser, targetUserRoles) = await GetUserAndRolesAsync(dto.UserId, isCurrentUser: false);
+
+            if (!IsAllowedToManageUser(currentUserRoles, targetUserRoles))
+                throw new UnauthorizedAccessException("You are not allowed to assign roles to this user.");
+
+            var currentRoles = await _userManager.GetRolesAsync(targetUser);
+            var removeResult = await _userManager.RemoveFromRolesAsync(targetUser, currentRoles);
+            if (!removeResult.Succeeded)
+                throw new Exception("Failed to remove user roles.");
+
+            var addResult = await _userManager.AddToRoleAsync(targetUser, dto.Role);
+            if (!addResult.Succeeded)
+                throw new Exception("Failed to add user to role.");
+            
+            await _repositoryManager.SaveAsync();
         }
 
-        //public async Task<byte[]> ExportUserDataAsync()
-        //{
-        //    var users = _userManager.Users.ToList();
-        //    var userDtos = users.Select(u => new UserExportDto
-        //    {
-        //        Id = u.Id,
-        //        Username = u.UserName!,
-        //        Email = u.Email!,
-        //        Role = _userManager.GetRolesAsync(u).Result.FirstOrDefault() ?? "No Role",
-        //        IsActive = u.LockoutEnd == null || u.LockoutEnd <= DateTimeOffset.Now
-        //    }).ToList();
+        private async Task ApplyUserAction(User user, string action)
+        {
+            switch (action)
+            {
+                case "Activate":
+                    user.LockoutEnd = null;
+                    break;
+                case "Deactivate":
+                    user.LockoutEnd = DateTimeOffset.MaxValue;
+                    break;
+                case "Delete":
+                    user.IsDeleted = true;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid action specified.", nameof(action));
+            }
 
-        //    using var memoryStream = new MemoryStream();
-        //    using var writer = new StreamWriter(memoryStream, Encoding.UTF8);
-        //    using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        //    await csv.WriteRecordsAsync(userDtos);
-        //    await writer.FlushAsync();
-        //    return memoryStream.ToArray();
-        //}
+            await _repositoryManager.SaveAsync();
+        }
+
+        private async Task<(User user, IList<string> roles)> GetUserAndRolesAsync(string userId, bool isCurrentUser)
+        {
+            var user = await _repositoryManager.AdminRepository.GetUserByIdAsync(userId,false);
+            if (user == null)
+            {
+                if (isCurrentUser)
+                    throw new UnauthorizedAccessException("Current user not found.");
+                else
+                    throw new ArgumentException("User not found.", nameof(userId));
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            return (user, roles);
+        }
+
+        private bool IsAllowedToManageUser(IList<string> currentUserRoles, IList<string> targetUserRoles)
+        {
+
+            if (currentUserRoles.Contains("SuperAdmin"))
+                return true;
+
+            if (currentUserRoles.Contains("Admin"))
+            {
+                if (targetUserRoles.Contains("SuperAdmin") || targetUserRoles.Contains("Admin"))
+                    return false;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -19,21 +15,21 @@ namespace PillSpot.Presentation.Controllers
         public CategoryController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories(CategoriesRequestParameters categoriesRequestParameters)
         {
-            var categories = await _service.CategoryService.GetAllCategoriesAsync(trackChanges: false);
+            var categories = await _service.CategoryService.GetAllCategoriesAsync(categoriesRequestParameters, trackChanges: false);
             return Ok(categories);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCategoryById(int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetCategoryById(Guid id)
         {
             var category = await _service.CategoryService.GetCategoryByIdAsync(id, trackChanges: false);
             return Ok(category);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreateDto categoryForCreateDto)
         {
@@ -41,19 +37,18 @@ namespace PillSpot.Presentation.Controllers
             return StatusCode(201);
         }
 
-        [HttpPut("{id:int}")]
-        [Authorize(Roles = "Admin")]
+        [HttpPut("{id:Guid}")]
+       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryForUpdateDto categoryForUpdateDto)
+        public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] CategoryForUpdateDto categoryForUpdateDto)
         {
             await _service.CategoryService.UpdateCategory(id, categoryForUpdateDto, trackChanges: true);
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> DeleteCategory(int id)
+        [HttpDelete("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteCategory(Guid id)
         {
             await _service.CategoryService.DeleteCategory(id, trackChanges:true);
             return NoContent();

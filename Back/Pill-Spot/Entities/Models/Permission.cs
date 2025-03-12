@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Permission
     {
         [Key]
-        public int PermissionId { get; set; }
+        public Guid PermissionId { get; set; }
 
         [Required(ErrorMessage = "Permission name is required.")]
         [MaxLength(50, ErrorMessage = "Permission name cannot exceed 50 characters.")]

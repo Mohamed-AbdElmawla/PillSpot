@@ -9,7 +9,7 @@ namespace Entities.Exceptions
 {
     public class CategoryNotFoundException : NotFoundException
     {
-        public CategoryNotFoundException(int categoryId) :base($"Category with id: {categoryId} wasn't found")
+        public CategoryNotFoundException(Guid categoryId) :base($"Category with id: {categoryId} wasn't found")
         {
             
         }

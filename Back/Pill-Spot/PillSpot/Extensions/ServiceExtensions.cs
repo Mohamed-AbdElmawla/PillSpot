@@ -16,17 +16,30 @@ namespace PillSpot.Extensions
 {
     public static class ServiceExtensions
     {
+        //public static void ConfigureCors(this IServiceCollection services)
+        //{
+        //    services.AddCors(options =>
+        //    {
+        //        options.AddPolicy("CorsPolicy", builder =>
+        //        builder.AllowAnyOrigin()
+        //        .AllowAnyHeader()
+        //        .AllowAnyMethod()
+        //        .WithExposedHeaders("X-Pagination"));
+        //});
+        //}
         public static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .WithExposedHeaders("X-Pagination"));
-        });
+                    builder.WithOrigins("http://localhost:5173")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                           .WithExposedHeaders("X-Pagination"));
+            });
         }
+
         public static void ConfigureFilterServices(this IServiceCollection services)
         {
             services.AddScoped<ValidationFilterAttribute>();

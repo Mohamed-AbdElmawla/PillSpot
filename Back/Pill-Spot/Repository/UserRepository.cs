@@ -20,6 +20,7 @@ namespace Repository
 
         public async Task<User> GetUserAsync(string userName, bool trackChanges) 
             => await FindByCondition(u => userName.Equals(u.UserName), trackChanges).FirstOrDefaultAsync();
+        
         public async Task<PagedList<User>> GetUsersAsync(UserParameters userParameters, bool trackChanges)
         {
             var users = await FindAll(trackChanges)
@@ -30,6 +31,7 @@ namespace Repository
             var count = await FindAll(trackChanges).CountAsync();
             return new PagedList<User>(users, count, userParameters.PageNumber, userParameters.PageSize);
         }
+
         public void DeleteUser(User user) => Delete(user);
     }
 }

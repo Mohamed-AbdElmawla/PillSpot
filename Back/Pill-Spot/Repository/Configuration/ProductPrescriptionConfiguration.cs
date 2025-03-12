@@ -21,7 +21,7 @@ namespace Repository.Configuration
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(pp => new { pp.PrescriptionId, pp.ProductId })
-                .HasDatabaseName("IX_ProductPrescription_PrescriptionID_ProductID");
+                .HasDatabaseName("IX_ProductPrescription_PrescriptionId_ProductId");
         }
     }
 }

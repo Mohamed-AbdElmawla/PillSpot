@@ -19,28 +19,28 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("assign-multiple/{employeeId}")]
-        public async Task<IActionResult> AssignPermissionsToEmployee(ulong employeeId, [FromBody] IEnumerable<int> permissionIds)
+        public async Task<IActionResult> AssignPermissionsToEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             var result = await _service.EmployeePermissionService.AssignPermissionsToEmployeeAsync(employeeId, permissionIds);
             return CreatedAtRoute("GetEmployeePermissions", new { EmployeeId = employeeId }, result);
         }
 
         [HttpGet("{employeeId}", Name = "GetEmployeePermissions")]
-        public async Task<IActionResult> GetPermissionsToEmployee(ulong employeeId)
+        public async Task<IActionResult> GetPermissionsToEmployee(Guid employeeId)
         {
             var result = await _service.EmployeePermissionService.GetPermissionsToEmployeeAsync(employeeId, trackChanges: false);
             return Ok(result);
         }
 
         [HttpDelete("remove/{employeeId}/{permissionId}")]
-        public async Task<IActionResult> RemovePermissionFromEmployee(ulong employeeId, int permissionId)
+        public async Task<IActionResult> RemovePermissionFromEmployee(Guid employeeId, Guid permissionId)
         {
             await _service.EmployeePermissionService.RemovePermissionFromEmployeeAsync(employeeId, permissionId);
             return NoContent();
         }
 
         [HttpDelete("remove-multiple/{employeeId}")]
-        public async Task<IActionResult> RemovePermissionsFromEmployee(ulong employeeId, [FromBody] IEnumerable<int> permissionIds)
+        public async Task<IActionResult> RemovePermissionsFromEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             await _service.EmployeePermissionService.RemovePermissionsFromEmployeeAsync(employeeId, permissionIds);
             return NoContent();

@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extentions;
+using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,29 @@ namespace Repository
 {
     internal sealed class CosmeticRepository : RepositoryBase<Cosmetic>, ICosmeticRepository
     {
+        public async Task<PagedList<Cosmetic>> GetAllCosmeticsAsync(CosmeticRequestParameters cosmeticRequestParameters, bool trackChanges)
+        {
+            var cosmetics = await FindAll(trackChanges)
+                .Sort(cosmeticRequestParameters.OrderBy)
+                .Search(cosmeticRequestParameters.SearchTerm)
+                .Skip((cosmeticRequestParameters.PageNumber - 1) * cosmeticRequestParameters.PageSize)
+                .Take(cosmeticRequestParameters.PageSize)
+                .Include(p => p.SubCategory)
+                .ToListAsync();
+
+            var count = await FindAll(trackChanges).CountAsync();
+
+            return new PagedList<Cosmetic>(cosmetics, count, cosmeticRequestParameters.PageNumber, cosmeticRequestParameters.PageSize);
+        }
         public CosmeticRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
         public void CreateCosmetic(Cosmetic cosmetic) => Create(cosmetic);
 
         public void DeleteCosmetic(Cosmetic cosmetic) => Delete(cosmetic);
 
-        public async Task<Cosmetic> GetCosmeticAsync(ulong productId, bool trackChanges) =>
-            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).SingleOrDefaultAsync();
+        public void UpdateCosmetic(Cosmetic cosmetic) => Update(cosmetic);
+
+        public async Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges) =>
+            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).Include(c => c.SubCategory).SingleOrDefaultAsync();
     }
 }

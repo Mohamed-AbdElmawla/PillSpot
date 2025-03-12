@@ -2,14 +2,9 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -22,14 +17,14 @@ namespace Service
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<SubCategoryDto>> GetAllSubCategoriesAsync(bool trackChanges)
+        public async Task<(IEnumerable<SubCategoryDto> subCategories, MetaData metaData)> GetAllSubCategoriesAsync(SubCategoriesRequestParameters subCategoriesRequestParameters,bool trackChanges)
         {
-            var subCategories = await _repository.SubCategoryRepository.GetAllSubCategoriesAsync(trackChanges); ;
-            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
-            return subCategoriesDto;
+            var subCategoriesWithMetaData = await _repository.SubCategoryRepository.GetAllSubCategoriesAsync(subCategoriesRequestParameters, trackChanges); ;
+            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategoriesWithMetaData);
+            return (subCategories: subCategoriesDto, metaData: subCategoriesWithMetaData.MetaData);
         }
 
-        public async Task<SubCategoryDto> GetSubCategoryByIdAsync(int categoryId, int subCategoryId, bool trackChanges)
+        public async Task<SubCategoryDto> GetSubCategoryByIdAsync(Guid categoryId, Guid subCategoryId, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
 
@@ -45,16 +40,16 @@ namespace Service
             return subCategoryDto;
         }
 
-        public async Task<IEnumerable<SubCategoryDto>> GetSubCategoriesByCategoryIdAsync(int categoryId, bool trackChanges)
+        public async Task<(IEnumerable<SubCategoryDto> subCategories, MetaData metaData)> GetSubCategoriesByCategoryIdAsync(Guid categoryId, SubCategoriesRequestParameters subCategoriesRequestParameters, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
             if (categoryEntity == null)
                 throw new CategoryNotFoundException(categoryId);
-            var subCategories = await _repository.SubCategoryRepository.GetSubCategoriesByCategoryIdAsync(categoryId, trackChanges);
-            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategories);
-            return subCategoriesDto;
+            var subCategoriesWithMetaData = await _repository.SubCategoryRepository.GetSubCategoriesByCategoryIdAsync(categoryId, subCategoriesRequestParameters, trackChanges);
+            var subCategoriesDto = _mapper.Map<IEnumerable<SubCategoryDto>>(subCategoriesWithMetaData);
+            return (subCategories: subCategoriesDto, metaData: subCategoriesWithMetaData.MetaData);
         }
-        public async Task CreateSubCategory(int categoryId, SubCategoryForCreateDto subCategoryForCreateDto, bool trackChanges)
+        public async Task CreateSubCategory(Guid categoryId, SubCategoryForCreateDto subCategoryForCreateDto, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
 
@@ -70,7 +65,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdateSubCategory(int categoryId, int subCategoryId, SubCategoryForUpdateDto subCategoryForUpdateDto, bool trackChanges)
+        public async Task UpdateSubCategory(Guid categoryId, Guid subCategoryId, SubCategoryForUpdateDto subCategoryForUpdateDto, bool trackChanges)
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
 
@@ -87,7 +82,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task DeleteSubCategory(int categoryId, int subCategoryId, bool trackChanges) 
+        public async Task DeleteSubCategory(Guid categoryId, Guid subCategoryId, bool trackChanges) 
         {
             var categoryEntity = await _repository.CategoryRepository.GetCategoryByIdAsync(categoryId, trackChanges);
 

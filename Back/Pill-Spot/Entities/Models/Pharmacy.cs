@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
@@ -8,18 +6,18 @@ namespace Entities.Models
     public class Pharmacy
     {
         [Key]
-        public ulong PharmacyId { get; set; }
+        public Guid PharmacyId { get; set; }
 
         [ForeignKey("ParentPharmacy")]
-        public ulong? ParentPharmacyId { get; set; }
+        public Guid? ParentPharmacyId { get; set; }
         public virtual Pharmacy? ParentPharmacy { get; set; }
 
         [Required(ErrorMessage = "Owner ID is required.")]
-        public string OwnerId { get; set; }
+        public required string OwnerId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
         public string? LogoURL { get; set; }
@@ -29,11 +27,11 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
-        public string LicenseId { get; set; }
+        public required string LicenseId { get; set; }
 
         [Required(ErrorMessage = "Contact number is required.")]
         [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]
-        public string ContactNumber { get; set; }
+        public required string ContactNumber { get; set; }
 
         [Required(ErrorMessage = "Opening time is required.")]
         public TimeSpan OpeningTime { get; set; }
@@ -46,11 +44,11 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Days open is required.")]
         [MaxLength(50)]
-        public string DaysOpen { get; set; }
+        public required string DaysOpen { get; set; }
 
         [Required]
         [ForeignKey("LocationId")]
-        public virtual Location Location { get; set; }
+        public Location Location { get; set; }
 
         [ForeignKey("OwnerId")]
         public virtual User Owner { get; set; }

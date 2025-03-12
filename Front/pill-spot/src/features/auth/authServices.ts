@@ -23,7 +23,7 @@ const register = async (userData: ISignUpData) => {
 };
 
 const login = async(userData:IloginData) => {
-    const response = await axios.post(loginUrl!,userData) ;
+    const response = await axios.post(loginUrl!,userData,{ withCredentials: true } ) ;
     if(response.data){
       localStorage.setItem('loginData',JSON.stringify(response.data)) ;
     }

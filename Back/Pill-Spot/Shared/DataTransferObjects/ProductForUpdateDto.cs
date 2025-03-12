@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Shared.DataTransferObjects
 {
     public record ProductForUpdateDto
     {
-        public int SubCategoryId { get; init; }
-        public string Name { get; init; }
-        public string Description { get; init; }
-        public double Price { get; init; }
-        public string ImageURL { get; init; }
+        public Guid? SubCategoryId { get; init; }
+        public string? Name { get; init; }
+        public string? Description { get; init; }
+        public double? Price { get; init; }
+        public IFormFile? Image { get; init; }
     }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contracts
+﻿namespace Contracts
 {
     public interface IRepositoryManager
     {
@@ -25,6 +18,8 @@ namespace Contracts
         IMedicineRepository MedicineRepository { get; }
         ICosmeticRepository CosmeticRepository { get; }
         IPharmacyProductRepository PharmacyProductRepository { get; }
+        IPharmacyEmployeeRepository PharmacyEmployeeRepository { get; }
+        IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository { get; }
         Task SaveAsync();
     }
 }
