@@ -19,21 +19,13 @@ namespace Service
         }
         public async Task BulkManageUsersAsync(BulkUserManagementDto dto, string currentUserId ,bool trackChanges)
         {
-            if (dto == null || dto.UserIds.All(string.IsNullOrWhiteSpace))
-                throw new DtoArgumentNullException(nameof(dto));
 
-            if (string.IsNullOrEmpty(currentUserId))
-                throw new UsersIdArgumentNullException(currentUserId);
-
-            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true);
+            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true,trackChanges);
 
             var errorMessages = new List<string>();
 
-            foreach (var userId in dto.UserIds)
+            foreach (var userId in dto.UserIds.Where(id => !string.IsNullOrWhiteSpace(id)))
             {
-                if (string.IsNullOrWhiteSpace(userId))
-                    continue;
-
                 var targetUser = await _repositoryManager.AdminRepository.GetUserByIdAsync(userId, trackChanges);
                 if (targetUser == null)
                 {
@@ -56,69 +48,64 @@ namespace Service
             if (errorMessages.Count > 0)
                 throw new UnauthorizedAccessException(string.Join(Environment.NewLine, errorMessages));
         }
-
-        public async Task AssignUserRoleAsync(AssignUserRoleDto dto, string currentUserId)
+        public async Task AssignUserRoleAsync(AssignUserRoleDto dto, string currentUserId, bool trackChanges)
         {
-            if (dto == null)
-                throw new System.ArgumentNullException(nameof(dto));
+            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true,trackChanges);
 
-            if (string.IsNullOrEmpty(currentUserId))
-                throw new ArgumentException("Current user id must be provided.", nameof(currentUserId));
-
-            var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true);
-
-            var (targetUser, targetUserRoles) = await GetUserAndRolesAsync(dto.UserId, isCurrentUser: false);
+            var (targetUser, targetUserRoles) = await GetUserAndRolesAsync(dto.UserId, isCurrentUser: false,trackChanges);
 
             if (!IsAllowedToManageUser(currentUserRoles, targetUserRoles))
-                throw new UnauthorizedAccessException("You are not allowed to assign roles to this user.");
+                throw new NotAllowedToAssignRoleBadRequestException();
 
-            var currentRoles = await _userManager.GetRolesAsync(targetUser);
-            var removeResult = await _userManager.RemoveFromRolesAsync(targetUser, currentRoles);
+            if (targetUserRoles.Contains(dto.Role))
+                throw new UserHaveRoleBadRequestException(dto.Role);
+
+            var removeResult = await _userManager.RemoveFromRolesAsync(targetUser, targetUserRoles);
             if (!removeResult.Succeeded)
-                throw new Exception("Failed to remove user roles.");
+                throw new RemoveRoleBadRequestException();
 
             var addResult = await _userManager.AddToRoleAsync(targetUser, dto.Role);
             if (!addResult.Succeeded)
-                throw new Exception("Failed to add user to role.");
+                throw new AddRoleBadRequestException();
             
             await _repositoryManager.SaveAsync();
         }
-
         private async Task ApplyUserAction(User user, string action)
         {
             switch (action)
             {
                 case "Activate":
+                    if (user.LockoutEnd == null)
+                        throw new ActivateUserBadRequestException();
                     user.LockoutEnd = null;
                     break;
                 case "Deactivate":
+                    if (user.LockoutEnd != null && user.LockoutEnd.Value == DateTimeOffset.MaxValue)
+                        throw new DeactivateUserBadRequestException();
                     user.LockoutEnd = DateTimeOffset.MaxValue;
                     break;
                 case "Delete":
                     user.IsDeleted = true;
                     break;
                 default:
-                    throw new ArgumentException("Invalid action specified.", nameof(action));
-            }
-
+                    throw new ActionBadRequestException(action);
+            }           
             await _repositoryManager.SaveAsync();
+            //Log.Information($"Changes saved successfully for user '{user.UserName}' , IsDeleted {user.IsDeleted}.");
         }
-
-        private async Task<(User user, IList<string> roles)> GetUserAndRolesAsync(string userId, bool isCurrentUser)
+        private async Task<(User user, IList<string> roles)> GetUserAndRolesAsync(string userId, bool isCurrentUser, bool trackChanges)
         {
-            var user = await _repositoryManager.AdminRepository.GetUserByIdAsync(userId,false);
+            var user = await _repositoryManager.AdminRepository.GetUserByIdAsync(userId,trackChanges);
+
             if (user == null)
-            {
                 if (isCurrentUser)
-                    throw new UnauthorizedAccessException("Current user not found.");
+                    throw new CurrentUserNotFoundException(userId);
                 else
-                    throw new ArgumentException("User not found.", nameof(userId));
-            }
+                    throw new UserNotFoundException(userId);
 
             var roles = await _userManager.GetRolesAsync(user);
             return (user, roles);
         }
-
         private bool IsAllowedToManageUser(IList<string> currentUserRoles, IList<string> targetUserRoles)
         {
 

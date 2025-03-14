@@ -18,6 +18,8 @@ namespace PillSpot.ContextFactory
                     ServerVersion.AutoDetect(configuration.GetConnectionString("MySqlConnection")),
                     b => b.MigrationsAssembly("PillSpot"));
 
+            builder.EnableSensitiveDataLogging();
+
             return new RepositoryContext(builder.Options);
         }
     }   

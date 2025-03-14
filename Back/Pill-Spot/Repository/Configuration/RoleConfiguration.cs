@@ -41,6 +41,7 @@ namespace Repository.Configuration
                 },
                 new IdentityRole
                 {
+                    Id = "superadmin-role-id1",
                     Name = "SuperAdmin",
                     NormalizedName = "SUPERADMIN"
                 },

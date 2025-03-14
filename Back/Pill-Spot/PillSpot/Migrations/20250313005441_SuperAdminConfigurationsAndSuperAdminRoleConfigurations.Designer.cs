@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250312054256_updateUserRole")]
-    partial class updateUserRole
+    [Migration("20250313005441_SuperAdminConfigurationsAndSuperAdminRoleConfigurations")]
+    partial class SuperAdminConfigurationsAndSuperAdminRoleConfigurations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -999,7 +999,6 @@ namespace PillSpot.Migrations
                         .HasColumnType("varchar(500)");
 
                     b.Property<string>("ImageURL")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
@@ -1339,6 +1338,31 @@ namespace PillSpot.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "superadmin-user-id1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a73d9a1d-7316-4d94-a538-3473fe95716c",
+                            CreatedDate = new DateTime(2025, 3, 13, 0, 54, 38, 369, DateTimeKind.Utc).AddTicks(985),
+                            DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "superadmin@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Super",
+                            Gender = 0,
+                            IsDeleted = false,
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SUPERADMIN@GMAIL.COM",
+                            NormalizedUserName = "SUPERADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMAzfLN34Xhtrye3/KXQUK5GGs1J5tYutoW4p1peJEGIc9d9R6Uxy4r9YB6IeTIrhg==",
+                            PhoneNumber = "01095832905",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "superadmin"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Models.UserChat", b =>
@@ -1431,43 +1455,43 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ed4d9e08-9f15-4343-9292-205531ed35b0",
+                            Id = "6e12f69a-7dd3-49df-9233-685e42fd90fd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "8e72a24b-8393-404a-b246-8b97274151e7",
+                            Id = "7048cf30-f74d-4a57-8740-3a1ed05a8706",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "f855bb93-c683-4b6a-81d7-2f3a2dce578c",
+                            Id = "8b2e2009-8526-401c-bfac-ddfb4e11504b",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "009a2aa6-3a6e-4e12-8e05-314aafa3bf7e",
+                            Id = "270753dc-0d6b-423d-9801-ff9ae8c08cd5",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "1ff223b6-0be8-4cda-8804-23f6a862a2fb",
+                            Id = "8b98d936-64e3-44d3-899a-2bf01be8409f",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
                         new
                         {
-                            Id = "17359633-24ac-494c-afe2-ea97877d22f6",
+                            Id = "superadmin-role-id1",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "0f75acf2-054f-4316-9fab-76394cdf923d",
+                            Id = "fc1927a1-c868-4c2e-9064-883acdca5b86",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1558,6 +1582,13 @@ namespace PillSpot.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "superadmin-user-id1",
+                            RoleId = "superadmin-role-id1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

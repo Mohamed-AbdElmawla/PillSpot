@@ -52,7 +52,7 @@ namespace Service
             _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper, fileService));
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper, fileService));
             _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
-            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper));
+            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper,userManager));
             _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
         }
 
