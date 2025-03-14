@@ -61,5 +61,7 @@ namespace Entities.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        public bool IsActive { get; set; } = true; 
     }
 }

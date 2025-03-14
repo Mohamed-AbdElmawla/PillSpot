@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class updateUserRole : Migration
+    public partial class SuperAdminConfigurationsAndSuperAdminRoleConfigurations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -237,7 +237,7 @@ namespace PillSpot.Migrations
                     Description = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ImageURL = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
+                    ImageURL = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -1207,14 +1207,24 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "009a2aa6-3a6e-4e12-8e05-314aafa3bf7e", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "0f75acf2-054f-4316-9fab-76394cdf923d", null, "Admin", "ADMIN" },
-                    { "17359633-24ac-494c-afe2-ea97877d22f6", null, "SuperAdmin", "SUPERADMIN" },
-                    { "1ff223b6-0be8-4cda-8804-23f6a862a2fb", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "8e72a24b-8393-404a-b246-8b97274151e7", null, "Doctor", "DOCTOR" },
-                    { "ed4d9e08-9f15-4343-9292-205531ed35b0", null, "User", "USER" },
-                    { "f855bb93-c683-4b6a-81d7-2f3a2dce578c", null, "PharmacyOwner", "PHARMACYOWNER" }
+                    { "270753dc-0d6b-423d-9801-ff9ae8c08cd5", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "6e12f69a-7dd3-49df-9233-685e42fd90fd", null, "User", "USER" },
+                    { "7048cf30-f74d-4a57-8740-3a1ed05a8706", null, "Doctor", "DOCTOR" },
+                    { "8b2e2009-8526-401c-bfac-ddfb4e11504b", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "8b98d936-64e3-44d3-899a-2bf01be8409f", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "fc1927a1-c868-4c2e-9064-883acdca5b86", null, "Admin", "ADMIN" },
+                    { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "superadmin-user-id1", 0, "a73d9a1d-7316-4d94-a538-3473fe95716c", new DateTime(2025, 3, 13, 0, 54, 38, 369, DateTimeKind.Utc).AddTicks(985), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEMAzfLN34Xhtrye3/KXQUK5GGs1J5tYutoW4p1peJEGIc9d9R6Uxy4r9YB6IeTIrhg==", "01095832905", false, null, null, null, "", false, "superadmin" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "superadmin-role-id1", "superadmin-user-id1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdminPermission_AdminId_PermissionId",

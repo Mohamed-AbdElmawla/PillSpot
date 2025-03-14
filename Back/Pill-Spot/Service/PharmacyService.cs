@@ -25,7 +25,6 @@ namespace Service
         }
 
         public async Task<PharmacyDto> CreatePharmacyAsync(PharmacyForCreationDto pharmacy)
-
         {
             var pharmacyEntitiy = _mapper.Map<Pharmacy>(pharmacy);
             _repository.PharmacyRepository.CreatePharmacy(pharmacyEntitiy);
@@ -68,7 +67,6 @@ namespace Service
             return (pharmacies: pharmaciesDto, pharmacies.MetaData);
         }
 
-
         public async Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetByIdsAsync(IEnumerable<Guid> ids, PharmaciesParameters pharmaciesparameters, bool trackChanges)
         {
             if (ids is null)
@@ -87,9 +85,11 @@ namespace Service
         public async Task<PharmacyDto> GetPharmacyAsync(Guid pharmacyId, bool trackChanges)
         {
             var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
-
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
+
+            if(pharmacy.IsActive)
+                throw new InvalidOperationException("Pharmacy Is Suspend");
 
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
             return pharmacyDto;
@@ -102,6 +102,9 @@ namespace Service
             if (pharmacyEntity is null)
                 throw new PharmacyNotFoundException(pharmacyId);
 
+            if (!pharmacyEntity.IsActive)
+                throw new InvalidOperationException("Cannot update a suspended pharmacy.");
+
             _mapper.Map(pharmacyForUpdate, pharmacyEntity);
 
             if (_fileService != null && pharmacyForUpdate.logo != null)
@@ -109,6 +112,30 @@ namespace Service
                 string logoPath = await _fileService.SaveFileAsync(pharmacyForUpdate.logo, "Logos");
                 pharmacyEntity.LogoURL = logoPath;
             }
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task SuspendPharmacyAsync(Guid pharmacyId, bool trackChanges)
+        {
+            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
+
+            if (pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            pharmacy.IsActive = false;
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task ActivatePharmacyAsync(Guid pharmacyId, bool trackChanges)
+        {
+            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(pharmacyId, trackChanges);
+
+            if (pharmacy is null)
+                throw new PharmacyNotFoundException(pharmacyId);
+
+            pharmacy.IsActive = true;
 
             await _repository.SaveAsync();
         }

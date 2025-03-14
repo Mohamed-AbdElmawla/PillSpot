@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -12,6 +13,7 @@ namespace PillSpot.Presentation.Controllers
         public EmployeePermissionController(IServiceManager service ) => _service = service;
 
         [HttpPost("assign")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignPermissionToEmployee([FromBody] AssignEmployeePermissionDto assignEmployeePermissionDto)
         {
             var result = await _service.EmployeePermissionService.AssignPermissionToEmployeeAsync(assignEmployeePermissionDto);

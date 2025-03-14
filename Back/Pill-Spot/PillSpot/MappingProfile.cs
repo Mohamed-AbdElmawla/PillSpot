@@ -27,7 +27,9 @@ namespace PillSpot
             CreateMap<PharmacyRequest, PharmacyRequestDto>()
             .ForMember(dest => dest.LocationDto, opt => opt.MapFrom(src => src.Location));
 
-
+            CreateMap<PharmacyEmployeeRequest, PharmacyEmployee>()
+           .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow))
+           .ForMember(dest => dest.Role, opt => opt.MapFrom(src => "PharmacyEmployee"));
 
             CreateMap<Government, GovernmentDto>();
             CreateMap<LocationForCreationDto, Location>();

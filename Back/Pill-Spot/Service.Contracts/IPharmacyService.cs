@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObjects;
+﻿using Entities.Exceptions;
+using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 
 namespace Service.Contracts
@@ -12,6 +13,7 @@ namespace Service.Contracts
         Task<(IEnumerable<PharmacyDto> pharmacies, string ids)> CreatePharmacyCollectionAsync(IEnumerable<PharmacyForCreationDto> pharmacyCollection);
         Task DeletePharmacy(Guid pharmacyId, bool trackChanges);
         Task UpdatePharmacy(Guid pharmacyId, PharmacyForUpdateDto pharmacyForUpdate, bool trackChanges);
-
+        Task SuspendPharmacyAsync(Guid pharmacyId, bool trackChanges);
+        Task ActivatePharmacyAsync(Guid pharmacyId, bool trackChanges);
     }
 }

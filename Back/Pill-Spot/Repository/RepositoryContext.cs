@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Repository.Configuration;
 using System.Data;
 
@@ -54,6 +55,10 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new SuperAdminConfiguration());
+            modelBuilder.ApplyConfiguration(new SuperAdminRoleConfiguration());
+            //modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+           
             modelBuilder.ApplyConfiguration(new AdminPermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 

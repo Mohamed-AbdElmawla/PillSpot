@@ -23,5 +23,13 @@ namespace Repository.Extentions
 
             return Pharmacies.OrderBy(orderQuery);
         }
+        public static IQueryable<Pharmacy> Search(this IQueryable<Pharmacy> pharmacies, string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+                return pharmacies;
+
+            var lowerCaseTerm = searchTerm.Trim().ToLower();
+            return pharmacies.Where(p => p.Name.ToLower().Contains(lowerCaseTerm));
+        }
     }
 }

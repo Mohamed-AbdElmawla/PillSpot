@@ -18,7 +18,6 @@ namespace PillSpot.Presentation.Controllers
         public PharmacyRequestController(IServiceManager service) => _service = service;
 
         [HttpPost("submit")]
-        [Authorize]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SubmitRequest([FromForm] PharmacyRequestCreateDto pharmacyRequestCreateDto)
         {
@@ -29,14 +28,14 @@ namespace PillSpot.Presentation.Controllers
             return Ok();
         }
         [HttpPatch("{requestId}/approve")]
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
         [HttpPatch("{requestId}/reject")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);
@@ -45,7 +44,7 @@ namespace PillSpot.Presentation.Controllers
 
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);

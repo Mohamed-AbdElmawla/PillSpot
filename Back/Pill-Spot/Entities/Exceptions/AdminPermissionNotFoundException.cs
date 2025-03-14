@@ -1,6 +1,6 @@
 ﻿namespace Entities.Exceptions
 {
-    public class AdminPermissionNotFoundException : NotFoundException
+    public sealed class AdminPermissionNotFoundException : NotFoundException
     {
         public AdminPermissionNotFoundException(string adminId)
             : base($"No permissions found for Admin with ID: {adminId}.")

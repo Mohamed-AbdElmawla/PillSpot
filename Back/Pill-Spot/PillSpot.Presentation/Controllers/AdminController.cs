@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -13,23 +14,25 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public AdminController(IServiceManager service) => _service = service;
 
-        [HttpPost("bulk-user-management")]
+        [HttpPut("bulk-user-management")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> BulkUserManagement([FromBody] BulkUserManagementDto dto)
         {
-            var username = User.Identity.Name;
+            var username = User.Identity?.Name;
             var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
             var currentUserId = user.Id;
-            await _service.AdminService.BulkManageUsersAsync(dto, currentUserId,trackChanges: false);
+            await _service.AdminService.BulkManageUsersAsync(dto, currentUserId,trackChanges: true);
             return NoContent();
         }
 
         [HttpPost("assign-user-role")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto dto)
         {
-            var username = User.Identity.Name;
+            var username = User.Identity?.Name;
             var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
             var currentUserId = user.Id;
-            await _service.AdminService.AssignUserRoleAsync(dto, currentUserId);
+            await _service.AdminService.AssignUserRoleAsync(dto, currentUserId, trackChanges: true);
             return NoContent();
         }
 
