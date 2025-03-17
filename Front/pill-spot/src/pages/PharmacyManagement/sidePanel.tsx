@@ -9,18 +9,24 @@ import ButtenLink from "./ButtonLink";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import logoimg from "./PharDetails/log2.png"
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const mainColor = "text-cyan-500";
 
 const SidePanel = () => {
+
+  const currentPhar = useSelector((state:RootState) => state.currentPharmacy) ;
+  console.log(currentPhar.pharmacy?.logoURL)
+
   const navigate = useNavigate();
   return (
     <div className="card  rounded-box grid h-227 place-items-center  m-auto mr-0 font-roboto">
       <div className="flex flex-col justify-between h-10/12 text-2xl list-none items-center">
         <PharManagemetDetails
-          imgSrc="https://img.daisyui.com/images/profile/demo/2@94.webp"
-          name="El Pharmacy"
-          email="Elpharmacy@gail.com"
+          imgSrc={currentPhar.pharmacy?.logoURL}
+          name={currentPhar.pharmacy?.name}
+          email={currentPhar.pharmacy?.contactNumber}
         />
 
         <div className="flex flex-col gap-4">
@@ -74,7 +80,7 @@ const SidePanel = () => {
                 className=" hover:cursor-pointer"
                 onClick={() => {
                   toast.success("Logged Out");
-                  navigate("/");
+                  navigate("/usersettingpage");
                 }}
               >
                 Log out

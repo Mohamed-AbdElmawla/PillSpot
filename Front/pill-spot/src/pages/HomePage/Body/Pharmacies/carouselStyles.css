@@ -1,0 +1,11 @@
+.custom-carousel .slick-dots li button {
+    background: rgb(0, 0, 0) !important;
+    height: 10px;
+    width: 20px;
+     
+  }
+  
+  .custom-carousel .slick-dots .slick-active button {
+    background: rgb(0, 0, 0) !important;
+  }
+  

@@ -56,6 +56,13 @@ export const authLoginSlice = createSlice({
       state.isSuccessLogin = false;
       state.messageLogin = "";
     },
+    logOut:(state) =>{
+      state.isErrorLogin = false;
+      state.isLoadingLogin = false;
+      state.isSuccessLogin = false;
+      state.messageLogin = "";
+      state.userLogin = null ;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -68,6 +75,7 @@ export const authLoginSlice = createSlice({
           state.isLoadingLogin = false;
           state.isSuccessLogin = true;
           state.userLogin = action.payload;
+          console.log(action.payload)
         }
       )
       .addCase(login.rejected, (state, action) => {
@@ -80,6 +88,6 @@ export const authLoginSlice = createSlice({
   },
 });
 
-export const { resetLogin } = authLoginSlice.actions;
+export const { resetLogin , logOut } = authLoginSlice.actions;
 
 export default authLoginSlice.reducer;

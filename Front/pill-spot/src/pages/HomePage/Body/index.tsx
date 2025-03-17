@@ -11,8 +11,8 @@ const MainBody = () => {
       <SecondHeader/>
       <Advs/>
       <Products/>
-      <PharmacyWithUs/>
       <DoctorsCons/>
+      <PharmacyWithUs/>
     </div>
   )
 }

@@ -3,7 +3,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocationInfo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setLocationInfo } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { RootState } from "../../../app/store";
 
 const Map = () => {

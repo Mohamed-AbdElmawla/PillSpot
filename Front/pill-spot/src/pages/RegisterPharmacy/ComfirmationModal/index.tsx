@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import {
   resetPharmacyRequest,
   SendPharmacyRegisterRequest,
-} from "../../../features/RegisterPharmacy/PharmacyRequestToBack";
+} from "../../../features/Pharmacy/Register/PharmacyRequestToBack";
 import { useNavigate } from "react-router-dom";
 import { setColor } from "../../../features/Toasts/toastSlice";
 
@@ -133,7 +133,7 @@ function PharmacyDetailsModal({ canOpen }: Iprops) {
                     </p>
                     <p>
                       <strong>License ID:</strong>{" "}
-                      {pharmacyData.LicenseID || "N/A"}
+                      {pharmacyData.LicenseId || "N/A"}
                     </p>
                     <p>
                       <strong>Pharmacist License:</strong>{" "}

@@ -4,7 +4,7 @@ import { AiFillSchedule } from "react-icons/ai";
 
 const OneDoctor = () => {
   return (
-    <div className="container flex flex-col gap-6 max-w-md bg-white shadow-xl rounded-2xl p-6">
+    <div className="container flex flex-col gap-6 max-w-md bg-white shadow-xl rounded-2xl p-6 hover:scale-105 duration-200">
       <div className="flex gap-5">
         <div>
           <div className="avatar">
@@ -40,7 +40,7 @@ const OneDoctor = () => {
 
       <div className="mx-auto mt-2">
       <button
-            className="flex items-center bg-blue-700 text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
+            className="flex items-center bg-[#334c83] text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
            
           >
             <AiFillSchedule className="text-2xl mr-2" />
