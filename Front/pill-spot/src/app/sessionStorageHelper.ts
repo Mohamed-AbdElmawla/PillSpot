@@ -10,6 +10,8 @@ export const loadState = () => {
     return {
       toastSlice: state.toastSlice,
       authLogin: state.authLogin,
+      currentPharmacy : state.currentPharmacy ,
+      fetchHomeProductSlice : state.fetchHomeProductSlice ,
     };
   } catch (error) {
     console.error("Could not load state", error);
@@ -22,6 +24,8 @@ export const saveState = (state: RootState) => {
     const persistedState = {
       toastSlice: state.toastSlice,
       authLogin: state.authLogin,
+      currentPharmacy : state.currentPharmacy ,
+      fetchHomeProductSlice : state.fetchHomeProductSlice ,
     };
     sessionStorage.setItem("reduxState", JSON.stringify(persistedState));
   } catch (error) {

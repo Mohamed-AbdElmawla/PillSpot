@@ -32,9 +32,9 @@ const MiddleBlock = ({ title, button, t }: MiddleBlockProps) => {
                 <div className="m-10">
                   <SearchMedicine setMedecineSearch={setMedecineSearch} />
                 </div>
-                {/* // this button will useNavigate to result page when added */}
+                
                 {button && (
-                  <Button name="submit" onClick={()=>{nav("/result")}}>
+                  <Button name="submit" onClick={()=>{nav("/result", { state: { data: medecineToSearch } });}}>
                     {t(button)}
                   </Button>
                 )}

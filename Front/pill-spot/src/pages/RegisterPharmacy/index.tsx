@@ -29,7 +29,7 @@ const RegPharmacy = () => {
   const [errors, setErrors] = useState<IValidationErrors>({
     Name: { required: "", invalid: "" },
     ContactNumber: { required: "", invalid: "" },
-    LicenseID: { required: "", invalid: "" },
+    LicenseId: { required: "", invalid: "" },
     AdditionalInfo: { required: "", invalid: "" },
     OpeningTime: { required: "", invalid: "" },
     ClosingTime: { required: "", invalid: "" },

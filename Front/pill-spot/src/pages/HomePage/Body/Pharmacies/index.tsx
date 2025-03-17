@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import img1 from "../../../../assets/ph1.png";
 import img2 from "../../../../assets/ph2.png";
 import OneProduct from "../Products/oneProduct";
@@ -5,6 +6,7 @@ import OneProduct from "../Products/oneProduct";
 import "./carouselStyles.css";
 import { Carousel } from "antd";
 import Marquee from "react-fast-marquee";
+import { RootState } from "../../../../app/store";
 
 const contentStyle: React.CSSProperties = {
   height: "460px",
@@ -15,6 +17,14 @@ const contentStyle: React.CSSProperties = {
 };
 
 export default function PharmacyWithUs() {
+
+  const products = useSelector(
+    (state: RootState) => state.fetchHomeProductSlice.Products
+  );
+  const cate = useSelector(
+    (state: RootState) => state.fetchHomeProductSlice.Categories
+  );
+
   const photoMap = new Map();
   photoMap.set("slide1", img1);
   photoMap.set("slide2", img2);
@@ -86,10 +96,17 @@ export default function PharmacyWithUs() {
       <div className="mt-10 mb-10">
         <Marquee pauseOnClick className="rounded-2xl" speed={100} direction="right">
           <div className="flex gap-10 mx-5">
-            <OneProduct />
-            <OneProduct />
-            <OneProduct />
-            <OneProduct />
+          {products &&
+            products.length > 0 &&
+            products.map((p) => (
+              <OneProduct
+                key={p.productDto.productId}
+                quantity={p.quantity}
+                productDto={p.productDto}
+                pharmacyDto={p.pharmacyDto}
+                hover={false}
+              />
+            ))}
           </div>
         </Marquee>
       </div>
@@ -97,10 +114,17 @@ export default function PharmacyWithUs() {
       <div className="mt-10 mb-10">
         <Marquee pauseOnClick className="rounded-2xl" speed={100}>
           <div className="flex gap-10 mx-5">
-            <OneProduct />
-            <OneProduct />
-            <OneProduct />
-            <OneProduct />
+          {products &&
+            products.length > 0 &&
+            products.map((p) => (
+              <OneProduct
+                key={p.productDto.productId}
+                quantity={p.quantity}
+                productDto={p.productDto}
+                pharmacyDto={p.pharmacyDto}
+                hover={false}
+              />
+            ))}
           </div>
         </Marquee>
       </div>

@@ -22,6 +22,7 @@ import ImageUpload from "../../UI/ImageUpload";
 import { clearProfilePicture } from "../../features/uploadPhoto/upload";
 import { toast } from "sonner";
 import { setColor, setSignupState} from "../../features/Toasts/toastSlice";
+import { FetchHomeProducts } from "../../features/HomePage/Products/fetchProdcuts";
 
 
 
@@ -61,6 +62,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
 
     if (userState.isSuccess || userState.user) {
        dispatch(setColor());
+       
        toast.success("Account Created Successfully") ;
       
       navigate("/homepage");

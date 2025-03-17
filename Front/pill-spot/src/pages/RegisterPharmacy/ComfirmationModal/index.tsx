@@ -133,7 +133,7 @@ function PharmacyDetailsModal({ canOpen }: Iprops) {
                     </p>
                     <p>
                       <strong>License ID:</strong>{" "}
-                      {pharmacyData.LicenseID || "N/A"}
+                      {pharmacyData.LicenseId || "N/A"}
                     </p>
                     <p>
                       <strong>Pharmacist License:</strong>{" "}

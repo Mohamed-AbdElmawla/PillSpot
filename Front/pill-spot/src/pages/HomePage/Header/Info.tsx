@@ -27,11 +27,11 @@ const InfoOptions = () => {
 
     <ul
       tabIndex={0} 
-      className="dropdown-content menu w-full mt-2 bg-white shadow-lg rounded-lg border border-gray-200 z-10 p-2"
+      className="dropdown-content menu w-full mt bg-white shadow-lg rounded-lg border border-gray-200 z-10 p-2"
     >
       <li className="px-4 py-2 text-gray-700 hover:bg-gray-100">email@email.com</li>
       <li>
-        <Link to={"/usersettingpage"} replace className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+        <Link to={"/usersettingpage"} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
           Profile Settings
         </Link>
       </li>

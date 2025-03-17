@@ -21,6 +21,7 @@ import {
   clearColor,
 } from "../../features/Toasts/toastSlice";
 import { useNavigate } from "react-router-dom";
+import { FetchHomeCategory, FetchHomeProducts } from "../../features/HomePage/Products/fetchProdcuts";
 
 export default function LoginModal({ buttonText }: Iprops) {
   //____________________ states ______________________ //
@@ -41,6 +42,8 @@ export default function LoginModal({ buttonText }: Iprops) {
 
     if (userState.isSuccessLogin) {
       dispatch(setColor());
+      dispatch(FetchHomeProducts({PageNumber:"1",PageSize:"12"}));
+      dispatch(FetchHomeCategory());
       toast.success("Welcome Back!");
       navigate("/homepage");
       console.log(userState.userLogin);

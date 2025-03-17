@@ -1,17 +1,37 @@
 import { BiEdit } from "react-icons/bi";
 
 
-interface Iprops{
-    id?:string ;
-    name : string ; 
-    manfactr : string ;
-    quantity : string ; 
-    catetory:string ;
-    exp : string ; 
-    price : string ;
-    stksts:string ;
+interface IProduct {
+  quantity: number;
+  productDto: {
+    productId: string;
+    subCategoryDto: null | object; 
+    name: string;
+    description: string;
+    price: number;
+    imageURL: string;
+    createdDate: string;
+  };
+  pharmacyDto: {
+    pharmacyId: string;
+    name: string;
+    logoURL: string;
+    logo: null | string; 
+    locationDto: null | object; 
+    contactNumber: string;
+    openingTime: string;
+    closingTime: string;
+    isOpen24: boolean;
+    daysOpen: string;
+  };
 }
-const InventoryRow = (props:Iprops) => {
+
+interface IProps {
+   data : IProduct;
+}
+
+
+const InventoryRow = (props:IProps) => {
     const myMap = new Map();
     myMap.set("In Stock", "badge badge-soft badge-accent");
     myMap.set("Low Stock", "badge badge-soft badge-warning");
@@ -19,19 +39,19 @@ const InventoryRow = (props:Iprops) => {
     
   return (
     <tr className="font-bold ">
-      <th>{props.id}</th>
+      <th></th>
         <th></th>
-      <td>{props.name}</td>
+      <td>{props.data.productDto.name}</td>
         <th></th>
-      <td>{props.manfactr}</td>
-      <td>{props.quantity}</td>
+      <td>{props.data.productDto.description}</td>
+      <td>{props.data.quantity}</td>
       <td>
-        <div className="badge badge-soft badge-primary">{props.catetory}</div>
+        <div className="badge badge-soft badge-primary">Soon</div>
       </td>
-      <td>{props.exp}</td>
-      <td>{props.price}</td>
+      <td>{props.data.productDto.createdDate}</td>
+      <td>{props.data.productDto.price}</td>
       <td>
-        <div className={myMap.get(props.stksts)}>{props.stksts}</div>
+        <div className="badge badge-soft badge-accent">Soon</div>
       </td>
       <td className="text-gray-400 font-bold">
         <BiEdit />
