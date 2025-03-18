@@ -3,7 +3,6 @@ import React from 'react';
 import { Flex, Layout } from 'antd';
 import UserSettingsMain from './MainPage';
 
-
 const { Header, Sider, Content } = Layout;
 
 const headerStyle: React.CSSProperties = {
@@ -25,22 +24,22 @@ const siderStyle: React.CSSProperties = {
   lineHeight: '120px',
   color: '#fff',
   backgroundColor: '#1677ff',
-  overflow : 'hidden' ,
+  overflow: 'auto',
+  height: '100vh',
+  position: 'sticky',
+  top : 0 ,
+  
 };
 
-
-
-
-
 const UserSettingPage: React.FC = () => (
-  <Flex gap="middle" wrap>
-    <Layout className='flex h-screen overflow-hidden'>
+  <Flex gap="middle" wrap className='' >
+    <Layout className='flex overflow-auto h-[100%]'>
       <Sider width="5%" style={siderStyle}>
         Sider
       </Sider>
       <Layout>
         <Header style={headerStyle}>Header</Header>
-        <Content style={contentStyle} className='p-5'>
+        <Content style={contentStyle} className='px-4'>
           <UserSettingsMain/>
         </Content>
       </Layout>
