@@ -2,16 +2,18 @@
 import React from 'react';
 import { Flex, Layout } from 'antd';
 import UserSettingsMain from './MainPage';
+import UserSettingHeader from './Header';
+import UserSettingSider from './Sider';
 
 const { Header, Sider, Content } = Layout;
 
 const headerStyle: React.CSSProperties = {
   textAlign: 'center',
-  color: '#fff',
-  height: 64,
+  height: 100,
   paddingInline: 48,
   lineHeight: '64px',
-  backgroundColor: '#4096ff',
+  backgroundColor: '#fff',
+  display : 'flex'
 };
 
 const contentStyle: React.CSSProperties = {
@@ -21,24 +23,21 @@ const contentStyle: React.CSSProperties = {
 
 const siderStyle: React.CSSProperties = {
   textAlign: 'center',
-  lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#1677ff',
+  backgroundColor: '#fff',
   overflow: 'auto',
   height: '100vh',
   position: 'sticky',
   top : 0 ,
-  
 };
 
 const UserSettingPage: React.FC = () => (
   <Flex gap="middle" wrap className='' >
     <Layout className='flex overflow-auto h-[100%]'>
       <Sider width="5%" style={siderStyle}>
-        Sider
+        <UserSettingSider/>
       </Sider>
       <Layout>
-        <Header style={headerStyle}>Header</Header>
+        <Header style={headerStyle}> <UserSettingHeader/> </Header>
         <Content style={contentStyle} className='px-4'>
           <UserSettingsMain/>
         </Content>
