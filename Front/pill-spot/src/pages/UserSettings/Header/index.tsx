@@ -1,6 +1,7 @@
 import LogoSVG from "../../../UI/LogoSVG";
 import { BiSearchAlt } from "react-icons/bi";
-import { IoNotificationsOutline } from "react-icons/io5";
+// import { IoNotificationsOutline } from "react-icons/io5";
+import NotificationDrawer from "../../../components/Notification";
 
 const UserSettingHeader = () => {
   return (
@@ -18,7 +19,8 @@ const UserSettingHeader = () => {
           placeholder="Search..."
         />
         <BiSearchAlt className="text-3xl text-[#02457A]" />
-        <IoNotificationsOutline className="text-3xl text-[#02457A]" />
+        <NotificationDrawer/>
+        {/* <IoNotificationsOutline className="text-3xl text-[#02457A]" /> */}
         <img src="/src/pages/UserSettings/MainPage/images/455280085_515769004150965_1822829626503930280_n.jpg" className="w-20 rounded-full" alt="" />
       </div>
     </div>
