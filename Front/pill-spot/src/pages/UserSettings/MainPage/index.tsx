@@ -1,6 +1,8 @@
 import ProductPopular from "./Product";
 import MainInfo from "./MainInfo";
 import { Link } from "react-router-dom";
+import img from './images/image copy 4.png'
+
 
 const UserSettingsMain = () => {
   return (
@@ -20,10 +22,10 @@ const UserSettingsMain = () => {
             <ProductPopular />
           </div>
         </div>
-
+        {/* "url('/src/assets/image.png')" */}
         <div
-          className="w-115 h-90 bg-cover bg-center rounded-2xl flex flex-col items-center justify-center"
-          style={{ backgroundImage: "url('/src/assets/image.png')" }}
+          className="w-113 mx-auto mr-0 h-90 bg-cover bg-center rounded-2xl flex flex-col items-center justify-center"
+          style={{ backgroundImage: `url(${img})` }}
         >
           <img
             src="/src/pages/UserSettings/MainPage/images/image.png"
