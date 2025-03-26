@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250313005441_SuperAdminConfigurationsAndSuperAdminRoleConfigurations")]
-    partial class SuperAdminConfigurationsAndSuperAdminRoleConfigurations
+    [Migration("20250316104808_Add-Attribute-RequesterId-In-Pharmacy-Employee-Request")]
+    partial class AddAttributeRequesterIdInPharmacyEmployeeRequest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -674,6 +674,9 @@ namespace PillSpot.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
@@ -808,6 +811,10 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("RequesterId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -820,6 +827,8 @@ namespace PillSpot.Migrations
                     b.HasKey("RequestId");
 
                     b.HasIndex("PharmacyId");
+
+                    b.HasIndex("RequesterId");
 
                     b.HasIndex("UserId");
 
@@ -1344,8 +1353,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a73d9a1d-7316-4d94-a538-3473fe95716c",
-                            CreatedDate = new DateTime(2025, 3, 13, 0, 54, 38, 369, DateTimeKind.Utc).AddTicks(985),
+                            ConcurrencyStamp = "5304b998-1bf3-4661-bf46-42585e24c556",
+                            CreatedDate = new DateTime(2025, 3, 16, 10, 48, 4, 419, DateTimeKind.Utc).AddTicks(804),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1356,7 +1365,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMAzfLN34Xhtrye3/KXQUK5GGs1J5tYutoW4p1peJEGIc9d9R6Uxy4r9YB6IeTIrhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKISuumkqrVetgV/6bS3m/1Vboy2slqZBhmB/FKvJZ8Bf8+qIokwApccSU7Lp20sXA==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1455,31 +1464,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6e12f69a-7dd3-49df-9233-685e42fd90fd",
+                            Id = "efe60b8a-31de-4f1d-a3c0-b020e240a6e4",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "7048cf30-f74d-4a57-8740-3a1ed05a8706",
+                            Id = "b44bbb40-e472-42b2-bf17-c37c5faf0f7e",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "8b2e2009-8526-401c-bfac-ddfb4e11504b",
+                            Id = "93e3dbfa-0266-4308-8c4b-5e5b01ecb038",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "270753dc-0d6b-423d-9801-ff9ae8c08cd5",
+                            Id = "4a141e06-9d0c-4e4a-8c55-107bbe046348",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "8b98d936-64e3-44d3-899a-2bf01be8409f",
+                            Id = "3fae3904-449c-4f59-98fb-a5a3cef215ec",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1491,7 +1500,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "fc1927a1-c868-4c2e-9064-883acdca5b86",
+                            Id = "bc7ca10a-099f-4d17-aeb1-c177f3a85940",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1917,6 +1926,12 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Entities.Models.User", "Requester")
+                        .WithMany()
+                        .HasForeignKey("RequesterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -1924,6 +1939,8 @@ namespace PillSpot.Migrations
                         .IsRequired();
 
                     b.Navigation("Pharmacy");
+
+                    b.Navigation("Requester");
 
                     b.Navigation("User");
                 });

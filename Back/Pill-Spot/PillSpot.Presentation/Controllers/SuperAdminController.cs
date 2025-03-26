@@ -100,7 +100,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("admin-permission/assign")]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
         {
-            var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto);
+            var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto , trackChanges:false);
             return CreatedAtRoute("GetAdminPermissions", new { adminId = result.AdminId }, result);
         }
 

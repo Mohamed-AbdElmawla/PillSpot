@@ -86,7 +86,7 @@ namespace Service
         }
         public async Task<bool> IsEmployeeAsync(Guid employeeId)
         {
-            var userId = await _repository.EmployeePermissionRepository.GetUserIdByEmployeeIdAsync(employeeId);
+            var userId = await _repository.PharmacyEmployeeRepository.GetUserIdByEmployeeIdAsync(employeeId, false);
 
             if (string.IsNullOrEmpty(userId))
                 throw new UserNotFoundException(employeeId.ToString());
@@ -96,6 +96,21 @@ namespace Service
                 throw new UserNotFoundException(userId);
 
             return await _userManager.IsInRoleAsync(user, "PharmacyEmployee");
+        }
+        public async Task<Guid> GetEmployeeIdByUserIdAsync(string userId, bool trackChanges)
+        {
+            return await _repository.PharmacyEmployeeRepository.GetEmployeeIdByUserIdAsync(userId, trackChanges);
+        }
+
+        public async Task<bool> HasPermissionAsync(string userId, string requiredPermission, bool isAdminCheck = false)
+        {
+
+            var employeeId = await _repository.PharmacyEmployeeRepository.GetEmployeeIdByUserIdAsync(userId, false);
+            if (employeeId == null)
+                return false;
+
+            var employeePermissions = await _repository.EmployeePermissionRepository.GetEmployeePermissionsAsync(employeeId, false);
+            return employeePermissions.Any(p => p.Permission.Name == requiredPermission);
         }
     }
 }

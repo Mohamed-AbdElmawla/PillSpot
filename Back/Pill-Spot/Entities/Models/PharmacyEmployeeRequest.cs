@@ -10,7 +10,8 @@ namespace Entities.Models
 
         [Required]
         public string UserId { get; set; }
-
+        [Required]
+        public string RequesterId { get; set; }
         [Required]
         public Guid PharmacyId { get; set; }
 
@@ -21,6 +22,8 @@ namespace Entities.Models
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        [ForeignKey("RequesterId")]
+        public virtual User Requester { get; set; }
 
         [ForeignKey("PharmacyId")]
         public virtual Pharmacy Pharmacy { get; set; }

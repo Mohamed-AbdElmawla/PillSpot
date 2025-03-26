@@ -88,8 +88,8 @@ namespace Service
             if (pharmacy is null)
                 throw new PharmacyNotFoundException(pharmacyId);
 
-            if(pharmacy.IsActive)
-                throw new InvalidOperationException("Pharmacy Is Suspend");
+            if (!pharmacy.IsActive)
+                throw new PharmacySuspendBadRequestException();
 
             var pharmacyDto = _mapper.Map<PharmacyDto>(pharmacy);
             return pharmacyDto;
@@ -103,7 +103,7 @@ namespace Service
                 throw new PharmacyNotFoundException(pharmacyId);
 
             if (!pharmacyEntity.IsActive)
-                throw new InvalidOperationException("Cannot update a suspended pharmacy.");
+                throw new PharmacySuspendBadRequestException();
 
             _mapper.Map(pharmacyForUpdate, pharmacyEntity);
 

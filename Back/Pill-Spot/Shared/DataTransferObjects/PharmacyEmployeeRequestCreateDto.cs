@@ -5,8 +5,9 @@ namespace Shared.DataTransferObjects
     public record PharmacyEmployeeRequestCreateDto
     {
         [Required]
-        public required string UserId { get; set; }
+        public required string Email { get; init; }
+
         [Required]
-        public Guid PharmacyId { get; set; }
+        public Guid PharmacyId { get; init; }
     }
 }

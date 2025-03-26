@@ -28,6 +28,7 @@ namespace Entities.Models
         public virtual Pharmacy Pharmacy { get; set; }
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
+        public virtual ICollection<PharmacyEmployeeRole> PharmacyEmployeeRoles { get; set; } = new List<PharmacyEmployeeRole>();
 
         public DateTime? ModifiedDate { get; set; }
 

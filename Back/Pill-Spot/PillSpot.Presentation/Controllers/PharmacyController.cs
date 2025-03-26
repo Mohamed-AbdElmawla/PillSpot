@@ -81,14 +81,14 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{id:Guid}/suspend")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public async Task<IActionResult> SuspendPharmacyA(Guid id)
+        public async Task<IActionResult> SuspendPharmacyAsync(Guid id)
         {
             await _service.PharmacyService.SuspendPharmacyAsync(id, trackChanges: true);
             return NoContent();
         }
         [HttpPut("{id:Guid}/activate")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public async Task<IActionResult> ActivatePharmacyA(Guid id)
+        public async Task<IActionResult> ActivatePharmacyAsync(Guid id)
         {
             await _service.PharmacyService.ActivatePharmacyAsync(id, trackChanges: true);
             return NoContent();
