@@ -36,7 +36,7 @@ const AdCard = ({ image, title, price, oldPrice, className }:Iprops) => {
 
 const Advs = () => {
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto p-5 rounded-2xl ">
    
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5">
         

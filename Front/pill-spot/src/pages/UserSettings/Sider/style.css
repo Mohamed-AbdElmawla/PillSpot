@@ -1,0 +1,17 @@
+.active {
+    position: relative;
+    color: #1C8DC9;
+}
+
+.active::before {
+    
+    content: "";
+    position: absolute;
+    left: -10px; /* Adjust spacing from the button */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px; /* Width of the bar */
+    height: 100%; /* Full height of the button */
+    background-color: #1C8DC9; /* Blue color */
+    border-radius: 3px;
+}

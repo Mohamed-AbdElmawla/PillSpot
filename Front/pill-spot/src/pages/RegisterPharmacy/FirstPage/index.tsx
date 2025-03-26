@@ -1,7 +1,7 @@
 import { firstPage, iconMap } from "../common";
 import OneInput from "../oneInput";
 import { useDispatch, useSelector } from "react-redux";
-import { setMainInfo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setMainInfo } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { useState, ChangeEvent, useEffect } from "react";
 import { RootState } from "../../../app/store";
 

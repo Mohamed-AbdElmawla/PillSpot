@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import img1 from "../../../../assets/ph1.png";
 import img2 from "../../../../assets/ph2.png";
+import OneProduct from "../Products/oneProduct";
+// import AUTOSLIDER from "../../../../components/animaged";
+import "./carouselStyles.css";
+import { Carousel } from "antd";
+import Marquee from "react-fast-marquee";
+import { RootState } from "../../../../app/store";
+
+const contentStyle: React.CSSProperties = {
+  height: "460px",
+  color: "#eee",
+  lineHeight: "160px",
+  textAlign: "center",
+  background: "#eee",
+};
 
 export default function PharmacyWithUs() {
-  const [currentSlide, setCurrentSlide] = useState(1);
 
-  const goToSlide = (slideNumber: number) => {
-    setCurrentSlide(slideNumber);
-  };
+  const products = useSelector(
+    (state: RootState) => state.fetchHomeProductSlice.Products
+  );
+  const cate = useSelector(
+    (state: RootState) => state.fetchHomeProductSlice.Categories
+  );
 
   const photoMap = new Map();
   photoMap.set("slide1", img1);
@@ -43,40 +59,75 @@ export default function PharmacyWithUs() {
   ];
 
   return (
-    <div className="container">
-      <div className="flex justify-center items-center py-8 bg-gradient-to-r from-gray-300  to-gray-400 text-white rounded-2xl my-5">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
-          Pharmacies Deal with Us
+    <>
+      {/* <Marquee pauseOnHover={true} speed={100} direction="right">
+
+      <div className="flex justify-center items-center py-5 bg-[#476ba1] text-white rounded-2xl my-5 w-310 px-5">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-wide ">
+          Browse Our Pharmacyies 
         </h1>
       </div>
 
-      <div className="carousel w-full rounded-2xl">
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            id={slide.id}
-            className={`carousel-item relative w-full ${
-              currentSlide === index + 1 ? "block" : "hidden"
-            }`}
-          >
-            <img src={photoMap.get(slide.id)} className="w-full" />
-            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-              <button
-                className="btn btn-circle"
-                onClick={() => goToSlide(slide.prev)}
-              >
-                ❮
-              </button>
-              <button
-                className="btn btn-circle"
-                onClick={() => goToSlide(slide.next)}
-              >
-                ❯
-              </button>
+     </Marquee> */}
+      <div className="container">
+        <Carousel
+          autoplay={{ dotDuration: true }}
+          autoplaySpeed={2000}
+          className="custom-carousel"
+        >
+          {slides.map((slide) => (
+            <div key={slide.id} id={slide.id}>
+              <img
+                src={photoMap.get(slide.id)}
+                style={contentStyle}
+                className="w-full rounded-2xl "
+              />
             </div>
-          </div>
-        ))}
+          ))}
+        </Carousel>
       </div>
-    </div>
+
+      <div className="flex justify-center items-center py-5 text-[#476ba1] rounded-2xl my-5 px-5">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-wide ">
+          Browse More Products
+        </h1>
+      </div>
+
+      <div className="mt-10 mb-10">
+        <Marquee pauseOnClick className="rounded-2xl" speed={100} direction="right">
+          <div className="flex gap-10 mx-5">
+          {products &&
+            products.length > 0 &&
+            products.map((p) => (
+              <OneProduct
+                key={p.productDto.productId}
+                quantity={p.quantity}
+                productDto={p.productDto}
+                pharmacyDto={p.pharmacyDto}
+                hover={false}
+              />
+            ))}
+          </div>
+        </Marquee>
+      </div>
+
+      <div className="mt-10 mb-10">
+        <Marquee pauseOnClick className="rounded-2xl" speed={100}>
+          <div className="flex gap-10 mx-5">
+          {products &&
+            products.length > 0 &&
+            products.map((p) => (
+              <OneProduct
+                key={p.productDto.productId}
+                quantity={p.quantity}
+                productDto={p.productDto}
+                pharmacyDto={p.pharmacyDto}
+                hover={false}
+              />
+            ))}
+          </div>
+        </Marquee>
+      </div>
+    </>
   );
 }

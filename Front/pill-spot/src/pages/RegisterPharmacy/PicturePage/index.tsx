@@ -1,7 +1,7 @@
 import ImageUpload from "../../../UI/ImageUpload";
 import { IoMdAddCircle } from "react-icons/io";
 
-import { setLogo } from "../../../features/RegisterPharmacy/PharmacyRegisterSlice";
+import { setLogo } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { RootState } from "../../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
