@@ -13,6 +13,9 @@ namespace Repository.Configuration
             builder.Property(per => per.UserId)
                 .IsRequired();
 
+            builder.Property(per => per.RequesterId) 
+             .IsRequired();
+
             builder.Property(per => per.PharmacyId)
                 .IsRequired();
 
@@ -26,6 +29,11 @@ namespace Repository.Configuration
             builder.HasOne(per => per.User)
                 .WithMany()
                 .HasForeignKey(per => per.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(per => per.Requester)
+                .WithMany()
+                .HasForeignKey(per => per.RequesterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(per => per.Pharmacy)

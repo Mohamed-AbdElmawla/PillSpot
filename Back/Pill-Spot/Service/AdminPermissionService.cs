@@ -21,13 +21,15 @@ namespace Service
             _userManager = userManager;
         }
 
-        public async Task<AdminPermissionDto> AssignPermissionToAdminAsync(AssignAdminPermissionDto assignAdminPermissionDto)
+        public async Task<AdminPermissionDto> AssignPermissionToAdminAsync(AssignAdminPermissionDto assignAdminPermissionDto, bool trackChanges)
         {
             if (!await IsAdminAsync(assignAdminPermissionDto.AdminId))
                 throw new NotAnAdminException(assignAdminPermissionDto.AdminId);
 
-            if (await _repository.AdminPermissionRepository.AdminHasPermissionAsync
-                (assignAdminPermissionDto.AdminId, assignAdminPermissionDto.PermissionId))
+            var hasThisPermission = await _repository.AdminPermissionRepository.GetAdminPermissionAsync(assignAdminPermissionDto.AdminId,
+                assignAdminPermissionDto.PermissionId, trackChanges);
+
+            if (hasThisPermission != null)
                 throw new AdminPermissionAlreadyAssignedException(assignAdminPermissionDto.AdminId, new List<Guid> { assignAdminPermissionDto.PermissionId });
 
             var adminPermissionEntity = _mapper.Map<AdminPermission>(assignAdminPermissionDto);
@@ -73,8 +75,7 @@ namespace Service
             if (!await IsAdminAsync(adminId))
                 throw new NotAnAdminException(adminId);
 
-            var adminPermission = (await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(adminId, false))
-                .FirstOrDefault(ep => ep.PermissionId.Equals(permissionId));
+            var adminPermission = await _repository.AdminPermissionRepository.GetAdminPermissionAsync(adminId, permissionId, false);
 
             if (adminPermission == null)
                 throw new AdminPermissionNotFoundException(adminId, permissionId);
@@ -108,6 +109,11 @@ namespace Service
                 throw new UserNotFoundException(adminId);
 
             return await _userManager.IsInRoleAsync(user, "Admin");
+        }
+        public async Task<bool> HasPermissionAsync(string userId, string requiredPermission, bool isAdminCheck = true)
+        {
+            var adminPermissions = await _repository.AdminPermissionRepository.GetAdminPermissionsAsync(userId,false);
+            return adminPermissions.Any(p => p.Permission.Name == requiredPermission);
         }
     }
 }

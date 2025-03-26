@@ -4,8 +4,8 @@ namespace Service.Contracts
 {
     public interface IPharmacyEmployeeRequestService
     {
-        Task SendRequestAsync(PharmacyEmployeeRequestCreateDto requestDto, bool trackChanges);
-        Task ApproveRequestAsync(Guid requestId, bool trackChanges);
-        Task RejectRequestAsync(Guid requestId, bool trackChanges);
+        Task SendRequestAsync(PharmacyEmployeeRequestCreateDto requestDto,string userId, bool trackChanges);
+        Task ApproveRequestAsync(Guid requestId, string currentUserId, bool trackChanges);
+        Task RejectRequestAsync(Guid requestId, string currentUserId, bool trackChanges);
     }
 }

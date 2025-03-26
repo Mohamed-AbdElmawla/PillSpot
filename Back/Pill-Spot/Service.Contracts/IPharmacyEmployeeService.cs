@@ -5,12 +5,17 @@ namespace Service.Contracts
 {
     public interface IPharmacyEmployeeService
     {
-        Task<(IEnumerable<PharmacyEmployeeProfileDto> pharmacies, MetaData metaData)> GetUserPharmaciesAsync(string userName, EmployeesParameters employeesParameters, bool trackChanges);
-        //Task<PharmacyEmployeeDto> ManagerSendRequestToEmploee(PharmacyEmployeeForCreationDto employeeForCreationDto);
-        //Task<(IEnumerable<PharmacyEmployeeDto> employees, Guid ids)> AddEmployeesCollectionAsync(IEnumerable<PharmacyEmployeeForCreationDto> employeesCollection);
         //Task<(IEnumerable<PharmacyEmployeeDto> employees, MetaData metaData)> GetAllEmployeesAsync(EmployeesParameters employeesParameters, bool trackChanges);
-        //Task<PharmacyEmployeeDto> GetEmployeesByIdAsync(Guid id, bool trackChanges);
-        //Task DeleteEmployeeAsync(Guid employeeId, bool trackChanges);
+        //Task<(IEnumerable<PharmacyEmployeeDto> employees, MetaData metaData)> GetEmployeesByPharmacyIdAsync(Guid pharmacyId, EmployeesParameters employeesParameters, bool trackChanges);
+        //Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetPharmaciesByEmployeeIdAsync(Guid employeeId, EmployeesParameters employeesParameters, bool trackChanges);
         //Task UpdateEmployeeAsync(Guid employeeId, PharmacyEmployeeForUpdateDto updateEmployeeDto, bool trackChanges);
+        //Task<PharmacyEmployeeDto> AddPharmacyEmployeeAsync(PharmacyEmployeeForCreationDto employeeForCreationDto);
+        //Task DeleteEmployeeAsync(Guid employeeId, bool trackChanges);
+        Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetUserPharmaciesAsync(string userName, EmployeesParameters employeesParameters, bool trackChanges);
+        Task<PharmacyEmployeeDto> GetEmployeeByIdAsync(Guid employeeId);
+        Task<IEnumerable<PharmacyEmployeeDto>> GetEmployeesByPharmacyAsync(Guid pharmacyId);
+        Task<PharmacyEmployeeDto> GetEmployeeByEmailOrUsernameAsync(string emailOrUsername);
+        Task DeleteEmployeeAsync(Guid employeeId);
+
     }
 }

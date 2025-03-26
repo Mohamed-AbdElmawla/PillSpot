@@ -8,11 +8,6 @@ namespace Repository
     {
         public AdminPermissionRepository(RepositoryContext context) : base(context) { }
 
-        public async Task<bool> AdminHasPermissionAsync(string adminId, Guid permissionId) =>
-            await FindByCondition(ap => ap.AdminId.Equals(adminId) &&
-            ap.PermissionId.Equals(permissionId), trackChanges: false)
-            .AnyAsync();
-
         public async Task<bool> AdminHasAnyPermissionAsync(string adminId, IEnumerable<Guid> permissionIds) =>
             await FindByCondition(ap => ap.AdminId.Equals(adminId) &&
             permissionIds.Contains(ap.PermissionId), trackChanges: false).AnyAsync();
@@ -29,6 +24,9 @@ namespace Repository
             await FindByCondition(ap => ap.AdminId.Equals(adminId), trackChanges)
             .Include(ap => ap.Permission)
             .ToListAsync();
+        public async Task<AdminPermission> GetAdminPermissionAsync(string adminId, Guid permissionId, bool trackChanges) =>
+           await FindByCondition(ap => ap.AdminId.Equals(adminId) && ap.PermissionId.Equals(permissionId), trackChanges)
+            .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<AdminPermission>> GetAdminPermissionsByIdsAsync(string adminId, IEnumerable<Guid> permissionIds, bool trackChanges) =>
             await FindByCondition(ap => ap.AdminId.Equals(adminId) && permissionIds.Contains(ap.PermissionId), trackChanges)

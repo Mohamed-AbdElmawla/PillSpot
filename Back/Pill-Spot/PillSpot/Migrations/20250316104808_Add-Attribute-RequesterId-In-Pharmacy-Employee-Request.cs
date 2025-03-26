@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class SuperAdminConfigurationsAndSuperAdminRoleConfigurations : Migration
+    public partial class AddAttributeRequesterIdInPharmacyEmployeeRequest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -459,7 +459,8 @@ namespace PillSpot.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -943,6 +944,8 @@ namespace PillSpot.Migrations
                     RequestId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    RequesterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Status = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     RequestDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
@@ -950,6 +953,12 @@ namespace PillSpot.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PharmacyEmployeeRequests", x => x.RequestId);
+                    table.ForeignKey(
+                        name: "FK_PharmacyEmployeeRequests_AspNetUsers_RequesterId",
+                        column: x => x.RequesterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PharmacyEmployeeRequests_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -1207,19 +1216,19 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "270753dc-0d6b-423d-9801-ff9ae8c08cd5", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "6e12f69a-7dd3-49df-9233-685e42fd90fd", null, "User", "USER" },
-                    { "7048cf30-f74d-4a57-8740-3a1ed05a8706", null, "Doctor", "DOCTOR" },
-                    { "8b2e2009-8526-401c-bfac-ddfb4e11504b", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "8b98d936-64e3-44d3-899a-2bf01be8409f", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "fc1927a1-c868-4c2e-9064-883acdca5b86", null, "Admin", "ADMIN" },
+                    { "3fae3904-449c-4f59-98fb-a5a3cef215ec", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "4a141e06-9d0c-4e4a-8c55-107bbe046348", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "93e3dbfa-0266-4308-8c4b-5e5b01ecb038", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "b44bbb40-e472-42b2-bf17-c37c5faf0f7e", null, "Doctor", "DOCTOR" },
+                    { "bc7ca10a-099f-4d17-aeb1-c177f3a85940", null, "Admin", "ADMIN" },
+                    { "efe60b8a-31de-4f1d-a3c0-b020e240a6e4", null, "User", "USER" },
                     { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "a73d9a1d-7316-4d94-a538-3473fe95716c", new DateTime(2025, 3, 13, 0, 54, 38, 369, DateTimeKind.Utc).AddTicks(985), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEMAzfLN34Xhtrye3/KXQUK5GGs1J5tYutoW4p1peJEGIc9d9R6Uxy4r9YB6IeTIrhg==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "5304b998-1bf3-4661-bf46-42585e24c556", new DateTime(2025, 3, 16, 10, 48, 4, 419, DateTimeKind.Utc).AddTicks(804), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEKISuumkqrVetgV/6bS3m/1Vboy2slqZBhmB/FKvJZ8Bf8+qIokwApccSU7Lp20sXA==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -1489,6 +1498,11 @@ namespace PillSpot.Migrations
                 name: "IX_PharmacyEmployeeRequests_PharmacyId",
                 table: "PharmacyEmployeeRequests",
                 column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PharmacyEmployeeRequests_RequesterId",
+                table: "PharmacyEmployeeRequests",
+                column: "RequesterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyEmployeeRequests_UserId",

@@ -43,11 +43,6 @@ namespace Repository
             foreach (var employeePermission in employeePermissions)
                 Delete(employeePermission);
         }
-        public async Task<string?> GetUserIdByEmployeeIdAsync(Guid employeeId) =>
-            await FindByCondition(ep => ep.EmployeeId.Equals(employeeId), trackChanges: false)
-            .Include(e => e.PharmacyEmployee)
-            .Select(e => e.PharmacyEmployee.UserId)
-            .FirstOrDefaultAsync();
     }
 
 }

@@ -5,6 +5,7 @@ using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace PillSpot.Presentation.Controllers
@@ -19,14 +20,14 @@ namespace PillSpot.Presentation.Controllers
 
 
         [HttpGet("pharmacies")]
-        [Authorize(Roles ="SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
+        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
         public async Task<IActionResult> GetUserPharmacies([FromQuery] EmployeesParameters employeesParameters)
         {
-            var userName = User.Identity?.Name;
-            if (string.IsNullOrWhiteSpace(userName))
-                throw new UserNameBadRequestException();
-            
-            var pagedResult = await _service.PharmacyEmployeeService.GetUserPharmaciesAsync(userName, employeesParameters, trackChanges: false);
+            var username = User.Identity?.Name;
+            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
+            var userId = user.Id;
+
+            var pagedResult = await _service.PharmacyEmployeeService.GetUserPharmaciesAsync(userId, employeesParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
             return Ok(pagedResult.pharmacies);
@@ -34,27 +35,65 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("SendRequest")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
         public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
         {
-            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto,trackChanges:true);
+            var username = User.Identity?.Name;
+            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
+            var userId = user.Id;
+            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto,userId,trackChanges:false);
             return Ok("Request sent successfully.");
         }
 
         [HttpPut("{requestId}/approve")]
-        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
+        [Authorize(Roles ="User")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
-            await _service.PharmacyEmployeeRequestService.ApproveRequestAsync(requestId,trackChanges:true);
+            var username = User.Identity?.Name;
+            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
+            var userId = user.Id;
+            await _service.PharmacyEmployeeRequestService.ApproveRequestAsync(requestId,userId,trackChanges:true);
             return NoContent();
         }
 
         [HttpPut("{requestId}/reject")]
-        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
-            await _service.PharmacyEmployeeRequestService.RejectRequestAsync(requestId,trackChanges:true);
+            var username = User.Identity?.Name;
+            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
+            var userId = user.Id;
+            await _service.PharmacyEmployeeRequestService.RejectRequestAsync(requestId,userId,trackChanges:true);
             return NoContent();
         }
 
+
+
+
+
+
+        [HttpGet("{pharmacyId}/employees")]
+        public async Task<IActionResult> GetEmployeesByPharmacy(Guid pharmacyId)
+        {
+            var employees = await _service.PharmacyEmployeeService.GetEmployeesByPharmacyAsync(pharmacyId);
+            return Ok(employees);
+        }
+
+        [HttpGet("employees/{employeeId}")]
+        public async Task<IActionResult> GetEmployeeById(Guid employeeId)
+        {
+            var employee = await _service.PharmacyEmployeeService.GetEmployeeByIdAsync(employeeId);
+            if (employee == null)
+                return NotFound();
+
+            return Ok(employee);
+        }
+
+        [HttpDelete("employees/{employeeId}")]
+        public async Task<IActionResult> DeleteEmployee(Guid employeeId)
+        {
+            await _service.PharmacyEmployeeService.DeleteEmployeeAsync(employeeId);
+            return NoContent();
+        }
     }
 }

@@ -79,7 +79,7 @@ namespace Service
                 PharmacyId = pharmacy.PharmacyId,
                 UserId = request.UserId
             };
-            _repository.PharmacyEmployeeRepository.AddPharmacyEmployeeAsync(newEmployee);
+            _repository.PharmacyEmployeeRepository.AddPharmacyEmployee(newEmployee);
            // await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
 
             await _repository.SaveAsync();
