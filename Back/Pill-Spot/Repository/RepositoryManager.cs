@@ -23,6 +23,8 @@ namespace Repository
         private readonly Lazy<IPharmacyProductRepository> _pharmacyProductRepository;
         private readonly Lazy<IPharmacyEmployeeRepository> _pharmacyEmployeeRepository;
         private readonly Lazy<IPharmacyEmployeeRequestRepository> _pharmacyEmployeeRequestRepository;
+        private readonly Lazy<IOrderRepository> _orderRepository;
+        private readonly Lazy<INotificationRepository> _notificationRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -45,6 +47,8 @@ namespace Repository
             _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(repositoryContext));
             _pharmacyEmployeeRepository = new Lazy<IPharmacyEmployeeRepository>(() => new PharmacyEmployeeRepository(repositoryContext));
             _pharmacyEmployeeRequestRepository = new Lazy<IPharmacyEmployeeRequestRepository>(() => new PharmacyEmployeeRequestRepository(repositoryContext));
+            _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(repositoryContext));
+            _notificationRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(repositoryContext));
         }
 
         public IUserRepository UserRepository => _userRepository.Value;
@@ -65,6 +69,8 @@ namespace Repository
         public IPharmacyProductRepository PharmacyProductRepository => _pharmacyProductRepository.Value;
         public IPharmacyEmployeeRepository PharmacyEmployeeRepository => _pharmacyEmployeeRepository.Value;
         public IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository => _pharmacyEmployeeRequestRepository.Value;
+        public IOrderRepository OrderRepository => _orderRepository.Value;
+        public INotificationRepository NotificationRepository => _notificationRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }
