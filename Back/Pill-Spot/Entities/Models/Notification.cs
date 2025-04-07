@@ -23,17 +23,27 @@ namespace Entities.Models
         public DateTime? NotifiedDate { get; set; }
 
         [Required]
-        public bool IsNotified { get; set; }
+        public bool IsNotified { get; set; } = false;
 
         [Required]
-        public bool IsBroadcast { get; set; }
+        public bool IsBroadcast { get; set; } = false;
 
-        [ForeignKey("ActorId")]
-        public virtual User Actor { get; set; }
+        [ForeignKey(nameof(ActorId))]
+        public virtual User? Actor { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; } = false;
+
+        public NotificationType Type { get; set; } = NotificationType.General;
+    }
+
+    public enum NotificationType
+    {
+        General,
+        Email,
+        SMS,
+        Push
     }
 }

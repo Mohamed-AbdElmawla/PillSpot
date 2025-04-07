@@ -109,8 +109,10 @@ namespace PillSpot
             CreateMap<CosmeticForCreationDto, Cosmetic>();
             CreateMap<CosmeticForUpdateDto, Cosmetic>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null && (!(srcMember is Guid) || (Guid)srcMember != Guid.Empty)));
 
+            CreateMap<Order, OrderDto>().ForMember(dest => dest.LocationDto, opt => opt.MapFrom(src => src.Location));
+            CreateMap<OrderForCreationDto, Order>();
 
-            
+
 
 
 
@@ -121,7 +123,7 @@ namespace PillSpot
             //.ForMember(dest => dest.PharmacyNames, opt => opt.MapFrom(src => src.Pharmacy.Name))
             //.ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.PharmacyEmployeePermissions.Select(p => p.Permission.Name)));
 
-          
+
 
             //CreateMap<PharmacyEmployee, PharmacyEmployeeProfileDto>().ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy)); ;
         }

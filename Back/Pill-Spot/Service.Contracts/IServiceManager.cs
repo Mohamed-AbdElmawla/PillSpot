@@ -20,5 +20,7 @@
         IPharmacyProductService PharmacyProductService { get; }
         IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
         IPharmacyEmployeeService PharmacyEmployeeService { get;}
+        IOrderService OrderService { get;}
+        INotificationService NotificationService { get;}
     }
 }

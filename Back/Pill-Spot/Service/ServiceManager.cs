@@ -29,6 +29,8 @@ namespace Service
         private readonly Lazy<IPharmacyProductService> _pharmacyProductService;
         private readonly Lazy<IPharmacyEmployeeRequestService> _pharmacyEmployeeRequestService;
         private readonly Lazy<IPharmacyEmployeeService> _pharmacyEmployeeService;
+        private readonly Lazy<IOrderService> _orderService;
+        private readonly Lazy<INotificationService> _notificationService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -54,6 +56,8 @@ namespace Service
             _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
             _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper,userManager));
             _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
+            _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper, userManager));
+            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mapper));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -74,5 +78,7 @@ namespace Service
         public IPharmacyProductService PharmacyProductService => _pharmacyProductService.Value;
         public IPharmacyEmployeeRequestService PharmacyEmployeeRequestService => _pharmacyEmployeeRequestService.Value;
         public IPharmacyEmployeeService PharmacyEmployeeService => _pharmacyEmployeeService.Value;
+        public IOrderService OrderService => _orderService.Value;
+        public INotificationService NotificationService => _notificationService.Value;
     }
 }

@@ -20,6 +20,8 @@
         IPharmacyProductRepository PharmacyProductRepository { get; }
         IPharmacyEmployeeRepository PharmacyEmployeeRepository { get; }
         IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository { get; }
+        IOrderRepository OrderRepository { get; }
+        INotificationRepository NotificationRepository { get; }
         Task SaveAsync();
     }
 }
