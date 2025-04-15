@@ -14,7 +14,7 @@ const HomeHeader = () => {
       <PharManagemetDetails
         imgSrc={`${currentPharmacy.pharmacy?.logoURL}`}
         name={currentPharmacy.pharmacy?.name}
-        email={currentPharmacy.pharmacy?.contactNumber}
+        email={currentPharmacy.pharmacy?.contactNumber  }
         dataColor="text-cyan-700"
       />
       <div className="flex items-center gap-10">

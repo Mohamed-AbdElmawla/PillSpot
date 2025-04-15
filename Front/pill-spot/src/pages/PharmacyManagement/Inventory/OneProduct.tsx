@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { AppDispatch, RootState } from "../../../app/store";
 import { useState } from "react";
 import { FetchInventoryData } from "../../../features/Pharmacy/AddInventoryProduct/AddInventoryProductSlice";
+import { FetchHomeProducts } from "../../../features/HomePage/Products/fetchProdcuts";
 
 interface IMedicine {
   manufacturer: string;
@@ -52,6 +53,7 @@ const OneProduct: React.FC<OneProductProps> = ({ medicine }) => {
         success: () => {
          
           dispatch(FetchInventoryData(PharmacyId));
+          dispatch(FetchHomeProducts({PageNumber:"1",PageSize:"11"})) ;
     
           return "Medicines Added to Inventory";
         },

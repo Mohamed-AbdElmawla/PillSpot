@@ -14,7 +14,7 @@ const HomePageMain = () => {
           <MainBody />
         </div>
         <div className="mt-auto">
-          <HomeFooter />
+          <HomeFooter/>
         </div>
       </div>
     </>

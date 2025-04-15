@@ -28,7 +28,7 @@ const initialState: IinitialState = {
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (user: ISignUpData, thunkAPI) => {
+  async (user: ISignUpData | FormData, thunkAPI) => {
     try {
       return await authServices.register(user);
     } catch (err) {

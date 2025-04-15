@@ -72,25 +72,36 @@ const DataEditForm = () => {
     };
   
     Object.entries(fields).forEach(([key, value]) => {
+      console.log(key, " ", value);
+    
       if (key === "logo") {
         const fileInput = document.querySelector<HTMLInputElement>('input[name="logo"]');
         if (fileInput?.files && fileInput.files.length > 0) {
           formData.append(key, fileInput.files[0]);
         }
-      } else {
+      } else if (key === "DaysOpen") {
         let formattedValue = Array.isArray(value) ? value.join(", ") : value;
         let formattedDefault = defaultValues[key];
-  
-        if (key === "DaysOpen") {
-          formattedDefault = (defaultValues[key] as string).split(", ").filter(Boolean).sort().join(", ");
-          formattedValue = (formattedValue as string).split(", ").filter(Boolean).sort().join(", ");
-        }
-  
+    
+        formattedDefault = (formattedDefault as string).split(", ").filter(Boolean).sort().join(", ");
+        formattedValue = (formattedValue as string).split(", ").filter(Boolean).sort().join(", ");
+    
         if (formattedValue !== formattedDefault) {
           formData.append(key, formattedValue);
         }
+      } else {
+        // Handle all other fields
+        
+        const currentVal = value ?? "";
+    
+        
+          formData.append(key, currentVal as string);
+        
       }
     });
+    
+
+    console.log(formData);
   
     try {
       await dispatch(updateCurrentPharmacy({ data: formData, pharmacyId: currentPharmacy.pharmacy?.pharmacyId })).unwrap();
