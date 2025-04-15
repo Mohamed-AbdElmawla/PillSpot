@@ -104,7 +104,7 @@ export default function SignUpModal({ buttonText }: Iprops) {
       if (userImage !== null) {
         formData.append("ProfilePicture", userImage);
       }
-      dispatch(register(signUpData));
+      dispatch(register(formData));
     } else {
       setErrors((prev) => ({ ...prev, ...obj.errors }));
       dispatch(setColor()) ;

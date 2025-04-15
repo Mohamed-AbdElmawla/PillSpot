@@ -8,6 +8,7 @@ import ContactContent from "../../content/ContactContent.json";
 import Footer from "../../components/Footer";
 import { Styles } from "../../styles/styles";
 import Header from "../../components/Header";
+import useGeolocation from "../../hooks/GetLocation";
 
 const Contact = lazy(() => import("../../components/ContactForm"));
 const MiddleBlock = lazy(() => import("../../components/MiddelBlock"));
@@ -16,6 +17,9 @@ const ScrollToTop = lazy(() => import("../../UI/ScrollToTop"));
 const ContentBlock = lazy(() => import("../../components/ContentBlock"));
 
 const Home = () => {
+
+  const { lat, lng } = useGeolocation();
+  console.log(lat,lng)
   return (
     <>
     <Styles />

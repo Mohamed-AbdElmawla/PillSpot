@@ -4,9 +4,35 @@ import InfoOptions from "./Info";
 import img from "../../../assets/log2.png";
 import HomeCart from "./cart";
 import WishList from "./WishList";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../app/store";
+import { useEffect } from "react";
+import { getCurUser } from "../../../features/User/UserSlcie";
+
 
 const HomeHeader = () => {
+
+  const dispatch = useDispatch<AppDispatch>() ;
+  const userName : string = useSelector((state: RootState) => state.authLogin.userLogin);
+  const curUserState = useSelector((state:RootState)=> state.CurUserSlice) ;
+  console.log(userName)
+
+  useEffect(()=>{
+    dispatch(getCurUser(userName)) ;
+  },[])
+
+
+if(curUserState.isLoading === true){
   return (
+    <div>
+      fetching data... ;
+    </div>
+  )
+}
+
+
+  return (
+   
     <>
       <div className="container flex items-center justify-between p-5 text-2xl gap-15 rounded-b-4xl bg-gradient-to-r from-[#334c83] to-[#476ba1] bg-[length:200%_200%] bg-left transition-all duration-500 hover:bg-right">
         <div
@@ -30,7 +56,9 @@ const HomeHeader = () => {
           </div>
         </div>
         <div id="info" className="flex-2 w-full text-[#242a47]">
-          <InfoOptions />
+          {typeof curUserState.curUser === 'object' && curUserState.curUser !== null ? (
+            <InfoOptions name={curUserState.curUser.firstName + " " + curUserState.curUser.lastName} email={curUserState.curUser.email} />
+          ) : null}
         </div>
         <div
           id="cart&wishlist"

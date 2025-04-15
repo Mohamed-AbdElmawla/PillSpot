@@ -85,6 +85,7 @@ export default function AddProductModal<T extends IInputsData[]>({
   } , [pagenation,searchItem] )
   
   console.log(Medecines)
+  console.log(Cosmatics)
   console.log(pagenation)
 
 
