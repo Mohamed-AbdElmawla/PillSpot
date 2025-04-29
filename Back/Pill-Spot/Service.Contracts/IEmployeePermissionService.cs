@@ -11,6 +11,7 @@ namespace Service.Contracts
         Task RemovePermissionFromEmployeeAsync(Guid EmployeeId, Guid permissionId);
         Task RemovePermissionsFromEmployeeAsync(Guid EmployeeId, IEnumerable<Guid> permissionIds);
         Task<bool> HasPermissionAsync(string userId, string requiredPermission, bool isAdminCheck = false);
+        Task<bool> EmployeeHasPermissionAsync(Guid employeeId, string permissionName, bool trackChanges);
     }
 
 }

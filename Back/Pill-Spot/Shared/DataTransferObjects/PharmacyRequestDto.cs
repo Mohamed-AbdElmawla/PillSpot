@@ -2,7 +2,7 @@
 
 namespace Shared.DataTransferObjects
 {
-    public class PharmacyRequestDto
+    public record PharmacyRequestDto
     {
         public Guid RequestId { get; init; }
         public string Name { get; init; }

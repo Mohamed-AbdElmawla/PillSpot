@@ -16,14 +16,16 @@ namespace Service
         private readonly IFileService _fileService;
         private readonly ILocationService _locationService;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         public PharmacyRequestService(IRepositoryManager repository, IMapper mapper,
-            UserManager<User> userManager, IFileService fileService, ILocationService locationService)
+            UserManager<User> userManager, IFileService fileService, ILocationService locationService, RoleManager<IdentityRole> roleManager)
         {
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
             _fileService = fileService;
             _locationService = locationService;
+            _roleManager = roleManager;
         }
         public async Task SubmitRequestAsync(string userName, PharmacyRequestCreateDto pharmacyRequestCreateDto, bool trackChanges)
         {
@@ -73,14 +75,31 @@ namespace Service
             var pharmacy = _mapper.Map<Pharmacy>(request);
 
             _repository.PharmacyRepository.CreatePharmacy(pharmacy);
+
             var newEmployee = new PharmacyEmployee
             {
                 Role = "PharmacyOwner",
                 PharmacyId = pharmacy.PharmacyId,
                 UserId = request.UserId
             };
+
             _repository.PharmacyEmployeeRepository.AddPharmacyEmployee(newEmployee);
-           // await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
+            await _repository.SaveAsync();
+            
+            var role = await _roleManager.FindByNameAsync("PharmacyOwner");
+            if (role == null)
+                throw new Exception($"Role PharmacyOwner not found.");
+
+            // await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
+
+            var pharmacyEmployeeRole = new PharmacyEmployeeRole
+            {
+                EmployeeId = newEmployee.EmployeeId,
+                PharmacyId = pharmacy.PharmacyId, 
+                RoleId = role.Id
+            };
+
+            _repository.PharmacyEmployeeRoleRepository.AddPharmacyEmployeeRole(pharmacyEmployeeRole);
 
             await _repository.SaveAsync();
 
@@ -98,7 +117,6 @@ namespace Service
                 }
             }
         }
-
         public async Task<(IEnumerable<PharmacyRequestDto> pharmacyRequests, MetaData metaData)> GetRequestsAsync(PharmacyRequestParameters pharmacyRequestParameters, bool trackChanges)
         {
             var requestsWithMetaData = await _repository.PharmacyRequestRepository.GetRequestsAsync(pharmacyRequestParameters, trackChanges);
@@ -107,7 +125,6 @@ namespace Service
 
             return (pharmacyRequests: pharmacyRequestsDto, metaData: requestsWithMetaData.MetaData);
         }
-
         public async Task RejectRequestAsync(Guid requestId, bool trackChanges)
         {
             var request = await _repository.PharmacyRequestRepository.GetByIdAsync(requestId, trackChanges);

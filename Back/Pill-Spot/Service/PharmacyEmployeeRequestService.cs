@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -76,6 +77,14 @@ namespace Service
 
             request.Status = RequestStatus.Rejected;
             await _repository.SaveAsync();
+        }
+        public async Task<(IEnumerable<PharmacyEmployeeRequestDto> pharmacyEmployeeRequests, MetaData metaData)> GetRequestsAsync(EmployeesRequestParameters employeeRequestParameters,string userId, bool trackChanges)
+        {
+            var requestsWithMetaData = await _repository.PharmacyEmployeeRequestRepository.GetRequestsAsync(employeeRequestParameters,userId, trackChanges);
+
+            var pharmacyEmployeeRequestsDto = _mapper.Map<IEnumerable<PharmacyEmployeeRequestDto>>(requestsWithMetaData);
+
+            return (pharmacyEmployeeRequests: pharmacyEmployeeRequestsDto, metaData: requestsWithMetaData.MetaData);
         }
     }
 }

@@ -16,6 +16,9 @@ namespace PillSpot
             CreateMap<Permission, PermissionDto>();
             CreateMap<UpdatePermissionDto, Permission>();
 
+            CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>()
+                .ForMember(dest => dest.PermissionName, opt => opt.MapFrom(src => src.Permission.Name));
+
             CreateMap<AssignAdminPermissionDto, AdminPermission>();
             CreateMap<AdminPermission, AdminPermissionDto>();
 
@@ -72,7 +75,7 @@ namespace PillSpot
             CreateMap<PharmacyEmployeeRequest, PharmacyEmployee>()
                .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow))
                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => "PharmacyEmployee"));
-
+            CreateMap<PharmacyEmployeeRequest, PharmacyEmployeeRequestDto>();
 
             CreateMap<PharmacyEmployee, PharmacyEmployeeDto>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))

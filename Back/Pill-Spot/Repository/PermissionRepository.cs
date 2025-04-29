@@ -9,6 +9,10 @@ namespace Repository
     {
         public PermissionRepository(RepositoryContext context) : base(context) { }
 
+        public async Task<Permission?> GetByNameAsync(string name, bool trackChanges) =>
+           await FindByCondition(p => p.Name.Equals(name), trackChanges)
+               .FirstOrDefaultAsync();
+
         public void CreatePermissionAsync(Permission permission) => Create(permission);
 
         public async Task<PagedList<Permission>> GetAllPermissionAsync(PermissionParameters permissionParameters, bool trackChanges)
@@ -21,7 +25,7 @@ namespace Repository
             var count = await FindAll(trackChanges).CountAsync();
             return new PagedList<Permission>(permissions, count, permissionParameters.PageNumber, permissionParameters.PageSize);
         }
-
+        
         public async Task<Permission> GetPermissionByIdAsync(Guid permissionId, bool trackChanges) =>
             await FindByCondition(p => p.PermissionId.Equals(permissionId), trackChanges).SingleOrDefaultAsync();
 

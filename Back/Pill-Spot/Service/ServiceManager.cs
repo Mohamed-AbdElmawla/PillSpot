@@ -31,6 +31,7 @@ namespace Service
         private readonly Lazy<IPharmacyEmployeeService> _pharmacyEmployeeService;
         private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<INotificationService> _notificationService;
+        private readonly Lazy<IPharmacyEmployeeRoleService> _pharmacyEmployeeRoleService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -47,7 +48,7 @@ namespace Service
             _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper,userManager));
             _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager,userManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
-            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));
+            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService,roleManager));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _subCategoryService = new Lazy<ISubCategoryService>(() => new SubCategoryService(repositoryManager, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService));
@@ -58,6 +59,7 @@ namespace Service
             _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
             _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper, userManager));
             _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mapper));
+            _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -80,5 +82,6 @@ namespace Service
         public IPharmacyEmployeeService PharmacyEmployeeService => _pharmacyEmployeeService.Value;
         public IOrderService OrderService => _orderService.Value;
         public INotificationService NotificationService => _notificationService.Value;
+        public IPharmacyEmployeeRoleService PharmacyEmployeeRoleService => _pharmacyEmployeeRoleService.Value;
     }
 }

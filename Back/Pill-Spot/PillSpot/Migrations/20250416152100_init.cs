@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAttributeRequesterIdInPharmacyEmployeeRequest : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -714,7 +714,8 @@ namespace PillSpot.Migrations
                     IsNotified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsBroadcast = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1211,24 +1212,59 @@ namespace PillSpot.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "PharmacyEmployeeRoles",
+                columns: table => new
+                {
+                    employeeRoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    EmployeeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PharmacyEmployeeRoles", x => x.employeeRoleId);
+                    table.ForeignKey(
+                        name: "FK_PharmacyEmployeeRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PharmacyEmployeeRoles_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "PharmacyId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PharmacyEmployeeRoles_PharmacyEmployees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "PharmacyEmployees",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3fae3904-449c-4f59-98fb-a5a3cef215ec", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "4a141e06-9d0c-4e4a-8c55-107bbe046348", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "93e3dbfa-0266-4308-8c4b-5e5b01ecb038", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "b44bbb40-e472-42b2-bf17-c37c5faf0f7e", null, "Doctor", "DOCTOR" },
-                    { "bc7ca10a-099f-4d17-aeb1-c177f3a85940", null, "Admin", "ADMIN" },
-                    { "efe60b8a-31de-4f1d-a3c0-b020e240a6e4", null, "User", "USER" },
+                    { "53f61e02-f5ad-4b8b-aeb5-ff92db71cdcf", null, "User", "USER" },
+                    { "99b2830e-b63e-42d2-ba6f-0692629148b8", null, "Admin", "ADMIN" },
+                    { "ac9ea135-8a30-487d-b878-4ef7a464e3b3", null, "Doctor", "DOCTOR" },
+                    { "b4ad8452-aa51-4d0e-be11-f90d4c11d0ae", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "bba9f4fe-3660-4af4-b583-23228a70bb87", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "c1bd3277-cecd-4371-944d-baef38c475bf", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
                     { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "5304b998-1bf3-4661-bf46-42585e24c556", new DateTime(2025, 3, 16, 10, 48, 4, 419, DateTimeKind.Utc).AddTicks(804), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEKISuumkqrVetgV/6bS3m/1Vboy2slqZBhmB/FKvJZ8Bf8+qIokwApccSU7Lp20sXA==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "88eb3148-c41e-4f12-bec1-19e72d2fa66b", new DateTime(2025, 4, 16, 15, 20, 55, 664, DateTimeKind.Utc).AddTicks(844), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEN9tu+3H6UdoC2xyIPT4RlqxEvk91uLQBTo4QzNJbf35iP0CT7yIRSGFHg5YI+1jYA==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -1510,6 +1546,21 @@ namespace PillSpot.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PharmacyEmployeeRoles_EmployeeId",
+                table: "PharmacyEmployeeRoles",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PharmacyEmployeeRoles_PharmacyId",
+                table: "PharmacyEmployeeRoles",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PharmacyEmployeeRoles_RoleId",
+                table: "PharmacyEmployeeRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PharmacyEmployee_IsDeleted",
                 table: "PharmacyEmployees",
                 column: "IsDeleted");
@@ -1716,6 +1767,9 @@ namespace PillSpot.Migrations
                 name: "PharmacyEmployeeRequests");
 
             migrationBuilder.DropTable(
+                name: "PharmacyEmployeeRoles");
+
+            migrationBuilder.DropTable(
                 name: "PharmacyFeedbacks");
 
             migrationBuilder.DropTable(
@@ -1746,9 +1800,6 @@ namespace PillSpot.Migrations
                 name: "UserPrescriptions");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "Doctors");
 
             migrationBuilder.DropTable(
@@ -1756,6 +1807,9 @@ namespace PillSpot.Migrations
 
             migrationBuilder.DropTable(
                 name: "Permissions");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "PharmacyEmployees");

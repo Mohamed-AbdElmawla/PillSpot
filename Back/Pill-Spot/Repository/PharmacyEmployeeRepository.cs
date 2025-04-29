@@ -8,6 +8,9 @@ namespace Repository
 {
     internal sealed class PharmacyEmployeeRepository(RepositoryContext context) : RepositoryBase<PharmacyEmployee>(context), IPharmacyEmployeeRepository
     {
+        public async Task<PharmacyEmployee?> GetByUserAndPharmacyAsync(string userId, Guid pharmacyId, bool trackChanges) =>
+            await FindByCondition(e => e.UserId.Equals(userId) && e.PharmacyId.Equals(pharmacyId), trackChanges)
+                .FirstOrDefaultAsync();
         public async Task<PagedList<PharmacyEmployee>> GetAllPharmacyEmployeesAsync(EmployeesParameters employeesParameters, bool trackChanges)
         {
             var pharmacyEmployees = await FindAll(trackChanges)
@@ -50,19 +53,39 @@ namespace Repository
 
         //    return new PagedList<Pharmacy>(pharmacies, count, employeesParameters.PageNumber, employeesParameters.PageSize);
         //}
-        public async Task<PagedList<PharmacyEmployee>> GetUserPharmaciesAsync(string userId, EmployeesParameters employeesParameters, bool trackChanges)
+        public async Task<PagedList<Pharmacy>> GetUserPharmaciesAsync(string userId, EmployeesParameters employeesParameters, bool trackChanges)
         {
-            var pharmacyEmployees = await FindByCondition(emp => emp.UserId.Equals(userId), trackChanges)
-                .Sort(employeesParameters.OrderBy)
+            var query = FindByCondition(emp => emp.UserId.Equals(userId) && !emp.IsDeleted, trackChanges)
+                .Select(emp => emp.Pharmacy)
+                .Where(ph => !ph.IsDeleted && ph.IsActive) // Optional: filter on pharmacy
+                .AsQueryable();
+
+            // Apply sorting
+            var sortedQuery = query.Sort(employeesParameters.OrderBy);
+
+            // Paging
+            var pagedPharmacies = await sortedQuery
                 .Skip((employeesParameters.PageNumber - 1) * employeesParameters.PageSize)
                 .Take(employeesParameters.PageSize)
-                .Include(pe => pe.Pharmacy)
                 .ToListAsync();
 
-            var count = await FindByCondition(emp => emp.UserId.Equals(userId), trackChanges).CountAsync();
+            var count = await query.CountAsync();
 
-            return new PagedList<PharmacyEmployee>(pharmacyEmployees, count, employeesParameters.PageNumber, employeesParameters.PageSize);
+            return new PagedList<Pharmacy>(pagedPharmacies, count, employeesParameters.PageNumber, employeesParameters.PageSize);
         }
+        //public async Task<PagedList<PharmacyEmployee>> GetUserPharmaciesAsync(string userId, EmployeesParameters employeesParameters, bool trackChanges)
+        //{
+        //    var pharmacyEmployees = await FindByCondition(emp => emp.UserId.Equals(userId), trackChanges)
+        //        .Sort(employeesParameters.OrderBy)
+        //        .Skip((employeesParameters.PageNumber - 1) * employeesParameters.PageSize)
+        //        .Take(employeesParameters.PageSize)
+        //        .Include(pe => pe.Pharmacy)
+        //        .ToListAsync();
+
+        //    var count = await FindByCondition(emp => emp.UserId.Equals(userId), trackChanges).CountAsync();
+
+        //    return new PagedList<PharmacyEmployee>(pharmacyEmployees, count, employeesParameters.PageNumber, employeesParameters.PageSize);
+        //}
         public async Task<PharmacyEmployee> GetPharmacyEmployeeByIdAsync(Guid employeeId, bool trackChanges) =>
             await FindByCondition(emp => emp.EmployeeId.Equals(employeeId), trackChanges).SingleOrDefaultAsync();
         public async Task<Guid> GetEmployeeIdByUserIdAsync(string userId, bool trackChanges)
@@ -73,15 +96,11 @@ namespace Repository
 
             return employeeId;
         }
-        public async Task<string> GetUserIdByEmployeeIdAsync(Guid employeeId, bool trackChanges)
-        {
-            var userId = await FindByCondition(emp => emp.EmployeeId.Equals(employeeId), trackChanges)
-                .Select(emp => emp.UserId)
-                .SingleOrDefaultAsync();
+        public async Task<string> GetUserIdByEmployeeIdAsync(Guid employeeId, bool trackChanges) =>
+            await FindByCondition(emp => emp.EmployeeId.Equals(employeeId), trackChanges)
+            .Select(emp => emp.UserId)
+            .SingleOrDefaultAsync();
 
-            return userId;
-        }
-   
         public void AddPharmacyEmployee(PharmacyEmployee employee) => Create(employee);
         public void UpdatePharmacyEmployee(PharmacyEmployee employee) => Update(employee);
 

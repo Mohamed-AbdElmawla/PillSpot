@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObjects;
+﻿using Entities.Models;
+using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 
 namespace Service.Contracts
@@ -11,6 +12,8 @@ namespace Service.Contracts
         //Task UpdateEmployeeAsync(Guid employeeId, PharmacyEmployeeForUpdateDto updateEmployeeDto, bool trackChanges);
         //Task<PharmacyEmployeeDto> AddPharmacyEmployeeAsync(PharmacyEmployeeForCreationDto employeeForCreationDto);
         //Task DeleteEmployeeAsync(Guid employeeId, bool trackChanges);
+        Task<PharmacyEmployee?> GetPharmacyEmployeeAsync(string userId, Guid pharmacyId, bool trackChanges);
+        Task<string?> GetEmployeeRoleNameAsync(Guid employeeId, bool trackChanges);
         Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetUserPharmaciesAsync(string userName, EmployeesParameters employeesParameters, bool trackChanges);
         Task<PharmacyEmployeeDto> GetEmployeeByIdAsync(Guid employeeId);
         Task<IEnumerable<PharmacyEmployeeDto>> GetEmployeesByPharmacyAsync(Guid pharmacyId);

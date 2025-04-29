@@ -1,9 +1,7 @@
-﻿using Entities.Exceptions;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
-using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System.Security.Claims;
 using System.Text.Json;
@@ -18,14 +16,10 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public PharmacyEmployeeController(IServiceManager service) => _service = service;
 
-
         [HttpGet("pharmacies")]
-        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
         public async Task<IActionResult> GetUserPharmacies([FromQuery] EmployeesParameters employeesParameters)
         {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var userId = user.Id;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var pagedResult = await _service.PharmacyEmployeeService.GetUserPharmaciesAsync(userId, employeesParameters, trackChanges: false);
 
@@ -33,52 +27,42 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacies);
         }
 
-        [HttpPost("SendRequest")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "SuperAdmin,Admin,PharmacyOwner,PharmacyManager")]
-        public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
-        {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var userId = user.Id;
-            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto,userId,trackChanges:false);
-            return Ok("Request sent successfully.");
-        }
-
         [HttpPut("{requestId}/approve")]
-        [Authorize(Roles ="User")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var userId = user.Id;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _service.PharmacyEmployeeRequestService.ApproveRequestAsync(requestId,userId,trackChanges:true);
             return NoContent();
         }
 
         [HttpPut("{requestId}/reject")]
-        [Authorize(Roles = "User")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var userId = user.Id;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _service.PharmacyEmployeeRequestService.RejectRequestAsync(requestId,userId,trackChanges:true);
             return NoContent();
         }
 
+        [HttpGet("myrequests")]
+        public async Task<IActionResult> GetRequests([FromQuery] EmployeesRequestParameters pharmacyRequestParameters)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var (pharmacyEmployeeRequests, metaData) = await _service.PharmacyEmployeeRequestService.GetRequestsAsync(pharmacyRequestParameters,userId, trackChanges: false);
 
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 
-
-
+            return Ok(pharmacyEmployeeRequests);
+        }
 
         [HttpGet("{pharmacyId}/employees")]
+        [PharmacyRoleAuthorize("PharmacyOwner","PharmacyManager")]
+        [PermissionAuthorize("GetEmployeeByPharmacy")]
         public async Task<IActionResult> GetEmployeesByPharmacy(Guid pharmacyId)
         {
             var employees = await _service.PharmacyEmployeeService.GetEmployeesByPharmacyAsync(pharmacyId);
             return Ok(employees);
         }
-
+        /*
         [HttpGet("employees/{employeeId}")]
         public async Task<IActionResult> GetEmployeeById(Guid employeeId)
         {
@@ -94,6 +78,6 @@ namespace PillSpot.Presentation.Controllers
         {
             await _service.PharmacyEmployeeService.DeleteEmployeeAsync(employeeId);
             return NoContent();
-        }
+        }*/
     }
 }

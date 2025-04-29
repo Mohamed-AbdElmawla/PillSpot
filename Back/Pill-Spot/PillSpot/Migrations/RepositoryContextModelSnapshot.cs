@@ -1383,8 +1383,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8af34bb5-b8d6-488a-a9d8-4ba0aece4d7b",
-                            CreatedDate = new DateTime(2025, 3, 27, 23, 58, 20, 722, DateTimeKind.Utc).AddTicks(5365),
+                            ConcurrencyStamp = "88eb3148-c41e-4f12-bec1-19e72d2fa66b",
+                            CreatedDate = new DateTime(2025, 4, 16, 15, 20, 55, 664, DateTimeKind.Utc).AddTicks(844),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1395,7 +1395,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJjlwBUJuYIQwmIw5lv2S8VMGcjmIqD+3vGh+B0tIjF+/LKsDkCzHFdoCxh+qCpibw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN9tu+3H6UdoC2xyIPT4RlqxEvk91uLQBTo4QzNJbf35iP0CT7yIRSGFHg5YI+1jYA==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1494,31 +1494,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "172e9041-5908-4352-a4e0-e6596018c878",
+                            Id = "53f61e02-f5ad-4b8b-aeb5-ff92db71cdcf",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b1325d6e-92d5-4c74-84ba-c91aa11c1193",
+                            Id = "ac9ea135-8a30-487d-b878-4ef7a464e3b3",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "6a05d1a3-098d-44bb-a292-7cd51bdca426",
+                            Id = "bba9f4fe-3660-4af4-b583-23228a70bb87",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "67b0437b-ebb4-4a20-a312-d05c2d781c75",
+                            Id = "b4ad8452-aa51-4d0e-be11-f90d4c11d0ae",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "cd783f2e-1f40-430e-8499-84ac98389053",
+                            Id = "c1bd3277-cecd-4371-944d-baef38c475bf",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1530,7 +1530,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "5fa8717f-b927-4e75-8376-893239626d8e",
+                            Id = "99b2830e-b63e-42d2-ba6f-0692629148b8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1977,13 +1977,13 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeeRole", b =>
                 {
-                    b.HasOne("Entities.Models.PharmacyEmployee", "employees")
+                    b.HasOne("Entities.Models.PharmacyEmployee", "Employee")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Pharmacy", "pharmacies")
+                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1995,11 +1995,11 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Employee");
+
+                    b.Navigation("Pharmacy");
+
                     b.Navigation("Role");
-
-                    b.Navigation("employees");
-
-                    b.Navigation("pharmacies");
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyFeedback", b =>

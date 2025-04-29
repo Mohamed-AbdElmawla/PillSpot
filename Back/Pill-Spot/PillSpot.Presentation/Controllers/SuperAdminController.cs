@@ -1,5 +1,7 @@
 ﻿using Entities.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
@@ -9,12 +11,15 @@ namespace PillSpot.Presentation.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
+    [Authorize]
     public class SuperAdminController : ControllerBase
     {
         private readonly IServiceManager _service;
         public SuperAdminController(IServiceManager service) => _service = service;
 
         [HttpGet("system/get-logs")]
+        [Authorize(Roles ="SuperAdmin,Admin")]
+        [PermissionAuthorize("GetLogs")]
         public async Task<IActionResult> GetLogs()
         {
             //Log.Information("Hello in get logs api");
@@ -23,6 +28,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("system/get-logs-by-day")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetLogsByDay")]
         public async Task<IActionResult> GetLogsByDay([FromQuery] DateTime date)
         {
             var logs = await _service.SerilogService.GetLogsByDayAsync(date);
@@ -30,6 +37,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("system/delete-logs")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("DeleteTodayLogs")]
         public async Task<IActionResult> DeleteTodayLogs()
         {
             //Log.Information("Hello in delete log api");
@@ -38,6 +47,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("system/delete-logs-by-day")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("DeleteLogsByDay")]
         public async Task<IActionResult> DeleteLogsByDay([FromQuery] DateTime date)
         {
             //Log.Information("Hello in delete logs by day api");
@@ -47,6 +58,8 @@ namespace PillSpot.Presentation.Controllers
 
 
         [HttpGet("permissions-management/get-all")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetAllPermissions")]
         public async Task<IActionResult> GetAllPermissions([FromQuery] PermissionParameters permissionParameters)
         {
             var pagedResult = await _service.PermissionService.GetAllPermissionsAsync(permissionParameters, trackChanges: false);
@@ -55,6 +68,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("permissions-management/get-by-/{id:Guid}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPermissionbyId")]
         public async Task<IActionResult> GetPermissionbyId(Guid id)
         {
             var permissions = await _service.PermissionService.GetPermissionByIdAsync(id, trackChanges: false);
@@ -62,6 +77,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("permissions-management/create")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> CreatePermission([FromBody] CreatePermissionDto permissionDto)
         {
             if (permissionDto == null)
@@ -72,6 +88,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("permissions-management/create-collection")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> CreatePermissionCollection([FromBody] IEnumerable<CreatePermissionDto> permissions)
         {
             var (createdPermissions, ids) = await _service.PermissionService.CreatePermissionCollectionAsync(permissions);
@@ -80,6 +97,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("permissions-management/update/{id:Guid}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> UpdatePermission(Guid id, [FromBody] UpdatePermissionDto permissionDto)
         {
             if (permissionDto == null)
@@ -90,6 +108,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("permissions-management/delete-permission/{id:Guid}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> DeletePermission(Guid id)
         {
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
@@ -98,6 +117,7 @@ namespace PillSpot.Presentation.Controllers
         
 
         [HttpPost("admin-permission/assign")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
         {
             var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto , trackChanges:false);
@@ -105,6 +125,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("admin-permission/assign-multiple/{adminId}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
@@ -112,13 +133,15 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("admin-permission/{adminId}", Name = "GetAdminPermissions")]
-        public async Task<IActionResult> GetPermissionsToAdmin(string adminId)
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> GetPermissionsFromAdmin(string adminId)
         {
             var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
             return Ok(result);
         }
 
         [HttpDelete("admin-permission/remove/{adminId}/{permissionId:Guid}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, Guid permissionId)
         {
             await _service.AdminPermissionService.RemovePermissionFromAdminAsync(adminId, permissionId);
@@ -126,6 +149,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("admin-permission/remove-multiple/{adminId}")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);

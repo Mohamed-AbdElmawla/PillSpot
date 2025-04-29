@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using System.Security.Claims;
 
 namespace PillSpot.Presentation.Controllers
 {
     [Route("api/admin")]
     [ApiController]
-    [Authorize(Roles ="Admin,SuperAdmin")]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -16,31 +17,35 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("bulk-user-management")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles ="SuperAdmin,Admin")]
+        [PermissionAuthorize("UserManagement")]
         public async Task<IActionResult> BulkUserManagement([FromBody] BulkUserManagementDto dto)
         {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var currentUserId = user.Id;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _service.AdminService.BulkManageUsersAsync(dto, currentUserId,trackChanges: true);
             return NoContent();
         }
 
         [HttpPost("assign-user-role")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("AssignUserRole")]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto dto)
         {
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var currentUserId = user.Id;
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _service.AdminService.AssignUserRoleAsync(dto, currentUserId, trackChanges: true);
             return NoContent();
         }
 
+        [HttpPost("pharmacy-employee/SendRequest")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PharmacyRoleAuthorize("PharmacyOwner","PharmacyManager","PharmacyEmployee")]
+        [PermissionAuthorize("SendEmployeeRequest")]
+        public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto, currentUserId, trackChanges: false);
+            return Ok("Request sent successfully.");
+        }
     }
-    //[HttpGet("export-user-data")]
-    //public async Task<IActionResult> ExportUserData()
-    //{
-    //    var fileData = await _service.KhaledService.ExportUserDataAsync();
-    //    return File(fileData, "text/csv", "users.csv");
-    //}
 }
