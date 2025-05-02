@@ -5,6 +5,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -101,7 +102,6 @@ namespace Service
         {
             return await _repository.PharmacyEmployeeRepository.GetEmployeeIdByUserIdAsync(userId, trackChanges);
         }
-
         public async Task<bool> HasPermissionAsync(string userId, string requiredPermission, bool isAdminCheck = false)
         {
 
@@ -111,6 +111,22 @@ namespace Service
 
             var employeePermissions = await _repository.EmployeePermissionRepository.GetEmployeePermissionsAsync(employeeId, false);
             return employeePermissions.Any(p => p.Permission.Name == requiredPermission);
+        }
+        public async Task<bool> EmployeeHasPermissionAsync(Guid employeeId, string permissionName,bool trackChanges)
+        {
+            var permission = await _repository.PermissionRepository.GetByNameAsync(permissionName, trackChanges);
+            if (permission == null) return false;
+
+            return await _repository.EmployeePermissionRepository.ExistsAsync(employeeId, permission.PermissionId,trackChanges);
+        }
+        public async Task<(IEnumerable<EmployeePermissionDto> employeePermissions, MetaData metaData)> GetAllEmployeePermissionsAsync(EmployeePermissionParameters employeePermissionParameters, bool trackChanges)
+        {
+            var employeePermissionsPagedList = await _repository.EmployeePermissionRepository
+                .GetAllEmployeePermissionsAsync(employeePermissionParameters, trackChanges);
+
+            var employeePermissionDto = _mapper.Map<IEnumerable<EmployeePermissionDto>>(employeePermissionsPagedList);
+
+            return (employeePermissions: employeePermissionDto, employeePermissionsPagedList.MetaData);
         }
     }
 }

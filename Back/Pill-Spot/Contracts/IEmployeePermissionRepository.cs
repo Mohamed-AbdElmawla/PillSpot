@@ -1,9 +1,12 @@
 ﻿using Entities.Models;
+using Shared.RequestFeatures;
 
 namespace Contracts
 {
     public interface IEmployeePermissionRepository
     {
+        Task<PagedList<PharmacyEmployeePermission>> GetAllEmployeePermissionsAsync(EmployeePermissionParameters permissionParameters, bool trackChanges);
+        Task<bool> ExistsAsync(Guid employeeId, Guid permissionId, bool trackChanges);
         Task<bool> EmployeeHasPermissionAsync(Guid employeeId, Guid permissionId);
         Task<bool> EmployeeHasAnyPermissionAsync(Guid employeeId, IEnumerable<Guid> permissionIds);
         //Task<string?> GetUserIdByEmployeeIdAsync(Guid employeeId);

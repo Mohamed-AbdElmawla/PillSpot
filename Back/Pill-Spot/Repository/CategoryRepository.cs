@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
+    internal sealed class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
         public CategoryRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 

@@ -27,24 +27,28 @@ namespace PillSpot.Presentation.Controllers
             await _service.PharmacyRequestService.SubmitRequestAsync(userName, pharmacyRequestCreateDto, trackChanges: true);
             return Ok();
         }
+
         [HttpPatch("{requestId}/approve")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ApprovePharmacyRequest")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
+
         [HttpPatch("{requestId}/reject")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("RejectPharmacyRequest")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
 
-
         [HttpGet]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPharmacyRequests")]
         public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);

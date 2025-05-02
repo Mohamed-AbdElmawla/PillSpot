@@ -4,6 +4,7 @@ namespace Service.Contracts
 {
     public interface IAdminPermissionService
     {
+        Task<bool> AdminHasPermissionAsync(string adminId, string permissionName, bool trackChanges);
         Task<AdminPermissionDto> AssignPermissionToAdminAsync(AssignAdminPermissionDto assignAdminPermissionDto, bool trackChanges);
         Task<IEnumerable<AdminPermissionDto>> AssignPermissionsToAdminAsync(string adminId, IEnumerable<Guid> permissionIds);
         Task<IEnumerable<PermissionDto>> GetPermissionsToAdminAsync(string adminId, bool trackChanges);

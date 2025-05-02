@@ -20,7 +20,13 @@ namespace Service
             _mapper = mapper;
             _userManager = userManager;
         }
+        public async Task<bool> AdminHasPermissionAsync(string adminId, string permissionName, bool trackChanges)
+        {
+            var permission = await _repository.PermissionRepository.GetByNameAsync(permissionName, trackChanges);
+            if (permission == null) return false;
 
+            return await _repository.AdminPermissionRepository.ExistsAsync(adminId, permission.PermissionId);
+        }
         public async Task<AdminPermissionDto> AssignPermissionToAdminAsync(AssignAdminPermissionDto assignAdminPermissionDto, bool trackChanges)
         {
             if (!await IsAdminAsync(assignAdminPermissionDto.AdminId))

@@ -1,13 +1,22 @@
 ﻿using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.RequestFeatures;
 
 namespace Repository
 {
-    public class EmployeePermissionRepository : RepositoryBase<PharmacyEmployeePermission>, IEmployeePermissionRepository
+    internal sealed class EmployeePermissionRepository(RepositoryContext context) : RepositoryBase<PharmacyEmployeePermission>(context), IEmployeePermissionRepository
     {
-        public EmployeePermissionRepository(RepositoryContext context) : base(context) { }
-
+        public async Task<PagedList<PharmacyEmployeePermission>> GetAllEmployeePermissionsAsync(EmployeePermissionParameters employeePermissionParameters, bool trackChanges)
+        {
+            var employeePermissions = await FindAll(trackChanges)
+                .OrderBy(p => p.Permission.Name)
+                .Skip((employeePermissionParameters.PageNumber - 1) * employeePermissionParameters.PageSize)
+                .Take(employeePermissionParameters.PageSize)
+                .ToListAsync();
+            var count = await FindAll(trackChanges).CountAsync();
+            return new PagedList<PharmacyEmployeePermission>(employeePermissions, count, employeePermissionParameters.PageNumber, employeePermissionParameters.PageSize);
+        }
         public async Task<bool> EmployeeHasPermissionAsync(Guid employeeId, Guid permissionId) =>
           await FindByCondition(ap => ap.EmployeeId.Equals(employeeId) &&
           ap.PermissionId.Equals(permissionId), trackChanges: false)
@@ -43,6 +52,9 @@ namespace Repository
             foreach (var employeePermission in employeePermissions)
                 Delete(employeePermission);
         }
+        public async Task<bool> ExistsAsync(Guid employeeId, Guid permissionId, bool trackChanges) =>
+          await FindByCondition(p => p.EmployeeId.Equals(employeeId) && p.PermissionId.Equals(permissionId), trackChanges)
+              .AnyAsync();
     }
 
 }

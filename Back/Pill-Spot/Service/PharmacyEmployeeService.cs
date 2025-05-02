@@ -2,7 +2,6 @@
 using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
@@ -18,6 +17,13 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task<PharmacyEmployee?> GetPharmacyEmployeeAsync(string userId, Guid pharmacyId, bool trackChanges)=>
+            await _repository.PharmacyEmployeeRepository.GetByUserAndPharmacyAsync(userId, pharmacyId, trackChanges);
+        public async Task<string?> GetEmployeeRoleNameAsync(Guid employeeId,bool trackChanges)
+        {
+            var role = await _repository.PharmacyEmployeeRoleRepository.GetRoleByEmployeeIdAsync(employeeId, trackChanges);
+            return role?.Role.Name;
+        }
         public async Task<(IEnumerable<PharmacyEmployeeDto> employees, MetaData metaData)> GetAllEmployeesAsync(EmployeesParameters employeesParameters, bool trackChanges)
         {
             var employees = await _repository.PharmacyEmployeeRepository.GetAllPharmacyEmployeesAsync(employeesParameters, trackChanges);
@@ -25,7 +31,6 @@ namespace Service
 
             return (employeesDto, employees.MetaData);
         }
-
         public async Task<(IEnumerable<PharmacyEmployeeDto> employees, MetaData metaData)> GetEmployeesByPharmacyIdAsync(Guid pharmacyId, EmployeesParameters employeesParameters, bool trackChanges)
         {
             var employees = await _repository.PharmacyEmployeeRepository.GetEmployeesByPharmacyIdAsync(pharmacyId, employeesParameters, trackChanges);
@@ -33,7 +38,6 @@ namespace Service
 
             return (employeesDto, employees.MetaData);
         }
-
         public async Task<(IEnumerable<PharmacyDto> pharmacies, MetaData metaData)> GetUserPharmaciesAsync(string userId, EmployeesParameters employeesParameters, bool trackChanges)
         {
             var pharmacies = await _repository.PharmacyEmployeeRepository.GetUserPharmaciesAsync(userId, employeesParameters, trackChanges);
@@ -41,7 +45,6 @@ namespace Service
 
             return (pharmaciesDto, pharmacies.MetaData);
         }
-
         public async Task UpdateEmployeeAsync(Guid employeeId, PharmacyEmployeeForUpdateDto updateEmployeeDto, bool trackChanges)
         {
             var employeeEntity = await _repository.PharmacyEmployeeRepository.GetPharmacyEmployeeByIdAsync(employeeId, trackChanges);
@@ -54,7 +57,6 @@ namespace Service
              _repository.PharmacyEmployeeRepository.UpdatePharmacyEmployee(employeeEntity);
             await _repository.SaveAsync();
         }
-
         public async Task<PharmacyEmployeeDto> AddPharmacyEmployeeAsync(PharmacyEmployeeForCreationDto employeeForCreationDto)
         {
             var employeeEntity = _mapper.Map<PharmacyEmployee>(employeeForCreationDto);
@@ -62,7 +64,6 @@ namespace Service
             await _repository.SaveAsync();
             return _mapper.Map<PharmacyEmployeeDto>(employeeEntity);
         }
-
         public async Task DeleteEmployeeAsync(Guid employeeId, bool trackChanges)
         {
             var employeeEntity = await _repository.PharmacyEmployeeRepository.GetPharmacyEmployeeByIdAsync(employeeId, trackChanges);
@@ -73,9 +74,6 @@ namespace Service
             _repository.PharmacyEmployeeRepository.DeletePharmacyEmployee(employeeEntity);
             await _repository.SaveAsync();
         }
-
-
-
         public async Task<PharmacyEmployeeDto> GetEmployeeByIdAsync(Guid employeeId)
         {
             var employee = await _repository.PharmacyEmployeeRepository.GetEmployeeByIdAsync(employeeId, false);
@@ -89,13 +87,11 @@ namespace Service
             var employees = await _repository.PharmacyEmployeeRepository.GetEmployeesByPharmacyAsync(pharmacyId, false);
             return _mapper.Map<IEnumerable<PharmacyEmployeeDto>>(employees);
         }
-
         public async Task<PharmacyEmployeeDto> GetEmployeeByEmailOrUsernameAsync(string emailOrUsername)
         {
             var employee = await _repository.PharmacyEmployeeRepository.GetEmployeeByEmailOrUsernameAsync(emailOrUsername, false);
             return _mapper.Map<PharmacyEmployeeDto>(employee);
         }
-
         public async Task DeleteEmployeeAsync(Guid employeeId)
         {
             var employee = await _repository.PharmacyEmployeeRepository.GetEmployeeByIdAsync(employeeId, true);

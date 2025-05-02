@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class PharmacyProductRepository : RepositoryBase<PharmacyProduct>, IPharmacyProductRepository
+    internal sealed class PharmacyProductRepository : RepositoryBase<PharmacyProduct>, IPharmacyProductRepository
     {
         public PharmacyProductRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {

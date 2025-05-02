@@ -16,7 +16,9 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public PharmacyController(IServiceManager service) => _service = service;
 
-        [HttpGet]
+        [HttpGet("AllPharmacies")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetAllPharmacies")]
         public async Task<IActionResult> GetAllPharmacies([FromQuery] PharmaciesParameters pharmaciesParameters)
         {
             var pagedResult = await _service.PharmacyService.GetAllPharmaciesAsync(pharmaciesParameters, trackChanges: false);
@@ -27,23 +29,28 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:Guid}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPharmacy")]
         public async Task<IActionResult> GetPharmacy(Guid id)
         {
             var pharmacy = await _service.PharmacyService.GetPharmacyAsync(id, trackChanges: false);
             return Ok(pharmacy);
         }
 
-        [HttpPost]
+        [HttpPost("cerate")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PermissionAuthorize("CreatePharmacy")]
         public async Task<IActionResult> CreatePharmacy([FromBody] PharmacyForCreationDto pharmacyDto)
         {
             var createdPharmacy = await _service.PharmacyService.CreatePharmacyAsync(pharmacyDto);
             return CreatedAtAction(nameof(GetPharmacy), new { id = createdPharmacy.PharmacyId }, createdPharmacy);
         }
-        [HttpPost("collection")]
+
+        [HttpPost("create-collection")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PermissionAuthorize("CreatePharmacyCollection")]
         public async Task<IActionResult> CreatePharmacyCollection([FromBody] IEnumerable<PharmacyForCreationDto> pharmacies)
         {
             var (createdPharmacies, ids) = await _service.PharmacyService.CreatePharmacyCollectionAsync(pharmacies);
@@ -52,6 +59,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("collection/{ids}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPharmaciesByIds")]
         public async Task<IActionResult> GetByIds([FromRoute] string ids, [FromQuery] PharmaciesParameters parameters)
         {
             var idArray = ids.Split(',').Select(Guid.Parse);
@@ -65,6 +74,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPut("{id:Guid}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PermissionAuthorize("UpdatePharmacy")]
         public async Task<IActionResult> UpdatePharmacy(Guid id, [FromForm] PharmacyForUpdateDto pharmacyDto)
         {
             await _service.PharmacyService.UpdatePharmacy(id, pharmacyDto, trackChanges: true);
@@ -73,6 +83,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("DeletePharmacy")]
         public async Task<IActionResult> DeletePharmacy(Guid id)
         {
             await _service.PharmacyService.DeletePharmacy(id, trackChanges: true);
@@ -81,13 +92,16 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{id:Guid}/suspend")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("SuspendPharmacy")]
         public async Task<IActionResult> SuspendPharmacyAsync(Guid id)
         {
             await _service.PharmacyService.SuspendPharmacyAsync(id, trackChanges: true);
             return NoContent();
         }
+
         [HttpPut("{id:Guid}/activate")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ActivatePharmacy")]
         public async Task<IActionResult> ActivatePharmacyAsync(Guid id)
         {
             await _service.PharmacyService.ActivatePharmacyAsync(id, trackChanges: true);

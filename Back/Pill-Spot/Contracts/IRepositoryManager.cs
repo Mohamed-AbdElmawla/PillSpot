@@ -22,6 +22,8 @@
         IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository { get; }
         IOrderRepository OrderRepository { get; }
         INotificationRepository NotificationRepository { get; }
+        IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository { get; }
+
         Task SaveAsync();
     }
 }

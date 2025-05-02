@@ -4,6 +4,7 @@ namespace Contracts
 {
     public interface IAdminPermissionRepository
     {
+        Task<bool> ExistsAsync(string adminId, Guid permissionId);
         Task<bool> AdminHasAnyPermissionAsync(string adminId, IEnumerable<Guid> permissionIds);
         void AssignPermissionToAdminAsync(AdminPermission adminPermission);
         void AssignPermissionsToAdminAsync(IEnumerable<AdminPermission> adminPermissions);
