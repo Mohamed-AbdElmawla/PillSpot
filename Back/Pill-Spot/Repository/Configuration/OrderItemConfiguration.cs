@@ -10,7 +10,7 @@ namespace Repository.Configuration
         {
             builder.HasKey(oi => oi.OrderItemId);
 
-            builder.Property(oi => oi.PharmacyBranchId)
+            builder.Property(oi => oi.PharmacyId)
                 .IsRequired();
 
             builder.Property(oi => oi.ProductId)
@@ -36,9 +36,9 @@ namespace Repository.Configuration
                 .HasForeignKey(oi => oi.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(oi => oi.PharmacyBranch)
+            builder.HasOne(oi => oi.Pharmacy)
                 .WithMany()
-                .HasForeignKey(oi => oi.PharmacyBranchId)
+                .HasForeignKey(oi => oi.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(oi => new { oi.OrderId, oi.ProductId })

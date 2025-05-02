@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250327235828_UpdateNotif")]
-    partial class UpdateNotif
+    [Migration("20250428131846_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,120 @@ namespace PillSpot.Migrations
                         .HasDatabaseName("IX_Batch_IsDeleted");
 
                     b.ToTable("Batches");
+                });
+
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CartType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("DeliveryAddressId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastAccessed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("LockedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("CartId");
+
+                    b.HasIndex("DeliveryAddressId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartItem", b =>
+                {
+                    b.Property<Guid>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("PharmacyApproved")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PharmacyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("PharmacyRespondedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PrescriptionImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("PrescriptionUploadedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("PriceAtAddition")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int?>("RejectionType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RespondedByUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp(6)");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("RespondedByUserId");
+
+                    b.HasIndex("PharmacyId", "ProductId");
+
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
@@ -548,18 +662,24 @@ namespace PillSpot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("DeliveryFee")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsSuccessful")
+                    b.Property<bool>("IsPaid")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("LocationId")
@@ -588,6 +708,8 @@ namespace PillSpot.Migrations
 
                     b.HasKey("OrderId");
 
+                    b.HasIndex("CartId");
+
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Order_IsDeleted");
 
@@ -608,8 +730,11 @@ namespace PillSpot.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("PharmacyBranchId")
+                    b.Property<Guid>("PharmacyId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("PrescriptionImageUrl")
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
@@ -622,7 +747,7 @@ namespace PillSpot.Migrations
 
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("PharmacyBranchId");
+                    b.HasIndex("PharmacyId");
 
                     b.HasIndex("ProductId");
 
@@ -897,6 +1022,18 @@ namespace PillSpot.Migrations
                     b.Property<Guid?>("BatchId")
                         .HasColumnType("char(36)");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastRestocked")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("MinimumStockThreshold")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -1001,28 +1138,66 @@ namespace PillSpot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("FilePath")
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("PrescriptionId");
+
+                    b.ToTable("Prescriptions");
+                });
+
+            modelBuilder.Entity("Entities.Models.PrescriptionProduct", b =>
+                {
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("char(36)")
+                        .HasColumnOrder(0);
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Dosage")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Instructions")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                    b.HasKey("PrescriptionId", "ProductId");
 
-                    b.HasKey("PrescriptionId");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("IX_Prescription_IsDeleted");
-
-                    b.ToTable("Prescriptions");
+                    b.ToTable("ProductPrescriptions");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -1050,6 +1225,12 @@ namespace PillSpot.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(250)");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
@@ -1069,6 +1250,15 @@ namespace PillSpot.Migrations
 
                     b.Property<Guid>("SubCategoryId")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsageInstructions")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(500)");
 
                     b.HasKey("ProductId");
 
@@ -1103,26 +1293,6 @@ namespace PillSpot.Migrations
                         .HasDatabaseName("IX_ProductIngredient_ProductId_IngredientsId");
 
                     b.ToTable("ProductIngredients");
-                });
-
-            modelBuilder.Entity("Entities.Models.ProductPrescription", b =>
-                {
-                    b.Property<Guid>("PrescriptionId")
-                        .HasColumnType("char(36)")
-                        .HasColumnOrder(0);
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)")
-                        .HasColumnOrder(1);
-
-                    b.HasKey("PrescriptionId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("PrescriptionId", "ProductId")
-                        .HasDatabaseName("IX_ProductPrescription_PrescriptionId_ProductId");
-
-                    b.ToTable("ProductPrescriptions");
                 });
 
             modelBuilder.Entity("Entities.Models.SearchHistory", b =>
@@ -1386,8 +1556,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8af34bb5-b8d6-488a-a9d8-4ba0aece4d7b",
-                            CreatedDate = new DateTime(2025, 3, 27, 23, 58, 20, 722, DateTimeKind.Utc).AddTicks(5365),
+                            ConcurrencyStamp = "7f28c304-b07b-41d0-a2f2-831e546fe86b",
+                            CreatedDate = new DateTime(2025, 4, 28, 13, 18, 43, 851, DateTimeKind.Utc).AddTicks(2848),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1398,13 +1568,48 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJjlwBUJuYIQwmIw5lv2S8VMGcjmIqD+3vGh+B0tIjF+/LKsDkCzHFdoCxh+qCpibw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEACDVVKJ2dAUs4PF7dXSsyPAoberzyEZFtFjoZrgyGSR2ZiUUbPbCZT4ObUx2PYp6g==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.UserAddress", b =>
+                {
+                    b.Property<Guid>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("AddressId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "IsDefault");
+
+                    b.ToTable("UserAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.UserChat", b =>
@@ -1497,31 +1702,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "172e9041-5908-4352-a4e0-e6596018c878",
+                            Id = "554f8127-876d-44cf-babf-8b0c9185bb0d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b1325d6e-92d5-4c74-84ba-c91aa11c1193",
+                            Id = "148df712-b913-4b85-b144-56d01471f2b0",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "6a05d1a3-098d-44bb-a292-7cd51bdca426",
+                            Id = "c45e2a3d-0d00-4c76-aca1-f452b6ab8479",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "67b0437b-ebb4-4a20-a312-d05c2d781c75",
+                            Id = "6dda35d3-b9da-4936-9888-64e0a796be7e",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "cd783f2e-1f40-430e-8499-84ac98389053",
+                            Id = "da02bdb7-1be4-4177-a3a9-ca4e8de07d3b",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1533,7 +1738,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "5fa8717f-b927-4e75-8376-893239626d8e",
+                            Id = "1d37e246-ecfa-43eb-b4ef-16b281b5fd2b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -1665,12 +1870,6 @@ namespace PillSpot.Migrations
                     b.Property<int>("SkinType")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsageInstructions")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(true)
-                        .HasColumnType("varchar(500)");
-
                     b.Property<int>("Volume")
                         .HasColumnType("int");
 
@@ -1686,12 +1885,6 @@ namespace PillSpot.Migrations
 
                     b.Property<bool>("IsPrescriptionRequired")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .IsUnicode(true)
-                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("SideEffects")
                         .IsRequired()
@@ -1719,6 +1912,46 @@ namespace PillSpot.Migrations
                     b.Navigation("Admin");
 
                     b.Navigation("Permission");
+                });
+
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.HasOne("Entities.Models.UserAddress", "DeliveryAddress")
+                        .WithMany()
+                        .HasForeignKey("DeliveryAddressId");
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("DeliveryAddress");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Models.CartItem", b =>
+                {
+                    b.HasOne("Entities.Models.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "RespondedByUser")
+                        .WithMany()
+                        .HasForeignKey("RespondedByUserId");
+
+                    b.HasOne("Entities.Models.PharmacyProduct", "PharmacyProduct")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("PharmacyProduct");
+
+                    b.Navigation("RespondedByUser");
                 });
 
             modelBuilder.Entity("Entities.Models.City", b =>
@@ -1851,6 +2084,10 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Order", b =>
                 {
+                    b.HasOne("Entities.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId");
+
                     b.HasOne("Entities.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
@@ -1862,6 +2099,8 @@ namespace PillSpot.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Location");
 
@@ -1876,9 +2115,9 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Pharmacy", "PharmacyBranch")
+                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany()
-                        .HasForeignKey("PharmacyBranchId")
+                        .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1890,7 +2129,7 @@ namespace PillSpot.Migrations
 
                     b.Navigation("Order");
 
-                    b.Navigation("PharmacyBranch");
+                    b.Navigation("Pharmacy");
 
                     b.Navigation("Product");
                 });
@@ -2073,6 +2312,25 @@ namespace PillSpot.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Entities.Models.PrescriptionProduct", b =>
+                {
+                    b.HasOne("Entities.Models.Prescription", "Prescription")
+                        .WithMany("PrescriptionProducts")
+                        .HasForeignKey("PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Prescription");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
                     b.HasOne("Entities.Models.SubCategory", "SubCategory")
@@ -2099,25 +2357,6 @@ namespace PillSpot.Migrations
                         .IsRequired();
 
                     b.Navigation("Ingredient");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Entities.Models.ProductPrescription", b =>
-                {
-                    b.HasOne("Entities.Models.Prescription", "Prescription")
-                        .WithMany("ProductPrescriptions")
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Prescription");
 
                     b.Navigation("Product");
                 });
@@ -2167,6 +2406,25 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("Entities.Models.UserAddress", b =>
+                {
+                    b.HasOne("Entities.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany("UserAddresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.UserChat", b =>
@@ -2300,6 +2558,11 @@ namespace PillSpot.Migrations
                     b.Navigation("ProductPharmacies");
                 });
 
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("Entities.Models.Category", b =>
                 {
                     b.Navigation("SubCategories");
@@ -2354,7 +2617,7 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.Prescription", b =>
                 {
-                    b.Navigation("ProductPrescriptions");
+                    b.Navigation("PrescriptionProducts");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -2378,6 +2641,8 @@ namespace PillSpot.Migrations
                     b.Navigation("ReviewedPharmacyRequests");
 
                     b.Navigation("SearchHistories");
+
+                    b.Navigation("UserAddresses");
                 });
 #pragma warning restore 612, 618
         }

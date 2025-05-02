@@ -22,5 +22,8 @@
         IPharmacyEmployeeService PharmacyEmployeeService { get;}
         IOrderService OrderService { get;}
         INotificationService NotificationService { get;}
+        IUserAddressService UserAddressService { get;}
+        ICartService CartService { get;}
+        ICartItemService CartItemService { get;}
     }
 }

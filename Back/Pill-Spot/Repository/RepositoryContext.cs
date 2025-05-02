@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Repository.Configuration;
+using Repository.Configurations;
 using System.Data;
 
 
@@ -42,7 +43,7 @@ namespace Repository
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductIngredient> ProductIngredients { get; set; }
         public DbSet<PharmacyProduct> ProductPharmacies { get; set; }
-        public DbSet<ProductPrescription> ProductPrescriptions { get; set; }
+        public DbSet<PrescriptionProduct> ProductPrescriptions { get; set; }
         public DbSet<SearchHistory> SearchHistories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Support> Supports { get; set; }
@@ -127,7 +128,6 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new PharmacyFeedbackConfiguration());
 
             modelBuilder.ApplyConfiguration(new PrescriptionConfiguration());
-            modelBuilder.Entity<Prescription>().HasQueryFilter(p => !p.IsDeleted);
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
@@ -136,7 +136,7 @@ namespace Repository
 
             modelBuilder.ApplyConfiguration(new PharmacyProductConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ProductPrescriptionConfiguration());
+            modelBuilder.ApplyConfiguration(new PrescriptionProductConfiguration());
 
             modelBuilder.ApplyConfiguration(new SearchHistoryConfiguration());
             modelBuilder.Entity<SearchHistory>().HasQueryFilter(sh => !sh.IsDeleted);
@@ -146,6 +146,9 @@ namespace Repository
 
             modelBuilder.ApplyConfiguration(new SupportConfiguration());
             modelBuilder.Entity<Support>().HasQueryFilter(s => !s.IsDeleted);
+
+            modelBuilder.ApplyConfiguration(new UserAddressConfiguration());
+
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);

@@ -97,7 +97,9 @@ namespace PillSpot
             CreateMap<SubCategoryForCreateDto, SubCategory>();
             CreateMap<SubCategoryForUpdateDto, SubCategory>();
 
-            CreateMap<Product, ProductDto>().ForMember(dest => dest.subCategoryDto, opt => opt.MapFrom(src => src.SubCategory));
+            CreateMap<Product, ProductDto>()
+                .Include<Medicine, MedicineDto>()
+                .Include<Cosmetic, CosmeticDto>().ForMember(dest => dest.subCategoryDto, opt => opt.MapFrom(src => src.SubCategory));
             CreateMap<ProductForCreationDto, Product>();
             CreateMap<ProductForUpdateDto, Product>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null && (!(srcMember is Guid) || (Guid)srcMember != Guid.Empty)));
 
@@ -114,6 +116,18 @@ namespace PillSpot
 
 
 
+            // review them again
+            CreateMap<Cart, CartDto>()
+            .ForMember(dest => dest.ItemCount, opt => opt.MapFrom(src => src.Items.Count))
+            .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Items.Sum(i => i.PriceAtAddition * i.Quantity)));
+            CreateMap<CartForCreationDto, Cart>();
+            CreateMap<CartForUpdateDto, Cart>();
+            CreateMap<UserAddress, UserAddressDto>();
+            CreateMap<CartItem, CartItemDto>()
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.PriceAtAddition * src.Quantity));
+            CreateMap<CartItemForCreationDto, CartItem>();
+            CreateMap<CartItemForUpdateDto, CartItem>();
+            //
 
 
             //  CreateMap<PharmacyEmployee, EmployeeDetailsDto>()

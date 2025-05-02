@@ -22,6 +22,12 @@
         IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository { get; }
         IOrderRepository OrderRepository { get; }
         INotificationRepository NotificationRepository { get; }
+        ICartRepository CartRepository { get; }
+        ICartItemRepository CartItemRepository { get; }
+        IUserAddressRepository UserAddressRepository { get; }
         Task SaveAsync();
+        Task BeginTransactionAsync();
+        Task CommitTransactionAsync();
+        Task RollbackTransactionAsync();
     }
 }
