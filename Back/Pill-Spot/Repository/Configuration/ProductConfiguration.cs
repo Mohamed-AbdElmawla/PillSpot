@@ -25,6 +25,12 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(true);
 
+
+            builder.Property(c => c.UsageInstructions)
+                .IsRequired()
+                .HasMaxLength(500)
+                .IsUnicode(true);
+
             builder.Property(p => p.Price)
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");

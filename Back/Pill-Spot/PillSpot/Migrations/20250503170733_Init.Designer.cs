@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250503010640_Addpointt")]
-    partial class Addpointt
+    [Migration("20250503170733_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1556,8 +1556,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c96ca4f-6d1b-4c6f-a918-bb038b4c3dee",
-                            CreatedDate = new DateTime(2025, 5, 3, 1, 6, 34, 934, DateTimeKind.Utc).AddTicks(9315),
+                            ConcurrencyStamp = "cabd02e9-0a2c-4135-9d73-c1fd7eadb85f",
+                            CreatedDate = new DateTime(2025, 5, 3, 17, 7, 17, 12, DateTimeKind.Utc).AddTicks(5312),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1568,7 +1568,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDShoikf9vq7Bt5vaLOdrB/7CLLQjrG5i3CT5JLYS/y+IHiLMBXCJpVoTDEoSX5zJQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGV2uYl2PRf88fyREMQL13SLmOafGyWcQ+qX4CBwfwuNsjyjGThF9+xVpJZkSBq2Dg==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1702,31 +1702,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "59aab37b-063f-4abd-a174-9678a552349e",
+                            Id = "8b54259a-4fc1-41da-9e2a-6b5c79ffdbc3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "090aed34-47d8-48a1-865a-a3f7358bc73a",
+                            Id = "e9c694f0-82d7-41ef-bf7d-c6702d7afb01",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "1366209a-8354-418d-8e05-b3b65dc38511",
+                            Id = "fb248118-cb19-4557-95b6-bacc0fc4f3f0",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "405ba782-c051-487a-8157-361b37485a20",
+                            Id = "357442b5-0083-4f27-b641-067a7cb3de3c",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "5bc5639d-4985-4e64-b5dd-fe759d2bb3b9",
+                            Id = "6e0f0317-a49f-46bf-ae68-50a0d155b90c",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1738,7 +1738,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "5bf58f40-6a0d-466d-8a51-fabc21b4a629",
+                            Id = "9683357b-f834-4644-8fab-9302f4ad317d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

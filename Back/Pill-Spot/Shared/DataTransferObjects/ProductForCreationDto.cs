@@ -18,6 +18,10 @@ namespace Shared.DataTransferObjects
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public double Price { get; init; }
 
+        [Required(ErrorMessage = "Usage instructions are required.")]
+        [MaxLength(500, ErrorMessage = "Usage instructions cannot exceed 500 characters.")]
+        public required string UsageInstructions { get; init; }
+
         [AllowedFileExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         [MaxFileSize(1 * 1024 * 1024)]
         public IFormFile? Image { get; set; }
