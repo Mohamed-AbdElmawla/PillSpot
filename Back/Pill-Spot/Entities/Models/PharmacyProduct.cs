@@ -15,6 +15,10 @@ namespace Entities.Models
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
         public int Quantity { get; set; }
+        public bool IsAvailable { get; set; } = true;
+        public bool IsDeleted { get; set; } = false;
+        public int MinimumStockThreshold { get; set; } = 0;
+        public DateTime? LastRestocked { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }

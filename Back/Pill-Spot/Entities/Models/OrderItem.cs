@@ -8,8 +8,8 @@ namespace Entities.Models
         [Key]
         public Guid OrderItemId { get; set; }
 
-        [Required(ErrorMessage = "Pharmacy Branch ID is required.")]
-        public Guid PharmacyBranchId { get; set; }
+        [Required(ErrorMessage = "Pharmacy ID is required.")]
+        public Guid PharmacyId { get; set; }
 
         [Required(ErrorMessage = "Product ID is required.")]
         public Guid ProductId { get; set; }
@@ -25,13 +25,15 @@ namespace Entities.Models
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
         public int Quantity { get; set; }
 
+        public string? PrescriptionImageUrl { get; set; }
+
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
-        [ForeignKey("PharmacyBranchId")]
-        public virtual Pharmacy PharmacyBranch { get; set; }
+        [ForeignKey("PharmacyId")]
+        public virtual Pharmacy Pharmacy { get; set; }
     }
 }

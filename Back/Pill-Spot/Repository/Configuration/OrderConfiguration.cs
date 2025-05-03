@@ -31,7 +31,7 @@ namespace Repository.Configuration
             builder.Property(o => o.PaymentMethod)
                 .IsRequired();
 
-            builder.Property(o => o.IsSuccessful)
+            builder.Property(o => o.IsPaid)
                 .IsRequired();
 
             builder.Property(o => o.Currency)

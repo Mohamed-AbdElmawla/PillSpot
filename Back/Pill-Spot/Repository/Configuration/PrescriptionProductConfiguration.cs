@@ -4,14 +4,25 @@ using Entities.Models;
 
 namespace Repository.Configuration
 {
-    public class ProductPrescriptionConfiguration : IEntityTypeConfiguration<ProductPrescription>
+    public class PrescriptionProductConfiguration : IEntityTypeConfiguration<PrescriptionProduct>
     {
-        public void Configure(EntityTypeBuilder<ProductPrescription> builder)
+        public void Configure(EntityTypeBuilder<PrescriptionProduct> builder)
         {
             builder.HasKey(pp => new { pp.PrescriptionId, pp.ProductId });
 
+            builder.Property(pp => pp.Quantity)
+                .IsRequired();
+
+            builder.Property(pp => pp.Dosage)
+                .HasMaxLength(200)
+                .IsUnicode(true);
+
+            builder.Property(pp => pp.Instructions)
+                .HasMaxLength(500)
+                .IsUnicode(true);
+
             builder.HasOne(pp => pp.Prescription)
-                .WithMany(p => p.ProductPrescriptions)
+                .WithMany(p => p.PrescriptionProducts)
                 .HasForeignKey(pp => pp.PrescriptionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -19,9 +30,6 @@ namespace Repository.Configuration
                 .WithMany()
                 .HasForeignKey(pp => pp.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasIndex(pp => new { pp.PrescriptionId, pp.ProductId })
-                .HasDatabaseName("IX_ProductPrescription_PrescriptionId_ProductId");
         }
     }
 }

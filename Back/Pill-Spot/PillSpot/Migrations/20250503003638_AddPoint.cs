@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class AddPoint : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -141,11 +142,15 @@ namespace PillSpot.Migrations
                 columns: table => new
                 {
                     PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FilePath = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
+                    IssueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,8 +244,13 @@ namespace PillSpot.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImageURL = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    UsageInstructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Manufacturer = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
                 },
@@ -263,6 +273,7 @@ namespace PillSpot.Migrations
                     LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Longitude = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
                     Latitude = table.Column<decimal>(type: "decimal(8,6)", nullable: false),
+                    Geography = table.Column<Point>(type: "point", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -290,8 +301,6 @@ namespace PillSpot.Migrations
                     Brand = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SkinType = table.Column<int>(type: "int", nullable: false),
-                    UsageInstructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Volume = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -311,8 +320,6 @@ namespace PillSpot.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Manufacturer = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Dosage = table.Column<float>(type: "float", nullable: false),
                     SideEffects = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -360,7 +367,12 @@ namespace PillSpot.Migrations
                 columns: table => new
                 {
                     PrescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Dosage = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Instructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -730,42 +742,6 @@ namespace PillSpot.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
-                    IsSuccessful = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Currency = table.Column<int>(type: "int", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Orders_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "PharmacyRequests",
                 columns: table => new
                 {
@@ -880,6 +856,36 @@ namespace PillSpot.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserAddresses",
+                columns: table => new
+                {
+                    AddressId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Label = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsDefault = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAddresses", x => x.AddressId);
+                    table.ForeignKey(
+                        name: "FK_UserAddresses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserAddresses_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "LocationId",
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -1014,6 +1020,10 @@ namespace PillSpot.Migrations
                     PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    MinimumStockThreshold = table.Column<int>(type: "int", nullable: false),
+                    LastRestocked = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     BatchId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
@@ -1153,37 +1163,36 @@ namespace PillSpot.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
+                name: "Cart",
                 columns: table => new
                 {
-                    OrderItemId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    PharmacyBranchId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    CartId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CartType = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastAccessed = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DeliveryAddressId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsLocked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LockedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
+                    table.PrimaryKey("PK_Cart", x => x.CartId);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Cart_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_OrderItems_Pharmacies_PharmacyBranchId",
-                        column: x => x.PharmacyBranchId,
-                        principalTable: "Pharmacies",
-                        principalColumn: "PharmacyId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Cart_UserAddresses_DeliveryAddressId",
+                        column: x => x.DeliveryAddressId,
+                        principalTable: "UserAddresses",
+                        principalColumn: "AddressId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1247,24 +1256,151 @@ namespace PillSpot.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "CartItem",
+                columns: table => new
+                {
+                    CartItemId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CartId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PrescriptionImageUrl = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PrescriptionUploadedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    PharmacyApproved = table.Column<int>(type: "int", nullable: true),
+                    PharmacyRespondedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    RejectionReason = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RejectionType = table.Column<int>(type: "int", nullable: true),
+                    RespondedByUserId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PriceAtAddition = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    AddedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItem", x => x.CartItemId);
+                    table.ForeignKey(
+                        name: "FK_CartItem_AspNetUsers_RespondedByUserId",
+                        column: x => x.RespondedByUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CartItem_Cart_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Cart",
+                        principalColumn: "CartId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartItem_ProductPharmacies_PharmacyId_ProductId",
+                        columns: x => new { x.PharmacyId, x.ProductId },
+                        principalTable: "ProductPharmacies",
+                        principalColumns: new[] { "ProductId", "PharmacyId" },
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    IsPaid = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeliveryFee = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Currency = table.Column<int>(type: "int", nullable: false),
+                    CartId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Cart_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Cart",
+                        principalColumn: "CartId");
+                    table.ForeignKey(
+                        name: "FK_Orders_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    OrderItemId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OrderId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    PrescriptionImageUrl = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "PharmacyId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "53f61e02-f5ad-4b8b-aeb5-ff92db71cdcf", null, "User", "USER" },
-                    { "99b2830e-b63e-42d2-ba6f-0692629148b8", null, "Admin", "ADMIN" },
-                    { "ac9ea135-8a30-487d-b878-4ef7a464e3b3", null, "Doctor", "DOCTOR" },
-                    { "b4ad8452-aa51-4d0e-be11-f90d4c11d0ae", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "bba9f4fe-3660-4af4-b583-23228a70bb87", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "c1bd3277-cecd-4371-944d-baef38c475bf", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "0a94d8bd-6a2b-4a8d-877b-98df28ce68a7", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "0acea651-44fc-4d6a-8aaa-5d17c51ff2a6", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "26faadff-2411-4d12-a9d8-697599715064", null, "Admin", "ADMIN" },
+                    { "4340e999-062b-43ae-aeee-519b19a8945e", null, "Doctor", "DOCTOR" },
+                    { "80f3da4b-a14d-43cb-89ff-749cb0b63e14", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "ee9a02a9-06d2-473a-abd5-698e6cf39dae", null, "User", "USER" },
                     { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "88eb3148-c41e-4f12-bec1-19e72d2fa66b", new DateTime(2025, 4, 16, 15, 20, 55, 664, DateTimeKind.Utc).AddTicks(844), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEN9tu+3H6UdoC2xyIPT4RlqxEvk91uLQBTo4QzNJbf35iP0CT7yIRSGFHg5YI+1jYA==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "0dafcd25-192f-4f2d-8856-74c1e8875077", new DateTime(2025, 5, 3, 0, 36, 28, 519, DateTimeKind.Utc).AddTicks(4933), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEId6rg1LahTVAmKtr/vUMUc4WJFDSPb5jjhKH0T8dDKJavNH1Dugq0+stQj4w3MZVQ==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -1333,6 +1469,31 @@ namespace PillSpot.Migrations
                 name: "IX_Batch_IsDeleted",
                 table: "Batches",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_DeliveryAddressId",
+                table: "Cart",
+                column: "DeliveryAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_UserId",
+                table: "Cart",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_CartId",
+                table: "CartItem",
+                column: "CartId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_PharmacyId_ProductId",
+                table: "CartItem",
+                columns: new[] { "PharmacyId", "ProductId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_RespondedByUserId",
+                table: "CartItem",
+                column: "RespondedByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Category_IsDeleted",
@@ -1440,6 +1601,12 @@ namespace PillSpot.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "SpatialIndex_Location_Geography",
+                table: "Locations",
+                column: "Geography")
+                .Annotation("MySql:SpatialIndex", true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Message_ChatId_SentDate",
                 table: "Message",
                 columns: new[] { "ChatId", "SentDate" });
@@ -1470,9 +1637,9 @@ namespace PillSpot.Migrations
                 columns: new[] { "OrderId", "ProductId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_PharmacyBranchId",
+                name: "IX_OrderItems_PharmacyId",
                 table: "OrderItems",
-                column: "PharmacyBranchId");
+                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_ProductId",
@@ -1488,6 +1655,11 @@ namespace PillSpot.Migrations
                 name: "IX_Order_UserId",
                 table: "Orders",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_CartId",
+                table: "Orders",
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_LocationId",
@@ -1601,11 +1773,6 @@ namespace PillSpot.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prescription_IsDeleted",
-                table: "Prescriptions",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductIngredient_ProductId_IngredientsId",
                 table: "ProductIngredients",
                 columns: new[] { "ProductId", "IngredientsId" });
@@ -1629,11 +1796,6 @@ namespace PillSpot.Migrations
                 name: "IX_ProductPharmacies_PharmacyId",
                 table: "ProductPharmacies",
                 column: "PharmacyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPrescription_PrescriptionId_ProductId",
-                table: "ProductPrescriptions",
-                columns: new[] { "PrescriptionId", "ProductId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPrescriptions_ProductId",
@@ -1696,6 +1858,21 @@ namespace PillSpot.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserAddresses_LocationId",
+                table: "UserAddresses",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAddresses_UserId",
+                table: "UserAddresses",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAddresses_UserId_IsDefault",
+                table: "UserAddresses",
+                columns: new[] { "UserId", "IsDefault" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserChat_UserId_ChatId",
                 table: "UserChats",
                 columns: new[] { "UserId", "ChatId" });
@@ -1743,6 +1920,9 @@ namespace PillSpot.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CartItem");
+
+            migrationBuilder.DropTable(
                 name: "Cosmetics");
 
             migrationBuilder.DropTable(
@@ -1779,9 +1959,6 @@ namespace PillSpot.Migrations
                 name: "ProductIngredients");
 
             migrationBuilder.DropTable(
-                name: "ProductPharmacies");
-
-            migrationBuilder.DropTable(
                 name: "ProductPrescriptions");
 
             migrationBuilder.DropTable(
@@ -1798,6 +1975,9 @@ namespace PillSpot.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserPrescriptions");
+
+            migrationBuilder.DropTable(
+                name: "ProductPharmacies");
 
             migrationBuilder.DropTable(
                 name: "Doctors");
@@ -1821,12 +2001,6 @@ namespace PillSpot.Migrations
                 name: "Ingredients");
 
             migrationBuilder.DropTable(
-                name: "Batches");
-
-            migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
                 name: "Chats");
 
             migrationBuilder.DropTable(
@@ -1836,16 +2010,28 @@ namespace PillSpot.Migrations
                 name: "Prescriptions");
 
             migrationBuilder.DropTable(
+                name: "Batches");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Cart");
+
+            migrationBuilder.DropTable(
                 name: "Pharmacies");
 
             migrationBuilder.DropTable(
                 name: "SubCategories");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "UserAddresses");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Locations");

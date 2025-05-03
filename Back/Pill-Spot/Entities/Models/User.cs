@@ -49,6 +49,7 @@ namespace Entities.Models
         public virtual ICollection<AdminPermission> AdminPermissions { get; set; } = new List<AdminPermission>();
         public virtual ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
         public virtual ICollection<PharmacyRequest> PharmacyRequests { get; set; } = new List<PharmacyRequest>();
+        public virtual ICollection<UserAddress> UserAddresses { get; set; } = new List<UserAddress>();
         [InverseProperty("AdminUser")]
         public virtual ICollection<PharmacyRequest> ReviewedPharmacyRequests { get; set; } = new List<PharmacyRequest>();
         public bool IsDeleted { get; set; } = false;

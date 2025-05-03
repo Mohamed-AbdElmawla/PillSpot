@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+public enum OrderStatus { Pending, Confirmed, Shipped, Delivered, Cancelled }
 namespace Entities.Models
 {
     public class Order
@@ -26,16 +26,20 @@ namespace Entities.Models
         public DateTime? PaymentDate { get; set; }
 
         [Required(ErrorMessage = "Status is required.")]
-        public int Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         [Required(ErrorMessage = "Payment method is required.")]
         public int PaymentMethod { get; set; }
 
         [Required]
-        public bool IsSuccessful { get; set; }
+        public bool IsPaid { get; set; }
+        [Required]
+        public decimal DeliveryFee { get; set; }
 
         [Required(ErrorMessage = "Currency is required.")]
         public int Currency { get; set; }
+        public Guid? CartId { get; set; }
+        public virtual Cart Cart { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

@@ -25,6 +25,9 @@ namespace Repository
         private readonly Lazy<IPharmacyEmployeeRequestRepository> _pharmacyEmployeeRequestRepository;
         private readonly Lazy<IOrderRepository> _orderRepository;
         private readonly Lazy<INotificationRepository> _notificationRepository;
+        private readonly Lazy<ICartRepository> _cartRepository;
+        private readonly Lazy<ICartItemRepository> _cartItemRepository;
+        private readonly Lazy<IUserAddressRepository> _userAddressRepository;
         private readonly Lazy<IPharmacyEmployeeRoleRepository> _pharmacyEmployeeRoleRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -50,6 +53,9 @@ namespace Repository
             _pharmacyEmployeeRequestRepository = new Lazy<IPharmacyEmployeeRequestRepository>(() => new PharmacyEmployeeRequestRepository(repositoryContext));
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(repositoryContext));
             _notificationRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(repositoryContext));
+            _cartRepository = new Lazy<ICartRepository>(() => new CartRepository(repositoryContext));
+            _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryContext));
+            _userAddressRepository = new Lazy<IUserAddressRepository>(() => new UserAddressRepository(repositoryContext));
             _pharmacyEmployeeRoleRepository = new Lazy<IPharmacyEmployeeRoleRepository>(() => new PharmacyEmployeeRoleRepository(repositoryContext));
         }
 
@@ -73,7 +79,63 @@ namespace Repository
         public IPharmacyEmployeeRequestRepository PharmacyEmployeeRequestRepository => _pharmacyEmployeeRequestRepository.Value;
         public IOrderRepository OrderRepository => _orderRepository.Value;
         public INotificationRepository NotificationRepository => _notificationRepository.Value;
+        public ICartRepository CartRepository => _cartRepository.Value;
+        public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
+        public IUserAddressRepository UserAddressRepository => _userAddressRepository.Value;
+
         public IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository => _pharmacyEmployeeRoleRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+
+        public async Task BeginTransactionAsync()
+        {
+            // Check if a transaction is already active
+            if (_repositoryContext.Database.CurrentTransaction != null)
+            {
+                throw new InvalidOperationException("A transaction is already in progress.");
+            }
+
+            await _repositoryContext.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            try
+            {
+                // Only commit if there's an active transaction
+                if (_repositoryContext.Database.CurrentTransaction != null)
+                {
+                    await _repositoryContext.SaveChangesAsync();
+                    await _repositoryContext.Database.CurrentTransaction.CommitAsync();
+                }
+            }
+            finally
+            {
+                // Always dispose the transaction if it exists
+                if (_repositoryContext.Database.CurrentTransaction != null)
+                {
+                    await _repositoryContext.Database.CurrentTransaction.DisposeAsync();
+                }
+            }
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            try
+            {
+                // Only rollback if there's an active transaction
+                if (_repositoryContext.Database.CurrentTransaction != null)
+                {
+                    await _repositoryContext.Database.CurrentTransaction.RollbackAsync();
+                }
+            }
+            finally
+            {
+                // Always dispose the transaction if it exists
+                if (_repositoryContext.Database.CurrentTransaction != null)
+                {
+                    await _repositoryContext.Database.CurrentTransaction.DisposeAsync();
+                }
+            }
+        }
     }
 }

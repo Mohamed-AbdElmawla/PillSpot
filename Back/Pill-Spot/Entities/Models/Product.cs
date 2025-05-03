@@ -2,6 +2,7 @@
 
 namespace Entities.Models
 {
+    public enum ProductType { Medicine, Cosmetic }
     public class Product
     {
         [Key]
@@ -25,10 +26,17 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
         public string? ImageURL { get; set; }
 
+        public string UsageInstructions { get; set; }
+
+        [Required(ErrorMessage = "Manufacturer is required.")]
+        [MaxLength(250, ErrorMessage = "Manufacturer cannot exceed 250 characters.")]
+        public required string Manufacturer { get; set; }
+
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         public DateTime? ModifiedDate { get; set; }
+        public ProductType Type { get; set; }
 
         public virtual SubCategory? SubCategory { get; set; }
 

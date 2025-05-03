@@ -4,9 +4,7 @@
     {
     public class Medicine : Product
     {
-        [Required(ErrorMessage = "Manufacturer is required.")]
-        [MaxLength(250, ErrorMessage = "Manufacturer cannot exceed 250 characters.")]
-        public required string Manufacturer { get; set; }
+        
 
         [Required(ErrorMessage = "Dosage is required.")]
         [Range(0.01, float.MaxValue, ErrorMessage = "Dosage must be greater than zero.")]

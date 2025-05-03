@@ -1,14 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Entities.Models;
+using NetTopologySuite.Geometries;
 
 namespace Repository.Configuration
 {
-    public class LocationConfiguration : IEntityTypeConfiguration<Location>
+    public class LocationConfiguration : IEntityTypeConfiguration<Entities.Models.Location>
     {
-        public void Configure(EntityTypeBuilder<Location> builder)
+        public void Configure(EntityTypeBuilder<Entities.Models.Location> builder)
         {
             builder.HasKey(l => l.LocationId);
+
+            // Removing this line as Geography is NotMapped
+            // builder.Property(l => l.Geography)
+            //     .HasColumnType("POINT");
+
+            builder.Ignore(l => l.Geography); // Correctly ignoring in mapping
 
             builder.Property(l => l.Longitude)
                 .IsRequired()

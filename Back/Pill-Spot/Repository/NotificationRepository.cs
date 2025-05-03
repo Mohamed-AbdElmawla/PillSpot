@@ -19,7 +19,9 @@ namespace Repository
                 .Take(notificationRequestParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(n => n.ActorId.Equals(userId) && !n.IsDeleted, trackChanges).CountAsync();
+            var count = await FindByCondition(n => n.ActorId.Equals(userId) && !n.IsDeleted, trackChanges)
+                .FilterByReadStatus(notificationRequestParameters.IsNotified)
+                .CountAsync();
 
             return new PagedList<Notification>(notifications, count, notificationRequestParameters.PageNumber, notificationRequestParameters.PageSize);
         }

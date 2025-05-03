@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NetTopologySuite.Geometries;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
@@ -8,19 +9,36 @@ namespace Entities.Models
         [Key]
         public Guid LocationId { get; set; }
 
-        [Required(ErrorMessage = "Longitude is required.")]
-        [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180 degrees.")]
+        [Required]
+        [Range(-180, 180)]
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Latitude is required.")]
-        [Range(-90, 90, ErrorMessage = "Latitude must be between -90 and 90 degrees.")]
+        [Required]
+        [Range(-90, 90)]
         public double Latitude { get; set; }
 
-        [Required(ErrorMessage = "Additional information is required.")]
-        [MaxLength(250, ErrorMessage = "Additional information cannot exceed 250 characters.")]
+        // Private field for point calculation, not mapped to the database.
+        private Point _geography;
+
+        [NotMapped]
+        public Point Geography
+        {
+            get
+            {
+                var geometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                return geometryFactory.CreatePoint(new Coordinate(Longitude, Latitude));
+            }
+            private set
+            {
+                _geography = value;
+            }
+        }
+
+        [Required]
+        [MaxLength(250)]
         public string AdditionalInfo { get; set; }
 
-        [Required(ErrorMessage = "City ID is required.")]
+        [Required]
         public Guid CityId { get; set; }
 
         [ForeignKey("CityId")]

@@ -16,7 +16,11 @@ namespace PillSpot.ContextFactory
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseMySql(configuration.GetConnectionString("MySqlConnection"),
                     ServerVersion.AutoDetect(configuration.GetConnectionString("MySqlConnection")),
-                    b => b.MigrationsAssembly("PillSpot"));
+                    options =>
+                    {
+                        options.MigrationsAssembly("PillSpot");
+                        options.UseNetTopologySuite(); // For spatial support
+                    });
 
             builder.EnableSensitiveDataLogging();
 
