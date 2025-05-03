@@ -1,6 +1,7 @@
-﻿using NetTopologySuite.Geometries;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NetTopologySuite.Geometries;
 
 namespace Entities.Models
 {
@@ -17,22 +18,8 @@ namespace Entities.Models
         [Range(-90, 90)]
         public double Latitude { get; set; }
 
-        // Private field for point calculation, not mapped to the database.
-        private Point _geography;
-
         [NotMapped]
-        public Point Geography
-        {
-            get
-            {
-                var geometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                return geometryFactory.CreatePoint(new Coordinate(Longitude, Latitude));
-            }
-            private set
-            {
-                _geography = value;
-            }
-        }
+        public Point Geography => new Point(Longitude, Latitude) { SRID = 4326 };  // Use NotMapped to ignore this in DB
 
         [Required]
         [MaxLength(250)]

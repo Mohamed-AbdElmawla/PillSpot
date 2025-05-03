@@ -18,11 +18,6 @@ namespace Repository.Configuration
             builder.Property(c => c.SkinType)
                 .IsRequired();
 
-            builder.Property(c => c.UsageInstructions)
-                .IsRequired()
-                .HasMaxLength(500)
-                .IsUnicode(true);
-
             builder.Property(c => c.Volume)
                 .IsRequired();
         }

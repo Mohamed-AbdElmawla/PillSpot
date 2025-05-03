@@ -28,7 +28,7 @@ namespace Repository
                 .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindAll(trackChanges).CountAsync();
+            var count = await FindAll(trackChanges).ApplyFilters(pharmacyProductParameters).CountAsync();
 
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }
@@ -59,7 +59,7 @@ namespace Repository
                 .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(pp => pp.PharmacyId.Equals(pharmacyId), trackChanges).CountAsync();
+            var count = await FindByCondition(pp => pp.PharmacyId.Equals(pharmacyId), trackChanges).ApplyFilters(pharmacyProductParameters).CountAsync();
 
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }
@@ -77,7 +77,7 @@ namespace Repository
                 .Take(pharmacyProductParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges).CountAsync();
+            var count = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges).ApplyFilters(pharmacyProductParameters).CountAsync();
 
             return new PagedList<PharmacyProduct>(pharmacyProducts, count, pharmacyProductParameters.PageNumber, pharmacyProductParameters.PageSize);
         }

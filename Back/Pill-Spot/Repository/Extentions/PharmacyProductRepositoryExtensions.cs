@@ -47,11 +47,10 @@ public static class PharmacyProductRepositoryExtensions
     {
         if (!maxDistance.HasValue) return pharmacyProducts;
 
-        // Creating a point using a SQL function, as MySQL doesn't directly accept EF Core's geometry inputs
+        var userPoint = new Point(userLongitude, userLatitude) { SRID = 4326 };
+
         return pharmacyProducts.Where(pp =>
-            EF.Functions.Like(
-                pp.Pharmacy.Location.Geography,
-                $"ST_Distance_Sphere(pp.Pharmacy.Location.Geography, ST_GeomFromText('POINT({userLongitude} {userLatitude})', 4326)) <= {maxDistance.Value * 1000}"));
+            pp.Pharmacy.Location.Geography.IsWithinDistance(userPoint, maxDistance.Value));
     }
 
     private static Point CreateGeographyPoint(double longitude, double latitude)
