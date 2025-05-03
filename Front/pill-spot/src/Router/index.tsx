@@ -27,6 +27,8 @@ import OrdersCartPage from "../pages/UserSettings/OrdersCart";
 import UserOrderedOrders from "../pages/UserSettings/OrderedOrders";
 import UserEditInofPage from "../pages/UserSettings/UserEditInfo";
 import UserPharmacies from "../pages/UserSettings/UserPharmacies";
+import UserSettingPage from "../layouts/UserPage";
+import AdminCategories from "../layouts/tempAdmin/tempAdmin";
 
 // Define the router
 const router = createBrowserRouter(
@@ -37,7 +39,7 @@ const router = createBrowserRouter(
       <Route path="result" element={<ResultPage />} />
 
       // main home page layout and routes
-      {/* <Route element={<UserHomePage />}>  // this is for protect router */}
+      <Route element={<UserHomePage />}>  // this is for protect router
         <Route path="homepage" element={<HomePageMain />} />
         <Route path="pharmacymanagement" element={<PharManagementLayout />}>
           <Route path="pharmanhome" element={<PharManagementHome />} />
@@ -46,9 +48,15 @@ const router = createBrowserRouter(
           <Route path="pharmananalytics" element={<DataChart />} />
           <Route path="pharmanorders" element={<OrderManagementHome />} />
         </Route>
-      {/* </Route> */}
+      </Route>
 
-      {/* <Route element={<UserSettingPage />}> // this is for protect router */}
+      <Route path="tempAdminPage" element={<AdminCategories />}>  // this is for protect router
+       
+      </Route>
+
+
+
+      <Route element={<UserSettingPage />}> // this is for protect router
         <Route path="usersettingpage" element={<UserSettingLayout />} >
           <Route index element={<UserSettingsMain/>}/>
           <Route path="page1" element={<UserSettingsMain/>}/>
@@ -59,7 +67,7 @@ const router = createBrowserRouter(
           <Route path="page6" element={<div><UserPharmacies/></div>}/>
         </Route>
       <Route path="pharmacyregister" element={ <RegPharmacy/>} /> // this is for protect router
-      {/* </Route> */}
+      </Route>
 
 
       

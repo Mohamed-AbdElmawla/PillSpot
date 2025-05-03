@@ -25,6 +25,8 @@
         ICartRepository CartRepository { get; }
         ICartItemRepository CartItemRepository { get; }
         IUserAddressRepository UserAddressRepository { get; }
+        IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository { get; }
+
         Task SaveAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

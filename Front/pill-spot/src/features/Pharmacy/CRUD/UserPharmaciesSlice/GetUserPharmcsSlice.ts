@@ -1,14 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-// interface Pharmacy {
-//   id: string;
-//   name: string;
-//   location: string;
-// }
+
+interface IPharmacy {
+  pharmacyId: string;
+  name: string;
+  logoURL: string;
+  logo: string | null;
+  locationDto: null;
+  contactNumber: string;
+  openingTime: string;
+  closingTime: string;
+  isOpen24: boolean;
+  daysOpen: string;
+}
 
 interface PharmacyState {
-  list:[];
+  list:IPharmacy[];
   loading: boolean;
   error: string | null;
 }

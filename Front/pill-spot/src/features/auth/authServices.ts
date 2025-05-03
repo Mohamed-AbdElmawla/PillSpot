@@ -1,39 +1,78 @@
 import axios from "axios";
-import { ISignUpData , IloginData } from "../../components/SignUpModel/types";
+import { ISignUpData, IloginData } from "../../components/SignUpModel/types";
+import axiosInstance from "../../app/axiosInstance";
+// import { labelGrid } from "react-day-picker";
 
 // od not forget the local host at the beggining
 const registerUrl = import.meta.env.VITE_REGISTER_URL;
-const loginUrl = import.meta.env.VITE_LOGIN_URL
+const loginUrl = import.meta.env.VITE_LOGIN_URL;
 
 //  const FakeAPI_URL = "https://jsonplaceholder.typicode.com/users";
 
-const register = async (userData: ISignUpData) => {
-  const formData = new FormData();
-  const file =  new File([], "empty.jpg", { type: "image/png" });
-  formData.append('ProfilePicture', file);
-  for (const key in userData) {
-      formData.append(key, String(userData[key])); 
-  }
-  const response = await axios.post(registerUrl!, formData);
-  console.log(response) ;
+const register = async (userData: ISignUpData | FormData) => {
+  console.log(userData) ;
+
+  // const formData = new FormData();
+  // const file = new File([], "empty.jpg", { type: "image/png" });
+  // formData.append("ProfilePicture", file);
+
+  // // const userFile = input.files[0];
+
+  // // if (userFile) {
+  // //   const fileName = userFile.name;
+  // //   const fileType = userFile.type;
+
+  // //   // You can now append it directly to FormData
+  // //   const formData = new FormData();
+  // //   formData.append("ProfilePicture", userFile, fileName);
+
+  // //   // Optional: show info
+  // //   console.log("Uploading file:", fileName, "Type:", fileType);
+  // // }
+
+
+
+  // for (const key in userData) {
+  //   formData.append(key, String(userData[key]));
+  // }
+  const response = await axios.post(registerUrl!, userData);
+  console.log(response);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
 };
 
-const login = async(userData:IloginData) => {
-    const response = await axios.post(loginUrl!,userData,{ withCredentials: true } ) ;
-    if(response.data){
-      localStorage.setItem('loginData',JSON.stringify(response.data)) ;
-    }
-    console.log(response.data)
-    return response.data ;
+const login = async (userData: IloginData) => {
+  // const response = await axios.post(loginUrl!, userData, {
+  //   withCredentials: true,
+  // });
+  console.log(userData)
+  const response = await axiosInstance.post(loginUrl!,userData) ;
+  if (response.data) return userData.userName;
+};
+
+const logout = async()=>{
+  console.log("iam in s erve") ;
+  const response = await axios.post(
+    "https://localhost:7298/api/authentication/logout",
+    {},
+    { withCredentials: true }
+  );
+  return response.data ;
+
+}
+
+const deleteAccount = async (userName:string)=> {
+  const response = await axios.delete(`https://localhost:7298/api/users/${userName}`,{withCredentials:true});
+  return response.data ;
 }
 
 const authServices = {
   register,
   login,
+  logout,
+  deleteAccount, 
 };
 
 export default authServices;

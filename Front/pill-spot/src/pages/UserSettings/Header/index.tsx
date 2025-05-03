@@ -2,8 +2,11 @@ import LogoSVG from "../../../UI/LogoSVG";
 import { BiSearchAlt } from "react-icons/bi";
 // import { IoNotificationsOutline } from "react-icons/io5";
 import NotificationDrawer from "../../../components/Notification";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
 
 const UserSettingHeader = () => {
+  const curUser = useSelector((state:RootState)=>state.CurUserSlice.curUser)
   return (
     <div className="bg-white w-full flex justify-between ">
       <div className="flex items-center gap-3">
@@ -21,7 +24,7 @@ const UserSettingHeader = () => {
         <BiSearchAlt className="text-3xl text-[#02457A]" />
         <NotificationDrawer/>
         {/* <IoNotificationsOutline className="text-3xl text-[#02457A]" /> */}
-        <img src="/src/pages/UserSettings/MainPage/images/455280085_515769004150965_1822829626503930280_n.jpg" className="w-20 rounded-full" alt="" />
+        <img src={`https://localhost:7298${curUser.profilePictureUrl}`} className="w-20 h-20 rounded-full" alt="" />
       </div>
     </div>
   );

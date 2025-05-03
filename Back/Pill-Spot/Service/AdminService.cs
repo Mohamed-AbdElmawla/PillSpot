@@ -21,6 +21,9 @@ namespace Service
         {
 
             var (currentUser, currentUserRoles) = await GetUserAndRolesAsync(currentUserId, isCurrentUser: true,trackChanges);
+            
+            //if (currentUser.IsDeleted)
+              //throw new UserDeletedBadRequestException();
 
             var errorMessages = new List<string>();
 
@@ -38,7 +41,7 @@ namespace Service
                 if (!IsAllowedToManageUser(currentUserRoles, targetUserRoles))
                 {
                     string roles = string.Join(", ", targetUserRoles);
-                    errorMessages.Add($"User with Id '{targetUser.UserName}' and Roles '{roles}' cannot be modified.");
+                    errorMessages.Add($"User with Id '{targetUser.Id}' and Roles '{roles}' cannot be modified.");
                     continue;
                 }
 
@@ -72,19 +75,19 @@ namespace Service
         }
         private async Task ApplyUserAction(User user, string action)
         {
-            switch (action)
+            switch (action.ToLower())
             {
-                case "Activate":
+                case "activate":
                     if (user.LockoutEnd == null)
                         throw new ActivateUserBadRequestException();
                     user.LockoutEnd = null;
                     break;
-                case "Deactivate":
+                case "deactivate":
                     if (user.LockoutEnd != null && user.LockoutEnd.Value == DateTimeOffset.MaxValue)
                         throw new DeactivateUserBadRequestException();
                     user.LockoutEnd = DateTimeOffset.MaxValue;
                     break;
-                case "Delete":
+                case "delete":
                     user.IsDeleted = true;
                     break;
                 default:

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using Repository;
 
 #nullable disable
@@ -17,7 +18,7 @@ namespace PillSpot.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -529,6 +530,10 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<Point>("Geography")
+                        .IsRequired()
+                        .HasColumnType("point");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
@@ -546,6 +551,10 @@ namespace PillSpot.Migrations
                     b.HasKey("LocationId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("Geography")
+                        .HasDatabaseName("SpatialIndex_Location_Geography")
+                        .HasAnnotation("MySql:SpatialIndex", true);
 
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Location_IsDeleted");
@@ -1553,8 +1562,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f28c304-b07b-41d0-a2f2-831e546fe86b",
-                            CreatedDate = new DateTime(2025, 4, 28, 13, 18, 43, 851, DateTimeKind.Utc).AddTicks(2848),
+                            ConcurrencyStamp = "ce79acdb-4c8f-460d-8a23-df222b87d087",
+                            CreatedDate = new DateTime(2025, 5, 3, 1, 18, 58, 743, DateTimeKind.Utc).AddTicks(2960),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1565,7 +1574,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEACDVVKJ2dAUs4PF7dXSsyPAoberzyEZFtFjoZrgyGSR2ZiUUbPbCZT4ObUx2PYp6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAWgPwM6Cdwgwb+819a87V7utWq2tIN4lUOGsN0nbbfYlII7n7+ACoLCsF+/lgt+Hg==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1699,31 +1708,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "554f8127-876d-44cf-babf-8b0c9185bb0d",
+                            Id = "ef628bc4-4f95-4b84-b8c3-a3cd9fc18d51",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "148df712-b913-4b85-b144-56d01471f2b0",
+                            Id = "bbd41ff0-f293-48e6-b1f6-932e6908586f",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "c45e2a3d-0d00-4c76-aca1-f452b6ab8479",
+                            Id = "3b6bbe0d-9cc2-4052-b3d6-06a12751dffd",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "6dda35d3-b9da-4936-9888-64e0a796be7e",
+                            Id = "5cb1a5a5-d400-4ec2-9757-72fee3e4c86d",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "da02bdb7-1be4-4177-a3a9-ca4e8de07d3b",
+                            Id = "9993976c-2a33-42ed-93cd-425940f5d7e8",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1735,7 +1744,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "1d37e246-ecfa-43eb-b4ef-16b281b5fd2b",
+                            Id = "ec737f9a-20a8-4ee6-a957-19f0645ae0e4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -2216,13 +2225,13 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeeRole", b =>
                 {
-                    b.HasOne("Entities.Models.PharmacyEmployee", "employees")
+                    b.HasOne("Entities.Models.PharmacyEmployee", "Employee")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Pharmacy", "pharmacies")
+                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2234,11 +2243,11 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Employee");
+
+                    b.Navigation("Pharmacy");
+
                     b.Navigation("Role");
-
-                    b.Navigation("employees");
-
-                    b.Navigation("pharmacies");
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyFeedback", b =>

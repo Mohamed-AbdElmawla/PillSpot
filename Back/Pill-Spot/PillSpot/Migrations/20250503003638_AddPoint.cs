@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class AddPoint : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -272,6 +273,7 @@ namespace PillSpot.Migrations
                     LocationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Longitude = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
                     Latitude = table.Column<decimal>(type: "decimal(8,6)", nullable: false),
+                    Geography = table.Column<Point>(type: "point", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -1386,19 +1388,19 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "148df712-b913-4b85-b144-56d01471f2b0", null, "Doctor", "DOCTOR" },
-                    { "1d37e246-ecfa-43eb-b4ef-16b281b5fd2b", null, "Admin", "ADMIN" },
-                    { "554f8127-876d-44cf-babf-8b0c9185bb0d", null, "User", "USER" },
-                    { "6dda35d3-b9da-4936-9888-64e0a796be7e", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "c45e2a3d-0d00-4c76-aca1-f452b6ab8479", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "da02bdb7-1be4-4177-a3a9-ca4e8de07d3b", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "0a94d8bd-6a2b-4a8d-877b-98df28ce68a7", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "0acea651-44fc-4d6a-8aaa-5d17c51ff2a6", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "26faadff-2411-4d12-a9d8-697599715064", null, "Admin", "ADMIN" },
+                    { "4340e999-062b-43ae-aeee-519b19a8945e", null, "Doctor", "DOCTOR" },
+                    { "80f3da4b-a14d-43cb-89ff-749cb0b63e14", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "ee9a02a9-06d2-473a-abd5-698e6cf39dae", null, "User", "USER" },
                     { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "7f28c304-b07b-41d0-a2f2-831e546fe86b", new DateTime(2025, 4, 28, 13, 18, 43, 851, DateTimeKind.Utc).AddTicks(2848), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEACDVVKJ2dAUs4PF7dXSsyPAoberzyEZFtFjoZrgyGSR2ZiUUbPbCZT4ObUx2PYp6g==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "0dafcd25-192f-4f2d-8856-74c1e8875077", new DateTime(2025, 5, 3, 0, 36, 28, 519, DateTimeKind.Utc).AddTicks(4933), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEId6rg1LahTVAmKtr/vUMUc4WJFDSPb5jjhKH0T8dDKJavNH1Dugq0+stQj4w3MZVQ==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -1597,6 +1599,12 @@ namespace PillSpot.Migrations
                 name: "IX_Locations_CityId",
                 table: "Locations",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "SpatialIndex_Location_Geography",
+                table: "Locations",
+                column: "Geography")
+                .Annotation("MySql:SpatialIndex", true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Message_ChatId_SentDate",

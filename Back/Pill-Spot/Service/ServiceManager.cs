@@ -34,6 +34,7 @@ namespace Service
         private readonly Lazy<IUserAddressService> _userAddressService;
         private readonly Lazy<ICartService> _cartService;
         private readonly Lazy<ICartItemService> _cartItemService;
+        private readonly Lazy<IPharmacyEmployeeRoleService> _pharmacyEmployeeRoleService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -50,7 +51,7 @@ namespace Service
             _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper,userManager));
             _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager,userManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
-            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService));
+            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService,roleManager));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _subCategoryService = new Lazy<ISubCategoryService>(() => new SubCategoryService(repositoryManager, mapper));
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService));
@@ -64,6 +65,7 @@ namespace Service
             _userAddressService = new Lazy<IUserAddressService>(() => new UserAddressService(repositoryManager, mapper));
             _cartService = new Lazy<ICartService>(() => new CartService(repositoryManager, mapper, userManager));
             _cartItemService = new Lazy<ICartItemService>(() => new CartItemService(repositoryManager, mapper, userManager, fileService));
+            _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -89,5 +91,6 @@ namespace Service
         public IUserAddressService UserAddressService => _userAddressService.Value;
         public ICartService CartService => _cartService.Value;
         public ICartItemService CartItemService => _cartItemService.Value;
+        public IPharmacyEmployeeRoleService PharmacyEmployeeRoleService => _pharmacyEmployeeRoleService.Value;
     }
 }

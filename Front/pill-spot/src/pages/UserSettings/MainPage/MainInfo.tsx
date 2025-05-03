@@ -2,8 +2,10 @@ import PrefaredPharmacy from "./PrefaredPharmacy";
 // import { MdOutlineEdit } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
 import { FiPhone, FiUser } from "react-icons/fi";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import img from "./images/image copy 5.png";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
 
 interface IInputs {
   label: string;
@@ -39,7 +41,7 @@ const inputs: IInputs[] = [
     name: inputNames.Email,
   },
   {
-    label: "Info",
+    label: "User Name",
     icon: <HiOutlineMail className="text-2xl" />,
     value: "email@example.com",
     name: inputNames.Info,
@@ -53,17 +55,35 @@ const defaultData: Record<string, string> = {
   [inputNames.Info]: "my info",
 };
 
+interface IcurUser {
+  firstName: string,
+  lastName: string ,
+  email: string,
+  userName: string ,
+  phoneNumber: string,
+  profilePictureUrl: string,
+  dateOfBirth: string,
+  gender: string ,
+}
+
 const MainInfo = () => {
   const [UserData, setUserData] = useState(defaultData);
-  console.log(UserData);
+  const curUser : IcurUser|string|null  = useSelector((state: RootState) => state.CurUserSlice.curUser);
+ 
+  useEffect(()=>{
+    console.log(curUser);
+    if (curUser) {
+      setUserData((prev) => ({
+        ...prev,
+        [inputNames.Name]: curUser.firstName,
+        [inputNames.PhoneNumber]: curUser.phoneNumber,
+        [inputNames.Email]: curUser.email,
+        [inputNames.Info]: curUser.userName,
+      }));
+    }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
+  },[])
+  
 
   return (
     <div className="flex flex-col lg:flex-row  justify-center gap-5 mt-2">
@@ -78,7 +98,7 @@ const MainInfo = () => {
       >
         <div className="flex flex-col justify-center items-center gap-5 sm:gap-10 w-full md:w-auto">
           <img
-            src="/src/pages/UserSettings/MainPage/images/455280085_515769004150965_1822829626503930280_n.jpg"
+            src={`https://localhost:7298${curUser!.profilePictureUrl}`}
             alt="User Avatar"
             className="w-40 h-40 sm:w-40 sm:h-40 md:w-60 md:h-60 rounded-full object-cover"
           />
@@ -107,7 +127,6 @@ const MainInfo = () => {
                 className="h-8 sm:h-10 text-base sm:text-lg md:text-xl indent-2 rounded-xl border-gray-400 w-full bg-white border-0"
                 value={UserData[item.name]}
                 name={item.name}
-                onChange={handleChange}
                 disabled
               />
             </div>
@@ -122,16 +141,18 @@ const MainInfo = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-start gap-5 flex-1 p-5 rounded-xl w-full sm:max-w-md bg-gray-50 h-120 overflow-auto"
-       style={{
-        backgroundImage: `url(${img})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "zoom",
-        backgroundPosition: "center",
-      }}
-      
+      <div
+        className="flex flex-col items-start gap-5 flex-1 p-5 rounded-xl w-full sm:max-w-md bg-gray-50 h-120 overflow-auto"
+        style={{
+          backgroundImage: `url(${img})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "zoom",
+          backgroundPosition: "center",
+        }}
       >
-        <span className="text-2xl font-bold text-[#02457A]">Prefered Pharmacies</span>
+        <span className="text-2xl font-bold text-[#02457A]">
+          Prefered Pharmacies
+        </span>
         <PrefaredPharmacy />
         <PrefaredPharmacy />
         <PrefaredPharmacy />

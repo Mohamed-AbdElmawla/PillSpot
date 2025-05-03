@@ -12,15 +12,15 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250428131846_init")]
-    partial class init
+    [Migration("20250503010640_Addpointt")]
+    partial class Addpointt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -1556,8 +1556,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f28c304-b07b-41d0-a2f2-831e546fe86b",
-                            CreatedDate = new DateTime(2025, 4, 28, 13, 18, 43, 851, DateTimeKind.Utc).AddTicks(2848),
+                            ConcurrencyStamp = "4c96ca4f-6d1b-4c6f-a918-bb038b4c3dee",
+                            CreatedDate = new DateTime(2025, 5, 3, 1, 6, 34, 934, DateTimeKind.Utc).AddTicks(9315),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1568,7 +1568,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEACDVVKJ2dAUs4PF7dXSsyPAoberzyEZFtFjoZrgyGSR2ZiUUbPbCZT4ObUx2PYp6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDShoikf9vq7Bt5vaLOdrB/7CLLQjrG5i3CT5JLYS/y+IHiLMBXCJpVoTDEoSX5zJQ==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1702,31 +1702,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "554f8127-876d-44cf-babf-8b0c9185bb0d",
+                            Id = "59aab37b-063f-4abd-a174-9678a552349e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "148df712-b913-4b85-b144-56d01471f2b0",
+                            Id = "090aed34-47d8-48a1-865a-a3f7358bc73a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "c45e2a3d-0d00-4c76-aca1-f452b6ab8479",
+                            Id = "1366209a-8354-418d-8e05-b3b65dc38511",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "6dda35d3-b9da-4936-9888-64e0a796be7e",
+                            Id = "405ba782-c051-487a-8157-361b37485a20",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "da02bdb7-1be4-4177-a3a9-ca4e8de07d3b",
+                            Id = "5bc5639d-4985-4e64-b5dd-fe759d2bb3b9",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1738,7 +1738,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "1d37e246-ecfa-43eb-b4ef-16b281b5fd2b",
+                            Id = "5bf58f40-6a0d-466d-8a51-fabc21b4a629",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -2219,13 +2219,13 @@ namespace PillSpot.Migrations
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeeRole", b =>
                 {
-                    b.HasOne("Entities.Models.PharmacyEmployee", "employees")
+                    b.HasOne("Entities.Models.PharmacyEmployee", "Employee")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.Pharmacy", "pharmacies")
+                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("PharmacyId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2237,11 +2237,11 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Employee");
+
+                    b.Navigation("Pharmacy");
+
                     b.Navigation("Role");
-
-                    b.Navigation("employees");
-
-                    b.Navigation("pharmacies");
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyFeedback", b =>

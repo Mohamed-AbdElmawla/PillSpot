@@ -8,20 +8,25 @@ namespace Entities.Models
     {
         [Key]
         public Guid employeeRoleId { get; set; }
-        
-        [ForeignKey(nameof(PharmacyEmployee))]
+
+        [Required]
         public Guid EmployeeId { get; set; }
         
-        [ForeignKey(nameof(Pharmacy))]
+        [Required]
         public Guid PharmacyId { get; set; }
 
-        [ForeignKey(nameof(IdentityRole))]
+        [Required]
         public string RoleId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public PharmacyEmployee employees{ get; set; }
-        public Pharmacy pharmacies{ get; set; }
-        public IdentityRole Role{ get; set; }
+        [ForeignKey(nameof(EmployeeId))]
+        public PharmacyEmployee Employee { get; set; }
+
+        [ForeignKey(nameof(PharmacyId))]
+        public Pharmacy Pharmacy { get; set; }
+
+        [ForeignKey(nameof(RoleId))]
+        public IdentityRole Role { get; set; }
     }
 }

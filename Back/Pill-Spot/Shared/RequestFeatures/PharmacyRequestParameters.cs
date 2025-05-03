@@ -5,3 +5,10 @@
         public PharmacyRequestParameters() => OrderBy = "Name";
     }
 }
+
+
+namespace Shared.RequestFeatures
+{
+}
+
+

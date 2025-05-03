@@ -28,6 +28,7 @@ namespace Repository
         private readonly Lazy<ICartRepository> _cartRepository;
         private readonly Lazy<ICartItemRepository> _cartItemRepository;
         private readonly Lazy<IUserAddressRepository> _userAddressRepository;
+        private readonly Lazy<IPharmacyEmployeeRoleRepository> _pharmacyEmployeeRoleRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -55,6 +56,7 @@ namespace Repository
             _cartRepository = new Lazy<ICartRepository>(() => new CartRepository(repositoryContext));
             _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryContext));
             _userAddressRepository = new Lazy<IUserAddressRepository>(() => new UserAddressRepository(repositoryContext));
+            _pharmacyEmployeeRoleRepository = new Lazy<IPharmacyEmployeeRoleRepository>(() => new PharmacyEmployeeRoleRepository(repositoryContext));
         }
 
         public IUserRepository UserRepository => _userRepository.Value;
@@ -81,6 +83,7 @@ namespace Repository
         public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
         public IUserAddressRepository UserAddressRepository => _userAddressRepository.Value;
 
+        public IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository => _pharmacyEmployeeRoleRepository.Value;
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
 
         public async Task BeginTransactionAsync()
