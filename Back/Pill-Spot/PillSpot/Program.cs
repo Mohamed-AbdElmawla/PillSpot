@@ -5,6 +5,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using PillSpot.Extensions;
 using PillSpot.Presentation.ActionFilters;
+using PillSpot.Middleware;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -88,6 +89,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
+app.UseMiddleware<AutoTokenRefreshMiddleware>(); // Add automatic token refresh
 app.UseAuthorization();
 
 
