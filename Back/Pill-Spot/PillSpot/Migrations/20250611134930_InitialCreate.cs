@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -1386,19 +1386,19 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "357442b5-0083-4f27-b641-067a7cb3de3c", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "6e0f0317-a49f-46bf-ae68-50a0d155b90c", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "8b54259a-4fc1-41da-9e2a-6b5c79ffdbc3", null, "User", "USER" },
-                    { "9683357b-f834-4644-8fab-9302f4ad317d", null, "Admin", "ADMIN" },
-                    { "e9c694f0-82d7-41ef-bf7d-c6702d7afb01", null, "Doctor", "DOCTOR" },
-                    { "fb248118-cb19-4557-95b6-bacc0fc4f3f0", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "26d11e99-cc69-43e4-af0d-c77befc264af", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "2fb4aba1-f6c0-454b-b278-e949a7882bc2", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "402b785d-cf16-4437-b45e-10daee96dbbf", null, "Admin", "ADMIN" },
+                    { "9fb02a0c-efe5-4249-b7e2-71f495c5a705", null, "User", "USER" },
+                    { "b4fcf874-351e-41e3-9991-f513a1c5372e", null, "Doctor", "DOCTOR" },
+                    { "e56d70fd-5d80-4653-9e20-2b2c9f59aa08", null, "PharmacyOwner", "PHARMACYOWNER" },
                     { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "cabd02e9-0a2c-4135-9d73-c1fd7eadb85f", new DateTime(2025, 5, 3, 17, 7, 17, 12, DateTimeKind.Utc).AddTicks(5312), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEGV2uYl2PRf88fyREMQL13SLmOafGyWcQ+qX4CBwfwuNsjyjGThF9+xVpJZkSBq2Dg==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "25758d7f-0578-42a0-aaa3-0f71a70173d1", new DateTime(2025, 6, 11, 13, 49, 24, 871, DateTimeKind.Utc).AddTicks(6253), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEEKKIWM2Y6l8TdKn4USHB34wLnai+sJAPh7GOAtPbGHNoWu4dMsE2ebKsIJeifwo1w==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
