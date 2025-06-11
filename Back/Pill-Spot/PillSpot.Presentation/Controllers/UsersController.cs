@@ -75,7 +75,8 @@ namespace PillSpot.Presentation.Controllers
 
         // admin
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        //[PermissionAuthorize("UserManagement")]
         public async Task<IActionResult> GetUsers([FromQuery] UserParameters userParameters)
         {
             var pagedResult = await _service.UserService.GetUsersAsync(userParameters, trackChanges: false);
@@ -85,7 +86,7 @@ namespace PillSpot.Presentation.Controllers
 
 
         [HttpPut("{userName}/role")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignRole(string userName, [FromBody] RoleUpdateDto roleUpdateDto)
         {
@@ -94,7 +95,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("{userName}/lockout")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> LockoutUser(string userName, [FromQuery] int days = 30)
         {
             await _service.UserService.LockoutUserAsync(userName, days);
@@ -102,7 +103,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("{userName}/unlock")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> UnlockUser(string userName)
         {
             await _service.UserService.UnlockUserAsync(userName);
