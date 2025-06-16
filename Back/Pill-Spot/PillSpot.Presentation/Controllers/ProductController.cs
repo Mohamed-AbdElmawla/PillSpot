@@ -17,6 +17,7 @@ namespace PillSpot.Presentation.Controllers
         public ProductController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetAllProducts([FromQuery] ProductRequestParameters ProductRequestParameters)
         {
             var pagedResult = await _service.ProductService.GetAllProductsAsync(ProductRequestParameters, trackChanges: false);
@@ -25,6 +26,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:Guid}")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetProduct(Guid id)
         {
             var product = await _service.ProductService.GetProductAsync(id, trackChanges: false);
@@ -32,8 +34,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "Admin")]
+        [RateLimit("UploadPolicy")]
+        // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateProduct([FromForm] ProductForCreationDto productDto)
         {
             var createdProduct = await _service.ProductService.CreateProductAsync(productDto, trackChanges: true);
@@ -43,6 +47,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{id:Guid}")]
         //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductForUpdateDto productForUpdateDto)
         {
             await _service.ProductService.UpdateProductAsync(id, productForUpdateDto, trackChanges: true);
@@ -51,6 +56,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:Guid}")]
         //[Authorize(Roles = "Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             await _service.ProductService.DeleteProductAsync(id, trackChanges: true);

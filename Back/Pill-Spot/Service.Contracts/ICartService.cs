@@ -22,5 +22,7 @@ namespace Service.Contracts
         Task CleanupExpiredGuestCartsAsync(DateTime cutoffDate);
         Task<int> GetCartItemCountAsync(Guid cartId);
         Task<Dictionary<Guid, decimal>> GetCartPharmacyTotalsAsync(Guid cartId);
+        Task<CartDto> AddItemToCartAsync(string userId, Guid productId, Guid pharmacyId, int quantity);
+        Task RemoveItemFromCartAsync(string userId, Guid cartItemId);
     }
 }

@@ -12,5 +12,8 @@ namespace Entities.Exceptions
             : base($"Cart item with product: {productId} and pharmacy: {pharmacyId} " +
                   $"not found in cart: {cartId}")
         { }
+        public CartItemNotFoundException(Guid cartItemId)
+            : base($"Cart item with id: {cartItemId} wasn't found")
+        { }
     }
 }

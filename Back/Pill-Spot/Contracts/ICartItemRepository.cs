@@ -12,6 +12,7 @@ namespace Contracts
         Task<IEnumerable<CartItem>> GetItemsByPharmacyAsync(Guid cartId, Guid pharmacyId, bool trackChanges);
         Task<IEnumerable<CartItem>> GetCartItemsWithDetailsAsync(Guid cartId, bool trackChanges);
         Task<CartItem> GetCartItemByIdsAsync(Guid cartId, Guid productId, Guid pharmacyId, bool trackChanges);
+        Task<CartItem> GetByIdAsync(Guid cartItemId);
         Task<IEnumerable<CartItem>> GetPendingApprovalItemsAsync(Guid cartId, bool trackChanges);
         Task<int> GetItemCountByCartAsync(Guid cartId, bool trackChanges);
         Task UpdateItemApprovalsAsync(

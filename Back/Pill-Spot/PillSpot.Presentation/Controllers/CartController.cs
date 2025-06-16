@@ -22,6 +22,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet]
+        [RateLimit("SearchPolicy")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> GetAllCarts([FromQuery] CartRequestParameters cartParameters)
         {
@@ -31,6 +32,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetCart(Guid id)
         {
             var cart = await _service.CartService.GetCartAsync(id);
@@ -38,6 +40,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}/items")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetCartWithItems(Guid id)
         {
             var cart = await _service.CartService.GetCartWithItemsAsync(id);
@@ -45,6 +48,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("user")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetUserCart()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -56,6 +60,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("guest/{id:guid}")]
+        [RateLimit("SearchPolicy")]
         [AllowAnonymous]
         public async Task<IActionResult> GetGuestCart(Guid id)
         {
@@ -64,7 +69,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
+        [RateLimit("UploadPolicy")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateCart([FromBody] CartForCreationDto cartDto)
         {
             var createdCart = await _service.CartService.CreateCartAsync(cartDto);
@@ -74,6 +81,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("collection")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateCartCollection([FromBody] IEnumerable<CartForCreationDto> cartCollection)
         {
             var (createdCarts, ids) = await _service.CartService.CreateCartCollectionAsync(cartCollection);
@@ -93,6 +101,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{id:guid}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateCart(Guid id, [FromBody] CartForUpdateDto cartDto)
         {
             await _service.CartService.UpdateCartAsync(id, cartDto);
@@ -100,6 +109,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteCart(Guid id)
         {
             await _service.CartService.DeleteCartAsync(id);
@@ -107,6 +117,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}/lock")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> LockCart(Guid id)
         {
             await _service.CartService.LockCartAsync(id);
@@ -114,6 +125,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}/unlock")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UnlockCart(Guid id)
         {
             await _service.CartService.UnlockCartAsync(id);
@@ -122,6 +134,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("guest/cleanup")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CleanupExpiredGuestCarts()
         {
             await _service.CartService.CleanupExpiredGuestCartsAsync(DateTime.UtcNow);

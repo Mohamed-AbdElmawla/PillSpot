@@ -51,6 +51,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost]
         //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreatePharmacyProduct([FromBody] PharmacyProductForCreationDto pharmacyProductDto)
         {
             var createdPharmacyProduct = await _service.PharmacyProductService.CreatePharmacyProductAsync(pharmacyProductDto, trackChanges: true);
@@ -59,6 +60,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
        // [Authorize(Roles = "Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeletePharmacyProduct(Guid pharmacyId, Guid productId)
         {
             await _service.PharmacyProductService.DeletePharmacyProductAsync(productId, pharmacyId, trackChanges: true);

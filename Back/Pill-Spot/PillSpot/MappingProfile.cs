@@ -140,9 +140,21 @@ namespace PillSpot
             //.ForMember(dest => dest.PharmacyNames, opt => opt.MapFrom(src => src.Pharmacy.Name))
             //.ForMember(dest => dest.Permissions, opt => opt.MapFrom(src => src.PharmacyEmployeePermissions.Select(p => p.Permission.Name)));
 
-
-
             //CreateMap<PharmacyEmployee, PharmacyEmployeeProfileDto>().ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy)); ;
+
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<NotificationForCreationDto, Notification>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.IsRead, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.IsNotified, opt => opt.MapFrom(src => false));
+
+            CreateMap<NotificationForUpdateDto, Notification>()
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+            CreateMap<ProductNotificationPreference, ProductNotificationPreferenceDto>();
+            CreateMap<ProductNotificationPreferenceForCreationDto, ProductNotificationPreference>();
+            CreateMap<ProductNotificationPreferenceForUpdateDto, ProductNotificationPreference>();
         }
     }
 }

@@ -28,6 +28,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("{userName}")]
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteUser(string userName)
         {
             await _service.UserService.DeleteUserAsync(userName, trackChanges: true);
@@ -38,6 +39,7 @@ namespace PillSpot.Presentation.Controllers
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateUser(string userName, [FromForm] UserForUpdateDto userForUpdateDto)
         {
             await _service.UserService.UpdateUserAsync(userName, userForUpdateDto, trackChanges: true);
@@ -48,6 +50,7 @@ namespace PillSpot.Presentation.Controllers
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdatePassword(string userName, [FromBody] PasswordUpdateDto passwordDto)
         {
             await _service.UserService.UpdatePasswordAsync(userName, passwordDto);
@@ -58,6 +61,7 @@ namespace PillSpot.Presentation.Controllers
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateEmail(string userName, [FromBody] EmailUpdateDto emailDto)
         {
             await _service.UserService.UpdateEmailAsync(userName, emailDto);
@@ -88,6 +92,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPut("{userName}/role")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> AssignRole(string userName, [FromBody] RoleUpdateDto roleUpdateDto)
         {
             await _service.UserService.AssignRoleAsync(userName, roleUpdateDto.Role);
@@ -96,6 +101,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("{userName}/lockout")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> LockoutUser(string userName, [FromQuery] int days = 30)
         {
             await _service.UserService.LockoutUserAsync(userName, days);
@@ -104,6 +110,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("{userName}/unlock")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UnlockUser(string userName)
         {
             await _service.UserService.UnlockUserAsync(userName);

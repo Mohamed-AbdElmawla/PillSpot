@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Service.Contracts;
+using MediatR;
+using Microsoft.AspNetCore.SignalR;
+using Service.Hubs;
+using System;
+using PillSpot.Service.Contracts;
+using PillSpot.Service;
 
 namespace Service
 {
@@ -35,37 +41,58 @@ namespace Service
         private readonly Lazy<ICartService> _cartService;
         private readonly Lazy<ICartItemService> _cartItemService;
         private readonly Lazy<IPharmacyEmployeeRoleService> _pharmacyEmployeeRoleService;
+        private readonly Lazy<IProductNotificationPreferenceService> _productNotificationPreferenceService;
+        private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly ISecurityService _securityService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
             IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService, 
             Lazy<ISerilogService> serilogService, RoleManager<IdentityRole> roleManager, 
-              ILocationService locationService)
+              ILocationService locationService, IMediator mediator, IHubContext<NotificationHub> hubContext,
+              Lazy<IPharmacyEmployeeRoleService> pharmacyEmployeeRoleService,
+              Lazy<IPharmacyEmployeeRequestService> pharmacyEmployeeRequestService,
+              ISecurityService securityService)
         {
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
+            _mediator = mediator;
+            _hubContext = hubContext;
+            _securityService = securityService;
+            _pharmacyEmployeeRoleService = pharmacyEmployeeRoleService;
+            _pharmacyEmployeeRequestService = pharmacyEmployeeRequestService;
+
+            // Initialize services that don't depend on other services first
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration, fileService));
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, mapper, userManager, fileService));
             _emailService = new Lazy<IEmailService>(() => new EmailService(emailConfiguration));
             _serilogService = serilogService;
-            _permissionService = new Lazy<IPermissionService>(() => new PermissionService(repositoryManager , mapper));
-            _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager,mapper,userManager));
-            _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager,mapper,userManager));
-            _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager,userManager));
+            _permissionService = new Lazy<IPermissionService>(() => new PermissionService(repositoryManager, mapper));
+            _employeePermissionService = new Lazy<IEmployeePermissionService>(() => new EmployeePermissionService(repositoryManager, mapper, userManager));
+            _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager, mapper, userManager));
+            _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager, userManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
-            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService,roleManager));
+            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService, roleManager));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _subCategoryService = new Lazy<ISubCategoryService>(() => new SubCategoryService(repositoryManager, mapper));
-            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService));
             _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper, fileService));
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper, fileService));
             _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
-            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper,userManager));
             _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
-            _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper, userManager));
-            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mapper));
             _userAddressService = new Lazy<IUserAddressService>(() => new UserAddressService(repositoryManager, mapper));
-            _cartService = new Lazy<ICartService>(() => new CartService(repositoryManager, mapper, userManager));
+            _productNotificationPreferenceService = new Lazy<IProductNotificationPreferenceService>(() => new ProductNotificationPreferenceService(repositoryManager, mapper));
+
+            // Initialize NotificationService first since other services depend on it
+            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, hubContext, mapper));
+
+            // Initialize services that depend on NotificationService
+            _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService, _notificationService.Value));
+            _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper, userManager, _notificationService.Value));
+            _cartService = new Lazy<ICartService>(() => new CartService(repositoryManager, mapper, userManager, _notificationService.Value));
             _cartItemService = new Lazy<ICartItemService>(() => new CartItemService(repositoryManager, mapper, userManager, fileService));
-            _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -92,5 +119,7 @@ namespace Service
         public ICartService CartService => _cartService.Value;
         public ICartItemService CartItemService => _cartItemService.Value;
         public IPharmacyEmployeeRoleService PharmacyEmployeeRoleService => _pharmacyEmployeeRoleService.Value;
+        public IProductNotificationPreferenceService ProductNotificationPreferenceService => _productNotificationPreferenceService.Value;
+        public ISecurityService SecurityService => _securityService;
     }
 }

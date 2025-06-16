@@ -1,10 +1,14 @@
-﻿namespace Contracts
+﻿using System;
+using System.Threading.Tasks;
+using PillSpot.Contracts;
+
+namespace Contracts
 {
     public interface IRepositoryManager
     {
-        IUserRepository UserRepository { get; } 
+        IUserRepository UserRepository { get; }
         IPermissionRepository PermissionRepository { get; }
-        IEmployeePermissionRepository EmployeePermissionRepository { get;}
+        IEmployeePermissionRepository EmployeePermissionRepository { get; }
         IAdminPermissionRepository AdminPermissionRepository { get; }
         IAdminRepository AdminRepository { get; }
         IPharmacyRepository PharmacyRepository { get; }
@@ -26,6 +30,7 @@
         ICartItemRepository CartItemRepository { get; }
         IUserAddressRepository UserAddressRepository { get; }
         IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository { get; }
+        IProductNotificationPreferenceRepository ProductNotificationPreferenceRepository { get; }
 
         Task SaveAsync();
         Task BeginTransactionAsync();

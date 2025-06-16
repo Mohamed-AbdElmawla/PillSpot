@@ -12,6 +12,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Service
 {
@@ -20,11 +21,18 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        public OrderService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager)
+        private readonly INotificationService _notificationService;
+
+        public OrderService(
+            IRepositoryManager repository, 
+            IMapper mapper,
+            UserManager<User> userManager,
+            INotificationService notificationService)
         {
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<OrderDto> CreateOrderAsync(OrderForCreationDto orderDto)
@@ -50,6 +58,25 @@ namespace Service
 
             _repository.OrderRepository.CreateOrder(order);
             await _repository.SaveAsync();
+
+            // Send notification to user
+            await _notificationService.SendNotificationAsync(
+                orderDto.UserId,
+                "New Order Created",
+                $"Your order #{order.OrderId} has been created successfully.",
+                NotificationType.OrderCreated,
+                JsonSerializer.Serialize(new { orderId = order.OrderId })
+            );
+
+            // Send notification to admin
+            var adminUsers = await _repository.UserRepository.GetUsersByRoleAsync("Admin");
+            await _notificationService.SendBulkNotificationAsync(
+                adminUsers.Select(u => u.Id),
+                "New Order Received",
+                $"New order #{order.OrderId} has been placed.",
+                NotificationType.NewOrder,
+                JsonSerializer.Serialize(new { orderId = order.OrderId })
+            );
 
             return _mapper.Map<OrderDto>(order);
         }
@@ -90,6 +117,42 @@ namespace Service
             await _repository.SaveAsync();
 
             return true;
+        }
+
+        public async Task UpdateOrderStatusAsync(Guid orderId, string status)
+        {
+            var order = await GetOrderByIdAndCheckIfExists(orderId, trackChanges: true);
+            order.Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), status);
+            await _repository.SaveAsync();
+
+            // Send notification to user
+            await _notificationService.SendNotificationAsync(
+                order.UserId,
+                "Order Status Updated",
+                $"Your order #{order.OrderId} status has been updated to {status}.",
+                NotificationType.DeliveryStatus,
+                JsonSerializer.Serialize(new { orderId = order.OrderId, status })
+            );
+        }
+
+        public async Task SendPaymentConfirmationAsync(Guid orderId, decimal amount)
+        {
+            var order = await GetOrderByIdAndCheckIfExists(orderId, trackChanges: true);
+            await _notificationService.SendNotificationAsync(
+                order.UserId,
+                "Payment Confirmed",
+                $"Your payment of ${amount:F2} for order {orderId} has been confirmed",
+                NotificationType.PaymentConfirmation,
+                JsonSerializer.Serialize(new { orderId, amount })
+            );
+        }
+
+        private async Task<Order> GetOrderByIdAndCheckIfExists(Guid orderId, bool trackChanges)
+        {
+            var order = await _repository.OrderRepository.GetOrderByIdAsync(orderId, trackChanges);
+            if (order == null)
+                throw new OrderNotFoundException(orderId);
+            return order;
         }
     }
 }

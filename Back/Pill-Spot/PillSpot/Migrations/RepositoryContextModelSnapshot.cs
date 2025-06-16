@@ -622,6 +622,9 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Data")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsBroadcast")
                         .HasColumnType("tinyint(1)");
 
@@ -633,14 +636,37 @@ namespace PillSpot.Migrations
                     b.Property<bool>("IsNotified")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("NotifiedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<Guid?>("RelatedEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("RelatedEntityType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("NotificationId");
 
@@ -649,6 +675,8 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Notification_IsDeleted");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
                 });
@@ -1245,6 +1273,9 @@ namespace PillSpot.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp(6)");
 
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("SubCategoryId")
                         .HasColumnType("char(36)");
 
@@ -1553,8 +1584,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "25758d7f-0578-42a0-aaa3-0f71a70173d1",
-                            CreatedDate = new DateTime(2025, 6, 11, 13, 49, 24, 871, DateTimeKind.Utc).AddTicks(6253),
+                            ConcurrencyStamp = "7c617843-43a9-46bc-8575-c31686a18be5",
+                            CreatedDate = new DateTime(2025, 6, 16, 6, 57, 15, 172, DateTimeKind.Utc).AddTicks(4119),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1565,7 +1596,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEKKIWM2Y6l8TdKn4USHB34wLnai+sJAPh7GOAtPbGHNoWu4dMsE2ebKsIJeifwo1w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM9IuiZu+EOT5w15/uH5KfYDOkvUXGiS1EjnTwdNfeFxXZ+imli3KeAP1fg+WJUjhQ==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1699,31 +1730,31 @@ namespace PillSpot.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9fb02a0c-efe5-4249-b7e2-71f495c5a705",
+                            Id = "5478b920-b9e3-45d1-9ba0-a95d59cc0713",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b4fcf874-351e-41e3-9991-f513a1c5372e",
+                            Id = "2f493ace-6367-4884-87a4-a66e2ed08a62",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "e56d70fd-5d80-4653-9e20-2b2c9f59aa08",
+                            Id = "ea764765-d952-4d9e-8050-02dcb4cdcd11",
                             Name = "PharmacyOwner",
                             NormalizedName = "PHARMACYOWNER"
                         },
                         new
                         {
-                            Id = "26d11e99-cc69-43e4-af0d-c77befc264af",
+                            Id = "39dbdc90-c1dc-411d-9e4a-21c2f5f408dd",
                             Name = "PharmacyManager",
                             NormalizedName = "PHARMACYMANAGER"
                         },
                         new
                         {
-                            Id = "2fb4aba1-f6c0-454b-b278-e949a7882bc2",
+                            Id = "eb11b617-d3e3-4268-8665-6b4063dd759f",
                             Name = "PharmacyEmployee",
                             NormalizedName = "PHARMACYEMPLOYEE"
                         },
@@ -1735,7 +1766,7 @@ namespace PillSpot.Migrations
                         },
                         new
                         {
-                            Id = "402b785d-cf16-4437-b45e-10daee96dbbf",
+                            Id = "c7c0bf7f-d25f-4b0a-b05e-ac771d200185",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -2076,7 +2107,15 @@ namespace PillSpot.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Actor");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.Order", b =>

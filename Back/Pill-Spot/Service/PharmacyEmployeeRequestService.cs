@@ -9,7 +9,7 @@ using Shared.RequestFeatures;
 
 namespace Service
 {
-    internal sealed class PharmacyEmployeeRequestService : IPharmacyEmployeeRequestService
+    public sealed class PharmacyEmployeeRequestService : IPharmacyEmployeeRequestService
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;

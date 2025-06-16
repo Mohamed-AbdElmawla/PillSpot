@@ -7,19 +7,23 @@ using PillSpot.Extensions;
 using PillSpot.Presentation.ActionFilters;
 using PillSpot.Middleware;
 using Serilog;
+using Microsoft.AspNetCore.SignalR;
+using MediatR;
+using Service.Contracts;
+using Service.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Host.UseSerilog((context, config) =>
            config.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
-
-builder.Services.ConfigureCors();
+builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.ConfigurePharmacyEmployeeRoleService();
+builder.Services.ConfigurePharmacyEmployeeRequestService();
 builder.Services.ConfigureMySqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAuthentication();
@@ -33,9 +37,24 @@ builder.Services.ConfigureSwagger();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddEmailConfiguration(builder.Configuration);
+builder.Services.AddRateLimitConfiguration(builder.Configuration);
+builder.Services.ConfigureRateLimiting(builder.Configuration);
 builder.Services.ConfigureEmailService();
 builder.Services.ConfigureSerilogService();
 builder.Services.ConfigureFilterServices();
+builder.Services.ConfigureSecurityService();
+
+// Add SignalR
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaximumReceiveMessageSize = 102400; // 100 KB
+});
+
+// Add MediatR
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -61,7 +80,11 @@ new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
 
 var app = builder.Build();
 
-Log.Information("Application Started!");  // سيتم تسجيل هذه فقط
+// Validate configuration
+// var configValidator = app.Services.GetRequiredService<IConfigurationValidator>();
+// configValidator.ValidateConfiguration(builder.Configuration);
+
+Log.Information("Application Started!");
 
 app.UseSwagger();
 
@@ -71,8 +94,7 @@ app.UseSwaggerUI(s =>
     s.RoutePrefix = string.Empty;
 });
 
-
-//app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<IServiceManager>>());
+app.ConfigureExceptionHandler(app.Services.GetRequiredService<ILogger<IServiceManager>>());
 
 if (app.Environment.IsProduction())
     app.UseHsts();
@@ -89,9 +111,14 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
-app.UseMiddleware<AutoTokenRefreshMiddleware>(); // Add automatic token refresh
+app.UseMiddleware<AutoTokenRefreshMiddleware>();
 app.UseAuthorization();
 
+// Add rate limiting middleware
+app.UseRateLimiter();
+
+// Add SignalR endpoint
+app.MapHub<NotificationHub>("/hubs/notifications");
 
 app.MapControllers();
 

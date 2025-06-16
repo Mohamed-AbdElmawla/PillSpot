@@ -93,5 +93,40 @@ namespace Repository
         public void CreateCart(Cart cart) => Create(cart);
         public void UpdateCart(Cart cart) => Update(cart);
         public void DeleteCart(Cart cart) => cart.IsDeleted = true;
+
+        public async Task<Cart> GetCartByUserIdAsync(string userId)
+        {
+            return await FindByCondition(c => c.UserId == userId && !c.IsDeleted, false)
+                .Include(c => c.Items)
+                .SingleOrDefaultAsync();
+        }
+
+        public void AddCartItem(CartItem cartItem)
+        {
+            var cart = FindByCondition(c => c.CartId == cartItem.CartId, true)
+                .Include(c => c.Items)
+                .SingleOrDefault();
+
+            if (cart != null)
+            {
+                cart.Items.Add(cartItem);
+                cart.LastAccessed = DateTime.UtcNow;
+                Update(cart);
+            }
+        }
+
+        public void RemoveCartItem(CartItem cartItem)
+        {
+            var cart = FindByCondition(c => c.CartId == cartItem.CartId, true)
+                .Include(c => c.Items)
+                .SingleOrDefault();
+
+            if (cart != null)
+            {
+                cart.Items.Remove(cartItem);
+                cart.LastAccessed = DateTime.UtcNow;
+                Update(cart);
+            }
+        }
     }
 }

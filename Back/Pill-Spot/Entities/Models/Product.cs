@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
@@ -26,7 +27,6 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
         public string? ImageURL { get; set; }
 
-
         [Required(ErrorMessage = "Usage instructions are required.")]
         [MaxLength(500, ErrorMessage = "Usage instructions cannot exceed 500 characters.")]
         public string UsageInstructions { get; set; }
@@ -52,5 +52,8 @@ namespace Entities.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        [Required]
+        public int StockQuantity { get; set; }
     }
 }

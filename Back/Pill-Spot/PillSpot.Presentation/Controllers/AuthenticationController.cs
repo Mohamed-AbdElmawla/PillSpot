@@ -13,6 +13,7 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public AuthenticationController(IServiceManager service) => _service = service;
         [HttpPost]
+        [RateLimit("AuthenticationPolicy")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromForm] UserForRegistrationDto userForRegistration)
         {
@@ -28,6 +29,7 @@ namespace PillSpot.Presentation.Controllers
             return StatusCode(201);
         }
         [HttpPost("login")]
+        [RateLimit("AuthenticationPolicy")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken] // CSRF protection required when using cookies for auth
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
@@ -51,8 +53,8 @@ namespace PillSpot.Presentation.Controllers
                 HttpOnly = true, // Prevents JavaScript access (XSS protection)
                 Secure = true, // HTTPS only in production
                 SameSite = SameSiteMode.Strict, // CSRF protection
-                Path = "/",
-                Domain = "localhost"
+                Path = "/"
+                // Domain omitted for environment flexibility
             };
 
             // Access token cookie (short-lived)
@@ -62,7 +64,6 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Domain = baseCookieOptions.Domain,
                 Expires = DateTime.UtcNow.AddMinutes(30) // Access token lifetime
             };
             Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
@@ -74,7 +75,6 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Domain = baseCookieOptions.Domain,
                 Expires = DateTime.UtcNow.AddDays(7) // Refresh token lifetime
             };
             Response.Cookies.Append("refreshToken", refreshToken, refreshCookieOptions);

@@ -1,66 +1,118 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
+using Service.Contracts.Notifications.Commands;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System;
-using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
-    [Route("api/notifications")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize]
     public class NotificationController : ControllerBase
     {
-        private readonly IServiceManager _service;
+        private readonly INotificationService _notificationService;
+        private readonly IMediator _mediator;
 
-        public NotificationController(IServiceManager service) => _service = service;
-
-        [HttpGet]
-        public async Task<IActionResult> GetUserNotifications([FromQuery] NotificationRequestParameters requestParameters)
+        public NotificationController(INotificationService notificationService, IMediator mediator)
         {
-
-            var username = User.Identity?.Name;
-            var user = await _service.UserService.GetUserByNameAndCheckIfItExist(username);
-            var userId = user.Id;
-
-            var pagedResult = await _service.NotificationService.GetUserNotificationsAsync(userId, requestParameters, trackChanges: false);
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
-            return Ok(pagedResult.notifications);
+            _notificationService = notificationService;
+            _mediator = mediator;
         }
 
-        [HttpGet("find/{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserNotifications([FromQuery] NotificationRequestParameters parameters)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var notifications = await _notificationService.GetUserNotificationsAsync(userId, parameters, false);
+            return Ok(notifications);
+        }
+
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetNotification(Guid id)
         {
-            var notification = await _service.NotificationService.GetNotificationByIdAsync(id, trackChanges: false);
+            var notification = await _notificationService.GetNotificationByIdAsync(id, false);
             return Ok(notification);
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateNotification([FromBody] NotificationForCreationDto notificationDto)
+        [ValidateCsrfToken]
+        public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationCommand command)
         {
-            var createdNotification = await _service.NotificationService.CreateNotificationAsync(notificationDto);
-            return CreatedAtAction(nameof(GetNotification), new { id = createdNotification.Id }, createdNotification);
+            var notificationDto = new NotificationForCreationDto
+            {
+                UserId = command.UserId,
+                ActorId = command.ActorId ?? "system",
+                Title = command.Title,
+                Message = command.Message,
+                Content = command.Message,
+                Type = command.Type,
+                Data = command.Data,
+                RelatedEntityId = command.RelatedEntityId,
+                RelatedEntityType = command.RelatedEntityType,
+                IsBroadcast = command.IsBroadcast
+            };
+
+            var notification = await _notificationService.CreateNotificationAsync(notificationDto);
+            return CreatedAtAction(nameof(GetNotification), new { id = notification.NotificationId }, notification);
         }
 
-        [HttpPatch("{id:Guid}/mark-as-read")]
-        public async Task<IActionResult> MarkNotificationAsRead(Guid id)
-        {
-            await _service.NotificationService.MarkAsNotifiedAsync(id, trackChanges: true);
-            return NoContent();
-        }
-
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:guid}")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteNotification(Guid id)
         {
-            await _service.NotificationService.DeleteNotificationAsync(id, trackChanges: true);
+            await _notificationService.DeleteNotificationAsync(id, false);
             return NoContent();
+        }
+
+        [HttpPost("{id:guid}/read")]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> MarkAsRead(Guid id)
+        {
+            await _notificationService.MarkNotificationAsReadAsync(id);
+            return NoContent();
+        }
+
+        [HttpPost("read-all")]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> MarkAllAsRead()
+        {
+            var userId = User.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            await _notificationService.MarkAllNotificationsAsReadAsync(userId);
+            return NoContent();
+        }
+
+        [HttpGet("unread/count")]
+        public async Task<IActionResult> GetUnreadCount()
+        {
+            var userId = User.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var count = await _notificationService.GetUnreadNotificationCountAsync(userId);
+            return Ok(new { count });
+        }
+
+        [HttpGet("unread")]
+        public async Task<IActionResult> GetUnreadNotifications()
+        {
+            var userId = User.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var notifications = await _notificationService.GetUnreadNotificationsAsync(userId);
+            return Ok(notifications);
         }
     }
 }

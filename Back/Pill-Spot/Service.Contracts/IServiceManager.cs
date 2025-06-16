@@ -18,13 +18,14 @@
         IMedicineService MedicineService { get; }
         ICosmeticService CosmeticService { get; }
         IPharmacyProductService PharmacyProductService { get; }
-        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
-        IPharmacyEmployeeService PharmacyEmployeeService { get;}
-        IOrderService OrderService { get;}
-        INotificationService NotificationService { get;}
-        IUserAddressService UserAddressService { get;}
-        ICartService CartService { get;}
-        ICartItemService CartItemService { get;}
+        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService { get; }
+        IPharmacyEmployeeService PharmacyEmployeeService { get; }
+        IOrderService OrderService { get; }
+        INotificationService NotificationService { get; }
+        IUserAddressService UserAddressService { get; }
+        ICartService CartService { get; }
+        ICartItemService CartItemService { get; }
         IPharmacyEmployeeRoleService PharmacyEmployeeRoleService { get; }
+        ISecurityService SecurityService { get; }
     }
 }

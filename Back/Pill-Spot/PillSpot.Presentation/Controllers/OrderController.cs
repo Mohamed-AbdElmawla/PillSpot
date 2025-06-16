@@ -17,6 +17,7 @@ namespace PillSpot.Presentation.Controllers
         public OrderController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetAllOrders([FromQuery] OrderRequestParameters orderParameters)
         {
             var pagedResult = await _service.OrderService.GetOrdersAsync(orderParameters, trackChanges: false);
@@ -25,6 +26,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:Guid}")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
             var order = await _service.OrderService.GetOrderByIdAsync(id, trackChanges: false);
@@ -32,6 +34,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("user/{userId}")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetOrdersByUserId(string userId, [FromQuery] OrderRequestParameters orderParameters)
         {
             var pagedResult = await _service.OrderService.GetOrdersByUserIdAsync(userId, orderParameters, trackChanges: false);
@@ -42,6 +45,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost]
         [Authorize]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateOrder([FromBody] OrderForCreationDto orderDto)
         {
             var createdOrder = await _service.OrderService.CreateOrderAsync(orderDto);
@@ -50,6 +54,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CancelOrder(Guid id)
         {
             var result = await _service.OrderService.CancelOrderAsync(id);

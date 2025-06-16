@@ -16,6 +16,7 @@ namespace PillSpot.Presentation.Controllers
         public MedicineController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetAllMedicines([FromQuery] MedicinesRequestParameters medicinesRequestParameters)
         {
             var pagedResult = await _service.MedicineService.GetAllMedicinesAsync(medicinesRequestParameters, trackChanges: false);
@@ -24,6 +25,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:Guid}")]
+        [RateLimit("SearchPolicy")]
         public async Task<IActionResult> GetMedicine(Guid id)
         {
             var medicine = await _service.MedicineService.GetMedicineAsync(id, trackChanges: false);
@@ -31,8 +33,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
+        [RateLimit("UploadPolicy")]
         //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateMedicine([FromForm] MedicineForCreationDto medicineDto)
         {
             var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto, trackChanges: true);
@@ -42,6 +46,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{id:Guid}")]
         //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateMedicine(Guid id, [FromForm] MedicineForUpdateDto medicineForUpdateDto)
         {
             await _service.MedicineService.UpdateMedicineAsync(id, medicineForUpdateDto, trackChanges: true);
@@ -50,6 +55,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:Guid}")]
         //[Authorize(Roles = "Admin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteMedicine(Guid id)
         {
             await _service.MedicineService.DeleteMedicineAsync(id, trackChanges: true);

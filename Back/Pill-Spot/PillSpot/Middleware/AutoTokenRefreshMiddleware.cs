@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.IdentityModel.Tokens.Jwt;
+using Entities.ConfigurationModels;
 
 namespace PillSpot.Middleware
 {
@@ -9,11 +10,16 @@ namespace PillSpot.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<AutoTokenRefreshMiddleware> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AutoTokenRefreshMiddleware(RequestDelegate next, ILogger<AutoTokenRefreshMiddleware> logger)
+        public AutoTokenRefreshMiddleware(
+            RequestDelegate next, 
+            ILogger<AutoTokenRefreshMiddleware> logger,
+            IConfiguration configuration)
         {
             _next = next;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context, IServiceManager serviceManager)
@@ -37,8 +43,8 @@ namespace PillSpot.Middleware
                         try
                         {
                             // Parse the access token to check expiry
-                            var jwt = tokenHandler.ReadJwtToken(accessToken);
-                            var expiry = jwt.ValidTo;
+                            var jwtToken = tokenHandler.ReadJwtToken(accessToken);
+                            var expiry = jwtToken.ValidTo;
 
                             // Check if token expires within the next 5 minutes
                             if (expiry <= DateTime.UtcNow.AddMinutes(5))
@@ -57,38 +63,27 @@ namespace PillSpot.Middleware
                                     context.Request.Headers["Authorization"] = $"Bearer {newTokenDto.AccessToken}";
 
                                     // Update BOTH cookies with new tokens
+                                    var cookieSettings = _configuration.GetSection("CookieSettings").Get<CookieSettings>();
+                                    if (cookieSettings == null)
+                                    {
+                                        throw new InvalidOperationException("Cookie settings are not configured");
+                                    }
+
                                     var baseCookieOptions = new CookieOptions
                                     {
                                         HttpOnly = true,
-                                        Secure = true, // Use HTTPS in production
+                                        Secure = true,
                                         SameSite = SameSiteMode.Strict,
                                         Path = "/",
-                                        Domain = "localhost"
+                                        Domain = cookieSettings.Domain,
+                                        Expires = DateTime.UtcNow.AddMinutes(cookieSettings.ExpirationMinutes)
                                     };
 
                                     // Update access token cookie
-                                    var accessCookieOptions = new CookieOptions
-                                    {
-                                        HttpOnly = baseCookieOptions.HttpOnly,
-                                        Secure = baseCookieOptions.Secure,
-                                        SameSite = baseCookieOptions.SameSite,
-                                        Path = baseCookieOptions.Path,
-                                        Domain = baseCookieOptions.Domain,
-                                        Expires = DateTime.UtcNow.AddMinutes(30)
-                                    };
-                                    context.Response.Cookies.Append("accessToken", newTokenDto.AccessToken, accessCookieOptions);
+                                    context.Response.Cookies.Append("accessToken", newTokenDto.AccessToken, baseCookieOptions);
 
                                     // Update refresh token cookie
-                                    var refreshCookieOptions = new CookieOptions
-                                    {
-                                        HttpOnly = baseCookieOptions.HttpOnly,
-                                        Secure = baseCookieOptions.Secure,
-                                        SameSite = baseCookieOptions.SameSite,
-                                        Path = baseCookieOptions.Path,
-                                        Domain = baseCookieOptions.Domain,
-                                        Expires = DateTime.UtcNow.AddDays(7)
-                                    };
-                                    context.Response.Cookies.Append("refreshToken", newTokenDto.RefreshToken, refreshCookieOptions);
+                                    context.Response.Cookies.Append("refreshToken", newTokenDto.RefreshToken, baseCookieOptions);
 
                                     _logger.LogInformation("Both tokens successfully refreshed automatically in cookies");
                                 }
