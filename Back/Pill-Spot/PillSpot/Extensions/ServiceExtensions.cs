@@ -132,7 +132,7 @@ namespace PillSpot.Extensions
                 {
                     OnMessageReceived = context =>
                     {
-                        var accessToken = context.HttpContext.Request.Cookies["AccessToken"];
+                        var accessToken = context.HttpContext.Request.Cookies["accessToken"];
                         if (!string.IsNullOrEmpty(accessToken))
                         {
                             context.Token = accessToken;
