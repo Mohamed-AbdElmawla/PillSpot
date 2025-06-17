@@ -19,10 +19,10 @@ namespace Repository
         {
             var pharmacyProducts = await FindAll(trackChanges)
                 .Include(pp => pp.Product)
+                    .ThenInclude(p => p.SubCategory)
+                        .ThenInclude(sc => sc.Category)
                 .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product.SubCategory)
-                .Include(pp => pp.Product.SubCategory.Category)
-                .Include(pp => pp.Pharmacy.Location)
+                    .ThenInclude(p => p.Location)
                 .ApplyFilters(pharmacyProductParameters)
                 .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
                 .Take(pharmacyProductParameters.PageSize)
@@ -36,10 +36,10 @@ namespace Repository
         public async Task<PharmacyProduct> GetPharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges) =>
             await FindByCondition(pp => pp.ProductId.Equals(productId) && pp.PharmacyId.Equals(pharmacyId), trackChanges)
                 .Include(pp => pp.Product)
+                    .ThenInclude(p => p.SubCategory)
+                        .ThenInclude(sc => sc.Category)
                 .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product.SubCategory)
-                .Include(pp => pp.Product.SubCategory.Category)
-                .Include(pp => pp.Pharmacy.Location)
+                    .ThenInclude(p => p.Location)
                 .SingleOrDefaultAsync();
 
         public void CreatePharmacyProduct(PharmacyProduct pharmacyProduct) => Create(pharmacyProduct);
@@ -50,10 +50,10 @@ namespace Repository
         {
             var pharmacyProducts = await FindByCondition(pp => pp.PharmacyId.Equals(pharmacyId), trackChanges)
                 .Include(pp => pp.Product)
+                    .ThenInclude(p => p.SubCategory)
+                        .ThenInclude(sc => sc.Category)
                 .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product.SubCategory)
-                .Include(pp => pp.Product.SubCategory.Category)
-                .Include(pp => pp.Pharmacy.Location)
+                    .ThenInclude(p => p.Location)
                 .ApplyFilters(pharmacyProductParameters)
                 .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
                 .Take(pharmacyProductParameters.PageSize)
@@ -68,10 +68,10 @@ namespace Repository
         {
             var pharmacyProducts = await FindByCondition(pp => pp.ProductId.Equals(productId), trackChanges)
                 .Include(pp => pp.Product)
+                    .ThenInclude(p => p.SubCategory)
+                        .ThenInclude(sc => sc.Category)
                 .Include(pp => pp.Pharmacy)
-                .Include(pp => pp.Product.SubCategory)
-                .Include(pp => pp.Product.SubCategory.Category)
-                .Include(pp => pp.Pharmacy.Location)
+                    .ThenInclude(p => p.Location)
                 .ApplyFilters(pharmacyProductParameters)
                 .Skip((pharmacyProductParameters.PageNumber - 1) * pharmacyProductParameters.PageSize)
                 .Take(pharmacyProductParameters.PageSize)
