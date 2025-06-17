@@ -24,6 +24,7 @@ namespace Repository
                 .Skip((productRequestParameters.PageNumber - 1) * productRequestParameters.PageSize)
                 .Take(productRequestParameters.PageSize)
                 .Include(p => p.SubCategory)
+                    .ThenInclude(sc => sc.Category)
                 .ToListAsync();
 
                 var count = await FindAll(trackChanges).CountAsync();
@@ -32,7 +33,10 @@ namespace Repository
         }
 
         public async Task<Product> GetProductAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(p => p.ProductId.Equals(productId), trackChanges).Include(p => p.SubCategory).SingleOrDefaultAsync();
+            await FindByCondition(p => p.ProductId.Equals(productId), trackChanges)
+                .Include(p => p.SubCategory)
+                    .ThenInclude(sc => sc.Category)
+                .SingleOrDefaultAsync();
 
         public async Task LoadIngredientsAsync(Product product) => 
             await RepositoryContext.Entry(product).Collection(p => p.ProductIngredients).LoadAsync();

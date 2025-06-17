@@ -13,6 +13,8 @@ namespace Repository
 {
     internal sealed class CosmeticRepository : RepositoryBase<Cosmetic>, ICosmeticRepository
     {
+        public CosmeticRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
+        
         public async Task<PagedList<Cosmetic>> GetAllCosmeticsAsync(CosmeticRequestParameters cosmeticRequestParameters, bool trackChanges)
         {
             var cosmetics = await FindAll(trackChanges)
@@ -21,13 +23,14 @@ namespace Repository
                 .Skip((cosmeticRequestParameters.PageNumber - 1) * cosmeticRequestParameters.PageSize)
                 .Take(cosmeticRequestParameters.PageSize)
                 .Include(p => p.SubCategory)
+                    .ThenInclude(sc => sc.Category)
                 .ToListAsync();
 
             var count = await FindAll(trackChanges).CountAsync();
 
             return new PagedList<Cosmetic>(cosmetics, count, cosmeticRequestParameters.PageNumber, cosmeticRequestParameters.PageSize);
         }
-        public CosmeticRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
+        
 
         public void CreateCosmetic(Cosmetic cosmetic) => Create(cosmetic);
 
@@ -36,6 +39,9 @@ namespace Repository
         public void UpdateCosmetic(Cosmetic cosmetic) => Update(cosmetic);
 
         public async Task<Cosmetic> GetCosmeticAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges).Include(c => c.SubCategory).SingleOrDefaultAsync();
+            await FindByCondition(c => c.ProductId.Equals(productId), trackChanges)
+                .Include(c => c.SubCategory)
+                    .ThenInclude(sc => sc.Category)
+                .SingleOrDefaultAsync();
     }
 }
