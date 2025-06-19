@@ -20,7 +20,7 @@ namespace Service.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = Context.User?.FindFirst("sub")?.Value;
             if (!string.IsNullOrEmpty(userId))
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, userId);
@@ -32,7 +32,7 @@ namespace Service.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = Context.User?.FindFirst("sub")?.Value;
             if (!string.IsNullOrEmpty(userId))
             {
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
@@ -42,16 +42,27 @@ namespace Service.Hubs
 
         public async Task MarkNotificationAsRead(Guid notificationId)
         {
-            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = Context.User?.FindFirst("sub")?.Value;
             if (!string.IsNullOrEmpty(userId))
             {
-                await _notificationService.MarkNotificationAsReadAsync(notificationId);
+                try
+                {
+                    var notification = await _notificationService.GetNotificationByIdAsync(notificationId, false);
+                    if (notification.UserId == userId)
+                    {
+                        await _notificationService.MarkNotificationAsReadAsync(notificationId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error marking notification as read: {ex.Message}");
+                }
             }
         }
 
         public async Task MarkAllNotificationsAsRead()
         {
-            var userId = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = Context.User?.FindFirst("sub")?.Value;
             if (!string.IsNullOrEmpty(userId))
             {
                 await _notificationService.MarkAllNotificationsAsReadAsync(userId);

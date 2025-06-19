@@ -14,22 +14,12 @@ using PillSpot.Presentation.ActionFilters;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PillSpot.Extensions
 {
     public static class ServiceExtensions
     {
-        //public static void ConfigureCors(this IServiceCollection services)
-        //{
-        //    services.AddCors(options =>
-        //    {
-        //        options.AddPolicy("CorsPolicy", builder =>
-        //        builder.AllowAnyOrigin()
-        //        .AllowAnyHeader()
-        //        .AllowAnyMethod()
-        //        .WithExposedHeaders("X-Pagination"));
-        //});
-        //}
         public static void ConfigureCors(this IServiceCollection services, IConfiguration configuration)
         {
             var corsSettings = configuration.GetSection(CorsSettings.Section).Get<CorsSettings>();
@@ -221,6 +211,17 @@ namespace PillSpot.Extensions
         {
             services.AddMemoryCache();
             services.AddScoped<ISecurityService, SecurityService>();
+            
+            // Add built-in anti-forgery services
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-Csrf-Token";
+                options.Cookie.Name = "CsrfToken";
+                options.Cookie.HttpOnly = false; // Allow JavaScript access
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.MaxAge = TimeSpan.FromHours(1);
+            });
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)
@@ -232,6 +233,8 @@ namespace PillSpot.Extensions
                     Title = "PillSpot API",
                     Version = "v1"
                 });
+                
+                // Bearer token security definition
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -240,6 +243,16 @@ namespace PillSpot.Extensions
                     Type = SecuritySchemeType.Http,
                     Scheme = "Bearer"
                 });
+                
+                // CSRF token security definition
+                s.AddSecurityDefinition("X-Csrf-Token", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "CSRF token from /api/token/csrf endpoint",
+                    Name = "X-Csrf-Token",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                
                 s.AddSecurityRequirement(new OpenApiSecurityRequirement
                  {
                     {
@@ -249,6 +262,17 @@ namespace PillSpot.Extensions
                             {
                                 Type = ReferenceType.SecurityScheme,
                                 Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    },
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "X-Csrf-Token"
                             }
                         },
                         new string[] {}

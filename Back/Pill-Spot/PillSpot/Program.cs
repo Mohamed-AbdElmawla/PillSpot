@@ -80,10 +80,6 @@ new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
 
 var app = builder.Build();
 
-// Validate configuration
-// var configValidator = app.Services.GetRequiredService<IConfigurationValidator>();
-// configValidator.ValidateConfiguration(builder.Configuration);
-
 Log.Information("Application Started!");
 
 app.UseSwagger();

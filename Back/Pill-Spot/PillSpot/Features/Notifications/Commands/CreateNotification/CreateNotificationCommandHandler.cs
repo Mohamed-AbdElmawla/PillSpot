@@ -23,10 +23,8 @@ namespace PillSpot.Features.Notifications.Commands.CreateNotification
 
         public async Task<NotificationDto> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
-            // Get the current user's ID from the request context
-            var actorId = request.ActorId ?? "system"; // If no actor specified, use "system"
+            var actorId = request.ActorId ?? "system";
 
-            // Create notification in database
             var notification = await _serviceManager.NotificationService.CreateNotificationAsync(
                 new NotificationForCreationDto
                 {
@@ -34,13 +32,12 @@ namespace PillSpot.Features.Notifications.Commands.CreateNotification
                     ActorId = actorId,
                     Title = request.Title,
                     Message = request.Message,
-                    Content = request.Message, // Using message as content for now
+                    Content = request.Message,
                     Type = request.Type,
                     Data = request.Data,
                     IsBroadcast = request.IsBroadcast
                 });
 
-            // Send real-time notification
             await _hubContext.Clients
                 .Group(request.UserId)
                 .SendAsync("ReceiveNotification", notification, cancellationToken);
