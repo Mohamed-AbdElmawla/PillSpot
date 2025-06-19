@@ -24,14 +24,18 @@ namespace Repository
             bool trackChanges)
         {
             var notifications = await FindByCondition(n => n.UserId == userId && !n.IsDeleted, trackChanges)
-                .FilterByReadStatus(parameters.IsNotified)
+                .FilterByReadStatus(parameters.IsRead)
+                .FilterByNotifiedStatus(parameters.IsNotified)
+                .FilterByType(parameters.Type)
                 .Sort(parameters.OrderBy)
                 .Skip((parameters.PageNumber - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
                 .ToListAsync();
 
             var count = await FindByCondition(n => n.UserId == userId && !n.IsDeleted, trackChanges)
-                .FilterByReadStatus(parameters.IsNotified)
+                .FilterByReadStatus(parameters.IsRead)
+                .FilterByNotifiedStatus(parameters.IsNotified)
+                .FilterByType(parameters.Type)
                 .CountAsync();
 
             return new PagedList<Notification>(notifications, count, parameters.PageNumber, parameters.PageSize);

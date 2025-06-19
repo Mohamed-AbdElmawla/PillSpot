@@ -19,12 +19,29 @@ namespace Repository.Extentions
 
             return notifications.OrderBy(orderQuery);
         }
-        public static IQueryable<Notification> FilterByReadStatus(this IQueryable<Notification> notifications, bool? isNotified)
+        
+        public static IQueryable<Notification> FilterByReadStatus(this IQueryable<Notification> notifications, bool? isRead)
+        {
+            if (!isRead.HasValue)
+                return notifications;
+
+            return notifications.Where(n => n.IsRead == isRead.Value);
+        }
+        
+        public static IQueryable<Notification> FilterByNotifiedStatus(this IQueryable<Notification> notifications, bool? isNotified)
         {
             if (!isNotified.HasValue)
                 return notifications;
 
             return notifications.Where(n => n.IsNotified == isNotified.Value);
+        }
+        
+        public static IQueryable<Notification> FilterByType(this IQueryable<Notification> notifications, NotificationType? type)
+        {
+            if (!type.HasValue)
+                return notifications;
+
+            return notifications.Where(n => n.Type == type.Value);
         }
     }
 }

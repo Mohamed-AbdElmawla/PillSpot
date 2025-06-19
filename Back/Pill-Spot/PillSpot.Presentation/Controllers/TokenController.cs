@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -11,13 +12,18 @@ namespace PillSpot.Presentation.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public TokenController(IServiceManager service) => _service = service;
+        private readonly IAntiforgery _antiforgery;
+        
+        public TokenController(IServiceManager service, IAntiforgery antiforgery)
+        {
+            _service = service;
+            _antiforgery = antiforgery;
+        }
 
         [HttpPost("refresh")]
-        [ValidateCsrfToken] // CSRF protection for cookie-based auth
+        [ValidateCsrfToken]
         public async Task<IActionResult> Refresh()
         {
-            // Get tokens from cookies instead of request body
             var accessToken = Request.Cookies["accessToken"];
             var refreshToken = Request.Cookies["refreshToken"];
             
@@ -64,19 +70,14 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("csrf")]
         [RateLimit("CsrfTokenPolicy")]
-        public async Task<IActionResult> GenerateCsrfToken()
+        public IActionResult GenerateCsrfToken()
         {
-            var csrfToken = await _service.SecurityService.GenerateCsrfTokenAsync();
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = false, // Allow JavaScript to read the token
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddHours(1) // Set expiration for CSRF token
-            };
-
-            Response.Cookies.Append("CsrfToken", csrfToken, cookieOptions);
-            return Ok(new { CsrfToken = csrfToken });
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            
+            return Ok(new { 
+                CsrfToken = tokens.RequestToken,
+                HeaderName = "X-Csrf-Token"
+            });
         }
     }
 }

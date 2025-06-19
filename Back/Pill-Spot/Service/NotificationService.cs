@@ -64,6 +64,10 @@ namespace Service
         {
             var notification = _mapper.Map<Notification>(notificationDto);
             notification.NotificationId = Guid.NewGuid();
+            notification.CreatedDate = DateTime.UtcNow;
+            notification.IsRead = false;
+            notification.IsNotified = false;
+            notification.IsDeleted = false;
 
             _repository.NotificationRepository.CreateNotification(notification);
             await _repository.SaveAsync();
@@ -76,25 +80,31 @@ namespace Service
             var notificationDto = new NotificationForCreationDto
             {
                 UserId = userId,
-                ActorId = "system", // System-generated notification
+                ActorId = "system",
                 Title = title,
                 Message = message,
-                Content = message,
+                Content = title + ": " + message,
                 Type = type,
                 Data = data,
                 IsBroadcast = false
             };
 
             var notification = await CreateNotificationAsync(notificationDto);
-            await _hubContext.Clients.Group(userId).SendAsync("ReceiveNotification", notification);
+            
+            try
+            {
+                await _hubContext.Clients.Group(userId).SendAsync("ReceiveNotification", notification);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send real-time notification: {ex.Message}");
+            }
         }
 
         public async Task SendBulkNotificationAsync(IEnumerable<string> userIds, string title, string message, NotificationType type, string? data = null)
         {
-            foreach (var userId in userIds)
-            {
-                await SendNotificationAsync(userId, title, message, type, data);
-            }
+            var tasks = userIds.Select(userId => SendNotificationAsync(userId, title, message, type, data));
+            await Task.WhenAll(tasks);
         }
 
         public async Task DeleteNotificationAsync(Guid notificationId, bool trackChanges)
@@ -320,7 +330,6 @@ namespace Service
 
         public async Task<PagedList<NotificationDto>> GetNotificationsAsync(NotificationRequestParameters parameters, bool trackChanges)
         {
-            // Assuming you want to get all notifications (for admin or system-wide view)
             var pagedNotifications = await _repository.NotificationRepository.GetUserNotificationsAsync(null, parameters, trackChanges);
             var notificationDtos = _mapper.Map<IEnumerable<NotificationDto>>(pagedNotifications).ToList();
             return new PagedList<NotificationDto>(

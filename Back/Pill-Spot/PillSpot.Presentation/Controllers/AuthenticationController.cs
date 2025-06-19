@@ -39,10 +39,8 @@ namespace PillSpot.Presentation.Controllers
 
             var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
 
-            // Store BOTH tokens in HttpOnly cookies for maximum security
             SetBothTokensCookies(tokenDto.AccessToken, tokenDto.RefreshToken);
 
-            // Don't return tokens - they're in secure cookies
             return Ok(new { Message = "Login successful" });
         }
         
@@ -50,11 +48,10 @@ namespace PillSpot.Presentation.Controllers
         {
             var baseCookieOptions = new CookieOptions
             {
-                HttpOnly = true, // Prevents JavaScript access (XSS protection)
-                Secure = true, // HTTPS only in production
-                SameSite = SameSiteMode.Strict, // CSRF protection
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
                 Path = "/"
-                // Domain omitted for environment flexibility
             };
 
             // Access token cookie (short-lived)
@@ -64,7 +61,7 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Expires = DateTime.UtcNow.AddMinutes(30) // Access token lifetime
+                Expires = DateTime.UtcNow.AddMinutes(30)
             };
             Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
 
@@ -75,14 +72,14 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Expires = DateTime.UtcNow.AddDays(7) // Refresh token lifetime
+                Expires = DateTime.UtcNow.AddDays(7)
             };
             Response.Cookies.Append("refreshToken", refreshToken, refreshCookieOptions);
         }
 
 
         [HttpPost("logout")]
-        [ValidateCsrfToken] // CSRF protection for cookie-based auth
+        [ValidateCsrfToken]
         public async Task<IActionResult> Logout()
         {
             var userName = User.Identity?.Name;
@@ -91,7 +88,6 @@ namespace PillSpot.Presentation.Controllers
 
             await _service.AuthenticationService.LogoutAsync(userName);
 
-            // Clear both token cookies
             Response.Cookies.Delete("accessToken");
             Response.Cookies.Delete("refreshToken");
 

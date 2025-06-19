@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Service.Contracts;
-using System.Linq;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PillSpot.Presentation.ActionFilters
 {
@@ -14,23 +13,12 @@ namespace PillSpot.Presentation.ActionFilters
             var method = context.HttpContext.Request.Method;
             if (method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Patch || method == HttpMethods.Delete)
             {
-                // Get CSRF token from header (case-insensitive)
-                var csrfTokenFromHeader = context.HttpContext.Request.Headers
-                    .FirstOrDefault(h => h.Key.Equals("X-Csrf-Token", StringComparison.OrdinalIgnoreCase))
-                    .Value.ToString();
-                
-                var csrfTokenFromCookie = context.HttpContext.Request.Cookies["CsrfToken"];
-
-                if (string.IsNullOrEmpty(csrfTokenFromHeader) || string.IsNullOrEmpty(csrfTokenFromCookie))
+                try
                 {
-                    context.Result = new UnauthorizedResult();
-                    return;
+                    var antiforgery = context.HttpContext.RequestServices.GetRequiredService<IAntiforgery>();
+                    await antiforgery.ValidateRequestAsync(context.HttpContext);
                 }
-
-                var securityService = context.HttpContext.RequestServices.GetRequiredService<IServiceManager>().SecurityService;
-                var isValid = await securityService.ValidateCsrfTokenAsync(csrfTokenFromHeader, csrfTokenFromCookie);
-
-                if (!isValid)
+                catch (Exception)
                 {
                     context.Result = new UnauthorizedResult();
                     return;

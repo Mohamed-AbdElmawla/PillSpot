@@ -8,13 +8,13 @@ namespace Service.Contracts.Notifications.Commands
     public record CreateNotificationCommand : IRequest<NotificationDto>
     {
         public string UserId { get; init; }
-        public string? ActorId { get; init; } // Optional, defaults to "system" if not provided
+        public string? ActorId { get; init; }
         public string Title { get; init; }
         public string Message { get; init; }
         public NotificationType Type { get; init; }
         public string? Data { get; init; }
         public bool IsBroadcast { get; init; } = false;
-        public Guid? RelatedEntityId { get; init; } // Changed to Guid? since most related entities use Guid
+        public Guid? RelatedEntityId { get; init; }
         public string? RelatedEntityType { get; init; }
     }
 } 
