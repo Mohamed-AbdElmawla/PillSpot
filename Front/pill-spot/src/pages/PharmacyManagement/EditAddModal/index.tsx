@@ -28,7 +28,7 @@ interface IProps<T extends IInputsData[]> {
   handleChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>)=>void ;
   closeButonTitle:string ;
   inputData: T;
- 
+  handleSubmitFormData : () => void ;
 }
 
 export default function FormModal<T extends IInputsData[]>({
@@ -38,7 +38,8 @@ export default function FormModal<T extends IInputsData[]>({
   children,
   closeButonTitle,
 
-  handleChange
+  handleChange ,
+  handleSubmitFormData ,
 }: IProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,7 +58,10 @@ export default function FormModal<T extends IInputsData[]>({
   mapIcon.set(InputStaff.JobTitle, <FaRegUser className={styleIcon}/>);
   mapIcon.set(InputStaff.PhoneNumber, <FiPhone className={styleIcon}/>);
 
-  function handleSubmitData() {}
+  function handleSubmitData() {
+    handleSubmitFormData() ;
+    close();
+  }
 
   function open() {
     setIsOpen(true);
@@ -139,7 +143,7 @@ export default function FormModal<T extends IInputsData[]>({
                 <div className="flex flex-col p-5">{renderedData}</div>
 
                 <div className="mt-4 flex items-center justify-center space-x-4">
-                    <button className="w-xs bg-[#1C8DC9] h-10 rounded-[14px] text-2xl text-white ">{closeButonTitle}</button>
+                    <button className="w-xs bg-[#1C8DC9] h-10 rounded-[14px] text-2xl text-white " onClick={handleSubmitData}>{closeButonTitle}</button>
                 </div>
             </DialogPanel>
           </div>

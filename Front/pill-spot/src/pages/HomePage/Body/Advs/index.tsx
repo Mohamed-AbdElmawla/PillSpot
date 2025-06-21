@@ -1,3 +1,10 @@
+
+import img1 from './Untitled-2.jpg'
+import img2 from './Untitled-3.jpg'
+import img3 from './Untitled-1.jpg'
+import img4 from './Untitled-4.jpg'
+import img5 from './Untitled-5.jpg'
+
 interface Iprops{
   image : string ;
   title:string ;
@@ -5,6 +12,8 @@ interface Iprops{
   oldPrice : string ; 
   className:string ;
 }
+
+
 
 const AdCard = ({ image, title, price, oldPrice, className }:Iprops) => {
   return (
@@ -14,7 +23,7 @@ const AdCard = ({ image, title, price, oldPrice, className }:Iprops) => {
         <img
           src={image}
           alt={title}
-          className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-fill transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
@@ -41,17 +50,17 @@ const Advs = () => {
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-5">
         
         <AdCard
-          image="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-          title="Category"
+          image={img1}
+          title="Analgesic"
           oldPrice="150"
-          price="99"
+          price="78"
           className="h-[600px]"
         />
         <AdCard
-          image="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+          image={img2}
           title="Category Set"
-          oldPrice="150"
-          price="99"
+          oldPrice="50"
+          price="20"
           className="h-[600px]"
         />
 
@@ -59,26 +68,26 @@ const Advs = () => {
         <div className="flex flex-col gap-5">
           <div className="grid grid-cols-2 gap-5">
             <AdCard
-              image="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-              title="Category Set"
+              image={img3}
+              title="Baby Set"
               oldPrice="150"
               price="99"
               className="h-[300px]"
             />
             <AdCard
-              image="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-              title="Category Set"
+              image={img4}
+              title="Cosmatics"
               oldPrice="150"
-              price="99"
+              price="90"
               className="h-[300px]"
             />
           </div>
 
           <AdCard
-            image="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-            title="Category Set"
-            oldPrice="150"
-            price="99"
+            image={img5}
+            title="ToothSet"
+            oldPrice="50"
+            price="45"
             className="h-[280px] w-full"
           />
         </div>

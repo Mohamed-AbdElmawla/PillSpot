@@ -53,6 +53,7 @@ const StaffCard = () => {
         </div>
 
 
+{/* // handle on change method as prop is missing  */}
         <FormModal 
         buttonStyle="bg-[#CBE8FF] w-7 h-7 flex items-center justify-center rounded-full text-xl hover:scale-110 duration-200"
         inputData={editEmployee}

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axiosInstance from "../../../axiosInstance";
 
 interface Pharmacy {
   name: string;
@@ -30,8 +31,8 @@ export const fetchCurrentPharmacy = createAsyncThunk(
   "pharmacy/fetchCurrentPharmacy",
   async (pharmacyId: string | undefined, thunkAPI) => {
     try {
-      const response = await axios.get(
-        `https://localhost:7298/api/pharmacies/${pharmacyId}`,
+      const response = await axiosInstance.get(
+        `api/pharmacies/${pharmacyId}`,
         { withCredentials: true }
       );
       console.log(response.data)
@@ -61,8 +62,8 @@ export const updateCurrentPharmacy = createAsyncThunk(
     //   formData.append("isOpen24", String(data.isOpen24));
     //   formData.append("daysOpen", data.daysOpen);
 
-      const response = await axios.put(
-        `https://localhost:7298/api/pharmacies/${pharmacyId}`,
+      const response = await axiosInstance.put(
+        `api/pharmacies/${pharmacyId}`,
         data,
         { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true }
       );

@@ -29,6 +29,7 @@ import UserEditInofPage from "../pages/UserSettings/UserEditInfo";
 import UserPharmacies from "../pages/UserSettings/UserPharmacies";
 import UserSettingPage from "../layouts/UserPage";
 import AdminCategories from "../layouts/tempAdmin/tempAdmin";
+import ProductPage from "../pages/ProductsPage/ProductPage";
 
 // Define the router
 const router = createBrowserRouter(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       // main home page layout and routes
       <Route element={<UserHomePage />}>  // this is for protect router
         <Route path="homepage" element={<HomePageMain />} />
+        <Route path="productpage" element={<ProductPage />} /> 
         <Route path="pharmacymanagement" element={<PharManagementLayout />}>
           <Route path="pharmanhome" element={<PharManagementHome />} />
           <Route path="pharmaninventory" element={<InventoryPage />} />

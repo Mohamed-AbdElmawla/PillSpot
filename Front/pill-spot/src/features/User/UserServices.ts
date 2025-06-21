@@ -1,12 +1,13 @@
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import { IeditUser } from "./types";
 
 const fetchCurUser = async (userName: string) => {
-  const response = await axios.get(
-    `https://localhost:7298/api/users/${userName}`,
-    { withCredentials: true }
+  const response = await axiosInstance.get(
+    `api/users/${userName}`
   );
+  console.log(response.data);
   return response.data;
+  
 };
 
 const editUserInfo = async (
@@ -34,8 +35,8 @@ const editUserInfo = async (
       formData.append("ProfilePicture", userImage);
     }
 
-    const response = await axios.patch(
-      `https://localhost:7298/api/users/${userName}`,
+    const response = await axiosInstance.patch(
+      `api/users/${userName}`,
       formData,
       {
         withCredentials: true,
@@ -62,8 +63,8 @@ const editUserPassword = async (newPassword: {
       confirmPassword: newPassword.confirmPassword,
     };
     console.log(passwordData)
-    const response = await axios.put(
-      `https://localhost:7298/api/users/${newPassword.userName}/update-password`,
+    const response = await axiosInstance.put(
+      `api/users/${newPassword.userName}/update-password`,
       passwordData,
       { withCredentials: true }
     );

@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axiosInstance from "../../axiosInstance";
+
 
 interface IProduct {
   quantity: number;
@@ -56,8 +58,8 @@ export const FetchHomeProducts = createAsyncThunk(
   "/fetchHomeProducts",
   async (data: IData, thunkAPI) => {
     try {
-      const response = await axios.get(
-        `https://localhost:7298/api/pharmacyproducts?PageNumber=${data.PageNumber}&PageSize=${data.PageSize}`
+      const response = await axiosInstance.get(
+        `api/pharmacyproducts?PageNumber=${data.PageNumber}&PageSize=${data.PageSize}`
       );
       return response.data;
     } catch (err) {
@@ -75,7 +77,7 @@ export const FetchHomeCategory = createAsyncThunk(
   "/fetchHomeCategory",
   async () => {
     try {
-      const response = await axios.get("https://localhost:7298/api/categories");
+      const response = await axiosInstance.get("api/categories");
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {

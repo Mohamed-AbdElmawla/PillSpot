@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authServices from "./authServices";
 import { IloginData } from "../../components/SignUpModel/types";
 import { AxiosError } from "axios";
-import axiosInstance from "../../app/axiosInstance";
+import axiosInstance from "../axiosInstance";
+
 
 
 // const storedUser = localStorage.getItem("user");
@@ -84,7 +85,7 @@ export const login = createAsyncThunk(
 
 export const checkAuth = createAsyncThunk('auth/checkAuth', async (userName : string|null, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.get(`https://localhost:7298/api/users/${userName}`); // API should return user info if token is valid
+    const response = await axiosInstance.get(`api/users/${userName}`); // API should return user info if token is valid
     console.log(response.data);
     return response.data;
   } catch (error) {

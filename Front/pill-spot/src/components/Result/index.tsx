@@ -1,32 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MedicineDetails from "./DetailsCard";
 import ResultTable from "./ResultTable";
-import axios from "axios";
+
 import { Pagination } from "antd";
 import { useLocation } from "react-router-dom";
+
 
 const ResultPageDetails = () => {
   const [curPage,setPage] = useState(1);
   const location = useLocation();
   const data = location.state?.data || "";
-
-
-
-
-  useEffect(() =>{
-
-    async function fetchData() {
-      console.log(curPage,"  "  , data)
-      try{
-        const response = await axios.get(`https://localhost:7298/api/pharmacyproducts?SearchTerm=${data}f&PageNumber=${curPage}&PageSize=5`) ;
-        console.log(response.data) ;
-      } catch(e){
-        console.log(e) ;
-      }
-    }
-
-    fetchData();
-  },[curPage]);
+  
+  const handlePageChange = (page:number , pageSize:number)=>{
+    setPage(page);
+    console.log(pageSize) ;
+    console.log(curPage) ;
+  }
 
   return (
     <>
@@ -34,12 +23,12 @@ const ResultPageDetails = () => {
         <MedicineDetails />
 
         <div>
-          <ResultTable />
-          {/* <div>
+          <ResultTable curPage={curPage} data={data} />
+          <div>
             {data}
-          </div> */}
+          </div>
           <div className="m-10">
-            <Pagination align="center" defaultCurrent={1} total={50} onChange={(page)=>{setPage(page)}} />
+            <Pagination align="center" defaultCurrent={1} total={13} pageSize={5} onChange={handlePageChange} />
           </div>
         </div>
       </div>
