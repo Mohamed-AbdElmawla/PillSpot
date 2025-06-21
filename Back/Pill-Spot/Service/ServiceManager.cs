@@ -47,6 +47,7 @@ namespace Service
         private readonly IMediator _mediator;
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly ISecurityService _securityService;
+        private readonly UserManager<User> _userManager;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILogger<IServiceManager> logger,
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
@@ -62,6 +63,7 @@ namespace Service
             _mediator = mediator;
             _hubContext = hubContext;
             _securityService = securityService;
+            _userManager = userManager;
             _pharmacyEmployeeRoleService = pharmacyEmployeeRoleService;
             _pharmacyEmployeeRequestService = pharmacyEmployeeRequestService;
 
@@ -86,7 +88,7 @@ namespace Service
             _productNotificationPreferenceService = new Lazy<IProductNotificationPreferenceService>(() => new ProductNotificationPreferenceService(repositoryManager, mapper));
 
             // Initialize NotificationService first since other services depend on it
-            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, hubContext, mapper));
+            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, hubContext, mapper, userManager));
 
             // Initialize services that depend on NotificationService
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService, _notificationService.Value));

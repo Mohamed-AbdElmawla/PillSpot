@@ -18,7 +18,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("{userName}")]
         [Authorize]
-        [ServiceFilter(typeof(UserAuthorizationFilter))]
+        //[ServiceFilter(typeof(UserAuthorizationFilter))]
         public async Task<IActionResult> GetUser(string userName)
         {
             var user = await _service.UserService.GetUserAsync(userName, trackChanges: false);

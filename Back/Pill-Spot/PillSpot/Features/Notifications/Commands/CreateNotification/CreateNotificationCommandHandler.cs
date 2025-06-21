@@ -23,13 +23,11 @@ namespace PillSpot.Features.Notifications.Commands.CreateNotification
 
         public async Task<NotificationDto> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
-            var actorId = request.ActorId ?? "system";
-
             var notification = await _serviceManager.NotificationService.CreateNotificationAsync(
                 new NotificationForCreationDto
                 {
                     UserId = request.UserId,
-                    ActorId = actorId,
+                    ActorId = request.ActorId,
                     Title = request.Title,
                     Message = request.Message,
                     Content = request.Message,

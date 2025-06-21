@@ -11,7 +11,7 @@ namespace Repository.Configuration
             builder.HasKey(n => n.NotificationId);
 
             builder.Property(n => n.ActorId)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
@@ -35,7 +35,8 @@ namespace Repository.Configuration
             builder.HasOne(n => n.Actor)
                 .WithMany()
                 .HasForeignKey(n => n.ActorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
 
             builder.HasIndex(n => n.ActorId)
                 .HasDatabaseName("IX_Notification_ActorId");
