@@ -5,20 +5,28 @@ import OneCategory from "./oneCategory";
 import img from "../Products/oneCategory/image.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../app/store";
+import { replace, useNavigate } from "react-router-dom";
 
 const Products = () => {
   // const dispatch = useDispatch<AppDispatch>();
-
-  const products = useSelector(
+  const navigate = useNavigate() ;
+  let products = useSelector(
     (state: RootState) => state.fetchHomeProductSlice.Products
   );
   const cate = useSelector(
     (state: RootState) => state.fetchHomeProductSlice.Categories
   );
 
+  const loadingProducts = useSelector((state:RootState)=>state.fetchHomeProductSlice.LoadingProducts) ; 
+  const loadingCategroies = useSelector((state:RootState)=>state.fetchHomeProductSlice.LoadingCategories) ; 
 
+  const handleGoToProductPage = ()=>{
+      navigate('/productpage',{replace:true}) ;
+  }
 
   console.log(products);
+  products = products!.slice(0, 11);
+  console.log(cate) ;
 
   return (
     <div>
@@ -71,9 +79,15 @@ const Products = () => {
           </div>
         </aside>
 
+{
+
+       loadingProducts ? 
+       <span className="loading loading-ring w-50"></span>
+       :
+       <>       
         <div className="flex-[4] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products &&
-            products.length > 0 &&
+            (products.length > 0) &&
             products.map((p) => (
               <OneProduct
                 key={p.productDto.productId}
@@ -84,8 +98,17 @@ const Products = () => {
               />
             ))}
 
-          <div>{/* <OneProduct hover={true} /> */}</div>
+          <div onClick={handleGoToProductPage}>
+            
+            <OneProduct
+                key={12}
+                quantity={12}
+                hover={true}
+              />
+              </div>
         </div>
+       </>
+}
       </div>
     </div>
   );

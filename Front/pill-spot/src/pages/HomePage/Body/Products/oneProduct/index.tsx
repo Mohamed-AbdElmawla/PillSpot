@@ -10,7 +10,7 @@ import img from "./image.png";
 
 interface IProduct extends React.HTMLAttributes<HTMLDivElement>  {
   quantity: number;
-  productDto: {
+  productDto?: {
     productId: string;
     subCategoryDto: null;
     name: string;
@@ -19,7 +19,7 @@ interface IProduct extends React.HTMLAttributes<HTMLDivElement>  {
     imageURL: string;
     createdDate: string;
   };
-  pharmacyDto: {
+  pharmacyDto?: {
     pharmacyId: string;
     name: string;
     logoURL: string;
