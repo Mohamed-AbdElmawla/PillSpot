@@ -17,4 +17,17 @@ namespace Service.Contracts.Notifications.Commands
         public Guid? RelatedEntityId { get; init; }
         public string? RelatedEntityType { get; init; }
     }
+
+    public record CreateNotificationByUsernameCommand : IRequest<NotificationDto>
+    {
+        public string Username { get; init; }
+        public string? ActorId { get; init; }
+        public string Title { get; init; }
+        public string Message { get; init; }
+        public NotificationType Type { get; init; }
+        public string? Data { get; init; }
+        public bool IsBroadcast { get; init; } = false;
+        public Guid? RelatedEntityId { get; init; }
+        public string? RelatedEntityType { get; init; }
+    }
 } 

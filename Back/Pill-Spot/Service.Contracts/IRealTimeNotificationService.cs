@@ -6,10 +6,10 @@ namespace Service.Contracts
 {
     public interface IRealTimeNotificationService
     {
-        Task SendNotificationAsync(string userId, NotificationDto notification);
-        Task SendBulkNotificationAsync(IEnumerable<string> userIds, NotificationDto notification);
-        Task SendNotificationReadAsync(string userId, Guid notificationId);
-        Task SendAllNotificationsReadAsync(string userId);
-        Task SendUnreadCountAsync(string userId, int count);
+        Task SendNotificationAsync(string username, NotificationDto notification);
+        Task SendBulkNotificationAsync(IEnumerable<string> usernames, NotificationDto notification);
+        Task SendNotificationReadAsync(string username, Guid notificationId);
+        Task SendAllNotificationsReadAsync(string username);
+        Task SendUnreadCountAsync(string username, int count);
     }
 } 

@@ -12,8 +12,7 @@ namespace Entities.Models
         [Required]
         public string UserId { get; set; }
 
-        [Required]
-        public string ActorId { get; set; }
+        public string? ActorId { get; set; }
 
         [Required]
         [MaxLength(100)]

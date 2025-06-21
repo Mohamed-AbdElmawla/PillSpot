@@ -8,6 +8,7 @@ using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -16,41 +17,49 @@ namespace PillSpot.Presentation.Controllers
     [Authorize]
     public class NotificationController : ControllerBase
     {
-        private readonly INotificationService _notificationService;
+        private readonly IServiceManager _service;
         private readonly IMediator _mediator;
 
-        public NotificationController(INotificationService notificationService, IMediator mediator)
+        public NotificationController(IServiceManager service, IMediator mediator)
         {
-            _notificationService = notificationService;
+            _service = service;
             _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUserNotifications([FromQuery] NotificationRequestParameters parameters)
         {
-            var userId = User.FindFirst("sub")?.Value;
-            if (string.IsNullOrEmpty(userId))
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
                 return Unauthorized();
 
-            var notifications = await _notificationService.GetUserNotificationsAsync(userId, parameters, false);
+            var notifications = await _service.NotificationService.GetUserNotificationsByUsernameAsync(username, parameters, false);
+            return Ok(notifications);
+        }
+
+        [HttpGet("user/{username}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> GetUserNotificationsByUsername(string username, [FromQuery] NotificationRequestParameters parameters)
+        {
+            var notifications = await _service.NotificationService.GetUserNotificationsByUsernameAsync(username, parameters, false);
             return Ok(notifications);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetNotification(Guid id)
         {
-            var notification = await _notificationService.GetNotificationByIdAsync(id, false);
+            var notification = await _service.NotificationService.GetNotificationByIdAsync(id, false);
             return Ok(notification);
         }
 
         [HttpPost]
         [ValidateCsrfToken]
-        public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationCommand command)
+        public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationByUsernameCommand command)
         {
-            var notificationDto = new NotificationForCreationDto
+            var notificationDto = new NotificationForCreationByUsernameDto
             {
-                UserId = command.UserId,
-                ActorId = command.ActorId ?? "system",
+                Username = command.Username,
+                ActorId = command.ActorId,
                 Title = command.Title,
                 Message = command.Message,
                 Content = command.Message,
@@ -61,7 +70,7 @@ namespace PillSpot.Presentation.Controllers
                 IsBroadcast = command.IsBroadcast
             };
 
-            var notification = await _notificationService.CreateNotificationAsync(notificationDto);
+            var notification = await _service.NotificationService.CreateNotificationByUsernameAsync(notificationDto);
             return CreatedAtAction(nameof(GetNotification), new { id = notification.NotificationId }, notification);
         }
 
@@ -69,7 +78,7 @@ namespace PillSpot.Presentation.Controllers
         [ValidateCsrfToken]
         public async Task<IActionResult> DeleteNotification(Guid id)
         {
-            await _notificationService.DeleteNotificationAsync(id, false);
+            await _service.NotificationService.DeleteNotificationAsync(id, false);
             return NoContent();
         }
 
@@ -77,7 +86,7 @@ namespace PillSpot.Presentation.Controllers
         [ValidateCsrfToken]
         public async Task<IActionResult> MarkAsRead(Guid id)
         {
-            await _notificationService.MarkNotificationAsReadAsync(id);
+            await _service.NotificationService.MarkNotificationAsReadAsync(id);
             return NoContent();
         }
 
@@ -85,34 +94,107 @@ namespace PillSpot.Presentation.Controllers
         [ValidateCsrfToken]
         public async Task<IActionResult> MarkAllAsRead()
         {
-            var userId = User.FindFirst("sub")?.Value;
-            if (string.IsNullOrEmpty(userId))
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
                 return Unauthorized();
 
-            await _notificationService.MarkAllNotificationsAsReadAsync(userId);
+            await _service.NotificationService.MarkAllNotificationsAsReadByUsernameAsync(username);
+            return NoContent();
+        }
+
+        [HttpPost("user/{username}/read-all")]
+        [ValidateCsrfToken]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> MarkAllAsReadByUsername(string username)
+        {
+            await _service.NotificationService.MarkAllNotificationsAsReadByUsernameAsync(username);
             return NoContent();
         }
 
         [HttpGet("unread/count")]
         public async Task<IActionResult> GetUnreadCount()
         {
-            var userId = User.FindFirst("sub")?.Value;
-            if (string.IsNullOrEmpty(userId))
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
                 return Unauthorized();
 
-            var count = await _notificationService.GetUnreadNotificationCountAsync(userId);
+            var count = await _service.NotificationService.GetUnreadNotificationCountByUsernameAsync(username);
+            return Ok(new { count });
+        }
+
+        [HttpGet("user/{username}/unread/count")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> GetUnreadCountByUsername(string username)
+        {
+            var count = await _service.NotificationService.GetUnreadNotificationCountByUsernameAsync(username);
             return Ok(new { count });
         }
 
         [HttpGet("unread")]
         public async Task<IActionResult> GetUnreadNotifications()
         {
-            var userId = User.FindFirst("sub")?.Value;
-            if (string.IsNullOrEmpty(userId))
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
                 return Unauthorized();
 
-            var notifications = await _notificationService.GetUnreadNotificationsAsync(userId);
+            var notifications = await _service.NotificationService.GetUnreadNotificationsByUsernameAsync(username);
             return Ok(notifications);
         }
+
+        [HttpGet("user/{username}/unread")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> GetUnreadNotificationsByUsername(string username)
+        {
+            var notifications = await _service.NotificationService.GetUnreadNotificationsByUsernameAsync(username);
+            return Ok(notifications);
+        }
+
+        // Endpoints for sending notifications by username
+        [HttpPost("send-by-username")]
+        [ValidateCsrfToken]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> SendNotificationByUsername([FromBody] SendNotificationByUsernameRequest request)
+        {
+            await _service.NotificationService.SendNotificationByUsernameAsync(
+                request.Username, 
+                request.Title, 
+                request.Message, 
+                request.Type, 
+                request.Data);
+            return Ok(new { message = "Notification sent successfully" });
+        }
+
+        [HttpPost("send-bulk-by-usernames")]
+        [ValidateCsrfToken]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> SendBulkNotificationByUsernames([FromBody] SendBulkNotificationByUsernamesRequest request)
+        {
+            await _service.NotificationService.SendBulkNotificationByUsernamesAsync(
+                request.Usernames, 
+                request.Title, 
+                request.Message, 
+                request.Type, 
+                request.Data);
+            return Ok(new { message = "Bulk notifications sent successfully" });
+        }
+    }
+
+    // Request DTOs for the endpoints
+    public record SendNotificationByUsernameRequest
+    {
+        public string Username { get; init; }
+        public string Title { get; init; }
+        public string Message { get; init; }
+        public Entities.Models.NotificationType Type { get; init; }
+        public string? Data { get; init; }
+    }
+
+    public record SendBulkNotificationByUsernamesRequest
+    {
+        public IEnumerable<string> Usernames { get; init; }
+        public string Title { get; init; }
+        public string Message { get; init; }
+        public Entities.Models.NotificationType Type { get; init; }
+        public string? Data { get; init; }
     }
 }

@@ -1,56 +1,63 @@
 using Microsoft.AspNetCore.SignalR;
 using Service.Contracts;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Entities.Models;
 
 namespace Service.Hubs
 {
     public class NotificationHub : Hub
     {
-        private readonly INotificationService _notificationService;
+        private readonly IServiceManager _serviceManager;
         private readonly IRealTimeNotificationService _realTimeNotificationService;
+        private readonly UserManager<User> _userManager;
 
         public NotificationHub(
-            INotificationService notificationService,
-            IRealTimeNotificationService realTimeNotificationService)
+            IServiceManager serviceManager,
+            IRealTimeNotificationService realTimeNotificationService,
+            UserManager<User> userManager)
         {
-            _notificationService = notificationService;
+            _serviceManager = serviceManager;
             _realTimeNotificationService = realTimeNotificationService;
+            _userManager = userManager;
         }
 
         public override async Task OnConnectedAsync()
         {
-            var userId = Context.User?.FindFirst("sub")?.Value;
-            if (!string.IsNullOrEmpty(userId))
+            var username = Context.User?.Identity?.Name;
+            if (!string.IsNullOrEmpty(username))
             {
-                await Groups.AddToGroupAsync(Context.ConnectionId, userId);
-                var unreadCount = await _notificationService.GetUnreadNotificationCountAsync(userId);
-                await _realTimeNotificationService.SendUnreadCountAsync(userId, unreadCount);
+                await Groups.AddToGroupAsync(Context.ConnectionId, username);
+                var unreadCount = await _serviceManager.NotificationService.GetUnreadNotificationCountByUsernameAsync(username);
+                await _realTimeNotificationService.SendUnreadCountAsync(username, unreadCount);
             }
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var userId = Context.User?.FindFirst("sub")?.Value;
-            if (!string.IsNullOrEmpty(userId))
+            var username = Context.User?.Identity?.Name;
+            if (!string.IsNullOrEmpty(username))
             {
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, username);
             }
             await base.OnDisconnectedAsync(exception);
         }
 
         public async Task MarkNotificationAsRead(Guid notificationId)
         {
-            var userId = Context.User?.FindFirst("sub")?.Value;
-            if (!string.IsNullOrEmpty(userId))
+            var username = Context.User?.Identity?.Name;
+            if (!string.IsNullOrEmpty(username))
             {
                 try
                 {
-                    var notification = await _notificationService.GetNotificationByIdAsync(notificationId, false);
-                    if (notification.UserId == userId)
+                    var notification = await _serviceManager.NotificationService.GetNotificationByIdAsync(notificationId, false);
+                    var notificationUsername = await GetUsernameFromUserIdAsync(notification.UserId);
+                    if (notificationUsername == username)
                     {
-                        await _notificationService.MarkNotificationAsReadAsync(notificationId);
+                        await _serviceManager.NotificationService.MarkNotificationAsReadAsync(notificationId);
                     }
                 }
                 catch (Exception ex)
@@ -62,10 +69,23 @@ namespace Service.Hubs
 
         public async Task MarkAllNotificationsAsRead()
         {
-            var userId = Context.User?.FindFirst("sub")?.Value;
-            if (!string.IsNullOrEmpty(userId))
+            var username = Context.User?.Identity?.Name;
+            if (!string.IsNullOrEmpty(username))
             {
-                await _notificationService.MarkAllNotificationsAsReadAsync(userId);
+                await _serviceManager.NotificationService.MarkAllNotificationsAsReadByUsernameAsync(username);
+            }
+        }
+
+        private async Task<string> GetUsernameFromUserIdAsync(string userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                return user?.UserName ?? userId;
+            }
+            catch
+            {
+                return userId;
             }
         }
     }
