@@ -84,6 +84,14 @@ var app = builder.Build();
 
 Log.Information("Application Started!");
 
+// Ensure wwwroot directory exists
+var wwwrootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+if (!Directory.Exists(wwwrootPath))
+{
+    Directory.CreateDirectory(wwwrootPath);
+    Log.Information("Created wwwroot directory at: {Path}", wwwrootPath);
+}
+
 app.UseSwagger();
 
 app.UseSwaggerUI(s =>
