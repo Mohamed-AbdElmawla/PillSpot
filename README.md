@@ -405,7 +405,7 @@ Governments (GovernmentId, Name)
 ## 👥 Team
 
 ### 🎓 Students
-- **[Mohamed AbdElmawla](https://github.com/Mohamed-AbdElmawla)** - ACPC Finalist | Software Engineer | Fresh Graduate
+- **[Mohamed AbdElmawla](https://github.com/Mohamed-AbdElmawla)** - ACPC Finalist | Software Engineer | Codeforces Expert | Problem Solving Coach | .NET & C# Developer
 - **[Mohamed Ramadan Elaraby](https://github.com/Elaraby218)** - Software Engineering Student
 - **[Khaled Ibrahem](https://github.com/uukh22)** - Computer Science Student
 - **[Shahd Medhat](https://github.com/shahdmedhat35)** - Software Engineering Student
