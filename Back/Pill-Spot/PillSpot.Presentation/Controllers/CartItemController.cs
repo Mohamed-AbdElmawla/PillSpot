@@ -60,6 +60,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateCartItem(Guid cartId, [FromForm] CartItemForCreationDto itemDto)
         {
             if (itemDto.CartId != cartId)
@@ -76,6 +77,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("product/{productId:guid}/pharmacy/{pharmacyId:guid}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateCartItem(Guid cartId, Guid productId, Guid pharmacyId, [FromForm] CartItemForUpdateDto itemDto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -88,6 +90,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("product/{productId:guid}/pharmacy/{pharmacyId:guid}")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteCartItem(Guid cartId, Guid productId, Guid pharmacyId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -102,6 +105,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPut("approvals")]
         [Authorize(Roles = "SuperAdmin,Admin,Pharmacy")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateItemApprovals(Guid cartId, [FromBody] IEnumerable<CartItemApprovalDto> approvals)
         {
             await _service.CartItemService.UpdateItemApprovalsAsync(cartId, approvals);

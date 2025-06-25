@@ -45,10 +45,10 @@ export default function LoginModal({ buttonText }: Iprops) {
       dispatch(FetchHomeProducts({PageNumber:"1",PageSize:"12"}));
       dispatch(FetchHomeCategory());
       toast.success("Welcome Back!");
-      if(userState.userLogin === 'superadmin'){
-        navigate("/tempAdminPage")
-        return ;
-      }
+      // if(userState.userLogin === 'superadmin'){
+      //   navigate("/tempAdminPage")
+      //   return ;
+      // }
 
       navigate("/homepage");
       console.log(userState.userLogin);

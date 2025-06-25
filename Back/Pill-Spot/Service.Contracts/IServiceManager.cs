@@ -1,4 +1,6 @@
-﻿namespace Service.Contracts
+﻿using PillSpot.Service.Contracts;
+
+namespace Service.Contracts
 {
     public interface IServiceManager
     {
@@ -18,15 +20,16 @@
         IMedicineService MedicineService { get; }
         ICosmeticService CosmeticService { get; }
         IPharmacyProductService PharmacyProductService { get; }
-        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService {get;}
-        IPharmacyEmployeeService PharmacyEmployeeService { get;}
-        IOrderService OrderService { get;}
-        INotificationService NotificationService { get;}
-        IUserAddressService UserAddressService { get;}
-        ICartService CartService { get;}
-        ICartItemService CartItemService { get;}
+        IPharmacyEmployeeRequestService PharmacyEmployeeRequestService { get; }
+        IPharmacyEmployeeService PharmacyEmployeeService { get; }
+        IOrderService OrderService { get; }
+        INotificationService NotificationService { get; }
+        IUserAddressService UserAddressService { get; }
+        ICartService CartService { get; }
+        ICartItemService CartItemService { get; }
         IPharmacyEmployeeRoleService PharmacyEmployeeRoleService { get; }
         IPrescriptionService PrescriptionService { get; }
-       // IPrescriptionProductService PrescriptionProductService { get; } 
+        IProductNotificationPreferenceService ProductNotificationPreferenceService { get; }
+        ISecurityService SecurityService { get; }
     }
 }

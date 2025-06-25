@@ -19,6 +19,7 @@ namespace PillSpot.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize(Roles ="SuperAdmin,Admin")]
         [PermissionAuthorize("UserManagement")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> BulkUserManagement([FromBody] BulkUserManagementDto dto)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -30,6 +31,7 @@ namespace PillSpot.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("AssignUserRole")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto dto)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -41,6 +43,7 @@ namespace PillSpot.Presentation.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [PharmacyRoleAuthorize("PharmacyOwner","PharmacyManager","PharmacyEmployee")]
         [PermissionAuthorize("SendEmployeeRequest")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extentions;
 using Shared.RequestFeatures;
@@ -14,8 +15,11 @@ namespace Repository
 {
     internal sealed class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+        private readonly UserManager<User> _userManager;
+
+        public UserRepository(RepositoryContext repositoryContext, UserManager<User> userManager) : base(repositoryContext)
         {
+            _userManager = userManager;
         }
 
         public async Task<User> GetUserAsync(string userName, bool trackChanges) 
@@ -30,6 +34,11 @@ namespace Repository
                 .ToListAsync();
             var count = await FindAll(trackChanges).CountAsync();
             return new PagedList<User>(users, count, userParameters.PageNumber, userParameters.PageSize);
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(string role)
+        {
+            return await _userManager.GetUsersInRoleAsync(role);
         }
 
         public void DeleteUser(User user) => Delete(user);

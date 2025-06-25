@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -11,13 +14,18 @@ namespace PillSpot.Presentation.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public TokenController(IServiceManager service) => _service = service;
+        private readonly IAntiforgery _antiforgery;
+        
+        public TokenController(IServiceManager service, IAntiforgery antiforgery)
+        {
+            _service = service;
+            _antiforgery = antiforgery;
+        }
 
         [HttpPost("refresh")]
-        [ValidateCsrfToken] // CSRF protection for cookie-based auth
+        [ValidateCsrfToken]
         public async Task<IActionResult> Refresh()
         {
-            // Get tokens from cookies instead of request body
             var accessToken = Request.Cookies["accessToken"];
             var refreshToken = Request.Cookies["refreshToken"];
             
@@ -29,14 +37,16 @@ namespace PillSpot.Presentation.Controllers
             var tokenDto = new TokenDto(accessToken, refreshToken);
             var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
             
-            // Update BOTH token cookies
+            // Determine if we're in development or production
+            var env = (IWebHostEnvironment)HttpContext.RequestServices.GetService(typeof(IWebHostEnvironment));
+            var isDevelopment = env != null && env.IsDevelopment();
+            
             var baseCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = !isDevelopment, // Only require HTTPS in production
                 SameSite = SameSiteMode.Strict,
-                Path = "/",
-                Domain = "localhost"
+                Path = "/"
             };
 
             // Update access token cookie
@@ -46,7 +56,6 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Domain = baseCookieOptions.Domain,
                 Expires = DateTime.UtcNow.AddMinutes(30)
             };
             Response.Cookies.Append("accessToken", tokenDtoToReturn.AccessToken, accessCookieOptions);
@@ -58,26 +67,23 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Domain = baseCookieOptions.Domain,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
             Response.Cookies.Append("refreshToken", tokenDtoToReturn.RefreshToken, refreshCookieOptions);
             
             return Ok(new { Message = "Tokens refreshed successfully" });
         }
+
         [HttpGet("csrf")]
+        [RateLimit("CsrfTokenPolicy")]
         public IActionResult GenerateCsrfToken()
         {
-            var csrfToken = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = false, // Allow JavaScript to read the token
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            };
-
-            Response.Cookies.Append("CsrfToken", csrfToken, cookieOptions);
-            return Ok(new { CsrfToken = csrfToken });
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            
+            return Ok(new { 
+                CsrfToken = tokens.RequestToken,
+                HeaderName = "X-Csrf-Token"
+            });
         }
     }
 }

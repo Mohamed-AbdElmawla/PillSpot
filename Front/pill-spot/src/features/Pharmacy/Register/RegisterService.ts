@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 interface IInitialState {
   Name: string;
@@ -53,7 +53,7 @@ async function registerPharmacy(data: IInitialState) {
     console.log(key, value);
   }
 
-  const response = await axios.post(
+  const response = await axiosInstance.post(
     import.meta.env.VITE_PHARMACY_REQUEST,
     fromData,
     { withCredentials: true }

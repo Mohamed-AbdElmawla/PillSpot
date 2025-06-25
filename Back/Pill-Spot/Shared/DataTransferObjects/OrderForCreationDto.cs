@@ -5,7 +5,7 @@ namespace Shared.DataTransferObjects
     public class OrderForCreationDto
     {
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserId { get; set; }
+        public string UserId { get; set; }  // Keep as string for ASP.NET Identity
 
         [Required(ErrorMessage = "Location ID is required.")]
         public Guid LocationId { get; set; }

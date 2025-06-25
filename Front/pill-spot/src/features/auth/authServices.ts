@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ISignUpData, IloginData } from "../../components/SignUpModel/types";
-import axiosInstance from "../../app/axiosInstance";
+import axiosInstance from "../axiosInstance";
+
 // import { labelGrid } from "react-day-picker";
 
 // od not forget the local host at the beggining
@@ -35,7 +36,7 @@ const register = async (userData: ISignUpData | FormData) => {
   // for (const key in userData) {
   //   formData.append(key, String(userData[key]));
   // }
-  const response = await axios.post(registerUrl!, userData);
+  const response = await axiosInstance.post("api/authentication", userData);
   console.log(response);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
@@ -48,23 +49,21 @@ const login = async (userData: IloginData) => {
   //   withCredentials: true,
   // });
   console.log(userData)
-  const response = await axiosInstance.post(loginUrl!,userData) ;
+  const response = await axiosInstance.post("api/authentication/login",userData) ;
   if (response.data) return userData.userName;
 };
 
 const logout = async()=>{
   console.log("iam in s erve") ;
-  const response = await axios.post(
-    "https://localhost:7298/api/authentication/logout",
-    {},
-    { withCredentials: true }
+  const response = await axiosInstance.post(
+    "/api/authentication/logout"
   );
   return response.data ;
 
 }
 
 const deleteAccount = async (userName:string)=> {
-  const response = await axios.delete(`https://localhost:7298/api/users/${userName}`,{withCredentials:true});
+  const response = await axiosInstance.delete(`api/users/${userName}`,{withCredentials:true});
   return response.data ;
 }
 

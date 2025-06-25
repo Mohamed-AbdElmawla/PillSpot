@@ -118,9 +118,13 @@ const AdminCategories = () => {
     formData.append("SideEffects", productForm.sideEffects);
     formData.append("IsPrescriptionRequired", productForm.isPrescriptionRequired);
     formData.append("SubCategoryId", productForm.subCategoryId);
+    formData.append("UsageInstructions", "IT IS EASY");
     if (productForm.image) formData.append("Image", productForm.image);
 
     try {
+      formData.forEach(element => {
+          console.log(element) ;
+      });
       const response = await fetch("https://localhost:7298/api/medicines", {
         method: "POST",
         body: formData,

@@ -17,6 +17,7 @@ namespace Repository
                 .Skip((medicinesRequestParameters.PageNumber - 1) * medicinesRequestParameters.PageSize)
                 .Take(medicinesRequestParameters.PageSize)
                 .Include(p => p.SubCategory)
+                    .ThenInclude(sc => sc.Category)
                 .ToListAsync();
 
             var count = await FindAll(trackChanges).CountAsync();
@@ -30,6 +31,9 @@ namespace Repository
         public void UpdateMedicine(Medicine medicine) => Update(medicine);
 
         public async Task<Medicine> GetMedicineAsync(Guid productId, bool trackChanges) =>
-            await FindByCondition(m => m.ProductId.Equals(productId), trackChanges).Include(m => m.SubCategory).SingleOrDefaultAsync();
+            await FindByCondition(m => m.ProductId.Equals(productId), trackChanges)
+                .Include(m => m.SubCategory)
+                    .ThenInclude(sc => sc.Category)
+                .SingleOrDefaultAsync();
     }
 }

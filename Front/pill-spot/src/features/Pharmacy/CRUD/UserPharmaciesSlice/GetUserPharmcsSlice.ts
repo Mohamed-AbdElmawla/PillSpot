@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axiosInstance from "../../../axiosInstance";
 
 
 interface IPharmacy {
@@ -29,7 +30,7 @@ const initialState: PharmacyState = {
 
 export const fetchUserPharmacies = createAsyncThunk("pharmacies/fetchUserPharmacies", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(`https://localhost:7298/api/pharmacy-employees/pharmacies`, {
+    const response = await axiosInstance.get(`api/pharmacy-employees/pharmacies`, {
       withCredentials: true,
     });
     return response.data;

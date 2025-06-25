@@ -6,7 +6,7 @@ namespace Shared.DataTransferObjects
     public class CartDto
     {
         public Guid CartId { get; init; }
-        public string? UserId { get; init; }
+        public string? UserId { get; init; }  // Keep as string for ASP.NET Identity
         public string CartType { get; init; }
         public bool IsLocked { get; init; }
         public DateTime? LockedAt { get; init; }

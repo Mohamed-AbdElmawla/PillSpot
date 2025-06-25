@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Service
 {
@@ -18,12 +19,18 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly INotificationService _notificationService;
 
-        public CartService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager)
+        public CartService(
+            IRepositoryManager repository, 
+            IMapper mapper,
+            UserManager<User> userManager,
+            INotificationService notificationService)
         {
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public async Task<(IEnumerable<CartDto> carts, MetaData metaData)> GetAllCartsAsync(CartRequestParameters cartParameters)
@@ -373,6 +380,60 @@ namespace Service
             return await _repository.CartRepository.GetCartPharmacyTotalsAsync(cartId, false);
         }
 
+        public async Task<CartDto> AddItemToCartAsync(string userId, Guid productId, Guid pharmacyId, int quantity)
+        {
+            var cart = await GetOrCreateCartAsync(userId);
+            if (!await IsCartActiveAsync(cart))
+                throw new CartDeactivatedException(cart.CartId);
+
+            var pharmacyProduct = await _repository.PharmacyProductRepository.GetPharmacyProductAsync(productId, pharmacyId, false);
+            if (pharmacyProduct == null)
+                throw new ProductNotFoundException(productId);
+
+            var existingItem = await _repository.CartItemRepository.GetCartItemByIdsAsync(
+                cart.CartId,
+                productId,
+                pharmacyProduct.PharmacyId,
+                false);
+
+            if (existingItem != null)
+            {
+                existingItem.Quantity += quantity;
+                _repository.CartItemRepository.UpdateItem(existingItem);
+            }
+            else
+            {
+                var cartItem = new CartItem
+                {
+                    CartItemId = Guid.NewGuid(),
+                    CartId = cart.CartId,
+                    ProductId = productId,
+                    PharmacyId = pharmacyProduct.PharmacyId,
+                    Quantity = quantity,
+                    AddedAt = DateTime.UtcNow,
+                    PharmacyApproved = CartItemApprovalStatus.Pending
+                };
+                _repository.CartItemRepository.CreateItem(cartItem);
+            }
+
+            await _repository.SaveAsync();
+            return await GetCartWithItemsAsync(cart.CartId);
+        }
+
+        public async Task RemoveItemFromCartAsync(string userId, Guid cartItemId)
+        {
+            var cart = await GetOrCreateCartAsync(userId);
+            if (!await IsCartActiveAsync(cart))
+                throw new CartDeactivatedException(cart.CartId);
+    
+            var cartItem = await _repository.CartItemRepository.GetByIdAsync(cartItemId);
+            if (cartItem == null || cartItem.CartId != cart.CartId)
+                throw new CartItemNotFoundException(cartItemId);
+
+            _repository.CartItemRepository.DeleteItem(cartItem);
+            await _repository.SaveAsync();
+        }
+
         private async Task<bool> IsCartActiveAsync(Cart cart)
         {
             if (cart.CartType != "User")
@@ -380,6 +441,22 @@ namespace Service
 
             var user = await _userManager.FindByIdAsync(cart.UserId);
             return user != null;
+        }
+
+        private async Task<Cart> GetOrCreateCartAsync(string userId)
+        {
+            var cart = await _repository.CartRepository.GetCartByUserIdAsync(userId);
+            if (cart == null)
+            {
+                cart = new Cart
+                {
+                    UserId = userId,
+                    CreatedAt = DateTime.UtcNow
+                };
+                _repository.CartRepository.CreateCart(cart);
+                await _repository.SaveAsync();
+            }
+            return cart;
         }
     }
 }

@@ -1,25 +1,31 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace PillSpot.Presentation.ActionFilters
 {
     public class ValidateCsrfTokenAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.HttpContext.Request.Method == HttpMethods.Post)
+            var method = context.HttpContext.Request.Method;
+            if (method == HttpMethods.Post || method == HttpMethods.Put || method == HttpMethods.Patch || method == HttpMethods.Delete)
             {
-                var csrfTokenFromHeader = context.HttpContext.Request.Headers["X-Csrf-Token"];
-                var csrfTokenFromCookie = context.HttpContext.Request.Cookies["CsrfToken"];
-
-                if (csrfTokenFromHeader != csrfTokenFromCookie)
+                try
+                {
+                    var antiforgery = context.HttpContext.RequestServices.GetRequiredService<IAntiforgery>();
+                    await antiforgery.ValidateRequestAsync(context.HttpContext);
+                }
+                catch (Exception)
                 {
                     context.Result = new UnauthorizedResult();
+                    return;
                 }
             }
 
-            base.OnActionExecuting(context);
+            await next();
         }
     }
 }

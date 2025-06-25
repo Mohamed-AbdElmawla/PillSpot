@@ -13,6 +13,7 @@ namespace Contracts
         Task<Cart> GetCartWithItemsAsync(Guid cartId, bool trackChanges);
         Task<Cart> GetUserCartAsync(string userId, bool trackChanges);
         Task<Cart> GetGuestCartAsync(Guid guestCartId, bool trackChanges);
+        Task<Cart> GetCartByUserIdAsync(string userId);
         Task<bool> CartExistsAsync(Guid cartId, bool trackChanges);
         Task UnlockExpiredCartsAsync(DateTime cutoffDate);
         Task CleanupExpiredGuestCartsAsync(DateTime cutoffDate);
@@ -22,5 +23,7 @@ namespace Contracts
         void CreateCart(Cart cart);
         void UpdateCart(Cart cart);
         void DeleteCart(Cart cart);
+        void AddCartItem(CartItem cartItem);
+        void RemoveCartItem(CartItem cartItem);
     }
 }

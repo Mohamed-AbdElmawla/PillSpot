@@ -131,85 +131,27 @@ namespace PillSpot
                 .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.PriceAtAddition * src.Quantity));
             CreateMap<CartItemForCreationDto, CartItem>();
             CreateMap<CartItemForUpdateDto, CartItem>();
-
-          
-            
             
             // Prescription mappings
-            //CreateMap<Prescription, PrescriptionDto>()
-            //    .ForMember(dest => dest.PrescriptionProducts, opt => opt.MapFrom(src => src.PrescriptionProducts.Where(pp => !pp.IsDeleted)));
-
-            //CreateMap<PrescriptionForCreationDto, Prescription>()
-            //    .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(_ => Guid.NewGuid()))
-            //    .ForMember(dest => dest.ImageUrl, opt => opt.Ignore())
-            //    .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
-            //    .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
-            //    .AfterMap((src, dest) =>
-            //    {
-            //        if (src.PrescriptionProducts != null)
-            //        {
-            //            dest.PrescriptionProducts = src.PrescriptionProducts.Select(pp => new PrescriptionProduct
-            //            {
-            //                ProductId = pp.ProductId,
-            //                Quantity = pp.Quantity,
-            //                Dosage = pp.Dosage,
-            //                Instructions = pp.Instructions,
-            //                IsDeleted = false
-            //            }).ToList();
-            //        }
-            //    });
-
-            //CreateMap<PrescriptionForUpdateDto, Prescription>()
-            //    .ForMember(dest => dest.ImageUrl, opt => opt.Ignore())
-            //    .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
-            //    .AfterMap((src, dest) =>
-            //    {
-            //        if (src.PrescriptionProducts != null)
-            //        {
-            //            dest.PrescriptionProducts.Clear();
-            //            foreach (var pp in src.PrescriptionProducts)
-            //            {
-            //                dest.PrescriptionProducts.Add(new PrescriptionProduct
-            //                {
-            //                    PrescriptionId = dest.PrescriptionId,
-            //                    ProductId = pp.ProductId,
-            //                    Quantity = pp.Quantity,
-            //                    Dosage = pp.Dosage,
-            //                    Instructions = pp.Instructions,
-            //                    IsDeleted = false
-            //                });
-            //            }
-            //        }
-            //    });
-
-            //CreateMap<PrescriptionProduct, PrescriptionProductDto>()
-            //    .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product));
-
-            //CreateMap<PrescriptionProductForCreationDto, PrescriptionProduct>()
-            //    .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false));
-            //CreateMap<PrescriptionProductForUpdateDto, PrescriptionProduct>();
-
-
-            // From Entity to DTO (optional, if needed)
             CreateMap<Prescription, PrescriptionDto>();
             CreateMap<PrescriptionForCreationDto, Prescription>()
            .ForMember(dest => dest.ImageUrl, opt => opt.Ignore());
             CreateMap<PrescriptionForUpdateDto, Prescription>();
-
+            
+            // Prescription Product mappings
             CreateMap<PrescriptionProduct, PrescriptionProductDto>();
             CreateMap<PrescriptionProductForUpdateDto, PrescriptionProduct>();
             CreateMap<PrescriptionProductForCreationDto, PrescriptionProduct>();
-
-            //CreateMap<PrescriptionForCreationDto, Prescription>()
-            //    .ForMember(dest => dest.ImageUrl, opt => opt.Ignore())
-            //    .ForMember(dest => dest.PrescriptionProducts, opt => opt.MapFrom(src => src.PrescriptionProducts));
-            //CreateMap<PrescriptionForUpdateDto, Prescription>()
-            //    .ForMember(dest => dest.ImageUrl, opt => opt.Ignore());
-
-            //// PrescriptionProduct mappings
-            //CreateMap<PrescriptionProduct, PrescriptionProductDto>();
-            //CreateMap<PrescriptionProductForCreationDto, PrescriptionProduct>();
-            //CreateMap<PrescriptionProductForUpdateDto, PrescriptionProduct>();
+            
+            // Notification mappings
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<NotificationForCreationDto, Notification>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.IsRead, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false))
+                .ForMember(dest => dest.IsNotified, opt => opt.MapFrom(src => false));
+            CreateMap<NotificationForUpdateDto, Notification>()
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => DateTime.UtcNow));
 
         }
     }

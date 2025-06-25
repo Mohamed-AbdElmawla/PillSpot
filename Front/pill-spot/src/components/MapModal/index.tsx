@@ -6,9 +6,11 @@ interface Iprops{
     modalName : string ;
     name:string ;
     distance : string ;
+    lng : number ; 
+    lat : number ; 
 }
 
-const MapLocation = ({modalName,name,distance}:Iprops) => {
+const MapLocation = ({modalName,name,distance,lng,lat}:Iprops) => {
   const openModal = () => {
     const modal = document.getElementById(modalName) as HTMLDialogElement;
     modal?.showModal();
@@ -31,7 +33,7 @@ const MapLocation = ({modalName,name,distance}:Iprops) => {
           <div>
             <iframe
               className="w-full h-[400px] rounded-xl"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2661.5242743160306!2d31.18542820904337!3d27.16885061272134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2seg!4v1740093033886!5m2!1sen!2seg"
+              src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
               loading="lazy"
             ></iframe>
           </div>

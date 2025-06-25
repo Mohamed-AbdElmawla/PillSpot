@@ -1,10 +1,17 @@
 ﻿using Contracts;
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Entities.Models;
+using PillSpot.Contracts;
+using PillSpot.Repository;
 
 namespace Repository
 {
     public sealed class RepositoryManager : IRepositoryManager
     {
         private readonly RepositoryContext _repositoryContext;
+        private readonly UserManager<User> _userManager;
         private readonly Lazy<IUserRepository> _userRepository;
         private readonly Lazy<IPermissionRepository> _permissionRepository;
         private readonly Lazy<IEmployeePermissionRepository> _employeePermissionRepository;
@@ -29,12 +36,20 @@ namespace Repository
         private readonly Lazy<ICartItemRepository> _cartItemRepository;
         private readonly Lazy<IUserAddressRepository> _userAddressRepository;
         private readonly Lazy<IPharmacyEmployeeRoleRepository> _pharmacyEmployeeRoleRepository;
+        private readonly Lazy<IProductNotificationPreferenceRepository> _productNotificationPreferenceRepository;
         private readonly Lazy<IPrescriptionRepository> _prescriptionRepository;
         private readonly Lazy<IPrescriptionProductRepository> _prescriptionProductRepository;
-        public RepositoryManager(RepositoryContext repositoryContext)
+        public RepositoryManager(RepositoryContext repositoryContext, UserManager<User> userManager)
         {
             _repositoryContext = repositoryContext;
-            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
+            _userManager = userManager;
+            
+            // Initialize all repositories
+            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext, _userManager));
+            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
+            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
+            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
+            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(repositoryContext));
             _pharmacyRepository = new Lazy<IPharmacyRepository>(() => new PharmacyRepository(repositoryContext));
             _pharmacyRequestRepository = new Lazy<IPharmacyRequestRepository>(() => new PharmacyRequestRepository(repositoryContext));
             _locationRepository = new Lazy<ILocationRepository>(() => new LocationRepository(repositoryContext));
@@ -45,12 +60,7 @@ namespace Repository
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(repositoryContext));
             _medicineRepository = new Lazy<IMedicineRepository>(() => new MedicineRepository(repositoryContext));
             _cosmeticRepository = new Lazy<ICosmeticRepository>(() => new CosmeticRepository(repositoryContext));
-            _userRepository = new Lazy<IUserRepository>(() => new UserRepository(repositoryContext));
-            _permissionRepository = new Lazy<IPermissionRepository>(() => new PermissionRepository(repositoryContext));
-            _employeePermissionRepository = new Lazy<IEmployeePermissionRepository>(() => new EmployeePermissionRepository(repositoryContext));
-            _adminPermissionRepository = new Lazy<IAdminPermissionRepository>(() => new AdminPermissionRepository(repositoryContext));
             _pharmacyProductRepository = new Lazy<IPharmacyProductRepository>(() => new PharmacyProductRepository(repositoryContext));
-            _adminRepository = new Lazy<IAdminRepository>(() => new AdminRepository(repositoryContext));
             _pharmacyEmployeeRepository = new Lazy<IPharmacyEmployeeRepository>(() => new PharmacyEmployeeRepository(repositoryContext));
             _pharmacyEmployeeRequestRepository = new Lazy<IPharmacyEmployeeRequestRepository>(() => new PharmacyEmployeeRequestRepository(repositoryContext));
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(repositoryContext));
@@ -59,10 +69,12 @@ namespace Repository
             _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryContext));
             _userAddressRepository = new Lazy<IUserAddressRepository>(() => new UserAddressRepository(repositoryContext));
             _pharmacyEmployeeRoleRepository = new Lazy<IPharmacyEmployeeRoleRepository>(() => new PharmacyEmployeeRoleRepository(repositoryContext));
+            _productNotificationPreferenceRepository = new Lazy<IProductNotificationPreferenceRepository>(() => new ProductNotificationPreferenceRepository(repositoryContext));
             _prescriptionRepository = new Lazy<IPrescriptionRepository>(() => new PrescriptionRepository(repositoryContext));
             _prescriptionProductRepository = new Lazy<IPrescriptionProductRepository>(() => new PrescriptionProductRepository(repositoryContext));
         }
 
+        // Repository properties
         public IUserRepository UserRepository => _userRepository.Value;
         public IPermissionRepository PermissionRepository => _permissionRepository.Value;
         public IEmployeePermissionRepository EmployeePermissionRepository => _employeePermissionRepository.Value;
@@ -87,6 +99,7 @@ namespace Repository
         public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
         public IUserAddressRepository UserAddressRepository => _userAddressRepository.Value;
         public IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository => _pharmacyEmployeeRoleRepository.Value;
+        public IProductNotificationPreferenceRepository ProductNotificationPreferenceRepository => _productNotificationPreferenceRepository.Value;
         public IPrescriptionRepository PrescriptionRepository => _prescriptionRepository.Value;
         public IPrescriptionProductRepository PrescriptionProductRepository => _prescriptionProductRepository.Value;
 
@@ -94,7 +107,6 @@ namespace Repository
 
         public async Task BeginTransactionAsync()
         {
-            // Check if a transaction is already active
             if (_repositoryContext.Database.CurrentTransaction != null)
             {
                 throw new InvalidOperationException("A transaction is already in progress.");
@@ -107,7 +119,6 @@ namespace Repository
         {
             try
             {
-                // Only commit if there's an active transaction
                 if (_repositoryContext.Database.CurrentTransaction != null)
                 {
                     await _repositoryContext.SaveChangesAsync();
@@ -116,7 +127,6 @@ namespace Repository
             }
             finally
             {
-                // Always dispose the transaction if it exists
                 if (_repositoryContext.Database.CurrentTransaction != null)
                 {
                     await _repositoryContext.Database.CurrentTransaction.DisposeAsync();
@@ -128,7 +138,6 @@ namespace Repository
         {
             try
             {
-                // Only rollback if there's an active transaction
                 if (_repositoryContext.Database.CurrentTransaction != null)
                 {
                     await _repositoryContext.Database.CurrentTransaction.RollbackAsync();
@@ -136,7 +145,6 @@ namespace Repository
             }
             finally
             {
-                // Always dispose the transaction if it exists
                 if (_repositoryContext.Database.CurrentTransaction != null)
                 {
                     await _repositoryContext.Database.CurrentTransaction.DisposeAsync();

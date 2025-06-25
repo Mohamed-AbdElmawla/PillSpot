@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class leatest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -149,7 +149,8 @@ namespace PillSpot.Migrations
                     ImageUrl = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,7 +252,8 @@ namespace PillSpot.Migrations
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false)
+                    RowVersion = table.Column<DateTime>(type: "timestamp(6)", rowVersion: true, nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -370,7 +372,8 @@ namespace PillSpot.Migrations
                     Dosage = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Instructions = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -715,17 +718,29 @@ namespace PillSpot.Migrations
                 columns: table => new
                 {
                     NotificationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ActorId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ActorId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Title = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Message = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Content = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NotifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Data = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RelatedEntityId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    RelatedEntityType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsRead = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsNotified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsBroadcast = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    Type = table.Column<int>(type: "int", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    NotifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -736,6 +751,12 @@ namespace PillSpot.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Notifications_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -1386,19 +1407,19 @@ namespace PillSpot.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "26d11e99-cc69-43e4-af0d-c77befc264af", null, "PharmacyManager", "PHARMACYMANAGER" },
-                    { "2fb4aba1-f6c0-454b-b278-e949a7882bc2", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
-                    { "402b785d-cf16-4437-b45e-10daee96dbbf", null, "Admin", "ADMIN" },
-                    { "9fb02a0c-efe5-4249-b7e2-71f495c5a705", null, "User", "USER" },
-                    { "b4fcf874-351e-41e3-9991-f513a1c5372e", null, "Doctor", "DOCTOR" },
-                    { "e56d70fd-5d80-4653-9e20-2b2c9f59aa08", null, "PharmacyOwner", "PHARMACYOWNER" },
-                    { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" }
+                    { "admin-role-id", null, "Admin", "ADMIN" },
+                    { "doctor-role-id", null, "Doctor", "DOCTOR" },
+                    { "pharmacy-employee-role-id", null, "PharmacyEmployee", "PHARMACYEMPLOYEE" },
+                    { "pharmacy-manager-role-id", null, "PharmacyManager", "PHARMACYMANAGER" },
+                    { "pharmacy-owner-role-id", null, "PharmacyOwner", "PHARMACYOWNER" },
+                    { "superadmin-role-id1", null, "SuperAdmin", "SUPERADMIN" },
+                    { "user-role-id", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "25758d7f-0578-42a0-aaa3-0f71a70173d1", new DateTime(2025, 6, 11, 13, 49, 24, 871, DateTimeKind.Utc).AddTicks(6253), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEEKKIWM2Y6l8TdKn4USHB34wLnai+sJAPh7GOAtPbGHNoWu4dMsE2ebKsIJeifwo1w==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "efd350cc-8851-440b-a1d1-b1594863ddb0", new DateTime(2025, 6, 25, 14, 20, 16, 82, DateTimeKind.Utc).AddTicks(4412), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAECnrWvkcGK0V0WsxCb4JbrH5Pb6H4Bz6DfAzrP1xrB4BDZv0TsmSJauptfJmvhd1Hg==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -1622,6 +1643,11 @@ namespace PillSpot.Migrations
                 name: "IX_Notification_IsDeleted",
                 table: "Notifications",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserId",
+                table: "Notifications",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderId_ProductId",

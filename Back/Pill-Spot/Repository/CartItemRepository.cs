@@ -108,5 +108,13 @@ namespace Repository
         public void UpdateItem(CartItem item) => Update(item);
 
         public void DeleteItem(CartItem item) => item.IsDeleted = true;
+
+        public async Task<CartItem> GetByIdAsync(Guid cartItemId)
+        {
+            return await FindByCondition(i => i.CartItemId == cartItemId && !i.IsDeleted, false)
+                .Include(i => i.PharmacyProduct)
+                    .ThenInclude(pp => pp.Product)
+                .SingleOrDefaultAsync();
+        }
     }
 }

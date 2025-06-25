@@ -6,19 +6,21 @@ import MapLocation from "../../MapModal";
 
 interface Iprops {
   name: string;
-  price: string;
+  price: number;
   distance: string;
   rating: string;
   imgSrc: string;
+  lng : number ; 
+  lat : number ;
 }
 
-const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops ) => {
+const TableRow = ({ name, price, distance, rating, imgSrc , lng,lat }: Iprops ) => {
   return (
     <tr className="hover:bg-gray-200 duration-300 transform text-[#02457a]">
       <td>
         <div className="flex items-center gap-3">
-          <div className="avatar">
-            <ImgIcon src={imgSrc} />
+          <div className="avatar w-30">
+            <ImgIcon src={`https://localhost:7298${imgSrc}`} />
           </div>
           <div>
             <div className="font-bold">{name}</div>
@@ -27,7 +29,7 @@ const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops ) => {
             </div>
 
             <span className="badge badge-ghost badge-sm">
-              {distance} KM Away
+              {distance} Away
             </span>
           </div>
         </div>
@@ -38,6 +40,8 @@ const TableRow = ({ name, price, distance, rating, imgSrc }: Iprops ) => {
           modalName={name + distance}
           name={name}
           distance={distance}
+          lng={lng}
+          lat={lat}
         />
       </td>
       <td>

@@ -8,9 +8,9 @@ namespace Entities.Exceptions
 {
     public class NotificationNotFoundException : NotFoundException
     {
-        public NotificationNotFoundException(Guid notificationId):base($"Notification with id: {notificationId} doesn't exist")
+        public NotificationNotFoundException(Guid notificationId)
+            : base($"The notification with id: {notificationId} doesn't exist in the database.")
         {
-            
         }
     }
 }

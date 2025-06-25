@@ -39,6 +39,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("system/delete-logs")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("DeleteTodayLogs")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteTodayLogs()
         {
             //Log.Information("Hello in delete log api");
@@ -49,6 +50,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("system/delete-logs-by-day")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("DeleteLogsByDay")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteLogsByDay([FromQuery] DateTime date)
         {
             //Log.Information("Hello in delete logs by day api");
@@ -78,6 +80,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("permissions-management/create")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreatePermission([FromBody] CreatePermissionDto permissionDto)
         {
             if (permissionDto == null)
@@ -89,6 +92,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("permissions-management/create-collection")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreatePermissionCollection([FromBody] IEnumerable<CreatePermissionDto> permissions)
         {
             var (createdPermissions, ids) = await _service.PermissionService.CreatePermissionCollectionAsync(permissions);
@@ -98,6 +102,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("permissions-management/update/{id:Guid}")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdatePermission(Guid id, [FromBody] UpdatePermissionDto permissionDto)
         {
             if (permissionDto == null)
@@ -109,6 +114,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("permissions-management/delete-permission/{id:Guid}")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeletePermission(Guid id)
         {
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
@@ -118,6 +124,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("admin-permission/assign")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
         {
             var result = await _service.AdminPermissionService.AssignPermissionToAdminAsync(assignAdminPermissionDto , trackChanges:false);
@@ -126,6 +133,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("admin-permission/assign-multiple/{adminId}")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
@@ -142,6 +150,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("admin-permission/remove/{adminId}/{permissionId:Guid}")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, Guid permissionId)
         {
             await _service.AdminPermissionService.RemovePermissionFromAdminAsync(adminId, permissionId);
@@ -150,6 +159,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("admin-permission/remove-multiple/{adminId}")]
         [Authorize(Roles = "SuperAdmin")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);

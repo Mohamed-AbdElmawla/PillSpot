@@ -19,6 +19,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("submit")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> SubmitRequest([FromForm] PharmacyRequestCreateDto pharmacyRequestCreateDto)
         {
             var userName = User.Identity?.Name;
@@ -31,6 +32,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{requestId}/approve")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("ApprovePharmacyRequest")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
@@ -40,6 +42,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{requestId}/reject")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("RejectPharmacyRequest")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);

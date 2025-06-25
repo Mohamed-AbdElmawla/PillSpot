@@ -50,6 +50,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> CreateUserAddress(string userId, [FromBody] UserAddressForCreationDto addressDto)
         {
             var address = await _service.UserAddressService
@@ -62,6 +63,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPut("{addressId:guid}")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> UpdateUserAddress(string userId, Guid addressId,
             [FromBody] UserAddressForUpdateDto addressDto)
         {
@@ -72,6 +74,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{addressId:guid}")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> DeleteUserAddress(string userId, Guid addressId)
         {
             await _service.UserAddressService
@@ -81,6 +84,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{addressId:guid}/set-default")]
+        [ValidateCsrfToken]
         public async Task<IActionResult> SetDefaultAddress(string userId, Guid addressId)
         {
             await _service.UserAddressService

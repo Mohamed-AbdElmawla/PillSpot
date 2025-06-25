@@ -86,10 +86,14 @@ namespace Service
         }
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
-            if (key is null)
-                    throw new SecurityTokenException("JWT Secret Key is missing.");
-            var secret = new SymmetricSecurityKey(key);
+            // Ensure we have a 32-byte key by using SHA256
+            var keyBytes = Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey);
+            using (var sha256 = SHA256.Create())
+            {
+                keyBytes = sha256.ComputeHash(keyBytes);
+            }
+            
+            var secret = new SymmetricSecurityKey(keyBytes);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
         private async Task<List<Claim>> GetClaims()
@@ -131,21 +135,26 @@ namespace Service
         }
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
+            // Ensure we use the same key generation method for validation
+            var keyBytes = Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey);
+            using (var sha256 = SHA256.Create())
+            {
+                keyBytes = sha256.ComputeHash(keyBytes);
+            }
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"))),
+                IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                 ValidateLifetime = true,
                 ValidIssuer = _jwtConfiguration.ValidIssuer,
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out
-           securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null ||
            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,

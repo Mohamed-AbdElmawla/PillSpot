@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Http;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.IdentityModel.Tokens.Jwt;
+using Entities.ConfigurationModels;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PillSpot.Middleware
 {
@@ -9,11 +12,16 @@ namespace PillSpot.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<AutoTokenRefreshMiddleware> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AutoTokenRefreshMiddleware(RequestDelegate next, ILogger<AutoTokenRefreshMiddleware> logger)
+        public AutoTokenRefreshMiddleware(
+            RequestDelegate next, 
+            ILogger<AutoTokenRefreshMiddleware> logger,
+            IConfiguration configuration)
         {
             _next = next;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context, IServiceManager serviceManager)
@@ -24,82 +32,65 @@ namespace PillSpot.Middleware
                 var accessToken = context.Request.Cookies["accessToken"];
                 var refreshToken = context.Request.Cookies["refreshToken"];
 
-                if (!string.IsNullOrEmpty(accessToken))
+                if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
                 {
-                    // Add access token to Authorization header for downstream middleware/controllers
-                    context.Request.Headers["Authorization"] = $"Bearer {accessToken}";
+                    var tokenHandler = new JwtSecurityTokenHandler();
 
-                    // Only proceed with refresh logic if we also have refresh token
-                    if (!string.IsNullOrEmpty(refreshToken))
+                    try
                     {
-                        var tokenHandler = new JwtSecurityTokenHandler();
+                        // Parse the access token to check expiry
+                        var jwtToken = tokenHandler.ReadJwtToken(accessToken);
+                        var expiry = jwtToken.ValidTo;
 
-                        try
+                        // Check if token expires within the next 5 minutes
+                        if (expiry <= DateTime.UtcNow.AddMinutes(5))
                         {
-                            // Parse the access token to check expiry
-                            var jwt = tokenHandler.ReadJwtToken(accessToken);
-                            var expiry = jwt.ValidTo;
+                            _logger.LogInformation("Access token expires soon, attempting automatic refresh");
 
-                            // Check if token expires within the next 5 minutes
-                            if (expiry <= DateTime.UtcNow.AddMinutes(5))
+                            // Create TokenDto for refresh
+                            var tokenDto = new TokenDto(accessToken, refreshToken);
+                            
+                            // Attempt to refresh the token
+                            var newTokenDto = await serviceManager.AuthenticationService.RefreshToken(tokenDto);
+
+                            if (newTokenDto != null)
                             {
-                                _logger.LogInformation("Access token expires soon, attempting automatic refresh");
-
-                                // Create TokenDto for refresh
-                                var tokenDto = new TokenDto(accessToken, refreshToken);
-                                
-                                // Attempt to refresh the token
-                                var newTokenDto = await serviceManager.AuthenticationService.RefreshToken(tokenDto);
-
-                                if (newTokenDto != null)
+                                // Update BOTH cookies with new tokens
+                                var cookieSettings = _configuration.GetSection("CookieSettings").Get<CookieSettings>();
+                                if (cookieSettings == null)
                                 {
-                                    // Update the request Authorization header with new access token
-                                    context.Request.Headers["Authorization"] = $"Bearer {newTokenDto.AccessToken}";
-
-                                    // Update BOTH cookies with new tokens
-                                    var baseCookieOptions = new CookieOptions
-                                    {
-                                        HttpOnly = true,
-                                        Secure = true, // Use HTTPS in production
-                                        SameSite = SameSiteMode.Strict,
-                                        Path = "/",
-                                        Domain = "localhost"
-                                    };
-
-                                    // Update access token cookie
-                                    var accessCookieOptions = new CookieOptions
-                                    {
-                                        HttpOnly = baseCookieOptions.HttpOnly,
-                                        Secure = baseCookieOptions.Secure,
-                                        SameSite = baseCookieOptions.SameSite,
-                                        Path = baseCookieOptions.Path,
-                                        Domain = baseCookieOptions.Domain,
-                                        Expires = DateTime.UtcNow.AddMinutes(30)
-                                    };
-                                    context.Response.Cookies.Append("accessToken", newTokenDto.AccessToken, accessCookieOptions);
-
-                                    // Update refresh token cookie
-                                    var refreshCookieOptions = new CookieOptions
-                                    {
-                                        HttpOnly = baseCookieOptions.HttpOnly,
-                                        Secure = baseCookieOptions.Secure,
-                                        SameSite = baseCookieOptions.SameSite,
-                                        Path = baseCookieOptions.Path,
-                                        Domain = baseCookieOptions.Domain,
-                                        Expires = DateTime.UtcNow.AddDays(7)
-                                    };
-                                    context.Response.Cookies.Append("refreshToken", newTokenDto.RefreshToken, refreshCookieOptions);
-
-                                    _logger.LogInformation("Both tokens successfully refreshed automatically in cookies");
+                                    throw new InvalidOperationException("Cookie settings are not configured");
                                 }
+
+                                // Determine if we're in development or production
+                                var env = (IWebHostEnvironment)context.RequestServices.GetService(typeof(IWebHostEnvironment));
+                                var isDevelopment = env != null && env.IsDevelopment();
+
+                                var baseCookieOptions = new CookieOptions
+                                {
+                                    HttpOnly = true,
+                                    Secure = !isDevelopment, // Only require HTTPS in production
+                                    SameSite = SameSiteMode.Strict,
+                                    Path = "/",
+                                    Domain = cookieSettings.Domain,
+                                    Expires = DateTime.UtcNow.AddMinutes(cookieSettings.ExpirationMinutes)
+                                };
+
+                                // Update access token cookie
+                                context.Response.Cookies.Append("accessToken", newTokenDto.AccessToken, baseCookieOptions);
+
+                                // Update refresh token cookie
+                                context.Response.Cookies.Append("refreshToken", newTokenDto.RefreshToken, baseCookieOptions);
+
+                                _logger.LogInformation("Both tokens successfully refreshed automatically in cookies");
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            // If token parsing fails, let the request continue normally
-                            // The authorization will fail naturally if the token is invalid
-                            _logger.LogWarning($"Failed to parse or refresh token: {ex.Message}");
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // If token parsing fails, let the request continue normally
+                        // The authorization will fail naturally if the token is invalid
+                        _logger.LogWarning($"Failed to parse or refresh token: {ex.Message}");
                     }
                 }
             }
