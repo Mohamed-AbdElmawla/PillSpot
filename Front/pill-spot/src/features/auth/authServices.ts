@@ -1,12 +1,12 @@
-import axios from "axios";
+// import axios from "axios";
 import { ISignUpData, IloginData } from "../../components/SignUpModel/types";
 import axiosInstance from "../axiosInstance";
 
 // import { labelGrid } from "react-day-picker";
 
 // od not forget the local host at the beggining
-const registerUrl = import.meta.env.VITE_REGISTER_URL;
-const loginUrl = import.meta.env.VITE_LOGIN_URL;
+// const registerUrl = import.meta.env.VITE_REGISTER_URL;
+// const loginUrl = import.meta.env.VITE_LOGIN_URL;
 
 //  const FakeAPI_URL = "https://jsonplaceholder.typicode.com/users";
 
@@ -56,10 +56,12 @@ const login = async (userData: IloginData) => {
 const logout = async()=>{
   console.log("iam in s erve") ;
   const response = await axiosInstance.post(
-    "/api/authentication/logout"
+    "/api/authentication/logout" , {
+
+      withCredentials: true,
+    }
   );
   return response.data ;
-
 }
 
 const deleteAccount = async (userName:string)=> {
