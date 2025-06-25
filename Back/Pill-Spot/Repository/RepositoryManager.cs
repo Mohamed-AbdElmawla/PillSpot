@@ -29,6 +29,8 @@ namespace Repository
         private readonly Lazy<ICartItemRepository> _cartItemRepository;
         private readonly Lazy<IUserAddressRepository> _userAddressRepository;
         private readonly Lazy<IPharmacyEmployeeRoleRepository> _pharmacyEmployeeRoleRepository;
+        private readonly Lazy<IPrescriptionRepository> _prescriptionRepository;
+        private readonly Lazy<IPrescriptionProductRepository> _prescriptionProductRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -57,6 +59,8 @@ namespace Repository
             _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryContext));
             _userAddressRepository = new Lazy<IUserAddressRepository>(() => new UserAddressRepository(repositoryContext));
             _pharmacyEmployeeRoleRepository = new Lazy<IPharmacyEmployeeRoleRepository>(() => new PharmacyEmployeeRoleRepository(repositoryContext));
+            _prescriptionRepository = new Lazy<IPrescriptionRepository>(() => new PrescriptionRepository(repositoryContext));
+            _prescriptionProductRepository = new Lazy<IPrescriptionProductRepository>(() => new PrescriptionProductRepository(repositoryContext));
         }
 
         public IUserRepository UserRepository => _userRepository.Value;
@@ -82,8 +86,10 @@ namespace Repository
         public ICartRepository CartRepository => _cartRepository.Value;
         public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
         public IUserAddressRepository UserAddressRepository => _userAddressRepository.Value;
-
         public IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository => _pharmacyEmployeeRoleRepository.Value;
+        public IPrescriptionRepository PrescriptionRepository => _prescriptionRepository.Value;
+        public IPrescriptionProductRepository PrescriptionProductRepository => _prescriptionProductRepository.Value;
+
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
 
         public async Task BeginTransactionAsync()

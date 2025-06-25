@@ -5,10 +5,8 @@ using Shared.RequestFeatures;
 
 namespace Repository
 {
-    internal sealed class PermissionRepository : RepositoryBase<Permission>, IPermissionRepository
+    internal sealed class PermissionRepository(RepositoryContext context) : RepositoryBase<Permission>(context), IPermissionRepository
     {
-        public PermissionRepository(RepositoryContext context) : base(context) { }
-
         public async Task<Permission?> GetByNameAsync(string name, bool trackChanges) =>
            await FindByCondition(p => p.Name.Equals(name), trackChanges)
                .FirstOrDefaultAsync();

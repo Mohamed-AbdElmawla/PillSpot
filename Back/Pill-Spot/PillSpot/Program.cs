@@ -7,6 +7,7 @@ using PillSpot.Extensions;
 using PillSpot.Presentation.ActionFilters;
 using PillSpot.Middleware;
 using Serilog;
+using PillSpot.Presentation.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ builder.Services.AddEmailConfiguration(builder.Configuration);
 builder.Services.ConfigureEmailService();
 builder.Services.ConfigureSerilogService();
 builder.Services.ConfigureFilterServices();
+//builder.Services.ConfigureCustomModelBinders();
+
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -50,6 +53,7 @@ builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
     config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+    config.ModelBinderProviders.Insert(0, new CustomModelBinderProvider());
 }).AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly);
 

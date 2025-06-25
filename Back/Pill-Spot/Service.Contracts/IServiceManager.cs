@@ -26,5 +26,7 @@
         ICartService CartService { get;}
         ICartItemService CartItemService { get;}
         IPharmacyEmployeeRoleService PharmacyEmployeeRoleService { get; }
+        IPrescriptionService PrescriptionService { get; }
+       // IPrescriptionProductService PrescriptionProductService { get; } 
     }
 }
