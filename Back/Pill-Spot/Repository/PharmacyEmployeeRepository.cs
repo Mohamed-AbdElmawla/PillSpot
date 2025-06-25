@@ -124,6 +124,7 @@ namespace Repository
             return await FindByCondition(e => e.PharmacyId.Equals(pharmacyId) && !e.IsDeleted, trackChanges)
                 .Include(e => e.User)
                 .Include(e => e.PharmacyEmployeePermissions)
+                .ThenInclude(p => p.Permission)
                 .Include(e => e.Pharmacy)
                 .ToListAsync();
         }

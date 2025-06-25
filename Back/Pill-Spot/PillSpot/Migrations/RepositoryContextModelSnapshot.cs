@@ -1174,6 +1174,9 @@ namespace PillSpot.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime(6)");
 
@@ -1213,6 +1216,9 @@ namespace PillSpot.Migrations
                         .HasMaxLength(500)
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -1583,8 +1589,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bdb3998d-8f88-46d6-973a-52ff491073a8",
-                            CreatedDate = new DateTime(2025, 6, 21, 19, 12, 38, 339, DateTimeKind.Utc).AddTicks(475),
+                            ConcurrencyStamp = "efd350cc-8851-440b-a1d1-b1594863ddb0",
+                            CreatedDate = new DateTime(2025, 6, 25, 14, 20, 16, 82, DateTimeKind.Utc).AddTicks(4412),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1595,7 +1601,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELMLHOoP1rYoSQ9TPcTu3zBkJCTpOdSHzBsxZVkpUIEUT170Gm4dbxZksm1wH07ISg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECnrWvkcGK0V0WsxCb4JbrH5Pb6H4Bz6DfAzrP1xrB4BDZv0TsmSJauptfJmvhd1Hg==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",

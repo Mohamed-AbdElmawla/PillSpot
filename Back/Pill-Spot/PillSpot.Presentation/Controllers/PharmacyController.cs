@@ -29,7 +29,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
         [PermissionAuthorize("GetPharmacy")]
         public async Task<IActionResult> GetPharmacy(Guid id)
         {

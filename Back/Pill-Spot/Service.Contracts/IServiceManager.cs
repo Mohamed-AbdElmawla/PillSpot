@@ -28,6 +28,7 @@ namespace Service.Contracts
         ICartService CartService { get; }
         ICartItemService CartItemService { get; }
         IPharmacyEmployeeRoleService PharmacyEmployeeRoleService { get; }
+        IPrescriptionService PrescriptionService { get; }
         IProductNotificationPreferenceService ProductNotificationPreferenceService { get; }
         ISecurityService SecurityService { get; }
     }

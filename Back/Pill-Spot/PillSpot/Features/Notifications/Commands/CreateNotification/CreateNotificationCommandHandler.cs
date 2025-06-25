@@ -4,7 +4,6 @@ using Service.Contracts;
 using Service.Contracts.Notifications.Commands;
 using Service.Hubs;
 using Shared.DataTransferObjects;
-using System.Security.Claims;
 
 namespace PillSpot.Features.Notifications.Commands.CreateNotification
 {

@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PillSpot.Service.Contracts;
-using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
 using System.Security.Claims;
 
 namespace PillSpot.Presentation.Controllers

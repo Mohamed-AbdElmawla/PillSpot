@@ -41,6 +41,7 @@ namespace Service
         private readonly Lazy<ICartService> _cartService;
         private readonly Lazy<ICartItemService> _cartItemService;
         private readonly Lazy<IPharmacyEmployeeRoleService> _pharmacyEmployeeRoleService;
+        private readonly Lazy<IPrescriptionService> _prescriptionService;
         private readonly Lazy<IProductNotificationPreferenceService> _productNotificationPreferenceService;
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
@@ -95,6 +96,8 @@ namespace Service
             _orderService = new Lazy<IOrderService>(() => new OrderService(repositoryManager, mapper, userManager, _notificationService.Value));
             _cartService = new Lazy<ICartService>(() => new CartService(repositoryManager, mapper, userManager, _notificationService.Value));
             _cartItemService = new Lazy<ICartItemService>(() => new CartItemService(repositoryManager, mapper, userManager, fileService));
+            _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
+            _prescriptionService = new Lazy<IPrescriptionService>(() => new PrescriptionService(repositoryManager, mapper,fileService));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -121,6 +124,7 @@ namespace Service
         public ICartService CartService => _cartService.Value;
         public ICartItemService CartItemService => _cartItemService.Value;
         public IPharmacyEmployeeRoleService PharmacyEmployeeRoleService => _pharmacyEmployeeRoleService.Value;
+        public IPrescriptionService PrescriptionService => _prescriptionService.Value;
         public IProductNotificationPreferenceService ProductNotificationPreferenceService => _productNotificationPreferenceService.Value;
         public ISecurityService SecurityService => _securityService;
     }

@@ -1,4 +1,13 @@
 ﻿using Contracts;
+using Entities.ConfigurationModels;
+using Entities.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using PillSpot.Presentation.ActionFilters;
+using PillSpot.Presentation.ModelBinders;
 using Repository;
 using Service;
 using Service.Contracts;

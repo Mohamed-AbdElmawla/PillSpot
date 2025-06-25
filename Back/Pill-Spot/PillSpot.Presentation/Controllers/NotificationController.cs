@@ -6,9 +6,6 @@ using Service.Contracts;
 using Service.Contracts.Notifications.Commands;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Threading.Tasks;
-using System.Security.Claims;
 
 namespace PillSpot.Presentation.Controllers
 {

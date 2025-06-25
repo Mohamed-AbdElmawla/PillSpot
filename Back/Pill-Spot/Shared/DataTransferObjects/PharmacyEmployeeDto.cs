@@ -8,6 +8,7 @@
         public string Email { get; set; }
         public string Role { get; set; }
         public IEnumerable<string> Permissions { get; set; }
-        public string PharmacyName { get; set; }  // Add this line
+        public string PharmacyName { get; set; }
+        public string? ProfilePictureUrl { get; set; }
     }
 }

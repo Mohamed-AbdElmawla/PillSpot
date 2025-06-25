@@ -30,8 +30,9 @@ namespace Contracts
         ICartItemRepository CartItemRepository { get; }
         IUserAddressRepository UserAddressRepository { get; }
         IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository { get; }
+        IPrescriptionRepository PrescriptionRepository { get; }
+        IPrescriptionProductRepository PrescriptionProductRepository { get; }
         IProductNotificationPreferenceRepository ProductNotificationPreferenceRepository { get; }
-
         Task SaveAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

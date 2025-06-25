@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.SignalR;
 using MediatR;
 using Service.Contracts;
 using Service.Hubs;
+using PillSpot.Presentation.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,11 +53,13 @@ builder.Services.AddSignalR(options =>
     options.EnableDetailedErrors = true;
     options.MaximumReceiveMessageSize = 102400; // 100 KB
 });
+//builder.Services.ConfigureCustomModelBinders();
 
 // Add MediatR
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -71,6 +74,7 @@ builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
     config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+    config.ModelBinderProviders.Insert(0, new CustomModelBinderProvider());
 }).AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly);
 
