@@ -9,6 +9,7 @@
         public required string UsageInstructions { get; init; }
         public double Price { get; init; }
         public string ImageURL { get; init; }
+        public string Manufacturer { get; init; }
         public DateTime CreatedDate { get; init; }
     }
 }

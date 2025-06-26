@@ -9,6 +9,7 @@ namespace Shared.DataTransferObjects
         public string? Description { get; init; }
         public string? UsageInstructions { get; init; }
         public double? Price { get; init; }
+        public string? Manufacturer { get; init; }
         public IFormFile? Image { get; init; }
     }
 }
