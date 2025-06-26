@@ -25,6 +25,10 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(true);
 
+            builder.Property(p => p.Manufacturer)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(true);
 
             builder.Property(c => c.UsageInstructions)
                 .IsRequired()

@@ -90,6 +90,10 @@ namespace PillSpot
                 .ForMember(dest => dest.ProductDto, opt => opt.MapFrom(src => src.Product))
                 .ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy));
 
+            CreateMap<PharmacyProduct, PharmacyProductWithDistanceDto>()
+                .ForMember(dest => dest.ProductDto, opt => opt.MapFrom(src => src.Product))
+                .ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy));
+
             CreateMap<PharmacyProductForCreationDto, PharmacyProduct>();
 
 

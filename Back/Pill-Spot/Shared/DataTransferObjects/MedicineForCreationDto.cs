@@ -4,9 +4,6 @@ namespace Shared.DataTransferObjects
 {
     public record MedicineForCreationDto : ProductForCreationDto
     {
-        [Required(ErrorMessage = "Manufacturer is required.")]
-        [MaxLength(250, ErrorMessage = "Manufacturer cannot exceed 250 characters.")]
-        public string Manufacturer { get; init; }
         [Required(ErrorMessage = "Dosage is required.")]
         [Range(0.01, float.MaxValue, ErrorMessage = "Dosage must be greater than zero.")]
         public float Dosage { get; init; }
