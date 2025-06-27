@@ -28,9 +28,7 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacies);
         }
 
-        [HttpGet("{id:Guid}")]
-        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("GetPharmacy")]
+        [HttpGet("{id:Guid}")]        
         public async Task<IActionResult> GetPharmacy(Guid id)
         {
             var pharmacy = await _service.PharmacyService.GetPharmacyAsync(id, trackChanges: false);

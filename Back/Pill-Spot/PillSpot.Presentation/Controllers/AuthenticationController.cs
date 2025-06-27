@@ -55,15 +55,15 @@ namespace PillSpot.Presentation.Controllers
             var baseCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = !isDevelopment, // Only require HTTPS in production
-                SameSite = SameSiteMode.Strict,
+                Secure = true, 
+                SameSite = SameSiteMode.None,
                 Path = "/"
             };
 
             // Access token cookie (short-lived)
             var accessCookieOptions = new CookieOptions
             {
-                HttpOnly = baseCookieOptions.HttpOnly,
+                HttpOnly = false,
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
