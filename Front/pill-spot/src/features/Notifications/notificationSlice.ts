@@ -20,6 +20,9 @@ interface Notification {
     title: string;
     message: string;
     isRead: boolean;
+    createdAt?: string;
+    type?: string;
+    avatarUrl?: string;
 }
 
 interface NotificationState {
