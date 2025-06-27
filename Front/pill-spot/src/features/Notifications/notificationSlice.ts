@@ -16,12 +16,23 @@ import {
 
 // Define the notification type (adjust fields as needed)
 interface Notification {
-    id: string;
+    notificationId: string;
+    userId: string;
+    actorId: string | null;
     title: string;
     message: string;
+    content: string;
+    type: string;
+    data: string;
+    relatedEntityId: string | null;
+    relatedEntityType: string | null;
     isRead: boolean;
-    createdAt?: string;
-    type?: string;
+    isNotified: boolean;
+    isBroadcast: boolean;
+    isDeleted: boolean;
+    createdDate: string;
+    notifiedDate: string | null;
+    modifiedDate: string | null;
     avatarUrl?: string;
 }
 

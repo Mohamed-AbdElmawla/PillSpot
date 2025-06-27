@@ -60,8 +60,8 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
   };
 
   // Mark one as read
-  const handleMarkAsRead = (id: string) => {
-    dispatch(markNotificationAsReadThunk(id)).then(() => {
+  const handleMarkAsRead = (notificationId: string) => {
+    dispatch(markNotificationAsReadThunk(notificationId)).then(() => {
       if (activeTab === 'unread') {
         dispatch(getNotifications(false));
       } else {
@@ -72,8 +72,8 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
   };
 
   // Delete one
-  const handleDelete = (id: string) => {
-    dispatch(deleteNotificationThunk(id)).then(() => {
+  const handleDelete = (notificationId: string) => {
+    dispatch(deleteNotificationThunk(notificationId)).then(() => {
       if (activeTab === 'unread') {
         dispatch(getNotifications(false));
       } else {
@@ -86,10 +86,10 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
   // Tabs logic
   const sortedUnread = notifications
     .filter((n) => !n.isRead)
-    .sort((a, b) => new Date(b.createdAt ?? '').getTime() - new Date(a.createdAt ?? '').getTime());
+    .sort((a, b) => new Date(b.createdDate ?? '').getTime() - new Date(a.createdDate ?? '').getTime());
   const sortedRead = notifications
     .filter((n) => n.isRead)
-    .sort((a, b) => new Date(b.createdAt ?? '').getTime() - new Date(a.createdAt ?? '').getTime());
+    .sort((a, b) => new Date(b.createdDate ?? '').getTime() - new Date(a.createdDate ?? '').getTime());
 
   let iconColor = "text-3xl  text-[#ffffff] cursor-pointer hover:scale-105 duration-100";
   if (iconStyle) iconColor = iconStyle;
@@ -147,15 +147,15 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
             ) : (
               sortedUnread.map((notif) => (
                 <OneNotifiy
-                  key={notif.id}
+                  key={notif.notificationId}
                   title={notif.title}
                   content={notif.message}
                   read={notif.isRead}
-                  time={notif.createdAt ? new Date(notif.createdAt).toLocaleString() : ''}
+                  time={notif.createdDate ? new Date(notif.createdDate).toLocaleString() : ''}
                   type={notif.type as NotificationType}
                   avatarUrl={notif.avatarUrl}
-                  onMarkAsRead={notif.isRead ? undefined : () => handleMarkAsRead(notif.id)}
-                  onDelete={() => handleDelete(notif.id)}
+                  onMarkAsRead={notif.isRead ? undefined : () => handleMarkAsRead(notif.notificationId)}
+                  onDelete={() => handleDelete(notif.notificationId)}
                 />
               ))
             )
@@ -165,15 +165,15 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
             ) : (
               sortedRead.map((notif) => (
                 <OneNotifiy
-                  key={notif.id}
+                  key={notif.notificationId}
                   title={notif.title}
                   content={notif.message}
                   read={notif.isRead}
-                  time={notif.createdAt ? new Date(notif.createdAt).toLocaleString() : ''}
+                  time={notif.createdDate ? new Date(notif.createdDate).toLocaleString() : ''}
                   type={notif.type as NotificationType}
                   avatarUrl={notif.avatarUrl}
                   onMarkAsRead={undefined}
-                  onDelete={() => handleDelete(notif.id)}
+                  onDelete={() => handleDelete(notif.notificationId)}
                 />
               ))
             )
