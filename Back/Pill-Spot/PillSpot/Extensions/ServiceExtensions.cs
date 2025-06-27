@@ -235,9 +235,9 @@ namespace PillSpot.Extensions
             {
                 options.HeaderName = "X-Csrf-Token";
                 options.Cookie.Name = "CsrfToken";
-                options.Cookie.HttpOnly = false; // Allow JavaScript access
+                options.Cookie.HttpOnly = false;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.MaxAge = TimeSpan.FromHours(1);
             });
         }
