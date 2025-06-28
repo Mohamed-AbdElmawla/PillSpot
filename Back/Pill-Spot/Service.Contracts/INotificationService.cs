@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.Notifications;
 using Shared.RequestFeatures;
 using Entities.Models;
 using System;
@@ -28,8 +29,8 @@ namespace Service.Contracts
         Task<IEnumerable<NotificationDto>> GetUnreadNotificationsByUsernameAsync(string username);
 
         // Real-time notification operations
-        Task SendNotificationAsync(string userId, string title, string message, NotificationType type, string? data = null);
-        Task SendNotificationByUsernameAsync(string username, string title, string message, NotificationType type, string? data = null);
+        Task<NotificationDto> SendNotificationAsync(string userId, string title, string message, NotificationType type, string? data = null);
+        Task<NotificationDto> SendNotificationByUsernameAsync(string username, string title, string message, NotificationType type, string? data = null);
         Task SendBulkNotificationAsync(IEnumerable<string> userIds, string title, string message, NotificationType type, string? data = null);
         Task SendBulkNotificationByUsernamesAsync(IEnumerable<string> usernames, string title, string message, NotificationType type, string? data = null);
 
