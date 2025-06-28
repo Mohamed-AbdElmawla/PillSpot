@@ -8,7 +8,6 @@ import {
   getNotifications,
   markNotificationAsReadThunk,
   deleteNotificationThunk,
-  markAllNotificationsAsReadThunk,
   getUnreadNotificationCountThunk,
   addNotification,
 } from "../../features/Notifications/notificationSlice";
@@ -89,7 +88,9 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
 
   // Mark all as read
   const handleMarkAllAsRead = () => {
-    dispatch(markAllNotificationsAsReadThunk()).then(() => {
+    // Mark each unread notification as read individually
+    const unreadNotifications = notifications.filter(n => !n.isRead);
+    Promise.all(unreadNotifications.map(n => dispatch(markNotificationAsReadThunk(n.notificationId)))).then(() => {
       if (activeTab === 'unread') {
         dispatch(getNotifications(false));
       } else {

@@ -270,6 +270,12 @@ export const notificationSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.errorMessage = action.payload || "Failed to fetch notifications";
+            })
+            .addCase(markAllNotificationsAsReadThunk.fulfilled, (state) => {
+                state.notifications = state.notifications.map(n => ({
+                    ...n,
+                    isRead: true
+                }));
             });
     },
 });

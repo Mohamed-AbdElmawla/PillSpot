@@ -1,6 +1,12 @@
 import { HubConnectionBuilder, HubConnection, LogLevel } from "@microsoft/signalr";
 import type { Notification } from "./Notifications/notificationSlice";
 
+declare global {
+  interface Window {
+    signalRConnection?: HubConnection;
+  }
+}
+
 const hubUrl = "https://localhost:7298/hubs/notifications";
 
 let connection: HubConnection | null = null;
@@ -27,7 +33,7 @@ export const startConnection = async () => {
       await connection.start();
       console.log("[SignalR] Connected to hub at", hubUrl);
       // Make connection available globally for debugging
-      (window as any).signalRConnection = connection;
+      (window).signalRConnection = connection;
     } catch (err) {
       console.error("[SignalR] Connection Error: ", err);
       connection = null;
