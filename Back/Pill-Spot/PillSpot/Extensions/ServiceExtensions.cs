@@ -93,7 +93,7 @@ namespace PillSpot.Extensions
             services.AddScoped<IRealTimeNotificationService, RealTimeNotificationService>();
 
         public static void ConfigureProductNotificationPreferenceService(this IServiceCollection services) =>
-            services.AddScoped<IProductNotificationPreferenceService, PillSpot.Service.ProductNotificationPreferenceService>();
+            services.AddScoped<IPharmacyProductNotificationPreferenceService, PillSpot.Service.PharmacyProductNotificationPreferenceService>();
 
         public static void ConfigureFileService(this IServiceCollection services) =>
         services.AddSingleton<IFileService, FileService>();

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20250628222923_AddSmartNotificationFiltering")]
+    partial class AddSmartNotificationFiltering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1589,8 +1592,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f680303d-6380-492a-b006-72e4fb6e4645",
-                            CreatedDate = new DateTime(2025, 6, 28, 22, 48, 10, 688, DateTimeKind.Utc).AddTicks(2975),
+                            ConcurrencyStamp = "426427f0-8522-423a-a893-998cb20e65d6",
+                            CreatedDate = new DateTime(2025, 6, 28, 22, 29, 16, 420, DateTimeKind.Utc).AddTicks(6158),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1601,7 +1604,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMzVvt8exVawWFCAXQgReU3CID2fWy9DmgSEUiLo/CEZg2lIbib5JMEmIOTF4irftw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPtgKW6GQdwkclj0CuB2XZImjlOUmevD1MLC81P/vjkkGCOUsBrgCsTXUnZUibdxCQ==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",

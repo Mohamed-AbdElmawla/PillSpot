@@ -58,6 +58,16 @@ namespace PillSpot.Presentation.Controllers
             return CreatedAtAction(nameof(GetPharmacyProduct), new { pharmacyId = createdPharmacyProduct.PharmacyDto.PharmacyId, productId = createdPharmacyProduct.ProductDto.ProductId }, createdPharmacyProduct);
         }
 
+        [HttpPut("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> UpdatePharmacyProduct(Guid pharmacyId, Guid productId, [FromBody] PharmacyProductForUpdateDto pharmacyProductForUpdateDto)
+        {
+            await _service.PharmacyProductService.UpdatePharmacyProductAsync(productId, pharmacyId, pharmacyProductForUpdateDto, trackChanges: true);
+            return NoContent();
+        }
+
         [HttpDelete("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
        // [Authorize(Roles = "Admin")]
         [ValidateCsrfToken]

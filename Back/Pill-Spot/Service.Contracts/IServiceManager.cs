@@ -29,7 +29,7 @@ namespace Service.Contracts
         ICartItemService CartItemService { get; }
         IPharmacyEmployeeRoleService PharmacyEmployeeRoleService { get; }
         IPrescriptionService PrescriptionService { get; }
-        IProductNotificationPreferenceService ProductNotificationPreferenceService { get; }
+        IPharmacyProductNotificationPreferenceService PharmacyProductNotificationPreferenceService { get; }
         ISecurityService SecurityService { get; }
     }
 }

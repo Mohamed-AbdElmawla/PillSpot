@@ -40,7 +40,7 @@ namespace Service
         private readonly Lazy<ICartItemService> _cartItemService;
         private readonly Lazy<IPharmacyEmployeeRoleService> _pharmacyEmployeeRoleService;
         private readonly Lazy<IPrescriptionService> _prescriptionService;
-        private readonly Lazy<IProductNotificationPreferenceService> _productNotificationPreferenceService;
+        private readonly Lazy<IPharmacyProductNotificationPreferenceService> _pharmacyProductNotificationPreferenceService;
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
@@ -76,15 +76,15 @@ namespace Service
             _adminPermissionService = new Lazy<IAdminPermissionService>(() => new AdminPermissionService(repositoryManager, mapper, userManager));
             _adminService = new Lazy<IAdminService>(() => new AdminService(repositoryManager, userManager));
             _pharmacyService = new Lazy<IPharmacyService>(() => new PharmacyService(repositoryManager, mapper, userManager, fileService));
-            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService, roleManager));
+            _pharmacyRequestService = new Lazy<IPharmacyRequestService>(() => new PharmacyRequestService(repositoryManager, mapper, userManager, fileService, locationService, roleManager, _notificationService.Value));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
             _subCategoryService = new Lazy<ISubCategoryService>(() => new SubCategoryService(repositoryManager, mapper));
             _medicineService = new Lazy<IMedicineService>(() => new MedicineService(repositoryManager, mapper, fileService));
             _cosmeticService = new Lazy<ICosmeticService>(() => new CosmeticService(repositoryManager, mapper, fileService));
-            _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper));
+            _pharmacyProductService = new Lazy<IPharmacyProductService>(() => new PharmacyProductService(repositoryManager, mapper, _notificationService.Value));
             _pharmacyEmployeeService = new Lazy<IPharmacyEmployeeService>(() => new PharmacyEmployeeService(repositoryManager, mapper));
             _userAddressService = new Lazy<IUserAddressService>(() => new UserAddressService(repositoryManager, mapper));
-            _productNotificationPreferenceService = new Lazy<IProductNotificationPreferenceService>(() => new ProductNotificationPreferenceService(repositoryManager, mapper));
+            _pharmacyProductNotificationPreferenceService = new Lazy<IPharmacyProductNotificationPreferenceService>(() => new PharmacyProductNotificationPreferenceService(repositoryManager, mapper));
 
             // Initialize NotificationService first since other services depend on it
             _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, _realTimeNotificationService, mapper, userManager));
@@ -96,6 +96,7 @@ namespace Service
             _cartItemService = new Lazy<ICartItemService>(() => new CartItemService(repositoryManager, mapper, userManager, fileService));
             _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
             _prescriptionService = new Lazy<IPrescriptionService>(() => new PrescriptionService(repositoryManager, mapper,fileService));
+            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper, userManager, _notificationService.Value));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
@@ -123,7 +124,7 @@ namespace Service
         public ICartItemService CartItemService => _cartItemService.Value;
         public IPharmacyEmployeeRoleService PharmacyEmployeeRoleService => _pharmacyEmployeeRoleService.Value;
         public IPrescriptionService PrescriptionService => _prescriptionService.Value;
-        public IProductNotificationPreferenceService ProductNotificationPreferenceService => _productNotificationPreferenceService.Value;
+        public IPharmacyProductNotificationPreferenceService PharmacyProductNotificationPreferenceService => _pharmacyProductNotificationPreferenceService.Value;
         public ISecurityService SecurityService => _securityService;
     }
 }

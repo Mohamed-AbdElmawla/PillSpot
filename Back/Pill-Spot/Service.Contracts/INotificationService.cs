@@ -34,6 +34,15 @@ namespace Service.Contracts
         Task SendBulkNotificationAsync(IEnumerable<string> userIds, string title, string message, NotificationType type, string? data = null);
         Task SendBulkNotificationByUsernamesAsync(IEnumerable<string> usernames, string title, string message, NotificationType type, string? data = null);
 
+        // Role-based notifications
+        Task SendNotificationToRoleAsync(string role, string title, string message, NotificationType type, string? data = null);
+        Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null);
+
+        // Request-related notifications
+        Task SendEmployeeRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string requesterName, string action);
+        Task SendPharmacyRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string action);
+        Task SendRequestStatusUpdateNotificationAsync(string userId, Guid requestId, string status, string message);
+
         // Business event notifications
         Task SendPrescriptionExpiryNotificationAsync(string userId, Guid prescriptionId, DateTime expiryDate);
         Task SendPrescriptionExpiryNotificationByUsernameAsync(string username, Guid prescriptionId, DateTime expiryDate);
@@ -51,6 +60,9 @@ namespace Service.Contracts
         // Product-specific notifications
         Task SendProductSpecificNotificationAsync(string userId, string productId, string productName, string infoType);
         Task SendProductSpecificNotificationByUsernameAsync(string username, string productId, string productName, string infoType);
+
+        // Pharmacy-specific product notifications
+        Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message);
 
         // Grouped notification methods
         Task SendGroupedProductNotificationsAsync(string userId, IEnumerable<(string productId, string productName, string infoType)> updates);
