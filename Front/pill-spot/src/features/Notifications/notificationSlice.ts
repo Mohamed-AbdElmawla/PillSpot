@@ -15,7 +15,7 @@ import {
 } from "./NotificaitonsServics";
 
 // Define the notification type (adjust fields as needed)
-interface Notification {
+export interface Notification {
     notificationId: string;
     userId: string;
     actorId: string | null;
@@ -248,6 +248,12 @@ export const notificationSlice = createSlice({
             state.isError = false;
             state.errorMessage = "";
         },
+        addNotification: (state, action: PayloadAction<Notification>) => {
+            // Avoid duplicates
+            if (!state.notifications.some(n => n.notificationId === action.payload.notificationId)) {
+                state.notifications = [action.payload, ...state.notifications];
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -268,5 +274,5 @@ export const notificationSlice = createSlice({
     },
 });
 
-export const { clearNotifications } = notificationSlice.actions;
+export const { clearNotifications, addNotification } = notificationSlice.actions;
 export default notificationSlice.reducer;

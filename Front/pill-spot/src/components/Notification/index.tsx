@@ -10,7 +10,9 @@ import {
   deleteNotificationThunk,
   markAllNotificationsAsReadThunk,
   getUnreadNotificationCountThunk,
+  addNotification,
 } from "../../features/Notifications/notificationSlice";
+import { startConnection, subscribeToNotificationEvents, unsubscribeFromNotificationEvents } from "../../features/NotificationHubService";
 
 interface Iprops {
   iconStyle?: string;
@@ -34,6 +36,44 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
       }
     });
   };
+
+  useEffect(() => {
+    console.log("[NotificationDrawer] Setting up SignalR connection...");
+    let isMounted = true;
+    startConnection().then((conn) => {
+      console.log("[NotificationDrawer] startConnection result:", conn);
+      if (!isMounted) {
+        console.log("[NotificationDrawer] Component unmounted, skipping subscription");
+        return;
+      }
+      if (!conn) {
+        console.error("[NotificationDrawer] No connection returned from startConnection");
+        return;
+      }
+      console.log("[NotificationDrawer] Subscribing to notification events...");
+      subscribeToNotificationEvents(
+        (notification) => {
+          console.log("[NotificationDrawer] New notification received:", notification);
+          dispatch(addNotification(notification));
+          fetchUnreadCount();
+        },
+        (count) => {
+          console.log("[NotificationDrawer] Unread count updated:", count);
+          setUnreadCount(count);
+        }
+      );
+    }).catch((err) => {
+      console.error("[NotificationDrawer] Error starting SignalR connection:", err);
+    });
+
+    return () => {
+      console.log("[NotificationDrawer] Cleaning up SignalR connection...");
+      isMounted = false;
+      unsubscribeFromNotificationEvents();
+    };
+    // Only run once on mount
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (open) {
