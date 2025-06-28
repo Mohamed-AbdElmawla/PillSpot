@@ -58,7 +58,7 @@ export const markAllNotificationsAsRead = async () => {
 export const getUnreadNotificationCount = async () => {
   try {
     const response = await axiosInstance.get(`api/Notification/unread/count`);
-    return response.data;
+    return response.data.count;
   } catch (error) {
     console.error(`Error fetching unread notification count:`, error);
     throw error;

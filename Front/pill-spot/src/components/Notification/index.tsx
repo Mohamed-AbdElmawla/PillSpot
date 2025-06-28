@@ -1,136 +1,21 @@
-import { useState, useEffect } from "react";
 import { Drawer } from "antd";
 import { IoNotificationsOutline } from "react-icons/io5";
 import OneNotifiy, { NotificationType } from "./OneNotifiy/OneNotifiy";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store";
-import {
-  getNotifications,
-  markNotificationAsReadThunk,
-  deleteNotificationThunk,
-  getUnreadNotificationCountThunk,
-  addNotification,
-} from "../../features/Notifications/notificationSlice";
-import { startConnection, subscribeToNotificationEvents, unsubscribeFromNotificationEvents } from "../../features/NotificationHubService";
+import useNotificationSignalR from "./useNotificationSignalR";
+import useNotificationData from "./useNotificationData";
+import useUnreadCount from "./useUnreadCount";
+import type { Notification } from "../../features/Notifications/notificationSlice";
+import { useEffect } from "react";
 
 interface Iprops {
   iconStyle?: string;
 }
 
 const NotificationDrawer = ({ iconStyle }: Iprops) => {
-  const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'unread' | 'read'>('unread');
-  const [unreadCount, setUnreadCount] = useState<number>(0);
-  const dispatch = useDispatch<AppDispatch>();
-  const { notifications, isLoading } = useSelector((state: RootState) => state.notifications);
-
-  // Fetch unread count when drawer opens or after actions
-  const fetchUnreadCount = () => {
-    dispatch(getUnreadNotificationCountThunk()).then((action: unknown) => {
-      if (typeof action === 'object' && action !== null && 'payload' in action) {
-        const payload = (action as { payload?: unknown }).payload;
-        if (typeof payload === 'number') {
-          setUnreadCount(payload);
-        }
-      }
-    });
-  };
-
-  useEffect(() => {
-    console.log("[NotificationDrawer] Setting up SignalR connection...");
-    let isMounted = true;
-    startConnection().then((conn) => {
-      console.log("[NotificationDrawer] startConnection result:", conn);
-      if (!isMounted) {
-        console.log("[NotificationDrawer] Component unmounted, skipping subscription");
-        return;
-      }
-      if (!conn) {
-        console.error("[NotificationDrawer] No connection returned from startConnection");
-        return;
-      }
-      console.log("[NotificationDrawer] Subscribing to notification events...");
-      subscribeToNotificationEvents(
-        (notification) => {
-          console.log("[NotificationDrawer] New notification received:", notification);
-          dispatch(addNotification(notification));
-          fetchUnreadCount();
-        },
-        (count) => {
-          console.log("[NotificationDrawer] Unread count updated:", count);
-          setUnreadCount(count);
-        }
-      );
-    }).catch((err) => {
-      console.error("[NotificationDrawer] Error starting SignalR connection:", err);
-    });
-
-    return () => {
-      console.log("[NotificationDrawer] Cleaning up SignalR connection...");
-      isMounted = false;
-      unsubscribeFromNotificationEvents();
-    };
-    // Only run once on mount
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (open) {
-      // Fetch notifications for the current tab when drawer opens
-      if (activeTab === 'unread') {
-        dispatch(getNotifications(false));
-      } else {
-        dispatch(getNotifications(true));
-      }
-      fetchUnreadCount();
-    }
-  }, [open, activeTab, dispatch]);
-
-  // Mark all as read
-  const handleMarkAllAsRead = () => {
-    // Mark each unread notification as read individually
-    const unreadNotifications = notifications.filter(n => !n.isRead);
-    Promise.all(unreadNotifications.map(n => dispatch(markNotificationAsReadThunk(n.notificationId)))).then(() => {
-      if (activeTab === 'unread') {
-        dispatch(getNotifications(false));
-      } else {
-        dispatch(getNotifications(true));
-      }
-      fetchUnreadCount();
-    });
-  };
-
-  // Mark one as read
-  const handleMarkAsRead = (notificationId: string) => {
-    dispatch(markNotificationAsReadThunk(notificationId)).then(() => {
-      if (activeTab === 'unread') {
-        dispatch(getNotifications(false));
-      } else {
-        dispatch(getNotifications(true));
-      }
-      fetchUnreadCount();
-    });
-  };
-
-  // Delete one
-  const handleDelete = (notificationId: string) => {
-    dispatch(deleteNotificationThunk(notificationId)).then(() => {
-      if (activeTab === 'unread') {
-        dispatch(getNotifications(false));
-      } else {
-        dispatch(getNotifications(true));
-      }
-      fetchUnreadCount();
-    });
-  };
-
-  // Tabs logic
-  const sortedUnread = notifications
-    .filter((n) => !n.isRead)
-    .sort((a, b) => new Date(b.createdDate ?? '').getTime() - new Date(a.createdDate ?? '').getTime());
-  const sortedRead = notifications
-    .filter((n) => n.isRead)
-    .sort((a, b) => new Date(b.createdDate ?? '').getTime() - new Date(a.createdDate ?? '').getTime());
+  const { unreadCount, setUnreadCount, fetchUnreadCount } = useUnreadCount();
+  const { open, setOpen, activeTab, setActiveTab, isLoading, handleMarkAllAsRead, handleMarkAsRead, handleDelete, sortedUnread, sortedRead } = useNotificationData(fetchUnreadCount);
+  useNotificationSignalR(setUnreadCount as (count: number) => void);
+  useEffect(() => { fetchUnreadCount(); }, [fetchUnreadCount]);
 
   let iconColor = "text-3xl  text-[#ffffff] cursor-pointer hover:scale-105 duration-100";
   if (iconStyle) iconColor = iconStyle;
@@ -139,13 +24,11 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
     <>
       <button onClick={() => setOpen(true)} className={iconColor} style={{ position: 'relative' }}>
         <IoNotificationsOutline />
-        {unreadCount > 0 && (
-          <span
-            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs min-w-[1.25em] h-[1.25em] flex items-center justify-center px-1 font-bold z-10 border-2 border-white shadow"
-          >
-            {unreadCount}
-          </span>
-        )}
+        <span
+          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs min-w-[1.25em] h-[1.25em] flex items-center justify-center px-1 font-bold z-10 border-2 border-white shadow"
+        >
+          {unreadCount}
+        </span>
       </button>
       <Drawer title="Notifications" onClose={() => setOpen(false)} open={open} className="rounded-tl-3xl rounded-bl-3xl">
         {/* Top actions */}
@@ -166,11 +49,9 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
             onClick={() => setActiveTab('unread')}
           >
             Unread
-            {sortedUnread.length > 0 && (
-              <span className="ml-2 inline-block min-w-[1.5em] px-2 py-0.5 rounded-full bg-blue-500 text-white text-xs font-bold align-middle">
-                {sortedUnread.length}
-              </span>
-            )}
+            <span className="ml-2 inline-block min-w-[1.5em] px-2 py-0.5 rounded-full bg-blue-500 text-white text-xs font-bold align-middle">
+              {unreadCount}
+            </span>
           </button>
           <button
             className={`flex-1 py-2 font-semibold text-lg border-b-2 transition-colors duration-200 ${activeTab === 'read' ? 'border-blue-500 text-blue-600 bg-white' : 'border-transparent text-gray-500 bg-transparent'}`}
@@ -186,7 +67,7 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
             sortedUnread.length === 0 ? (
               <div className="text-gray-400 text-center py-8">No unread notifications</div>
             ) : (
-              sortedUnread.map((notif) => (
+              sortedUnread.map((notif: Notification) => (
                 <OneNotifiy
                   key={notif.notificationId}
                   title={notif.title}
@@ -204,7 +85,7 @@ const NotificationDrawer = ({ iconStyle }: Iprops) => {
             sortedRead.length === 0 ? (
               <div className="text-gray-400 text-center py-8">No read notifications</div>
             ) : (
-              sortedRead.map((notif) => (
+              sortedRead.map((notif: Notification) => (
                 <OneNotifiy
                   key={notif.notificationId}
                   title={notif.title}
