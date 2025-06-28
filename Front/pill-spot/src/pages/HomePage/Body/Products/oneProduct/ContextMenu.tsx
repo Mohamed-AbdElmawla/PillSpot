@@ -1,6 +1,8 @@
 import { FaRegHeart } from "react-icons/fa6";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import { toast } from "sonner";
+import { subscribeToProductAvailability } from "../../../../../features/NotificationSubscribe/NotificationSubscribService";
+
 
 interface CategoryDto {
   categoryId: string;
@@ -55,6 +57,8 @@ interface ContextMenuProps {
 }
 
 const ContextMenu = ({ x, y, visible, productDto, pharmacyDto, onClose }: ContextMenuProps) => {
+
+
   const handleAddToCart = () => {
     toast.success("Added to cart");
     onClose();
@@ -70,10 +74,17 @@ const ContextMenu = ({ x, y, visible, productDto, pharmacyDto, onClose }: Contex
     onClose();
   };
 
-  const handleTrackAvailability = () => {
-    toast.info("You will be notified when this product is available.");
+  const handleTrackAvailability = async () => {
+    try {
+      await subscribeToProductAvailability(productDto.productId, {
+        isEnabled: true,
+        notificationTypes: ["string"]
+      });
+      toast.success("You will be notified when this product is available.");
+    } catch {
+      toast.error("Failed to subscribe for product availability notification.");
+    }
     onClose();
-    alert(productDto.productId)
   };
 
   const handleCopyProductName = async () => {
