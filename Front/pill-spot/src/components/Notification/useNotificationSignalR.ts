@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { startConnection, subscribeToNotificationEvents, unsubscribeFromNotificationEvents } from "../../features/NotificationHubService";
 import { useDispatch } from "react-redux";
-import { addNotification } from "../../features/Notifications/notificationSlice";
+import { addNotification, getUnreadNotificationCountThunk } from "../../features/Notifications/notificationSlice";
 
 const useNotificationSignalR = (setUnreadCount: (count: number) => void) => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const useNotificationSignalR = (setUnreadCount: (count: number) => void) => {
       subscribeToNotificationEvents(
         (notification) => {
           dispatch(addNotification(notification));
+          dispatch(getUnreadNotificationCountThunk());
         },
         (count) => {
           setUnreadCount(count);

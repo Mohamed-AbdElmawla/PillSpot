@@ -5,9 +5,10 @@ import {
   getNotifications,
   markNotificationAsReadThunk,
   deleteNotificationThunk,
+  getUnreadNotificationCountThunk,
 } from "../../features/Notifications/notificationSlice";
 
-const useNotificationData = (fetchUnreadCount: () => void) => {
+const useNotificationData = (fetchUnreadCount?: () => void) => {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'unread' | 'read'>('unread');
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +32,8 @@ const useNotificationData = (fetchUnreadCount: () => void) => {
       } else {
         dispatch(getNotifications(true));
       }
-      fetchUnreadCount();
+      if (fetchUnreadCount) fetchUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 
@@ -42,7 +44,8 @@ const useNotificationData = (fetchUnreadCount: () => void) => {
       } else {
         dispatch(getNotifications(true));
       }
-      fetchUnreadCount();
+      if (fetchUnreadCount) fetchUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 
@@ -53,7 +56,8 @@ const useNotificationData = (fetchUnreadCount: () => void) => {
       } else {
         dispatch(getNotifications(true));
       }
-      fetchUnreadCount();
+      if (fetchUnreadCount) fetchUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 

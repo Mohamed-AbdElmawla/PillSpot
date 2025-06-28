@@ -19,7 +19,7 @@ import HomePageMain from "../pages/HomePage";
 import UserHomePage from "../layouts/HomePage";
 
 
-import PharmacyReg from "../layouts/PharmacyReg";
+// import PharmacyReg from "../layouts/PharmacyReg";
 import RegPharmacy from "../pages/RegisterPharmacy";
 import UserSettingLayout from "../pages/UserSettings";
 import UserSettingsMain from "../pages/UserSettings/MainPage";

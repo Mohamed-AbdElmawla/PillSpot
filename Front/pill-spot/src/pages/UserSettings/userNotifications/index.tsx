@@ -21,28 +21,24 @@ const UserNotifications = () => {
     dispatch(getUnreadNotificationCountThunk());
   }, [dispatch]);
 
-  const updateUnreadCount = () => {
-    dispatch(getUnreadNotificationCountThunk());
-  };
-
   const handleMarkAsRead = (id: string) => {
     dispatch(markNotificationAsReadThunk(id)).then(() => {
       dispatch(getNotifications(false));
-      updateUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 
   const handleMarkAllAsRead = () => {
     dispatch(markAllNotificationsAsReadThunk()).then(() => {
       dispatch(getNotifications(false));
-      updateUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 
   const handleDelete = (id: string) => {
     dispatch(deleteNotificationThunk(id)).then(() => {
       dispatch(getNotifications(false));
-      updateUnreadCount();
+      dispatch(getUnreadNotificationCountThunk());
     });
   };
 
@@ -69,7 +65,7 @@ const UserNotifications = () => {
       ) : notifications.length === 0 ? (
         <div className="text-center text-gray-400 py-12">No unread notifications</div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-4 max-h-[calc(95vh-10rem)] overflow-y-auto">
           {notifications.map((notif) => (
             <div
               key={notif.notificationId}

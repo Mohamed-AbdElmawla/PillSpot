@@ -3,19 +3,26 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import OneNotifiy, { NotificationType } from "./OneNotifiy/OneNotifiy";
 import useNotificationSignalR from "./useNotificationSignalR";
 import useNotificationData from "./useNotificationData";
-import useUnreadCount from "./useUnreadCount";
 import type { Notification } from "../../features/Notifications/notificationSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../app/store";
+import { getUnreadNotificationCountThunk } from "../../features/Notifications/notificationSlice";
 import { useEffect } from "react";
+import type { AppDispatch } from "../../app/store";
 
 interface Iprops {
   iconStyle?: string;
 }
 
 const NotificationDrawer = ({ iconStyle }: Iprops) => {
-  const { unreadCount, setUnreadCount, fetchUnreadCount } = useUnreadCount();
-  const { open, setOpen, activeTab, setActiveTab, isLoading, handleMarkAllAsRead, handleMarkAsRead, handleDelete, sortedUnread, sortedRead } = useNotificationData(fetchUnreadCount);
-  useNotificationSignalR(setUnreadCount as (count: number) => void);
-  useEffect(() => { fetchUnreadCount(); }, [fetchUnreadCount]);
+  const unreadCount = useSelector((state: RootState) => state.notifications.unreadCount);
+  const dispatch = useDispatch<AppDispatch>();
+  const { open, setOpen, activeTab, setActiveTab, isLoading, handleMarkAllAsRead, handleMarkAsRead, handleDelete, sortedUnread, sortedRead } = useNotificationData(() => {});
+  useNotificationSignalR(() => {});
+
+  useEffect(() => {
+    dispatch(getUnreadNotificationCountThunk());
+  }, [dispatch]);
 
   let iconColor = "text-3xl  text-[#ffffff] cursor-pointer hover:scale-105 duration-100";
   if (iconStyle) iconColor = iconStyle;
