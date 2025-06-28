@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entities.Exceptions
+﻿namespace Entities.Exceptions
 {
     public class PharmacyNotFoundException : NotFoundException
     {
-        public PharmacyNotFoundException(string pharmacyId)
+        public PharmacyNotFoundException(Guid pharmacyId)
         : base($"The pharmacy with id: {pharmacyId} doesn't exist in the database.")
         { }
     }

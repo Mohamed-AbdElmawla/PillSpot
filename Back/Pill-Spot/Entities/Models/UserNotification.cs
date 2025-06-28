@@ -6,15 +6,15 @@ namespace Entities.Models
     public class UserNotification
     {
         [Key, Column(Order = 0)]
-        public string ReceiverId { get; set; }
+        public required string ReceiverId { get; set; }
 
         [Key, Column(Order = 1)]
-        public ulong NotificationID { get; set; }
+        public Guid NotificationId { get; set; }
 
         [ForeignKey("ReceiverId")]
         public virtual User Receiver { get; set; }
 
-        [ForeignKey("NotificationID")]
+        [ForeignKey("NotificationId")]
         public virtual Notification Notification { get; set; }
     }
 }

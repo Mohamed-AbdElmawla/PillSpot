@@ -7,22 +7,22 @@ namespace Entities.Models
     public class Message
     {
         [Key]
-        public ulong MessageId { get; set; }
+        public Guid MessageId { get; set; }
 
         [Required(ErrorMessage = "Chat ID is required.")]
-        public ulong ChatId { get; set; }
+        public Guid ChatId { get; set; }
 
         [Required(ErrorMessage = "Sender ID is required.")]
         [MaxLength(450, ErrorMessage = "Sender ID cannot exceed 450 characters.")]
-        public string SenderId { get; set; }
+        public required string SenderId { get; set; }
 
         [Required(ErrorMessage = "Recipient ID is required.")]
         [MaxLength(450, ErrorMessage = "Recipient ID cannot exceed 450 characters.")]
-        public string RecipientId { get; set; }
+        public required string RecipientId { get; set; }
 
         [Required(ErrorMessage = "Message content is required.")]
         [MaxLength(1000, ErrorMessage = "Message content cannot exceed 1000 characters.")]
-        public string Content { get; set; }
+        public required string Content { get; set; }
 
         [Required]
         public DateTime SentDate { get; set; } = DateTime.UtcNow;

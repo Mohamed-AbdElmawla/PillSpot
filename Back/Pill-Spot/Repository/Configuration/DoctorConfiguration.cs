@@ -8,9 +8,9 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Doctor> builder)
         {
-            builder.HasKey(d => d.UserID);
+            builder.HasKey(d => d.UserId);
 
-            builder.Property(d => d.LicenseID)
+            builder.Property(d => d.LicenseId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
@@ -25,15 +25,15 @@ namespace Repository.Configuration
             builder.Property(d => d.IsDeleted)
                 .HasDefaultValue(false);
 
-            builder.HasIndex(d => d.LicenseID)
-                .HasDatabaseName("IX_Doctor_LicenseID")
+            builder.HasIndex(d => d.LicenseId)
+                .HasDatabaseName("IX_Doctor_LicenseId")
                 .IsUnique();
             builder.HasIndex(c => c.IsDeleted)
                 .HasDatabaseName("IX_Doctor_IsDeleted");
 
             builder.HasOne(d => d.User)
                 .WithOne()
-                .HasForeignKey<Doctor>(d => d.UserID)
+                .HasForeignKey<Doctor>(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

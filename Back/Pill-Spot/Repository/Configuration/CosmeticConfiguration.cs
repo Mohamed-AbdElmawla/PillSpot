@@ -4,11 +4,11 @@ using Entities.Models;
 
 namespace Repository.Configuration
 {
-    public class CosmeticConfiguration : IEntityTypeConfiguration<Cosmetic>
+     public class CosmeticConfiguration : IEntityTypeConfiguration<Cosmetic>
     {
         public void Configure(EntityTypeBuilder<Cosmetic> builder)
         {
-            builder.HasBaseType<Product>();
+            builder.ToTable("Cosmetics");
 
             builder.Property(c => c.Brand)
                 .IsRequired()
@@ -18,16 +18,9 @@ namespace Repository.Configuration
             builder.Property(c => c.SkinType)
                 .IsRequired();
 
-            builder.Property(c => c.UsageInstructions)
-                .IsRequired()
-                .HasMaxLength(500)
-                .IsUnicode(true);
-
             builder.Property(c => c.Volume)
                 .IsRequired();
-
-            builder.HasIndex(c => c.Brand)
-                .HasDatabaseName("IX_Cosmetic_Brand");
         }
     }
+
 }

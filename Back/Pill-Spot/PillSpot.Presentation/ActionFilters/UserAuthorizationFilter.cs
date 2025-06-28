@@ -1,32 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
-public class UserAuthorizationFilter : Attribute, IAuthorizationFilter
+public class UserAuthorizationFilter : IAuthorizationFilter
 {
-    private readonly string[] _allowedRoles;
-
-    public UserAuthorizationFilter(params string[] allowedRoles)
-    {
-        _allowedRoles = allowedRoles ?? Array.Empty<string>();
-    }
+    private readonly string _parameterName;
+    public UserAuthorizationFilter(string parameterName = "userName") =>
+        _parameterName = parameterName;
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var user = context.HttpContext.User;
-        if (user?.Identity is not { IsAuthenticated: true })
+
+        if (!user.Identity.IsAuthenticated)
         {
             context.Result = new UnauthorizedResult();
             return;
         }
 
-        var authenticatedUserName = user.Identity.Name ?? string.Empty;
-        var routeUserName = context.RouteData.Values["userName"]?.ToString() ?? string.Empty;
-        if (_allowedRoles.Length > 0 && _allowedRoles.Any(user.IsInRole))
+        var userName = context.RouteData.Values[_parameterName]?.ToString();
+        var currentUserName = user.FindFirst(ClaimTypes.Name)?.Value;
+
+        var isSuperAdmin = user.IsInRole("SuperAdmin");
+        var isAdmin = user.IsInRole("Admin");
+        var hasUserManagementPermission = user.HasClaim("Permission", "UserManagement");
+
+        var isOwner = currentUserName == userName;
+
+        if (isOwner)
             return;
 
-        if (!string.IsNullOrEmpty(routeUserName) &&
-            string.Equals(authenticatedUserName, routeUserName, StringComparison.OrdinalIgnoreCase))
+        if (isSuperAdmin)
+            return;
+
+        if (isAdmin && hasUserManagementPermission)
             return;
 
         context.Result = new ForbidResult();

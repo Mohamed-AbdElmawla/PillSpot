@@ -8,25 +8,25 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<DoctorFeedback> builder)
         {
-            builder.HasKey(df => df.FeedbackID);
+            builder.HasKey(df => df.FeedbackId);
 
-            builder.Property(df => df.UserID)
+            builder.Property(df => df.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
             builder.HasOne(df => df.Feedback)
                 .WithOne()
-                .HasForeignKey<DoctorFeedback>(df => df.FeedbackID)
+                .HasForeignKey<DoctorFeedback>(df => df.FeedbackId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(df => df.Doctor)
                 .WithMany()
-                .HasForeignKey(df => df.UserID)
+                .HasForeignKey(df => df.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(df => df.UserID)
-                .HasDatabaseName("IX_DoctorFeedback_UserID");
+            builder.HasIndex(df => df.UserId)
+                .HasDatabaseName("IX_DoctorFeedback_UserId");
         }
     }
 }

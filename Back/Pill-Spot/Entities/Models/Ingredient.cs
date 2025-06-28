@@ -7,11 +7,11 @@ namespace Entities.Models
     public class Ingredient
     {
         [Key]
-        public ulong IngredientsID { get; set; }
+        public Guid IngredientsId { get; set; }
 
         [Required(ErrorMessage = "Ingredient name is required.")]
         [MaxLength(250, ErrorMessage = "Ingredient name cannot exceed 250 characters.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 

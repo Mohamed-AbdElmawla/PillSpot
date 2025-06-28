@@ -8,20 +8,20 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<PharmacyEmployeePermission> builder)
         {
-            builder.HasKey(pe => new { pe.EmployeeID, pe.PermissionID });
+            builder.HasKey(pe => new { pe.EmployeeId, pe.PermissionId });
 
             builder.HasOne(pe => pe.PharmacyEmployee)
                 .WithMany(pe => pe.PharmacyEmployeePermissions)
-                .HasForeignKey(pe => pe.EmployeeID)
+                .HasForeignKey(pe => pe.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(pe => pe.Permission)
                 .WithMany(p => p.PharmacyEmployeePermissions)
-                .HasForeignKey(pe => pe.PermissionID)
+                .HasForeignKey(pe => pe.PermissionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(pe => new { pe.EmployeeID, pe.PermissionID })
-                .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeID_PermissionID");
+            builder.HasIndex(pe => new { pe.EmployeeId, pe.PermissionId })
+                .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeId_PermissionId");
         }
     }
 }

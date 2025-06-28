@@ -16,36 +16,43 @@ namespace Repository.Configuration
             builder.HasData(
                 new IdentityRole
                 {
+                    Id = "user-role-id",
                     Name = "User",
                     NormalizedName = "USER"
                 },
                 new IdentityRole
                 {
+                    Id = "doctor-role-id",
                     Name = "Doctor",
                     NormalizedName = "DOCTOR"
                 },
                 new IdentityRole
                 {
+                    Id = "pharmacy-owner-role-id",
                     Name = "PharmacyOwner",
                     NormalizedName = "PHARMACYOWNER"
                 },
                 new IdentityRole
                 {
+                    Id = "pharmacy-manager-role-id",
                     Name = "PharmacyManager",
                     NormalizedName = "PHARMACYMANAGER"
                 },
                 new IdentityRole
                 {
+                    Id = "pharmacy-employee-role-id",
                     Name = "PharmacyEmployee",
                     NormalizedName = "PHARMACYEMPLOYEE"
                 },
                 new IdentityRole
                 {
+                    Id = "superadmin-role-id1",
                     Name = "SuperAdmin",
                     NormalizedName = "SUPERADMIN"
                 },
                 new IdentityRole
                 {
+                    Id = "admin-role-id",
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 }

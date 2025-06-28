@@ -8,14 +8,14 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<PharmacyEmployee> builder)
         {
-            builder.HasKey(pe => pe.EmployeeID);
+            builder.HasKey(pe => pe.EmployeeId);
 
-            builder.Property(pe => pe.UserID)
+            builder.Property(pe => pe.UserId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
 
-            builder.Property(pe => pe.PharmacyID)
+            builder.Property(pe => pe.PharmacyId)
                 .IsRequired();
 
             builder.Property(pe => pe.Role)
@@ -26,24 +26,22 @@ namespace Repository.Configuration
             builder.Property(pe => pe.HireDate)
                 .IsRequired();
 
-            builder.Property(pe => pe.CreatedDate)
-                .IsRequired();
 
             builder.Property(pe => pe.IsDeleted)
                 .HasDefaultValue(false);
 
             builder.HasOne(pe => pe.User)
                 .WithMany()
-                .HasForeignKey(pe => pe.UserID)
+                .HasForeignKey(pe => pe.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(pe => pe.Pharmacy)
                 .WithMany(p => p.Employees)
-                .HasForeignKey(pe => pe.PharmacyID)
+                .HasForeignKey(pe => pe.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(pe => new { pe.UserID, pe.PharmacyID })
-                .HasDatabaseName("IX_PharmacyEmployee_UserID_PharmacyID");
+            builder.HasIndex(pe => new { pe.UserId, pe.PharmacyId })
+                .HasDatabaseName("IX_PharmacyEmployee_UserId_PharmacyId");
 
             builder.HasIndex(pe => pe.IsDeleted)
                 .HasDatabaseName("IX_PharmacyEmployee_IsDeleted");

@@ -1,31 +1,35 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using NetTopologySuite.Geometries;
 
 namespace Entities.Models
 {
     public class Location
     {
         [Key]
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
-        [Required(ErrorMessage = "Longitude is required.")]
-        [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180 degrees.")]
+        [Required]
+        [Range(-180, 180)]
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Latitude is required.")]
-        [Range(-90, 90, ErrorMessage = "Latitude must be between -90 and 90 degrees.")]
+        [Required]
+        [Range(-90, 90)]
         public double Latitude { get; set; }
 
-        [Required(ErrorMessage = "Additional information is required.")]
-        [MaxLength(250, ErrorMessage = "Additional information cannot exceed 250 characters.")]
+        [NotMapped]
+        public Point Geography => new Point(Longitude, Latitude) { SRID = 4326 };  // Use NotMapped to ignore this in DB
+
+        [Required]
+        [MaxLength(250)]
         public string AdditionalInfo { get; set; }
 
-        [Required(ErrorMessage = "City ID is required.")]
+        [Required]
         public Guid CityId { get; set; }
 
         [ForeignKey("CityId")]
-        public virtual City City { get; set; }
+        public City City { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

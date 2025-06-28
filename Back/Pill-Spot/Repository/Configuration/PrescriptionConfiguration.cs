@@ -8,20 +8,31 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Prescription> builder)
         {
-            builder.HasKey(p => p.PrescriptionID);
+            builder.HasKey(p => p.PrescriptionId);
 
-            builder.Property(p => p.CreatedDate)
+            builder.Property(p => p.UserId)
                 .IsRequired();
 
-            builder.Property(p => p.FilePath)
+            builder.Property(p => p.IssueDate)
+                .IsRequired();
+
+            builder.Property(p => p.ExpiryDate)
+                .IsRequired();
+
+            builder.Property(p => p.Status)
+                .IsRequired();
+
+            builder.Property(p => p.ImageUrl)
                 .HasMaxLength(500)
-                .IsUnicode(true);
+                .IsUnicode(false);
 
-            builder.Property(p => p.IsDeleted)
-                .HasDefaultValue(false);
+            builder.Property(p => p.CreatedAt)
+                .IsRequired();
 
-            builder.HasIndex(p => p.IsDeleted)
-                .HasDatabaseName("IX_Prescription_IsDeleted");
+            builder.HasMany(p => p.PrescriptionProducts)
+                .WithOne(pp => pp.Prescription)
+                .HasForeignKey(pp => pp.PrescriptionId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

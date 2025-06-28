@@ -9,9 +9,9 @@ namespace Entities.Exceptions
     public sealed class PharmacyRequestExcededBadRequestException : BadRequestException
     {
         public PharmacyRequestExcededBadRequestException()
-            :base("You cannot create a new pharmacy because you already own two.")
+            : base("You cannot create a new pharmacy because you already own two.")
         {
-            
+
         }
     }
 }

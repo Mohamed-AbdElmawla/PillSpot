@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Service.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
@@ -14,7 +9,7 @@ namespace Service
 
         public FileService()
         {
-            _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            _basePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
         }
 
         public async Task<string> SaveFileAsync(IFormFile file, string folderName)
@@ -33,9 +28,8 @@ namespace Service
                 await file.CopyToAsync(stream);
             }
 
-            return $"/uploads/{folderName}/{newFileName}";
+            return $"/{folderName}/{newFileName}";
         }
-
         public async Task<bool> DeleteFileAsync(string fileUrl)
         {
             if (string.IsNullOrWhiteSpace(fileUrl))
@@ -57,6 +51,42 @@ namespace Service
             {
                 return false;
             }
+        }
+        public async Task<IFormFile> GetFileAsync(string fileUrl)
+        {
+            if (string.IsNullOrWhiteSpace(fileUrl))
+                return null;
+
+            try
+            {
+                string filePath = Path.Combine(_basePath, fileUrl.TrimStart('/').Replace("/", "\\"));
+
+                if (!File.Exists(filePath))
+                    return null;
+
+                var stream = new MemoryStream(await File.ReadAllBytesAsync(filePath));
+                var fileName = Path.GetFileName(filePath);
+                var contentType = "application/octet-stream"; // You can detect MIME type here.
+
+                return new FormFile(stream, 0, stream.Length, "file", fileName)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = contentType
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public async Task<string> AddProductImageIfNotNull(IFormFile Image)
+        {
+            if (Image != null)
+            {
+                return await SaveFileAsync(Image, "ProductImages");
+
+            }
+            return null;
         }
     }
 }

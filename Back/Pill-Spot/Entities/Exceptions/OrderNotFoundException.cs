@@ -2,7 +2,7 @@
 {
     public class OrderNotFoundException : NotFoundException
     {
-        public OrderNotFoundException(string orderId)
+        public OrderNotFoundException(Guid orderId)
             : base($"Order with id: {orderId} was not found.")
         {
         }

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
+    public enum ProductType { Medicine, Cosmetic }
     public class Product
     {
         [Key]
-        public ulong ProductID { get; set; }
+        public Guid ProductId { get; set; }
 
         [Required(ErrorMessage = "SubCategory ID is required.")]
-        public int SubCategoryID { get; set; }
+        public Guid SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(250, ErrorMessage = "Name cannot exceed 250 characters.")]
@@ -26,28 +25,35 @@ namespace Entities.Models
         public double Price { get; set; }
 
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
-        public string ImageURL { get; set; }
+        public string? ImageURL { get; set; }
 
-        [MaxLength(500, ErrorMessage = "Barcode Image URL cannot exceed 500 characters.")]
-        public string BarcodeImageURL { get; set; }
+        [Required(ErrorMessage = "Usage instructions are required.")]
+        [MaxLength(500, ErrorMessage = "Usage instructions cannot exceed 500 characters.")]
+        public string UsageInstructions { get; set; }
+
+        [Required(ErrorMessage = "Manufacturer is required.")]
+        [MaxLength(250, ErrorMessage = "Manufacturer cannot exceed 250 characters.")]
+        public required string Manufacturer { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         public DateTime? ModifiedDate { get; set; }
+        public ProductType Type { get; set; }
 
-        public virtual SubCategory SubCategory { get; set; }
+        public virtual SubCategory? SubCategory { get; set; }
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; } = new List<ProductIngredient>();
 
-        public virtual Medicine Medicine { get; set; }
-        public virtual Cosmetic Cosmetic { get; set; }
-
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+        public virtual ICollection<PharmacyProduct> PharmacyProducts { get; set; } = new List<PharmacyProduct>();
 
         [Required]
         public bool IsDeleted { get; set; } = false;
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        [Required]
+        public int StockQuantity { get; set; }
     }
 }

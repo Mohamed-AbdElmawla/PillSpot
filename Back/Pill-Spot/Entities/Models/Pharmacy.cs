@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
@@ -8,32 +6,29 @@ namespace Entities.Models
     public class Pharmacy
     {
         [Key]
-        public ulong PharmacyID { get; set; }
+        public Guid PharmacyId { get; set; }
 
         [ForeignKey("ParentPharmacy")]
-        public ulong? ParentPharmacyID { get; set; }
+        public Guid? ParentPharmacyId { get; set; }
         public virtual Pharmacy? ParentPharmacy { get; set; }
-
-        [Required(ErrorMessage = "Owner ID is required.")]
-        public string OwnerID { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(255, ErrorMessage = "Name cannot exceed 255 characters.")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [MaxLength(500, ErrorMessage = "Image URL cannot exceed 500 characters.")]
         public string? LogoURL { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
         [Required(ErrorMessage = "License ID is required.")]
         [MaxLength(450, ErrorMessage = "License ID cannot exceed 450 characters.")]
-        public string LicenseID { get; set; }
+        public required string LicenseId { get; set; }
 
         [Required(ErrorMessage = "Contact number is required.")]
         [MaxLength(11, ErrorMessage = "Contact number cannot exceed 11 characters.")]
-        public string ContactNumber { get; set; }
+        public required string ContactNumber { get; set; }
 
         [Required(ErrorMessage = "Opening time is required.")]
         public TimeSpan OpeningTime { get; set; }
@@ -46,18 +41,16 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Days open is required.")]
         [MaxLength(50)]
-        public string DaysOpen { get; set; }
+        public required string DaysOpen { get; set; }
 
         [Required]
-        [ForeignKey("LocationID")]
-        public virtual Location Location { get; set; }
-
-        [ForeignKey("OwnerID")]
-        public virtual User Owner { get; set; }
+        [ForeignKey("LocationId")]
+        public Location Location { get; set; }
 
         public virtual ICollection<Pharmacy> Branches { get; set; } = new List<Pharmacy>();
         public virtual ICollection<PharmacyEmployee> Employees { get; set; } = new List<PharmacyEmployee>();
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; } = new List<ProductPharmacy>();
+        public virtual ICollection<PharmacyProduct> PharmacyProducts { get; set; } = new List<PharmacyProduct>();
+        public virtual ICollection<PharmacyEmployeeRole> PharmacyEmployeeRoles { get; set; } = new List<PharmacyEmployeeRole>();
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
@@ -69,5 +62,7 @@ namespace Entities.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        public bool IsActive { get; set; } = true; 
     }
 }

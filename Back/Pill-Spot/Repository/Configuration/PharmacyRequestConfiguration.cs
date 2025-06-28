@@ -1,12 +1,13 @@
 ﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection.Emit;
 
 namespace Repository.Configuration
 {
@@ -15,7 +16,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<PharmacyRequest> builder)
         {
-            builder.HasKey(pr => pr.RequestID);
+            builder.HasKey(pr => pr.RequestId);
 
             builder.Property(pr => pr.Name)
                    .IsRequired()
@@ -24,7 +25,7 @@ namespace Repository.Configuration
             builder.Property(pr => pr.LogoURL)
                    .HasMaxLength(500);
 
-            builder.Property(pr => pr.LicenseID)
+            builder.Property(pr => pr.LicenseId)
                    .IsRequired()
                    .HasMaxLength(450);
 
@@ -49,21 +50,21 @@ namespace Repository.Configuration
 
             builder.HasOne(pr => pr.User)
                    .WithMany(u => u.PharmacyRequests) 
-                   .HasForeignKey(pr => pr.UserID)
+                   .HasForeignKey(pr => pr.UserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(pr => pr.Location)
                    .WithMany()  // Adjust if Location should navigate to many requests.
-                   .HasForeignKey(pr => pr.LocationID)
+                   .HasForeignKey(pr => pr.LocationId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(pr => pr.AdminUser)
                    .WithMany(u => u.ReviewedPharmacyRequests)
-                   .HasForeignKey(pr => pr.AdminUserID)
+                   .HasForeignKey(pr => pr.AdminUserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(c => c.UserID)
-                .HasDatabaseName("IX_PharmacyRequest_UserID");
+            builder.HasIndex(c => c.UserId)
+                .HasDatabaseName("IX_PharmacyRequest_UserId");
 
             builder.HasIndex(c => c.Status)
                 .HasDatabaseName("IX_PharmacyRequest_Status");

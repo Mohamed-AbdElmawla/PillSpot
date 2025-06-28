@@ -6,15 +6,15 @@ namespace Entities.Models
     public class DoctorFeedback
     {
         [Key]
-        public ulong FeedbackID { get; set; }
+        public Guid FeedbackId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserID { get; set; }
+        public required string UserId { get; set; }
 
-        [ForeignKey("FeedbackID")]
+        [ForeignKey("FeedbackId")]
         public virtual Feedback Feedback { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual Doctor Doctor { get; set; }
     }
 }

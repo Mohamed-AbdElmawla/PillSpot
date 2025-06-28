@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Category
     {
         [Key]
-        public int CategoryID { get; set; }
+        public Guid CategoryId { get; set; }
 
         [Required(ErrorMessage = "Category name is required.")]
         [MaxLength(250, ErrorMessage = "Category name cannot exceed 250 characters.")]
@@ -16,11 +16,11 @@ namespace Entities.Models
         public virtual ICollection<SubCategory> SubCategories { get; set; }
 
         [Required]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? ModifiedDate { get; set; }
 
         [Required]
-        public bool IsDeleted { get; set; } = false; // Default value
+        public bool IsDeleted { get; set; } = false;
     }
 }

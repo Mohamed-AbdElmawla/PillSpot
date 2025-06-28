@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Ingredient> builder)
         {
-            builder.HasKey(i => i.IngredientsID);
+            builder.HasKey(i => i.IngredientsId);
 
             builder.Property(i => i.Name)
                 .IsRequired()

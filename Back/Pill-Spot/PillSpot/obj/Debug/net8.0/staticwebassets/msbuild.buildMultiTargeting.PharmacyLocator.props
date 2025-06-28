@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\PharmacyLocator.props" />
-</Project>

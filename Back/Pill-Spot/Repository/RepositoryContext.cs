@@ -1,7 +1,9 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Repository.Configuration;
+using Repository.Configurations;
 using System.Data;
 
 
@@ -9,6 +11,7 @@ namespace Repository
 {
     public class RepositoryContext : IdentityDbContext<User>
     {
+        public DbSet<AdminPermission> AdminPermissions { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Chat> Chats { get; set; }
@@ -29,15 +32,18 @@ namespace Repository
         public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<PharmacyRequest> PharmacyRequests { get; set; }
         public DbSet<PharmacyEmployee> PharmacyEmployees { get; set; }
+        public DbSet<PharmacyEmployeeRole> PharmacyEmployeeRoles { get; set; }
+        public DbSet<PharmacyEmployeeRequest> PharmacyEmployeeRequests { get; set; }
         public DbSet<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; }
         public DbSet<PharmacyFeedback> PharmacyFeedbacks { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductIngredient> ProductIngredients { get; set; }
-        public DbSet<ProductPharmacy> ProductPharmacies { get; set; }
-        public DbSet<ProductPrescription> ProductPrescriptions { get; set; }
+        public DbSet<PharmacyProduct> ProductPharmacies { get; set; }
+        public DbSet<PrescriptionProduct> ProductPrescriptions { get; set; }
         public DbSet<SearchHistory> SearchHistories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Support> Supports { get; set; }
@@ -51,6 +57,11 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new SuperAdminConfiguration());
+            modelBuilder.ApplyConfiguration(new SuperAdminRoleConfiguration());
+            //modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
+           
+            modelBuilder.ApplyConfiguration(new AdminPermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             modelBuilder.ApplyConfiguration(new BatchConfiguration());
@@ -103,24 +114,29 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new PharmacyConfiguration());
             modelBuilder.Entity<Pharmacy>().HasQueryFilter(p => !p.IsDeleted);
 
+            modelBuilder.ApplyConfiguration(new PharmacyRequestConfiguration());
+
             modelBuilder.ApplyConfiguration(new PharmacyEmployeeConfiguration());
             modelBuilder.Entity<PharmacyEmployee>().HasQueryFilter(pe => !pe.IsDeleted);
+            
+            modelBuilder.ApplyConfiguration(new PharmacyEmployeeRoleConfiguration());
+
+            modelBuilder.ApplyConfiguration(new PharmacyEmployeeRequestConfiguration());
 
             modelBuilder.ApplyConfiguration(new PharmacyEmployeePermissionConfiguration());
 
             modelBuilder.ApplyConfiguration(new PharmacyFeedbackConfiguration());
 
             modelBuilder.ApplyConfiguration(new PrescriptionConfiguration());
-            modelBuilder.Entity<Prescription>().HasQueryFilter(p => !p.IsDeleted);
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
 
             modelBuilder.ApplyConfiguration(new ProductIngredientConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ProductPharmacyConfiguration());
+            modelBuilder.ApplyConfiguration(new PharmacyProductConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ProductPrescriptionConfiguration());
+            modelBuilder.ApplyConfiguration(new PrescriptionProductConfiguration());
 
             modelBuilder.ApplyConfiguration(new SearchHistoryConfiguration());
             modelBuilder.Entity<SearchHistory>().HasQueryFilter(sh => !sh.IsDeleted);
@@ -130,6 +146,9 @@ namespace Repository
 
             modelBuilder.ApplyConfiguration(new SupportConfiguration());
             modelBuilder.Entity<Support>().HasQueryFilter(s => !s.IsDeleted);
+
+            modelBuilder.ApplyConfiguration(new UserAddressConfiguration());
+
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);

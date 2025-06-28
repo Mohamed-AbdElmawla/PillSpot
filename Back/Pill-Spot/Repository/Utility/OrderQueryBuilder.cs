@@ -1,10 +1,5 @@
-﻿using Repository.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Utility
 {
@@ -24,7 +19,7 @@ namespace Repository.Utility
                 pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
                 if (objectProperty == null)
                     continue;
-                var direction = param.EndsWith(" desc") ? "descending" : "ascending";
+                var direction = param.EndsWith(" desc") ? " descending" : " ascending";
                 orderQueryBuilder.Append($"{objectProperty.Name.ToString()}{ direction}, ");
             }
             var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');

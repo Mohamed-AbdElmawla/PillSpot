@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -15,15 +14,76 @@ namespace PillSpot.Presentation.Controllers
     public class TokenController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public TokenController(IServiceManager service) => _service = service;
+        private readonly IAntiforgery _antiforgery;
+        
+        public TokenController(IServiceManager service, IAntiforgery antiforgery)
+        {
+            _service = service;
+            _antiforgery = antiforgery;
+        }
 
         [HttpPost("refresh")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
+        [ValidateCsrfToken]
+        public async Task<IActionResult> Refresh()
         {
-            var tokenDtoToReturn = await
-            _service.AuthenticationService.RefreshToken(tokenDto);
-            return Ok(tokenDtoToReturn);
+            var accessToken = Request.Cookies["accessToken"];
+            var refreshToken = Request.Cookies["refreshToken"];
+            
+            if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
+            {
+                return Unauthorized("No tokens found in cookies");
+            }
+
+            var tokenDto = new TokenDto(accessToken, refreshToken);
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
+            
+            // Determine if we're in development or production
+            var env = (IWebHostEnvironment)HttpContext.RequestServices.GetService(typeof(IWebHostEnvironment));
+            var isDevelopment = env != null && env.IsDevelopment();
+            
+            var baseCookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = !isDevelopment, // Only require HTTPS in production
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+
+            // Update access token cookie
+            var accessCookieOptions = new CookieOptions
+            {
+                HttpOnly = baseCookieOptions.HttpOnly,
+                Secure = baseCookieOptions.Secure,
+                SameSite = baseCookieOptions.SameSite,
+                Path = baseCookieOptions.Path,
+                Expires = DateTime.UtcNow.AddMinutes(30)
+            };
+            Response.Cookies.Append("accessToken", tokenDtoToReturn.AccessToken, accessCookieOptions);
+
+            // Update refresh token cookie
+            var refreshCookieOptions = new CookieOptions
+            {
+                HttpOnly = baseCookieOptions.HttpOnly,
+                Secure = baseCookieOptions.Secure,
+                SameSite = baseCookieOptions.SameSite,
+                Path = baseCookieOptions.Path,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", tokenDtoToReturn.RefreshToken, refreshCookieOptions);
+            
+            return Ok(new { Message = "Tokens refreshed successfully" });
+        }
+
+        [HttpGet("csrf")]
+        [RateLimit("CsrfTokenPolicy")]
+        public IActionResult GenerateCsrfToken()
+        {
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            
+            return Ok(new { 
+                CsrfToken = tokens.RequestToken,
+                HeaderName = "X-Csrf-Token"
+            });
         }
     }
 }

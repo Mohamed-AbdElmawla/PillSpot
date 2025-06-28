@@ -5,14 +5,7 @@ using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -25,8 +18,8 @@ namespace PillSpot.Presentation.Controllers
         public PharmacyRequestController(IServiceManager service) => _service = service;
 
         [HttpPost("submit")]
-        [Authorize]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         public async Task<IActionResult> SubmitRequest([FromForm] PharmacyRequestCreateDto pharmacyRequestCreateDto)
         {
             var userName = User.Identity?.Name;
@@ -35,29 +28,35 @@ namespace PillSpot.Presentation.Controllers
             await _service.PharmacyRequestService.SubmitRequestAsync(userName, pharmacyRequestCreateDto, trackChanges: true);
             return Ok();
         }
-        [Authorize(Roles ="Admin")]
+
         [HttpPatch("{requestId}/approve")]
-        public async Task<IActionResult> ApproveRequest(ulong requestId)
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ApprovePharmacyRequest")]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
-            await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: false);
+            await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPatch("{requestId}/reject")]
-        public async Task<IActionResult> RejectRequest(ulong requestId)
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("RejectPharmacyRequest")]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> RejectRequest(Guid requestId)
         {
-            await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: false);
+            await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
 
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("pending")]
-        public async Task<IActionResult> GetPendiRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPharmacyRequests")]
+        public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
-            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetPendingRequestsAsync(pharmacyRequestParameters, trackChanges: false);
+            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
 
-            //Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
 
             return Ok(pharmacyRequests);
         }

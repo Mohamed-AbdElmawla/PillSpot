@@ -1,7 +1,5 @@
 ﻿using Entities.Validators;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,7 +16,7 @@ namespace Entities.Models
         [MaxLength(500, ErrorMessage = "Profile Picture URL cannot exceed 500 characters.")]
         public string? ProfilePictureUrl { get; set; }
 
-        public Guid? LocationID { get; set; }
+        public Guid? LocationId { get; set; }
 
         [Required(ErrorMessage = "Date of birth is required.")]
         [DataType(DataType.Date)]
@@ -34,21 +32,24 @@ namespace Entities.Models
         [Required(ErrorMessage = "First name is required.")]
         [MaxLength(100, ErrorMessage = "First name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]+$", ErrorMessage = "First name can only contain letters, spaces, hyphens, and apostrophes.")]
-        public string FirstName { get; set; }
+        public required string FirstName { get; set; }
+      
         [Required(ErrorMessage = "Last name is required.")]
         [MaxLength(100, ErrorMessage = "Last name cannot exceed 100 characters.")]
         [RegularExpression(@"^[A-Za-z\s'-]*$", ErrorMessage = "Last name can only contain letters, spaces, hyphens, and apostrophes.")]
-        public string LastName { get; set; }
+        public required string LastName { get; set; }
 
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
-        [ForeignKey("LocationID")]
+        [ForeignKey("LocationId")]
         public virtual Location? Location { get; set; }
 
+        public virtual ICollection<AdminPermission> AdminPermissions { get; set; } = new List<AdminPermission>();
         public virtual ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();
         public virtual ICollection<PharmacyRequest> PharmacyRequests { get; set; } = new List<PharmacyRequest>();
+        public virtual ICollection<UserAddress> UserAddresses { get; set; } = new List<UserAddress>();
         [InverseProperty("AdminUser")]
         public virtual ICollection<PharmacyRequest> ReviewedPharmacyRequests { get; set; } = new List<PharmacyRequest>();
         public bool IsDeleted { get; set; } = false;

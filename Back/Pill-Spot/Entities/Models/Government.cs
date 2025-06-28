@@ -12,7 +12,7 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Government name is required.")]
         [MaxLength(250, ErrorMessage = "Government name cannot exceed 250 characters.")]
-        public string GovernmentName { get; set; }
+        public required string GovernmentName { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

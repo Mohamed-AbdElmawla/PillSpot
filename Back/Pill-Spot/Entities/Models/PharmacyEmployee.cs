@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
@@ -8,31 +6,29 @@ namespace Entities.Models
     public class PharmacyEmployee
     {
         [Key]
-        public ulong EmployeeID { get; set; }
+        public Guid EmployeeId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserID { get; set; }
+        public required string UserId { get; set; }
 
         [Required(ErrorMessage = "Pharmacy ID is required.")]
-        public ulong PharmacyID { get; set; }
+        public Guid PharmacyId { get; set; }
 
         [Required(ErrorMessage = "Role is required.")]
         [MaxLength(100, ErrorMessage = "Role cannot exceed 100 characters.")]
-        public string Role { get; set; }
+        public required string Role { get; set; }
 
         [Required(ErrorMessage = "Hire date is required.")]
-        public DateTime HireDate { get; set; }
+        public DateTime HireDate { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        [ForeignKey("PharmacyID")]
+        [ForeignKey("PharmacyId")]
         public virtual Pharmacy Pharmacy { get; set; }
 
         public virtual ICollection<PharmacyEmployeePermission> PharmacyEmployeePermissions { get; set; } = new List<PharmacyEmployeePermission>();
-
-        [Required]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public virtual ICollection<PharmacyEmployeeRole> PharmacyEmployeeRoles { get; set; } = new List<PharmacyEmployeeRole>();
 
         public DateTime? ModifiedDate { get; set; }
 

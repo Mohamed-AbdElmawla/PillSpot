@@ -1,5 +1,4 @@
-﻿using Contracts;
-using Entities.ErrorModel;
+﻿using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Service.Contracts;
@@ -28,7 +27,7 @@ namespace PillSpot.Extensions
                                 StatusCode = StatusCodes.Status500InternalServerError,
                                 Message = "Internal server error",
                                 Details = "An unexpected error occurred. Please try again later."
-                            }.ToString());
+                            }.ToString()); 
                         }
                         else
                         {
@@ -36,6 +35,8 @@ namespace PillSpot.Extensions
                             {
                                 NotFoundException => StatusCodes.Status404NotFound,
                                 BadRequestException => StatusCodes.Status400BadRequest,
+                                IOException => StatusCodes.Status409Conflict,
+                                NotAuthorizedException => StatusCodes.Status401Unauthorized,
                                 _ => StatusCodes.Status500InternalServerError
                             };
 
