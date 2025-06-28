@@ -175,23 +175,4 @@ namespace PillSpot.Presentation.Controllers
             return Ok(new { message = "Bulk notifications sent successfully" });
         }
     }
-
-    // Request DTOs for the endpoints
-    public record SendNotificationByUsernameRequest
-    {
-        public string Username { get; init; }
-        public string Title { get; init; }
-        public string Message { get; init; }
-        public Entities.Models.NotificationType Type { get; init; }
-        public string? Data { get; init; }
-    }
-
-    public record SendBulkNotificationByUsernamesRequest
-    {
-        public IEnumerable<string> Usernames { get; init; }
-        public string Title { get; init; }
-        public string Message { get; init; }
-        public Entities.Models.NotificationType Type { get; init; }
-        public string? Data { get; init; }
-    }
 }
