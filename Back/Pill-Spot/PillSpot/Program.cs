@@ -35,6 +35,7 @@ builder.Services.ConfigureLocationService();
 builder.Services.ConfigureCityService();
 builder.Services.ConfigureGovernmentService();
 builder.Services.ConfigureRealTimeNotificationService();
+builder.Services.ConfigureNotificationService();
 builder.Services.ConfigureProductNotificationPreferenceService();
 builder.Services.ConfigureSwagger();
 builder.Services.AddHttpContextAccessor();

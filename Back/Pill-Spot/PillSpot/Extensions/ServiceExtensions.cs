@@ -91,6 +91,8 @@ namespace PillSpot.Extensions
 
         public static void ConfigureRealTimeNotificationService(this IServiceCollection services) =>
             services.AddScoped<IRealTimeNotificationService, RealTimeNotificationService>();
+            public static void ConfigureNotificationService(this IServiceCollection services) =>
+            services.AddScoped<INotificationService, NotificationService>();
 
         public static void ConfigureProductNotificationPreferenceService(this IServiceCollection services) =>
             services.AddScoped<IPharmacyProductNotificationPreferenceService, PillSpot.Service.PharmacyProductNotificationPreferenceService>();
