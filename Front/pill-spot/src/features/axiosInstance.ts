@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-let csrfToken: string | null = null;
 let csrfPromise: Promise<string> | null = null;
 
 const fetchCsrfToken = async (): Promise<string> => {
@@ -10,7 +9,6 @@ const fetchCsrfToken = async (): Promise<string> => {
         });
         const token = response.data.csrfToken || response.data;
         console.log('Fetched CSRF token:', token);
-        csrfToken = token;
         return token;
     } catch (error) {
         console.error('Failed to fetch CSRF token:', error);
@@ -23,22 +21,22 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
-// Async-safe interceptor that fetches CSRF token once
 axiosInstance.interceptors.request.use(async (config) => {
-    if (!csrfToken) {
-        if (!csrfPromise) {
-            csrfPromise = fetchCsrfToken();
-        }
-        try {
-            await csrfPromise;
-        } catch (e) {
-            console.error('CSRF fetch failed, request may proceed without token.');
-        }
+    // Always fetch a new CSRF token before each request
+    if (!csrfPromise) {
+        csrfPromise = fetchCsrfToken();
     }
-
-    if (csrfToken) {
+    
+    try {
+        const csrfToken = await csrfPromise;
         config.headers['X-CSRF-Token'] = csrfToken;
         console.log('CSRF token added to request:', csrfToken);
+        // Reset the promise so next request will fetch a new token
+        csrfPromise = null;
+    } catch (error) {
+        console.error('CSRF fetch failed, request may proceed without token:', error);
+        // Reset the promise on error so we can retry
+        csrfPromise = null;
     }
 
     return config;

@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Entities.Models;
 
-namespace Shared.DataTransferObjects
+namespace Shared.DataTransferObjects.Notifications
 {
-    public record NotificationForCreationDto
+    public record NotificationForCreationByUsernameDto
     {
-        [Required(ErrorMessage = "User ID is required")]
-        public string UserId { get; init; }
+        [Required(ErrorMessage = "Username is required")]
+        public string Username { get; init; }
 
         public string? ActorId { get; init; }
 
@@ -31,4 +31,4 @@ namespace Shared.DataTransferObjects
         public string? RelatedEntityType { get; init; }
         public bool IsBroadcast { get; init; } = false;
     }
-}
+} 

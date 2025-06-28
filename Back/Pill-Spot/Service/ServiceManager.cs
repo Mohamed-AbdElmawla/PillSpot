@@ -7,8 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Service.Contracts;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
-using Service.Hubs;
 using System;
 using PillSpot.Service.Contracts;
 using PillSpot.Service;
@@ -46,7 +44,7 @@ namespace Service
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IRealTimeNotificationService _realTimeNotificationService;
         private readonly ISecurityService _securityService;
         private readonly UserManager<User> _userManager;
 
@@ -54,15 +52,15 @@ namespace Service
             UserManager<User> userManager, IOptions<JwtConfiguration> configuration, 
             IOptions<EmailConfiguration> emailConfiguration, IMapper mapper, IFileService fileService, 
             Lazy<ISerilogService> serilogService, RoleManager<IdentityRole> roleManager, 
-              ILocationService locationService, IMediator mediator, IHubContext<NotificationHub> hubContext,
-              Lazy<IPharmacyEmployeeRoleService> pharmacyEmployeeRoleService,
-              Lazy<IPharmacyEmployeeRequestService> pharmacyEmployeeRequestService,
-              ISecurityService securityService)
+            ILocationService locationService, IMediator mediator,
+            Lazy<IPharmacyEmployeeRoleService> pharmacyEmployeeRoleService,
+            Lazy<IPharmacyEmployeeRequestService> pharmacyEmployeeRequestService,
+            ISecurityService securityService, IRealTimeNotificationService realTimeNotificationService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
             _mediator = mediator;
-            _hubContext = hubContext;
+            _realTimeNotificationService = realTimeNotificationService;
             _securityService = securityService;
             _userManager = userManager;
             _pharmacyEmployeeRoleService = pharmacyEmployeeRoleService;
@@ -89,7 +87,7 @@ namespace Service
             _productNotificationPreferenceService = new Lazy<IProductNotificationPreferenceService>(() => new ProductNotificationPreferenceService(repositoryManager, mapper));
 
             // Initialize NotificationService first since other services depend on it
-            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, hubContext, mapper, userManager));
+            _notificationService = new Lazy<INotificationService>(() => new NotificationService(repositoryManager, mediator, _realTimeNotificationService, mapper, userManager));
 
             // Initialize services that depend on NotificationService
             _productService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper, fileService, _notificationService.Value));

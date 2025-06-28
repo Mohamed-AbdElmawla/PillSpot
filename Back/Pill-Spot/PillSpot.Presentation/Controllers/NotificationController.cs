@@ -1,10 +1,9 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
-using Service.Contracts.Notifications.Commands;
 using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.Notifications;
 using Shared.RequestFeatures;
 
 namespace PillSpot.Presentation.Controllers
@@ -15,12 +14,10 @@ namespace PillSpot.Presentation.Controllers
     public class NotificationController : ControllerBase
     {
         private readonly IServiceManager _service;
-        private readonly IMediator _mediator;
 
-        public NotificationController(IServiceManager service, IMediator mediator)
+        public NotificationController(IServiceManager service)
         {
             _service = service;
-            _mediator = mediator;
         }
 
         [HttpGet]
@@ -51,23 +48,15 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [ValidateCsrfToken]
-        public async Task<IActionResult> CreateNotification([FromBody] CreateNotificationByUsernameCommand command)
+        public async Task<IActionResult> CreateNotification([FromBody] NotificationForCreationByUsernameDto dto)
         {
-            var notificationDto = new NotificationForCreationByUsernameDto
-            {
-                Username = command.Username,
-                ActorId = command.ActorId,
-                Title = command.Title,
-                Message = command.Message,
-                Content = command.Message,
-                Type = command.Type,
-                Data = command.Data,
-                RelatedEntityId = command.RelatedEntityId,
-                RelatedEntityType = command.RelatedEntityType,
-                IsBroadcast = command.IsBroadcast
-            };
-
-            var notification = await _service.NotificationService.CreateNotificationByUsernameAsync(notificationDto);
+            var notification = await _service.NotificationService.SendNotificationByUsernameAsync(
+                dto.Username,
+                dto.Title,
+                dto.Message,
+                dto.Type,
+                dto.Data
+            );
             return CreatedAtAction(nameof(GetNotification), new { id = notification.NotificationId }, notification);
         }
 
@@ -146,19 +135,19 @@ namespace PillSpot.Presentation.Controllers
             return Ok(notifications);
         }
 
-        // Endpoints for sending notifications by username
         [HttpPost("send-by-username")]
         [ValidateCsrfToken]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> SendNotificationByUsername([FromBody] SendNotificationByUsernameRequest request)
+        public async Task<IActionResult> SendNotificationByUsername([FromBody] NotificationForCreationByUsernameDto dto)
         {
-            await _service.NotificationService.SendNotificationByUsernameAsync(
-                request.Username, 
-                request.Title, 
-                request.Message, 
-                request.Type, 
-                request.Data);
-            return Ok(new { message = "Notification sent successfully" });
+            var notification = await _service.NotificationService.SendNotificationByUsernameAsync(
+                dto.Username,
+                dto.Title,
+                dto.Message,
+                dto.Type,
+                dto.Data
+            );
+            return Ok(new { message = "Notification sent successfully", notification });
         }
 
         [HttpPost("send-bulk-by-usernames")]
