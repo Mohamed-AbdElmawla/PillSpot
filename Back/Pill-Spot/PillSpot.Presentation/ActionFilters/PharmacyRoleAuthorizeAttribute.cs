@@ -11,10 +11,8 @@ namespace PillSpot.Presentation.ActionFilters
         private readonly string[] _requiredPharmacyRoles;
         private readonly string[] _globalRoles = new[] { "Admin", "SuperAdmin" };
 
-        public PharmacyRoleAuthorizeAttribute(params string[] requiredPharmacyRoles)
-        {
-            _requiredPharmacyRoles = requiredPharmacyRoles;
-        }
+        public PharmacyRoleAuthorizeAttribute(params string[] requiredPharmacyRoles) 
+            => _requiredPharmacyRoles = requiredPharmacyRoles;
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {

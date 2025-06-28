@@ -11,6 +11,7 @@ import  fetchCurrentPharmacy  from "../features/Pharmacy/CRUD/UserPharmaciesSlic
 import  FetchInventoryDataSlice  from "../features/Pharmacy/AddInventoryProduct/AddInventoryProductSlice";
 import HomeData from "../features/HomePage/Products/fetchProdcuts"
 import UsersInfoSclice  from "../features/User/UserSlcie";
+import  notificationSlice  from "../features/Notifications/notificationSlice";
 
 const preloadedState = loadState();
 
@@ -27,6 +28,7 @@ export const store = configureStore({
     FetchInventoryDataSlice : FetchInventoryDataSlice,
     fetchHomeProductSlice : HomeData ,
     CurUserSlice : UsersInfoSclice ,
+    notifications : notificationSlice,
   },
   preloadedState,
   middleware: (getDefaultMiddleware) =>

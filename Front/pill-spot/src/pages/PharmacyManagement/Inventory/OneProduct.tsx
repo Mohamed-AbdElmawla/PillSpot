@@ -1,11 +1,11 @@
 import { InputNumber, InputNumberProps } from "antd";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { AppDispatch, RootState } from "../../../app/store";
 import { useState } from "react";
 import { FetchInventoryData } from "../../../features/Pharmacy/AddInventoryProduct/AddInventoryProductSlice";
 import { FetchHomeProducts } from "../../../features/HomePage/Products/fetchProdcuts";
+import axiosInstance from "../../../features/axiosInstance";
 
 interface IMedicine {
   manufacturer: string;
@@ -43,8 +43,8 @@ const OneProduct: React.FC<OneProductProps> = ({ medicine }) => {
 
     console.log({productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity})
     const fetchData = async () => {
-      const response = await axios
-            .post("https://localhost:7298/api/pharmacyproducts" , {productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity});
+      const response = await axiosInstance
+            .post("/api/pharmacyproducts" , {productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity});
         return response.data;
     };
 

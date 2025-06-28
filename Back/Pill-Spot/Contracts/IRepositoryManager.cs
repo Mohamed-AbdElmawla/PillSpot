@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PillSpot.Contracts;
 
 namespace Contracts
 {
@@ -30,8 +29,9 @@ namespace Contracts
         ICartItemRepository CartItemRepository { get; }
         IUserAddressRepository UserAddressRepository { get; }
         IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository { get; }
-        IProductNotificationPreferenceRepository ProductNotificationPreferenceRepository { get; }
-
+        IPrescriptionRepository PrescriptionRepository { get; }
+        IPrescriptionProductRepository PrescriptionProductRepository { get; }
+        IPharmacyProductNotificationPreferenceRepository PharmacyProductNotificationPreferenceRepository { get; }
         Task SaveAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

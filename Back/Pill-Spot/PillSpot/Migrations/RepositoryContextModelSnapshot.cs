@@ -608,7 +608,6 @@ namespace PillSpot.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ActorId")
-                        .IsRequired()
                         .HasMaxLength(450)
                         .IsUnicode(true)
                         .HasColumnType("varchar(450)");
@@ -1074,6 +1073,61 @@ namespace PillSpot.Migrations
                     b.ToTable("ProductPharmacies");
                 });
 
+            modelBuilder.Entity("Entities.Models.PharmacyProductNotificationPreference", b =>
+                {
+                    b.Property<Guid>("PreferenceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("LastNotifiedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NotificationTypes")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("PharmacyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("varchar(450)");
+
+                    b.HasKey("PreferenceId");
+
+                    b.HasIndex("IsEnabled")
+                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_IsEnabled");
+
+                    b.HasIndex("PharmacyId")
+                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_PharmacyId");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_ProductId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_UserId");
+
+                    b.HasIndex("UserId", "ProductId", "PharmacyId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_User_Product_Pharmacy");
+
+                    b.ToTable("PharmacyProductNotificationPreferences", (string)null);
+                });
+
             modelBuilder.Entity("Entities.Models.PharmacyRequest", b =>
                 {
                     b.Property<Guid>("RequestId")
@@ -1175,6 +1229,9 @@ namespace PillSpot.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime(6)");
 
@@ -1214,6 +1271,9 @@ namespace PillSpot.Migrations
                         .HasMaxLength(500)
                         .IsUnicode(true)
                         .HasColumnType("varchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -1584,8 +1644,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c8c8c14c-9c4b-4b56-97e4-c46804687185",
-                            CreatedDate = new DateTime(2025, 6, 19, 22, 16, 41, 637, DateTimeKind.Utc).AddTicks(8389),
+                            ConcurrencyStamp = "affc317e-ce1f-4163-8708-b2d1009dfc9a",
+                            CreatedDate = new DateTime(2025, 6, 28, 23, 41, 38, 160, DateTimeKind.Utc).AddTicks(1433),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1596,7 +1656,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECrvPyaWIrIcAqtndFigRWqUnlUm2F54zc/3O0gdFWzgwQxAjpzYYjOYzhUWqbxQ2g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK8Ystjout9XjTmCdiqESeguesfkERYAW0BowFUvH0kjfXrPqEJMRtww6eZ/JQXulg==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -2104,8 +2164,7 @@ namespace PillSpot.Migrations
                     b.HasOne("Entities.Models.User", "Actor")
                         .WithMany()
                         .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany()
@@ -2320,6 +2379,32 @@ namespace PillSpot.Migrations
                     b.Navigation("Pharmacy");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Entities.Models.PharmacyProductNotificationPreference", b =>
+                {
+                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Entities.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pharmacy");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyRequest", b =>

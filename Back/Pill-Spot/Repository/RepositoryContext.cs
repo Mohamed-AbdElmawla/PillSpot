@@ -51,6 +51,7 @@ namespace Repository
         public DbSet<UserChat> UserChats { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
         public DbSet<UserPrescription> UserPrescriptions { get; set; }
+        public DbSet<PharmacyProductNotificationPreference> PharmacyProductNotificationPreferences { get; set; }
         
         public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -156,6 +157,8 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new UserChatConfiguration());
 
             modelBuilder.ApplyConfiguration(new UserNotificationConfiguration());
+
+            modelBuilder.ApplyConfiguration(new PharmacyProductNotificationPreferenceConfiguration());
         }
     }
 }

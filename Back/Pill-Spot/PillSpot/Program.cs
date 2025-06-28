@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.SignalR;
 using MediatR;
 using Service.Contracts;
 using Service.Hubs;
+using PillSpot.Presentation.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,9 @@ builder.Services.ConfigureFileService();
 builder.Services.ConfigureLocationService();
 builder.Services.ConfigureCityService();
 builder.Services.ConfigureGovernmentService();
+builder.Services.ConfigureRealTimeNotificationService();
+builder.Services.ConfigureNotificationService();
+builder.Services.ConfigureProductNotificationPreferenceService();
 builder.Services.ConfigureSwagger();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtConfiguration(builder.Configuration);
@@ -50,11 +54,13 @@ builder.Services.AddSignalR(options =>
     options.EnableDetailedErrors = true;
     options.MaximumReceiveMessageSize = 102400; // 100 KB
 });
+//builder.Services.ConfigureCustomModelBinders();
 
 // Add MediatR
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 {
@@ -69,6 +75,7 @@ builder.Services.AddControllers(config => {
     config.RespectBrowserAcceptHeader = true;
     config.ReturnHttpNotAcceptable = true;
     config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+    config.ModelBinderProviders.Insert(0, new CustomModelBinderProvider());
 }).AddXmlDataContractSerializerFormatters()
 .AddApplicationPart(typeof(PharmacyLocator.Presentation.AssemblyReference).Assembly);
 
@@ -81,6 +88,14 @@ new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
 var app = builder.Build();
 
 Log.Information("Application Started!");
+
+// Ensure wwwroot directory exists
+var wwwrootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+if (!Directory.Exists(wwwrootPath))
+{
+    Directory.CreateDirectory(wwwrootPath);
+    Log.Information("Created wwwroot directory at: {Path}", wwwrootPath);
+}
 
 app.UseSwagger();
 

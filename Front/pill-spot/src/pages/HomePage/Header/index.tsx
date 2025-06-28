@@ -2,7 +2,7 @@ import { FiSearch } from "react-icons/fi";
 // import { PiPillFill } from "react-icons/pi";
 import InfoOptions from "./Info";
 import img from "../../../assets/log2.png";
-import HomeCart from "./cart";
+import Notifications from "./Notifications";
 import WishList from "./WishList";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
@@ -64,7 +64,7 @@ if(curUserState.isLoading === true){
           id="cart&wishlist"
           className="flex-1 flex items-center text-[#242a47]"
         >
-          <HomeCart />
+          <Notifications />
           <WishList />
         </div>
       </div>

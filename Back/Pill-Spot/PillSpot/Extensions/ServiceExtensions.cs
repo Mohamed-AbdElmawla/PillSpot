@@ -1,7 +1,17 @@
 ﻿using Contracts;
+using Entities.ConfigurationModels;
+using Entities.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using PillSpot.Presentation.ActionFilters;
+using PillSpot.Presentation.ModelBinders;
 using Repository;
 using Service;
 using Service.Contracts;
+using PillSpot.Service.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +25,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Antiforgery;
+using System.Security.Claims;
 
 namespace PillSpot.Extensions
 {
@@ -24,7 +35,7 @@ namespace PillSpot.Extensions
         {
             var corsSettings = configuration.GetSection(CorsSettings.Section).Get<CorsSettings>();
             if (corsSettings == null || !corsSettings.AllowedOrigins.Any())
-        {
+            {
                 throw new InvalidOperationException("CORS settings are not properly configured");
             }
 
@@ -77,6 +88,14 @@ namespace PillSpot.Extensions
 
         public static void ConfigureLocationService(this IServiceCollection services) =>
             services.AddScoped<ILocationService, LocationService>();
+
+        public static void ConfigureRealTimeNotificationService(this IServiceCollection services) =>
+            services.AddScoped<IRealTimeNotificationService, RealTimeNotificationService>();
+            public static void ConfigureNotificationService(this IServiceCollection services) =>
+            services.AddScoped<INotificationService, NotificationService>();
+
+        public static void ConfigureProductNotificationPreferenceService(this IServiceCollection services) =>
+            services.AddScoped<IPharmacyProductNotificationPreferenceService, PillSpot.Service.PharmacyProductNotificationPreferenceService>();
 
         public static void ConfigureFileService(this IServiceCollection services) =>
         services.AddSingleton<IFileService, FileService>();
@@ -138,7 +157,8 @@ namespace PillSpot.Extensions
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtConfiguration.ValidIssuer,
                     ValidAudience = jwtConfiguration.ValidAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+                    IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+                    NameClaimType = ClaimTypes.Name
                 };
             });
         }
@@ -217,9 +237,9 @@ namespace PillSpot.Extensions
             {
                 options.HeaderName = "X-Csrf-Token";
                 options.Cookie.Name = "CsrfToken";
-                options.Cookie.HttpOnly = false; // Allow JavaScript access
+                options.Cookie.HttpOnly = false;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.MaxAge = TimeSpan.FromHours(1);
             });
         }

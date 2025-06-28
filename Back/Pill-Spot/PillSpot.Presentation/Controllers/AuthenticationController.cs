@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -46,18 +48,22 @@ namespace PillSpot.Presentation.Controllers
         
         private void SetBothTokensCookies(string accessToken, string refreshToken)
         {
+            // Determine if we're in development or production
+            var env = (IWebHostEnvironment)HttpContext.RequestServices.GetService(typeof(IWebHostEnvironment));
+            var isDevelopment = env != null && env.IsDevelopment();
+            
             var baseCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
+                Secure = true, 
+                SameSite = SameSiteMode.None,
                 Path = "/"
             };
 
             // Access token cookie (short-lived)
             var accessCookieOptions = new CookieOptions
             {
-                HttpOnly = baseCookieOptions.HttpOnly,
+                HttpOnly = false,
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,

@@ -16,6 +16,7 @@ namespace Entities.Models
         public string Dosage { get; set; }
 
         public string Instructions { get; set; }
+        public bool IsDeleted { get; set; }
 
         [ForeignKey("PrescriptionId")]
         public virtual Prescription Prescription { get; set; }

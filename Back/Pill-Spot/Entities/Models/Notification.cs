@@ -12,8 +12,7 @@ namespace Entities.Models
         [Required]
         public string UserId { get; set; }
 
-        [Required]
-        public string ActorId { get; set; }
+        public string? ActorId { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -91,6 +90,7 @@ namespace Entities.Models
         CartItemApprovalStatusCancelled,
         CartItemApprovalStatusExpired,
         OrderCreated,
-        NewOrder
+        NewOrder,
+        RequestUpdate
     }
 }

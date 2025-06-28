@@ -22,7 +22,7 @@ const UserSettingHeader = () => {
           placeholder="Search..."
         />
         <BiSearchAlt className="text-3xl text-[#02457A]" />
-        <NotificationDrawer/>
+        <NotificationDrawer iconStyle="text-blue-800 text-3xl hover:scale-105 duration-200 cursor-pointer"/>
         {/* <IoNotificationsOutline className="text-3xl text-[#02457A]" /> */}
         <img src={`https://localhost:7298${curUser.profilePictureUrl}`} className="w-20 h-20 rounded-full" alt="" />
       </div>

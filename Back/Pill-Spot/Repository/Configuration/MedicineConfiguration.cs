@@ -10,11 +10,6 @@ namespace Repository.Configuration
         {
             builder.ToTable("Medicines");
 
-            builder.Property(m => m.Manufacturer)
-                .IsRequired()
-                .HasMaxLength(250)
-                .IsUnicode(true);
-
             builder.Property(m => m.Dosage)
                 .IsRequired()
                 .HasColumnType("float");

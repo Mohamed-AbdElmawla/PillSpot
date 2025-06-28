@@ -39,7 +39,7 @@ function PharmacyDetailsModal({ canOpen }: Iprops) {
       dispatch(setColor());
       toast.success("The request sent successfully");
       setIsOpen(false) ;
-      navigate("/");
+      navigate("/usersettingpage");
     }
 
     dispatch(resetPharmacyRequest());

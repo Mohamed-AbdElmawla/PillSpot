@@ -59,19 +59,20 @@ namespace Service
             _repository.OrderRepository.CreateOrder(order);
             await _repository.SaveAsync();
 
-            // Send notification to user
-            await _notificationService.SendNotificationAsync(
-                orderDto.UserId,
+            // Send notification to user by username
+            await _notificationService.SendNotificationByUsernameAsync(
+                user.UserName,
                 "New Order Created",
                 $"Your order #{order.OrderId} has been created successfully.",
                 NotificationType.OrderCreated,
                 JsonSerializer.Serialize(new { orderId = order.OrderId })
             );
 
-            // Send notification to admin
+            // Send notification to admin by usernames
             var adminUsers = await _repository.UserRepository.GetUsersByRoleAsync("Admin");
-            await _notificationService.SendBulkNotificationAsync(
-                adminUsers.Select(u => u.Id),
+            var adminUsernames = adminUsers.Select(u => u.UserName).ToList();
+            await _notificationService.SendBulkNotificationByUsernamesAsync(
+                adminUsernames,
                 "New Order Received",
                 $"New order #{order.OrderId} has been placed.",
                 NotificationType.NewOrder,
@@ -125,26 +126,37 @@ namespace Service
             order.Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), status);
             await _repository.SaveAsync();
 
-            // Send notification to user
-            await _notificationService.SendNotificationAsync(
-                order.UserId,
-                "Order Status Updated",
-                $"Your order #{order.OrderId} status has been updated to {status}.",
-                NotificationType.DeliveryStatus,
-                JsonSerializer.Serialize(new { orderId = order.OrderId, status })
-            );
+            // Get user by ID to get username
+            var user = await _userManager.FindByIdAsync(order.UserId);
+            if (user != null)
+            {
+                // Send notification to user by username
+                await _notificationService.SendNotificationByUsernameAsync(
+                    user.UserName,
+                    "Order Status Updated",
+                    $"Your order #{order.OrderId} status has been updated to {status}.",
+                    NotificationType.DeliveryStatus,
+                    JsonSerializer.Serialize(new { orderId = order.OrderId, status })
+                );
+            }
         }
 
         public async Task SendPaymentConfirmationAsync(Guid orderId, decimal amount)
         {
             var order = await GetOrderByIdAndCheckIfExists(orderId, trackChanges: true);
-            await _notificationService.SendNotificationAsync(
-                order.UserId,
-                "Payment Confirmed",
-                $"Your payment of ${amount:F2} for order {orderId} has been confirmed",
-                NotificationType.PaymentConfirmation,
-                JsonSerializer.Serialize(new { orderId, amount })
-            );
+            
+            // Get user by ID to get username
+            var user = await _userManager.FindByIdAsync(order.UserId);
+            if (user != null)
+            {
+                await _notificationService.SendNotificationByUsernameAsync(
+                    user.UserName,
+                    "Payment Confirmed",
+                    $"Your payment of ${amount:F2} for order {orderId} has been confirmed",
+                    NotificationType.PaymentConfirmation,
+                    JsonSerializer.Serialize(new { orderId, amount })
+                );
+            }
         }
 
         private async Task<Order> GetOrderByIdAndCheckIfExists(Guid orderId, bool trackChanges)

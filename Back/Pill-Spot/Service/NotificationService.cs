@@ -3,13 +3,14 @@ using Contracts;
 using Entities.Exceptions;
 using Entities.Models;
 using MediatR;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
-using Service.Hubs;
 using Shared.DataTransferObjects;
+using Shared.DataTransferObjects.Notifications;
 using Shared.RequestFeatures;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -19,19 +20,40 @@ namespace Service
     {
         private readonly IRepositoryManager _repository;
         private readonly IMediator _mediator;
-        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IRealTimeNotificationService _realTimeNotificationService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
         public NotificationService(
             IRepositoryManager repository,
             IMediator mediator,
-            IHubContext<NotificationHub> hubContext,
-            IMapper mapper)
+            IRealTimeNotificationService realTimeNotificationService,
+            IMapper mapper,
+            UserManager<User> userManager)
         {
             _repository = repository;
             _mediator = mediator;
-            _hubContext = hubContext;
+            _realTimeNotificationService = realTimeNotificationService;
             _mapper = mapper;
+            _userManager = userManager;
+        }
+
+        // Helper method to get user ID from username
+        private async Task<string> GetUserIdFromUsernameAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                throw new UserNotFoundException(username);
+            return user.Id;
+        }
+
+        // Helper method to get username from user ID
+        private async Task<string> GetUsernameFromUserIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                throw new UserNotFoundException(userId);
+            return user.UserName;
         }
 
         public async Task<PagedList<NotificationDto>> GetUserNotificationsAsync(
@@ -49,6 +71,15 @@ namespace Service
                 pagedNotifications.MetaData.CurrentPage,
                 pagedNotifications.MetaData.PageSize
             );
+        }
+
+        public async Task<PagedList<NotificationDto>> GetUserNotificationsByUsernameAsync(
+            string username, 
+            NotificationRequestParameters parameters, 
+            bool trackChanges)
+        {
+            var userId = await GetUserIdFromUsernameAsync(username);
+            return await GetUserNotificationsAsync(userId, parameters, trackChanges);
         }
 
         public async Task<NotificationDto> GetNotificationByIdAsync(Guid id, bool trackChanges)
@@ -75,12 +106,33 @@ namespace Service
             return _mapper.Map<NotificationDto>(notification);
         }
 
-        public async Task SendNotificationAsync(string userId, string title, string message, NotificationType type, string? data = null)
+        public async Task<NotificationDto> CreateNotificationByUsernameAsync(NotificationForCreationByUsernameDto notificationDto)
+        {
+            var userId = await GetUserIdFromUsernameAsync(notificationDto.Username);
+            
+            var notificationForCreation = new NotificationForCreationDto
+            {
+                UserId = userId,
+                ActorId = notificationDto.ActorId,
+                Title = notificationDto.Title,
+                Message = notificationDto.Message,
+                Content = notificationDto.Content,
+                Type = notificationDto.Type,
+                Data = notificationDto.Data,
+                RelatedEntityId = notificationDto.RelatedEntityId,
+                RelatedEntityType = notificationDto.RelatedEntityType,
+                IsBroadcast = notificationDto.IsBroadcast
+            };
+
+            return await CreateNotificationAsync(notificationForCreation);
+        }
+
+        public async Task<NotificationDto> SendNotificationAsync(string userId, string title, string message, NotificationType type, string? data = null)
         {
             var notificationDto = new NotificationForCreationDto
             {
                 UserId = userId,
-                ActorId = "system",
+                ActorId = null,
                 Title = title,
                 Message = message,
                 Content = title + ": " + message,
@@ -93,18 +145,67 @@ namespace Service
             
             try
             {
-                await _hubContext.Clients.Group(userId).SendAsync("ReceiveNotification", notification);
+                var username = await GetUsernameFromUserIdAsync(userId);
+                await _realTimeNotificationService.SendNotificationAsync(username, notification);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to send real-time notification: {ex.Message}");
             }
+
+            return notification;
+        }
+
+        public async Task<NotificationDto> SendNotificationByUsernameAsync(string username, string title, string message, NotificationType type, string? data = null)
+        {
+            var userId = await GetUserIdFromUsernameAsync(username);
+            return await SendNotificationAsync(userId, title, message, type, data);
         }
 
         public async Task SendBulkNotificationAsync(IEnumerable<string> userIds, string title, string message, NotificationType type, string? data = null)
         {
             var tasks = userIds.Select(userId => SendNotificationAsync(userId, title, message, type, data));
             await Task.WhenAll(tasks);
+        }
+
+        public async Task SendBulkNotificationByUsernamesAsync(IEnumerable<string> usernames, string title, string message, NotificationType type, string? data = null)
+        {
+            var userIds = new List<string>();
+            foreach (var username in usernames)
+            {
+                var userId = await GetUserIdFromUsernameAsync(username);
+                userIds.Add(userId);
+            }
+            await SendBulkNotificationAsync(userIds, title, message, type, data);
+        }
+
+        public async Task SendNotificationToRoleAsync(string role, string title, string message, NotificationType type, string? data = null)
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role);
+            var userIds = usersInRole.Select(u => u.Id).ToList();
+            await SendBulkNotificationAsync(userIds, title, message, type, data);
+        }
+
+        public async Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null)
+        {
+            // Get pharmacy employees with manager/owner roles for this specific pharmacy
+            var pharmacyEmployees = await _repository.PharmacyEmployeeRepository
+                .GetEmployeesByPharmacyAsync(pharmacyId, false);
+
+            var managerUserIds = new List<string>();
+            foreach (var employee in pharmacyEmployees)
+            {
+                var userRoles = await _userManager.GetRolesAsync(employee.User);
+                if (userRoles.Contains("PharmacyManager") || userRoles.Contains("PharmacyOwner"))
+                {
+                    managerUserIds.Add(employee.UserId);
+                }
+            }
+
+            if (managerUserIds.Any())
+            {
+                await SendBulkNotificationAsync(managerUserIds, title, message, type, data);
+            }
         }
 
         public async Task DeleteNotificationAsync(Guid notificationId, bool trackChanges)
@@ -134,8 +235,15 @@ namespace Service
             notification.ModifiedDate = DateTime.UtcNow;
             await _repository.SaveAsync();
 
-            await _hubContext.Clients.Group(notification.UserId)
-                .SendAsync("NotificationRead", notificationId);
+            try
+            {
+                var username = await GetUsernameFromUserIdAsync(notification.UserId);
+                await _realTimeNotificationService.SendNotificationReadAsync(username, notificationId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send real-time notification read update: {ex.Message}");
+            }
         }
 
         public async Task MarkAllNotificationsAsReadAsync(string userId)
@@ -148,13 +256,32 @@ namespace Service
             }
             await _repository.SaveAsync();
 
-            await _hubContext.Clients.Group(userId)
-                .SendAsync("AllNotificationsRead");
+            try
+            {
+                var username = await GetUsernameFromUserIdAsync(userId);
+                await _realTimeNotificationService.SendAllNotificationsReadAsync(username);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send real-time all notifications read update: {ex.Message}");
+            }
+        }
+
+        public async Task MarkAllNotificationsAsReadByUsernameAsync(string username)
+        {
+            var userId = await GetUserIdFromUsernameAsync(username);
+            await MarkAllNotificationsAsReadAsync(userId);
         }
 
         public async Task<int> GetUnreadNotificationCountAsync(string userId)
         {
             return await _repository.NotificationRepository.GetUnreadNotificationCountAsync(userId);
+        }
+
+        public async Task<int> GetUnreadNotificationCountByUsernameAsync(string username)
+        {
+            var userId = await GetUserIdFromUsernameAsync(username);
+            return await GetUnreadNotificationCountAsync(userId);
         }
 
         public async Task<IEnumerable<NotificationDto>> GetUnreadNotificationsAsync(string userId)
@@ -163,11 +290,28 @@ namespace Service
             return _mapper.Map<IEnumerable<NotificationDto>>(notifications);
         }
 
-        // Additional notification types for various business events
+        public async Task<IEnumerable<NotificationDto>> GetUnreadNotificationsByUsernameAsync(string username)
+        {
+            var userId = await GetUserIdFromUsernameAsync(username);
+            return await GetUnreadNotificationsAsync(userId);
+        }
+
+        // Business event notifications
         public async Task SendPrescriptionExpiryNotificationAsync(string userId, Guid prescriptionId, DateTime expiryDate)
         {
             await SendNotificationAsync(
                 userId,
+                "Prescription Expiring Soon",
+                $"Your prescription will expire on {expiryDate:MM/dd/yyyy}. Please renew it soon.",
+                NotificationType.PrescriptionExpiry,
+                JsonSerializer.Serialize(new { prescriptionId, expiryDate })
+            );
+        }
+
+        public async Task SendPrescriptionExpiryNotificationByUsernameAsync(string username, Guid prescriptionId, DateTime expiryDate)
+        {
+            await SendNotificationByUsernameAsync(
+                username,
                 "Prescription Expiring Soon",
                 $"Your prescription will expire on {expiryDate:MM/dd/yyyy}. Please renew it soon.",
                 NotificationType.PrescriptionExpiry,
@@ -186,23 +330,83 @@ namespace Service
             );
         }
 
+        public async Task SendPaymentConfirmationNotificationByUsernameAsync(string username, Guid orderId, decimal amount)
+        {
+            await SendNotificationByUsernameAsync(
+                username,
+                "Payment Confirmed",
+                $"Your payment of ${amount:F2} for order #{orderId} has been confirmed.",
+                NotificationType.PaymentConfirmation,
+                JsonSerializer.Serialize(new { orderId, amount })
+            );
+        }
+
         public async Task SendDeliveryStatusNotificationAsync(string userId, Guid orderId, string status)
         {
             await SendNotificationAsync(
                 userId,
                 "Delivery Status Update",
-                $"Your order #{orderId} is now {status}.",
+                $"Your order #{orderId} status has been updated to: {status}",
                 NotificationType.DeliveryStatus,
                 JsonSerializer.Serialize(new { orderId, status })
             );
         }
 
+        public async Task SendDeliveryStatusNotificationByUsernameAsync(string username, Guid orderId, string status)
+        {
+            await SendNotificationByUsernameAsync(
+                username,
+                "Delivery Status Update",
+                $"Your order #{orderId} status has been updated to: {status}",
+                NotificationType.DeliveryStatus,
+                JsonSerializer.Serialize(new { orderId, status })
+            );
+        }
+
+        // Helper: Get all users to notify for a product event (pharmacy-specific or any pharmacy)
+        private async Task<List<string>> GetUsersToNotifyForProductEvent(Guid productId, Guid? pharmacyId, string notificationType)
+        {
+            var preferences = await _repository.PharmacyProductNotificationPreferenceRepository.GetPreferencesForProductAndTypeAsync(productId, notificationType, false);
+            var userIds = new List<string>();
+            foreach (var pref in preferences)
+            {
+                // Notify if preference is for this pharmacy or for any pharmacy
+                if ((pharmacyId != null && pref.PharmacyId == pharmacyId) || pref.PharmacyId == null)
+                {
+                    userIds.Add(pref.UserId);
+                }
+            }
+            return userIds.Distinct().ToList();
+        }
+
         public async Task SendPriceChangeNotificationAsync(string userId, Guid productId, string productName, decimal oldPrice, decimal newPrice)
         {
+            // This method is now for a single user; use the new helper for bulk notification
             await SendNotificationAsync(
                 userId,
                 "Price Change Alert",
-                $"The price of {productName} has changed from ${oldPrice:F2} to ${newPrice:F2}.",
+                $"The price of {productName} has changed from ${oldPrice:F2} to ${newPrice:F2}",
+                NotificationType.PriceChange,
+                JsonSerializer.Serialize(new { productId, productName, oldPrice, newPrice })
+            );
+        }
+
+        // New: Notify all users with preference for this product (in this pharmacy or any pharmacy)
+        public async Task SendPriceChangeNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, decimal oldPrice, decimal newPrice)
+        {
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, NotificationType.PriceChange.ToString());
+            foreach (var userId in userIds)
+            {
+                await SendPriceChangeNotificationAsync(userId, productId, productName, oldPrice, newPrice);
+            }
+        }
+
+        public async Task SendPriceChangeNotificationByUsernameAsync(string username, Guid productId, string productName, decimal oldPrice, decimal newPrice)
+        {
+            await SendNotificationByUsernameAsync(
+                username,
+                "Price Change Alert",
+                $"The price of {productName} has changed from ${oldPrice:F2} to ${newPrice:F2}",
                 NotificationType.PriceChange,
                 JsonSerializer.Serialize(new { productId, productName, oldPrice, newPrice })
             );
@@ -213,7 +417,18 @@ namespace Service
             await SendNotificationAsync(
                 userId,
                 "New Promotion Available",
-                $"New promotion: {promotionName}. Valid until {expiryDate:MM/dd/yyyy}.",
+                $"Don't miss out on {promotionName}! Valid until {expiryDate:MM/dd/yyyy}",
+                NotificationType.Promotion,
+                JsonSerializer.Serialize(new { promotionId, promotionName, expiryDate })
+            );
+        }
+
+        public async Task SendPromotionNotificationByUsernameAsync(string username, string promotionId, string promotionName, DateTime expiryDate)
+        {
+            await SendNotificationByUsernameAsync(
+                username,
+                "New Promotion Available",
+                $"Don't miss out on {promotionName}! Valid until {expiryDate:MM/dd/yyyy}",
                 NotificationType.Promotion,
                 JsonSerializer.Serialize(new { promotionId, promotionName, expiryDate })
             );
@@ -238,84 +453,137 @@ namespace Service
             );
         }
 
+        public async Task SendProductInfoNotificationByUsernameAsync(string username, string productId, string productName, string infoType, string message)
+        {
+            var notificationData = new
+            {
+                productId,
+                productName,
+                infoType,
+                timestamp = DateTime.UtcNow
+            };
+
+            await SendNotificationByUsernameAsync(
+                username,
+                $"Product Update: {productName}",
+                message,
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(notificationData)
+            );
+        }
+
+        // New: Notify all users with preference for this product info type (in this pharmacy or any pharmacy)
+        public async Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message)
+        {
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, infoType);
+            foreach (var userId in userIds)
+            {
+                await SendProductInfoNotificationAsync(userId, productId.ToString(), productName, infoType, message);
+            }
+        }
+
         public async Task SendProductSpecificNotificationAsync(string userId, string productId, string productName, string infoType)
         {
-            string message = infoType switch
+            var message = infoType switch
             {
-                "StockAlert" => $"The product '{productName}' is now back in stock!",
-                "PriceDrop" => $"The price of '{productName}' has been reduced!",
-                "NewReview" => $"A new review has been posted for '{productName}'",
-                "SideEffect" => $"New side effect information available for '{productName}'",
-                "Alternative" => $"Alternative products are now available for '{productName}'",
-                "Recall" => $"Important: Product recall notice for '{productName}'",
-                "Restock" => $"'{productName}' will be restocked soon",
-                "Discount" => $"Special discount available for '{productName}'",
-                _ => $"New information available for '{productName}'"
+                "stock_low" => $"Low stock alert for {productName}. Please reorder soon.",
+                "out_of_stock" => $"{productName} is now out of stock.",
+                "back_in_stock" => $"{productName} is back in stock!",
+                "price_drop" => $"Price drop alert for {productName}!",
+                "new_review" => $"New review available for {productName}.",
+                _ => $"Update available for {productName}."
             };
 
             await SendProductInfoNotificationAsync(userId, productId, productName, infoType, message);
         }
 
-        // New methods for grouped notifications
+        public async Task SendProductSpecificNotificationByUsernameAsync(string username, string productId, string productName, string infoType)
+        {
+            var message = infoType switch
+            {
+                "stock_low" => $"Low stock alert for {productName}. Please reorder soon.",
+                "out_of_stock" => $"{productName} is now out of stock.",
+                "back_in_stock" => $"{productName} is back in stock!",
+                "price_drop" => $"Price drop alert for {productName}!",
+                "new_review" => $"New review available for {productName}.",
+                _ => $"Update available for {productName}."
+            };
+
+            await SendProductInfoNotificationByUsernameAsync(username, productId, productName, infoType, message);
+        }
+
         public async Task SendGroupedProductNotificationsAsync(string userId, IEnumerable<(string productId, string productName, string infoType)> updates)
         {
-            var groupedUpdates = updates.GroupBy(u => u.infoType);
-            foreach (var group in groupedUpdates)
+            var groupedMessage = string.Join("\n", updates.Select(u => $"• {u.productName}: {u.infoType}"));
+            var notificationData = new
             {
-                var products = group.Select(u => new { u.productId, u.productName }).ToList();
-                var message = group.Key switch
-                {
-                    "StockAlert" => $"The following products are now back in stock: {string.Join(", ", products.Select(p => p.productName))}",
-                    "PriceDrop" => $"Price drops for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "NewReview" => $"New reviews available for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "SideEffect" => $"New side effect information for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "Alternative" => $"Alternative products available for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "Recall" => $"Important recall notices for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "Restock" => $"Upcoming restock for: {string.Join(", ", products.Select(p => p.productName))}",
-                    "Discount" => $"Special discounts for: {string.Join(", ", products.Select(p => p.productName))}",
-                    _ => $"Updates available for: {string.Join(", ", products.Select(p => p.productName))}"
-                };
+                updates = updates.Select(u => new { u.productId, u.productName, u.infoType }),
+                timestamp = DateTime.UtcNow
+            };
 
-                var notificationData = new
-                {
-                    products = products,
-                    infoType = group.Key,
-                    timestamp = DateTime.UtcNow
-                };
+            await SendNotificationAsync(
+                userId,
+                "Product Updates Summary",
+                groupedMessage,
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(notificationData)
+            );
+        }
 
-                await SendNotificationAsync(
-                    userId,
-                    $"Product Updates: {group.Key}",
-                    message,
-                    NotificationType.GroupedProductInfo,
-                    JsonSerializer.Serialize(notificationData)
-                );
-            }
+        public async Task SendGroupedProductNotificationsByUsernameAsync(string username, IEnumerable<(string productId, string productName, string infoType)> updates)
+        {
+            var groupedMessage = string.Join("\n", updates.Select(u => $"• {u.productName}: {u.infoType}"));
+            var notificationData = new
+            {
+                updates = updates.Select(u => new { u.productId, u.productName, u.infoType }),
+                timestamp = DateTime.UtcNow
+            };
+
+            await SendNotificationByUsernameAsync(
+                username,
+                "Product Updates Summary",
+                groupedMessage,
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(notificationData)
+            );
         }
 
         public async Task SendGroupedNotificationsAsync(string userId, string groupType, IEnumerable<(string title, string message, string type, string? data)> notifications)
         {
-            var groupedNotifications = notifications.GroupBy(n => n.type);
-            foreach (var group in groupedNotifications)
+            var groupedMessage = string.Join("\n", notifications.Select(n => $"• {n.title}: {n.message}"));
+            var notificationData = new
             {
-                var messages = group.Select(n => new { n.title, n.message, n.data }).ToList();
-                var summaryMessage = string.Join("\n", messages.Select(m => $"- {m.message}"));
+                groupType,
+                notifications = notifications.Select(n => new { n.title, n.message, n.type, n.data }),
+                timestamp = DateTime.UtcNow
+            };
 
-                var notificationData = new
-                {
-                    notifications = messages,
-                    groupType,
-                    timestamp = DateTime.UtcNow
-                };
+            await SendNotificationAsync(
+                userId,
+                $"{groupType} Summary",
+                groupedMessage,
+                NotificationType.General,
+                JsonSerializer.Serialize(notificationData)
+            );
+        }
 
-                await SendNotificationAsync(
-                    userId,
-                    $"Grouped Updates: {groupType}",
-                    summaryMessage,
-                    NotificationType.GroupedNotification,
-                    JsonSerializer.Serialize(notificationData)
-                );
-            }
+        public async Task SendGroupedNotificationsByUsernameAsync(string username, string groupType, IEnumerable<(string title, string message, string type, string? data)> notifications)
+        {
+            var groupedMessage = string.Join("\n", notifications.Select(n => $"• {n.title}: {n.message}"));
+            var notificationData = new
+            {
+                groupType,
+                notifications = notifications.Select(n => new { n.title, n.message, n.type, n.data }),
+                timestamp = DateTime.UtcNow
+            };
+
+            await SendNotificationByUsernameAsync(
+                username,
+                $"{groupType} Summary",
+                groupedMessage,
+                NotificationType.General,
+                JsonSerializer.Serialize(notificationData)
+            );
         }
 
         public async Task SendDailyProductUpdatesAsync(string userId, IEnumerable<(string productId, string productName, string infoType)> dailyUpdates)
@@ -323,9 +591,19 @@ namespace Service
             await SendGroupedProductNotificationsAsync(userId, dailyUpdates);
         }
 
+        public async Task SendDailyProductUpdatesByUsernameAsync(string username, IEnumerable<(string productId, string productName, string infoType)> dailyUpdates)
+        {
+            await SendGroupedProductNotificationsByUsernameAsync(username, dailyUpdates);
+        }
+
         public async Task SendWeeklySummaryAsync(string userId, IEnumerable<(string title, string message, string type, string? data)> weeklyUpdates)
         {
             await SendGroupedNotificationsAsync(userId, "Weekly Summary", weeklyUpdates);
+        }
+
+        public async Task SendWeeklySummaryByUsernameAsync(string username, IEnumerable<(string title, string message, string type, string? data)> weeklyUpdates)
+        {
+            await SendGroupedNotificationsByUsernameAsync(username, "Weekly Summary", weeklyUpdates);
         }
 
         public async Task<PagedList<NotificationDto>> GetNotificationsAsync(NotificationRequestParameters parameters, bool trackChanges)
@@ -337,6 +615,62 @@ namespace Service
                 pagedNotifications.MetaData.TotalCount,
                 pagedNotifications.MetaData.CurrentPage,
                 pagedNotifications.MetaData.PageSize
+            );
+        }
+
+        public async Task SendEmployeeRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string requesterName, string action)
+        {
+            var title = $"Employee Request {action}";
+            var message = $"{requesterName} has {action.ToLower()} an employee request for {pharmacyName}";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    pharmacyName, 
+                    requesterName, 
+                    action,
+                    timestamp = DateTime.UtcNow
+                })
+            );
+        }
+
+        public async Task SendPharmacyRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string action)
+        {
+            var title = $"Pharmacy Request {action}";
+            var message = $"Your pharmacy request for '{pharmacyName}' has been {action.ToLower()}";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    pharmacyName, 
+                    action,
+                    timestamp = DateTime.UtcNow
+                })
+            );
+        }
+
+        public async Task SendRequestStatusUpdateNotificationAsync(string userId, Guid requestId, string status, string message)
+        {
+            var title = $"Request Status Update";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    status,
+                    timestamp = DateTime.UtcNow
+                })
             );
         }
 

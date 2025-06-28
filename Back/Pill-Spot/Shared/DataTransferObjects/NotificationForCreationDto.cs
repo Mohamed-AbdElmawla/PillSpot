@@ -9,8 +9,7 @@ namespace Shared.DataTransferObjects
         [Required(ErrorMessage = "User ID is required")]
         public string UserId { get; init; }
 
-        [Required(ErrorMessage = "Actor ID is required")]
-        public string ActorId { get; init; }
+        public string? ActorId { get; init; }
 
         [Required(ErrorMessage = "Title is required")]
         [MaxLength(100, ErrorMessage = "Title cannot exceed 100 characters")]

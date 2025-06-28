@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using Service.Contracts;
 using Service.Hubs;
 using Shared.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,32 +17,32 @@ namespace Service
             _hubContext = hubContext;
         }
 
-        public async Task SendNotificationAsync(string userId, NotificationDto notification)
+        public async Task SendNotificationAsync(string username, NotificationDto notification)
         {
-            await _hubContext.Clients.Group(userId).SendAsync("ReceiveNotification", notification);
+            await _hubContext.Clients.Group(username).SendAsync("ReceiveNotification", notification);
         }
 
-        public async Task SendBulkNotificationAsync(IEnumerable<string> userIds, NotificationDto notification)
+        public async Task SendBulkNotificationAsync(IEnumerable<string> usernames, NotificationDto notification)
         {
-            foreach (var userId in userIds)
+            foreach (var username in usernames)
             {
-                await SendNotificationAsync(userId, notification);
+                await SendNotificationAsync(username, notification);
             }
         }
 
-        public async Task SendNotificationReadAsync(string userId, Guid notificationId)
+        public async Task SendNotificationReadAsync(string username, Guid notificationId)
         {
-            await _hubContext.Clients.Group(userId).SendAsync("NotificationRead", notificationId);
+            await _hubContext.Clients.Group(username).SendAsync("NotificationRead", notificationId);
         }
 
-        public async Task SendAllNotificationsReadAsync(string userId)
+        public async Task SendAllNotificationsReadAsync(string username)
         {
-            await _hubContext.Clients.Group(userId).SendAsync("AllNotificationsRead");
+            await _hubContext.Clients.Group(username).SendAsync("AllNotificationsRead");
         }
 
-        public async Task SendUnreadCountAsync(string userId, int count)
+        public async Task SendUnreadCountAsync(string username, int count)
         {
-            await _hubContext.Clients.Group(userId).SendAsync("ReceiveUnreadCount", count);
+            await _hubContext.Clients.Group(username).SendAsync("ReceiveUnreadCount", count);
         }
     }
 } 
