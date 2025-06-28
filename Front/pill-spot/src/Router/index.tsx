@@ -30,6 +30,7 @@ import UserPharmacies from "../pages/UserSettings/UserPharmacies";
 import UserSettingPage from "../layouts/UserPage";
 import AdminCategories from "../layouts/tempAdmin/tempAdmin";
 import ProductPage from "../pages/ProductsPage/ProductPage";
+import UserNotifications from "../pages/UserSettings/userNotifications";
 
 // Define the router
 const router = createBrowserRouter(
@@ -62,7 +63,7 @@ const router = createBrowserRouter(
         <Route path="usersettingpage" element={<UserSettingLayout />} >
           <Route index element={<UserSettingsMain/>}/>
           <Route path="page1" element={<UserSettingsMain/>}/>
-          <Route path="page2" element={<div>Hello iam page2</div>}/>
+          <Route path="page2" element={<UserNotifications/>}/>
           <Route path="page3" element={<OrdersCartPage/>}/>
           <Route path="page4" element={<div><UserOrderedOrders/></div>}/>
           <Route path="page5" element={<div><UserEditInofPage/></div>}/>

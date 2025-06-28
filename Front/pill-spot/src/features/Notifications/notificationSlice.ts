@@ -41,6 +41,7 @@ interface NotificationState {
     isLoading: boolean;
     isError: boolean;
     errorMessage: string;
+    unreadCount: number;
 }
 
 const initialState: NotificationState = {
@@ -48,6 +49,7 @@ const initialState: NotificationState = {
     isLoading: false,
     isError: false,
     errorMessage: "",
+    unreadCount: 0,
 };
 
 export const getNotifications = createAsyncThunk<
@@ -276,6 +278,9 @@ export const notificationSlice = createSlice({
                     ...n,
                     isRead: true
                 }));
+            })
+            .addCase(getUnreadNotificationCountThunk.fulfilled, (state, action) => {
+                state.unreadCount = action.payload;
             });
     },
 });
