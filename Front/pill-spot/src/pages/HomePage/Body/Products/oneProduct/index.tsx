@@ -2,21 +2,39 @@ import { FaRegHeart } from "react-icons/fa6";
 import { TbShoppingCartPlus } from "react-icons/tb";
 import Rating from "../../../../../UI/Rating";
 import { toast } from "sonner";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { setColor } from "../../../../../features/Toasts/toastSlice";
+import { useState, useRef, useEffect } from "react";
 import img from "./image.png";
+import ContextMenu from "./ContextMenu";
 
+interface CategoryDto {
+  categoryId: string;
+  name: string;
+}
+
+interface SubCategoryDto {
+  categoryDto: CategoryDto;
+  subCategoryId: string;
+  name: string;
+}
+
+interface LocationDto {
+  longitude: number;
+  latitude: number;
+  additionalInfo: string;
+  cityDto: null;
+}
 
 interface IProduct extends React.HTMLAttributes<HTMLDivElement>  {
   quantity: number;
   productDto?: {
     productId: string;
-    subCategoryDto: null;
+    subCategoryDto: SubCategoryDto;
     name: string;
     description: string;
+    usageInstructions: string;
     price: number;
     imageURL: string;
+    manufacturer: string;
     createdDate: string;
   };
   pharmacyDto?: {
@@ -24,29 +42,33 @@ interface IProduct extends React.HTMLAttributes<HTMLDivElement>  {
     name: string;
     logoURL: string;
     logo: null;
-    locationDto: null;
+    locationDto: LocationDto;
     contactNumber: string;
     openingTime: string;
     closingTime: string;
-    isOpen24: false;
+    isOpen24: boolean;
     daysOpen: string;
   };
   hover:boolean
 }
 
-
-
-
-
 const OneProduct = ({
-  quantity = 0,
   productDto = {
     productId: "",
-    subCategoryDto: null,
+    subCategoryDto: {
+      categoryDto: {
+        categoryId: "",
+        name: "Unknown Category"
+      },
+      subCategoryId: "",
+      name: "Unknown Subcategory"
+    },
     name: "Unknown Product",
     description: "No description available.",
+    usageInstructions: "No usage instructions available.",
     price: 0,
     imageURL: "", // Fallback image
+    manufacturer: "Unknown Manufacturer",
     createdDate: "",
   },
   pharmacyDto = {
@@ -54,7 +76,12 @@ const OneProduct = ({
     name: "Unknown Pharmacy",
     logoURL: "",
     logo: null,
-    locationDto: null,
+    locationDto: {
+      longitude: 0,
+      latitude: 0,
+      additionalInfo: "",
+      cityDto: null
+    },
     contactNumber: "N/A",
     openingTime: "00:00",
     closingTime: "00:00",
@@ -62,13 +89,49 @@ const OneProduct = ({
     daysOpen: "N/A",
   },
   hover = false,
-  ...rest
 }: IProduct) => {
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({
+    x: 0,
+    y: 0,
+    visible: false,
+  });
+  const productRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (productRef.current && !productRef.current.contains(event.target as Node)) {
+        setContextMenu(prev => ({ ...prev, visible: false }));
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      visible: true,
+    });
+  };
+
+  const handleAddToCart = () => {
+    toast.success("Added to cart");
+  };
+
+  const handleCloseContextMenu = () => {
+    setContextMenu(prev => ({ ...prev, visible: false }));
+  };
 
   return (
-    <div>
+    <div ref={productRef}>
       {hover ? (
-        <div className="flex items-center justify-center relative w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg border h-90 text-gray-600 border-gray-200 rounded-lg shadow-md p-5 overflow-hidden mt-20 hover:scale-105 duration-200">
+        <div 
+          className="flex items-center justify-center relative w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg border h-90 text-gray-600 border-gray-200 rounded-lg shadow-md p-5 overflow-hidden mt-20 hover:scale-105 duration-200"
+          onContextMenu={handleContextMenu}
+        >
           <div className="absolute inset-0 bg-cover bg-center opacity-50">
             <img src={img} alt="Product background" className="w-100 h-90" />
           </div>
@@ -80,7 +143,10 @@ const OneProduct = ({
           </div>
         </div>
       ) : (
-        <div className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-5">
+        <div 
+          className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-5"
+          onContextMenu={handleContextMenu}
+        >
           <div className="w-full h-56 flex justify-center">
             <img
               className="object-cover w-80 h-59 rounded-tl-3xl rounded-br-3xl"
@@ -92,7 +158,7 @@ const OneProduct = ({
           <div className="mt-4">
             <div className="flex justify-between items-center mb-3">
               <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                Category
+                {productDto.subCategoryDto.categoryDto.name}
               </span>
               <button className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
                 <FaRegHeart />
@@ -152,7 +218,7 @@ const OneProduct = ({
               <p className="text-2xl font-extrabold text-[#334c83]">${productDto.price}</p>
               <button
                 className="flex items-center bg-[#334c83] text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-[#99aeda] duration-100 cursor-pointer hover:text-[#334c83] focus:ring-4 focus:ring-blue-300"
-                onClick={() => toast.success("Added to cart")}
+                onClick={handleAddToCart}
               >
                 <TbShoppingCartPlus className="text-xl mr-2" />
                 Add to Cart
@@ -161,6 +227,15 @@ const OneProduct = ({
           </div>
         </div>
       )}
+
+      <ContextMenu
+        x={contextMenu.x}
+        y={contextMenu.y}
+        visible={contextMenu.visible}
+        productDto={productDto}
+        pharmacyDto={pharmacyDto}
+        onClose={handleCloseContextMenu}
+      />
     </div>
   );
 };
