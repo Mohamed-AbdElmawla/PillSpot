@@ -52,13 +52,7 @@ const UserNotifications = () => {
             {unreadCount} Unread
           </span>
         </div>
-        <button
-          className="px-5 py-2 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition disabled:opacity-50"
-          onClick={handleMarkAllAsRead}
-          disabled={notifications.length === 0}
-        >
-          <FaCheckCircle className="inline mr-2" /> Mark All as Read
-        </button>
+       
       </div>
       {isLoading ? (
         <div className="text-center text-gray-400 py-12">Loading...</div>
