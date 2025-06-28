@@ -1,45 +1,257 @@
-Pill-Spot/PillSpot/.vs
-Pill-Spot/PillSpot/bin
-Pill-Spot/PillSpot/obj
-Pill-Spot/PillSpot/appsettings.json
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
 
-Pill-Spot/PillSpot.Presentation/.vs
-Pill-Spot/PillSpot.Presentation/bin
-Pill-Spot/PillSpot.Presentation/obj
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
-Pill-Spot/Contracts/.vs
-Pill-Spot/Contracts/bin
-Pill-Spot/Contracts/obj
+# Visual Studio cache/options directory
+.vs/
 
-Pill-Spot/LoggerService/.vs
-Pill-Spot/LoggerService/bin
-Pill-Spot/LoggerService/obj
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
 
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
 
-Pill-Spot/Entities/.vs
-Pill-Spot/Entities/bin
-Pill-Spot/Entities/obj
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
 
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
-Pill-Spot/Presentation/.vs
-Pill-Spot/Presentation/bin
-Pill-Spot/Presentation/obj
+# Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
 
-Pill-Spot/Repository/.vs
-Pill-Spot/Repository/bin
-Pill-Spot/Repository/obj
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
 
-Pill-Spot/Service/.vs
-Pill-Spot/Service/bin
-Pill-Spot/Service/obj
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
 
-Pill-Spot/Service.Contracts/.vs
-Pill-Spot/Service.Contracts/bin
-Pill-Spot/Service.Contracts/obj
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+# NuGet v3's project.json files produces more ignorable files
+*.nuget.props
+*.nuget.targets
 
-Pill-Spot/Shared/.vs
-Pill-Spot/Shared/bin
-Pill-Spot/Shared/obj
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-Pill-Spot\PillSpot\wwwroot
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Environment files
+.env
+.env.local
+.env.*.local
+appsettings.Development.json
+appsettings.Production.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Distribution / packaging
+dist/
+build/
+out/
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+
+# Backup files
+*.bak
+*.backup
+*.[Bb]ak
+
+# Media files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+*.svg
+*.psd
+*.ai
+*.eps
+*.raw
+*.cr2
+*.nef
+*.arw
+*.heic
+*.heif
+*.mp4
+*.mov
+*.avi
+*.wmv
+*.flv
+*.webm
+*.mp3
+*.wav
+*.ogg
+*.flac
+*.m4a
+*.aac
+
+# Keep existing patterns
+Back/Pill-Spot/PillSpot/.vs
+Back/Pill-Spot/PillSpot/bin
+Back/Pill-Spot/PillSpot/obj
+Back/Pill-Spot/PillSpot/appsettings.json
+
+Back/Pill-Spot/PillSpot.Presentation/.vs
+Back/Pill-Spot/PillSpot.Presentation/bin
+Back/Pill-Spot/PillSpot.Presentation/obj
+
+Back/Pill-Spot/Contracts/.vs
+Back/Pill-Spot/Contracts/bin
+Back/Pill-Spot/Contracts/obj
+
+Back/Pill-Spot/LoggerService/.vs
+Back/Pill-Spot/LoggerService/bin
+Back/Pill-Spot/LoggerService/obj
+
+Back/Pill-Spot/Entities/.vs
+Back/Pill-Spot/Entities/bin
+Back/Pill-Spot/Entities/obj
+
+Back/Pill-Spot/Presentation/.vs
+Back/Pill-Spot/Presentation/bin
+Back/Pill-Spot/Presentation/obj
+
+Back/Pill-Spot/Repository/.vs
+Back/Pill-Spot/Repository/bin
+Back/Pill-Spot/Repository/obj
+
+Back/Pill-Spot/Service/.vs
+Back/Pill-Spot/Service/bin
+Back/Pill-Spot/Service/obj
+
+Back/Pill-Spot/Service.Contracts/.vs
+Back/Pill-Spot/Service.Contracts/bin
+Back/Pill-Spot/Service.Contracts/obj
+
+Back/Pill-Spot/Shared/.vs
+Back/Pill-Spot/Shared/bin
+Back/Pill-Spot/Shared/obj
+
+Back/Pill-Spot/PillSpot/wwwroot
+Back/Pill-Spot/PillSpot/Logs
 **/node_modules/

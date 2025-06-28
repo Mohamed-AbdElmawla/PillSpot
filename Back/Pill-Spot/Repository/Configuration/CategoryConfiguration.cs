@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasKey(c => c.CategoryID);
+            builder.HasKey(c => c.CategoryId);
 
             builder.Property(c => c.Name)
                 .IsRequired()
@@ -29,7 +29,7 @@ namespace Repository.Configuration
 
             builder.HasMany(c => c.SubCategories)
                 .WithOne(sc => sc.Category)
-                .HasForeignKey(sc => sc.CategoryID)
+                .HasForeignKey(sc => sc.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shared.DataTransferObjects
+﻿namespace Shared.DataTransferObjects
 {
     public record GovernmentDto
     {
-        public string GovernmentName { get; init; }
+        public required string GovernmentName { get; init; }
         public IEnumerable<CityDto> Cities { get; init; }
     }
 }

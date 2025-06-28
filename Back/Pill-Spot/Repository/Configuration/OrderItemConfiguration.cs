@@ -8,15 +8,15 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.HasKey(oi => oi.OrderItemID);
+            builder.HasKey(oi => oi.OrderItemId);
 
-            builder.Property(oi => oi.PharmacyBranchID)
+            builder.Property(oi => oi.PharmacyId)
                 .IsRequired();
 
-            builder.Property(oi => oi.ProductID)
+            builder.Property(oi => oi.ProductId)
                 .IsRequired();
 
-            builder.Property(oi => oi.OrderID)
+            builder.Property(oi => oi.OrderId)
                 .IsRequired();
 
             builder.Property(oi => oi.UnitPrice)
@@ -28,21 +28,21 @@ namespace Repository.Configuration
 
             builder.HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderItems)
-                .HasForeignKey(oi => oi.OrderID)
+                .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(oi => oi.Product)
                 .WithMany()
-                .HasForeignKey(oi => oi.ProductID)
+                .HasForeignKey(oi => oi.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(oi => oi.PharmacyBranch)
+            builder.HasOne(oi => oi.Pharmacy)
                 .WithMany()
-                .HasForeignKey(oi => oi.PharmacyBranchID)
+                .HasForeignKey(oi => oi.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(oi => new { oi.OrderID, oi.ProductID })
-                .HasDatabaseName("IX_OrderItem_OrderID_ProductID");
+            builder.HasIndex(oi => new { oi.OrderId, oi.ProductId })
+                .HasDatabaseName("IX_OrderItem_OrderId_ProductId");
         }
     }
 }

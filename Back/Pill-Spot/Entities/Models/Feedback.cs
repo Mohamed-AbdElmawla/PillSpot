@@ -7,10 +7,10 @@ namespace Entities.Models
     public class Feedback
     {
         [Key]
-        public ulong FeedbackID { get; set; }
+        public Guid FeedbackId { get; set; }
 
         [Required(ErrorMessage = "Sender ID is required.")]
-        public string SenderID { get; set; }
+        public required string SenderId { get; set; }
 
         [Required(ErrorMessage = "Rate is required.")]
         [Range(0, 5, ErrorMessage = "Rate must be between 0 and 5.")]
@@ -20,9 +20,9 @@ namespace Entities.Models
 
         [Required(ErrorMessage = "Content is required.")]
         [MaxLength(1000, ErrorMessage = "Content cannot exceed 1000 characters.")]
-        public string Content { get; set; }
+        public required string Content { get; set; }
 
-        [ForeignKey("SenderID")]
+        [ForeignKey("SenderId")]
         public virtual User Sender { get; set; }
 
         [Required]

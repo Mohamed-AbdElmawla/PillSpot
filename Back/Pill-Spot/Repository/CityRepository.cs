@@ -26,20 +26,20 @@ namespace Repository
             return new PagedList<City>(cities, count, cityRequestParameters.PageNumber, cityRequestParameters.PageSize);
         }
 
-        public async Task<City> GetCityByIdAsync(Guid cityId, bool trackChanges)
-            => await FindByCondition(c => c.CityId.Equals(cityId), trackChanges).SingleOrDefaultAsync();
+        public async Task<City> GetCityByIdAsync(Guid cityId, bool trackChanges) =>
+            await FindByCondition(c => c.CityId.Equals(cityId), trackChanges).SingleOrDefaultAsync();
 
-        public async Task<City> GetCityByNameAsync(string cityName, bool trackChanges)
-            => await FindByCondition(c => c.CityName.Equals(cityName), trackChanges).SingleOrDefaultAsync();
+        public async Task<City> GetCityByNameAsync(string cityName, bool trackChanges)=> 
+            await FindByCondition(c => c.CityName.Equals(cityName), trackChanges).SingleOrDefaultAsync();
 
         public async Task<PagedList<City>> GetCitiesByGovernmentIdAsync(Guid governmentId, CityRequestParameters cityRequestParameters, bool trackChanges)
         {
-            var cities = await FindByCondition(c => c.GovernmentId == governmentId, trackChanges)
+            var cities = await FindByCondition(c => c.GovernmentId.Equals(governmentId), trackChanges)
                 .Sort(cityRequestParameters.OrderBy)
                 .Skip((cityRequestParameters.PageNumber - 1) * cityRequestParameters.PageSize)
                 .Take(cityRequestParameters.PageSize)
                 .ToListAsync();
-            var count = await FindByCondition(c => c.GovernmentId == governmentId, trackChanges).CountAsync();
+            var count = await FindByCondition(c => c.GovernmentId.Equals(governmentId), trackChanges).CountAsync();
             return new PagedList<City>(cities, count, cityRequestParameters.PageNumber, cityRequestParameters.PageSize);
         }
 

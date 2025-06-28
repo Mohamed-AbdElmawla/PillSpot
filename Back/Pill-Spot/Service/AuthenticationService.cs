@@ -2,9 +2,7 @@
 using Entities.ConfigurationModels;
 using Entities.Exceptions;
 using Entities.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Xml.Linq;
 
 namespace Service
 {
@@ -66,7 +63,6 @@ namespace Service
             }
             return result;
         }
-        // remember the Unverified user check
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
@@ -90,18 +86,24 @@ namespace Service
         }
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
-            if (key is null)
-                    throw new SecurityTokenException("JWT Secret Key is missing.");
-            var secret = new SymmetricSecurityKey(key);
+            // Ensure we have a 32-byte key by using SHA256
+            var keyBytes = Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey);
+            using (var sha256 = SHA256.Create())
+            {
+                keyBytes = sha256.ComputeHash(keyBytes);
+            }
+            
+            var secret = new SymmetricSecurityKey(keyBytes);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim>
             {
-            new Claim(ClaimTypes.Name, _user.UserName)
+                new Claim(ClaimTypes.Name, _user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, _user.Id)
             };
+                    
             var roles = await _userManager.GetRolesAsync(_user);
             foreach (var role in roles)
             {
@@ -133,21 +135,26 @@ namespace Service
         }
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
+            // Ensure we use the same key generation method for validation
+            var keyBytes = Encoding.UTF8.GetBytes(_jwtConfiguration.SecretKey);
+            using (var sha256 = SHA256.Create())
+            {
+                keyBytes = sha256.ComputeHash(keyBytes);
+            }
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"))),
+                IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
                 ValidateLifetime = true,
                 ValidIssuer = _jwtConfiguration.ValidIssuer,
                 ValidAudience = _jwtConfiguration.ValidAudience
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out
-           securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null ||
            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,

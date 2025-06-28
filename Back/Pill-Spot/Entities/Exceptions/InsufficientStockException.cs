@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.Exceptions
 {
-    public class InsufficientStockException : BadRequestException
+    public sealed class InsufficientStockException : BadRequestException
     {
-        public InsufficientStockException(string medicineId, int availableQuantity)
-       : base($"Insufficient stock for medicine with MedicineId: {medicineId}. Available quantity: {availableQuantity}."){ }
+        public InsufficientStockException(Guid productId, Guid pharmacyId, int requestedQuantity, int availableQuantity)
+            : base($"Insufficient stock for product {productId} in pharmacy {pharmacyId}. Requested: {requestedQuantity}, Available: {availableQuantity}.") { }
     }
 }

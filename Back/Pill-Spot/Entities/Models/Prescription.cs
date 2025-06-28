@@ -1,25 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
     public class Prescription
     {
         [Key]
-        public ulong PrescriptionID { get; set; }
+        public Guid PrescriptionId { get; set; }
 
-        [Required(ErrorMessage = "Created date is required.")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        [Required(ErrorMessage = "User ID is required")]
+        public string UserId { get; set; }
 
-        [MaxLength(500, ErrorMessage = "File path cannot exceed 500 characters.")]
-        public string FilePath { get; set; }
+        [Required(ErrorMessage = "Issue date is required")]
+        public DateTime IssueDate { get; set; }
 
-        public virtual ICollection<ProductPrescription> ProductPrescriptions { get; set; } = new List<ProductPrescription>();
+        [Required(ErrorMessage = "Expiry date is required")]
+        public DateTime ExpiryDate { get; set; }
 
-        public DateTime? ModifiedDate { get; set; }
+        [Required(ErrorMessage = "Status is required")]
+        public PrescriptionStatus Status { get; set; } = PrescriptionStatus.Active;
 
-        [Required]
-        public bool IsDeleted { get; set; } = false;
+        public string ImageUrl { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; }
+
+        public virtual ICollection<PrescriptionProduct> PrescriptionProducts { get; set; }
+    }
+
+    public enum PrescriptionStatus
+    {
+        Active,
+        Expired,
+        Used,
+        Rejected,
+        PendingVerification
     }
 }

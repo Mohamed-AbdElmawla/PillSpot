@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Batch
     {
         [Key]
-        public ulong BatchID { get; set; }
+        public Guid BatchId { get; set; }
 
         [Required(ErrorMessage = "Batch number is required.")]
         [MaxLength(250, ErrorMessage = "Batch number cannot exceed 250 characters.")]
@@ -19,7 +19,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Expiration date is required.")]
         public DateTime ExpirationDate { get; set; }
 
-        public virtual ICollection<ProductPharmacy> ProductPharmacies { get; set; }
+        public virtual ICollection<PharmacyProduct> ProductPharmacies { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }

@@ -8,9 +8,9 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Feedback> builder)
         {
-            builder.HasKey(f => f.FeedbackID);
+            builder.HasKey(f => f.FeedbackId);
 
-            builder.Property(f => f.SenderID)
+            builder.Property(f => f.SenderId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
@@ -32,11 +32,11 @@ namespace Repository.Configuration
 
             builder.HasOne(f => f.Sender)
                 .WithMany()
-                .HasForeignKey(f => f.SenderID)
+                .HasForeignKey(f => f.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(f => f.SenderID)
-                .HasDatabaseName("IX_Feedback_SenderID");
+            builder.HasIndex(f => f.SenderId)
+                .HasDatabaseName("IX_Feedback_SenderId");
 
             builder.HasIndex(f => f.IsDeleted)
                 .HasDatabaseName("IX_Feedback_IsDeleted");

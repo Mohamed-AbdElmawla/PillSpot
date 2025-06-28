@@ -7,20 +7,36 @@ namespace Entities.Models
     public class Notification
     {
         [Key]
-        public ulong NotificationID { get; set; }
-
-        [Required(ErrorMessage = "Actor ID is required.")]
-        [MaxLength(450, ErrorMessage = "Actor ID cannot exceed 450 characters.")]
-        public string ActorId { get; set; }
+        public Guid NotificationId { get; set; }
 
         [Required]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public string UserId { get; set; }
 
-        [Required(ErrorMessage = "Content is required.")]
-        [MaxLength(1000, ErrorMessage = "Content cannot exceed 1000 characters.")]
+        public string? ActorId { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Title { get; set; }
+
+        [Required]
+        [MaxLength(500)]
+        public string Message { get; set; }
+
+        [Required]
+        [MaxLength(1000)]
         public string Content { get; set; }
 
-        public DateTime? NotifiedDate { get; set; }
+        [Required]
+        public NotificationType Type { get; set; }
+
+        public string? Data { get; set; }
+
+        public Guid? RelatedEntityId { get; set; }
+
+        public string? RelatedEntityType { get; set; }
+
+        [Required]
+        public bool IsRead { get; set; }
 
         [Required]
         public bool IsNotified { get; set; }
@@ -28,12 +44,52 @@ namespace Entities.Models
         [Required]
         public bool IsBroadcast { get; set; }
 
-        [ForeignKey("ActorId")]
-        public virtual User Actor { get; set; }
+        [Required]
+        public bool IsDeleted { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? NotifiedDate { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
-        [Required]
-        public bool IsDeleted { get; set; } = false;
+        [ForeignKey(nameof(UserId))]
+        public User User { get; set; }
+
+        [ForeignKey(nameof(ActorId))]
+        public User Actor { get; set; }
+    }
+
+    public enum NotificationType
+    {
+        General,
+        PrescriptionExpiry,
+        PaymentConfirmation,
+        DeliveryStatus,
+        PriceChange,
+        Promotion,
+        ProductInfo,
+        GroupedProductInfo,
+        GroupedNotification,
+        StockAlert,
+        PriceDrop,
+        NewReview,
+        SideEffect,
+        Alternative,
+        Recall,
+        Restock,
+        Discount,
+        CartItemAdded,
+        CartItemRemoved,
+        CartItemQuantityUpdated,
+        CartItemApprovalStatusUpdated,
+        CartItemApprovalStatusRejected,
+        CartItemApprovalStatusApproved,
+        CartItemApprovalStatusPending,
+        CartItemApprovalStatusCancelled,
+        CartItemApprovalStatusExpired,
+        OrderCreated,
+        NewOrder
     }
 }

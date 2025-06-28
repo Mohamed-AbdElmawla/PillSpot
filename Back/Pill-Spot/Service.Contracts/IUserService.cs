@@ -25,5 +25,6 @@ namespace Service.Contracts
         Task<IEnumerable<string>> GetUserRolesAsync(string userName);
         Task SendEmailConfirmationAsync(string userName);
         Task ConfirmEmailAsync(string email, string token);
+        Task<User> GetUserByNameAndCheckIfItExist(string userName, bool trackChanges = true);
     }
 }

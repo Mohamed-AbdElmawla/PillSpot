@@ -38,11 +38,11 @@ namespace Repository.Configuration
 
             builder.HasOne(u => u.Location)
                 .WithMany()
-                .HasForeignKey(u => u.LocationID)
+                .HasForeignKey(u => u.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(u => u.LocationID)
-                .HasDatabaseName("IX_User_LocationID");
+            builder.HasIndex(u => u.LocationId)
+                .HasDatabaseName("IX_User_LocationId");
         }
     }
 }

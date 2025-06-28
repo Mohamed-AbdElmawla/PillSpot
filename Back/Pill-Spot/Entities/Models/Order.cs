@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+public enum OrderStatus { Pending, Confirmed, Shipped, Delivered, Cancelled }
 namespace Entities.Models
 {
     public class Order
     {
         [Key]
-        public ulong OrderID { get; set; }
+        public Guid OrderId { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
-        public string UserID { get; set; }
+        public required string UserId { get; set; }
 
         [Required(ErrorMessage = "Location ID is required.")]
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
         [Required(ErrorMessage = "Total price is required.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Total price must be greater than zero.")]
@@ -26,21 +26,25 @@ namespace Entities.Models
         public DateTime? PaymentDate { get; set; }
 
         [Required(ErrorMessage = "Status is required.")]
-        public int Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         [Required(ErrorMessage = "Payment method is required.")]
         public int PaymentMethod { get; set; }
 
         [Required]
-        public bool IsSuccessful { get; set; }
+        public bool IsPaid { get; set; }
+        [Required]
+        public decimal DeliveryFee { get; set; }
 
         [Required(ErrorMessage = "Currency is required.")]
         public int Currency { get; set; }
+        public Guid? CartId { get; set; }
+        public virtual Cart Cart { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        [ForeignKey("LocationID")]
+        [ForeignKey("LocationId")]
         public virtual Location Location { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

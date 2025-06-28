@@ -8,12 +8,8 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Pharmacy> builder)
         {
-            builder.HasKey(p => p.PharmacyID);
+            builder.HasKey(p => p.PharmacyId);
 
-            builder.Property(p => p.OwnerID)
-                .IsRequired()
-                .HasMaxLength(450)
-                .IsUnicode(true);
 
             builder.Property(p => p.Name)
                 .IsRequired()
@@ -24,7 +20,7 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
-            builder.Property(p => p.LicenseID)
+            builder.Property(p => p.LicenseId)
                 .IsRequired()
                 .HasMaxLength(450)
                 .IsUnicode(true);
@@ -56,17 +52,13 @@ namespace Repository.Configuration
 
             builder.HasOne(p => p.Location)
                 .WithMany()
-                .HasForeignKey(p => p.LocationID)
+                .HasForeignKey(p => p.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Owner)
-                .WithMany()
-                .HasForeignKey(p => p.OwnerID)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(p => p.ParentPharmacy)
                 .WithMany(p => p.Branches)
-                .HasForeignKey(p => p.ParentPharmacyID)
+                .HasForeignKey(p => p.ParentPharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(p => p.Name)

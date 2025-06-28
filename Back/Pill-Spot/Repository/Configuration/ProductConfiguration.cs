@@ -8,9 +8,11 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(p => p.ProductID);
+            builder.ToTable("Products");
 
-            builder.Property(p => p.SubCategoryID)
+            builder.HasKey(p => p.ProductId);
+
+            builder.Property(p => p.SubCategoryId)
                 .IsRequired();
 
             builder.Property(p => p.Name)
@@ -23,15 +25,21 @@ namespace Repository.Configuration
                 .HasMaxLength(500)
                 .IsUnicode(true);
 
+            builder.Property(p => p.Manufacturer)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(true);
+
+            builder.Property(c => c.UsageInstructions)
+                .IsRequired()
+                .HasMaxLength(500)
+                .IsUnicode(true);
+
             builder.Property(p => p.Price)
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
 
             builder.Property(p => p.ImageURL)
-                .HasMaxLength(500)
-                .IsUnicode(false);
-
-            builder.Property(p => p.BarcodeImageURL)
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
@@ -43,17 +51,8 @@ namespace Repository.Configuration
 
             builder.HasOne(p => p.SubCategory)
                 .WithMany(sc => sc.Products)
-                .HasForeignKey(p => p.SubCategoryID)
+                .HasForeignKey(p => p.SubCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Medicine)
-        .WithOne(m => m.Product)
-        .HasForeignKey<Medicine>(m => m.ProductID)
-        .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(p => p.Cosmetic)
-                .WithOne(c => c.Product)
-                .HasForeignKey<Cosmetic>(c => c.ProductID)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(p => p.Name)
                 .HasDatabaseName("IX_Product_Name");

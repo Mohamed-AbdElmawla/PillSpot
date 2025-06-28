@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Chat
     {
         [Key]
-        public ulong ChatId { get; set; }
+        public Guid ChatId { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
         public virtual ICollection<UserChat> UserChats { get; set; } = new List<UserChat>();

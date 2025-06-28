@@ -8,7 +8,7 @@ namespace Repository.Configuration
     {
         public void Configure(EntityTypeBuilder<UserChat> builder)
         {
-            builder.HasKey(uc => new { uc.UserID, uc.ChatId });
+            builder.HasKey(uc => new { uc.UserId, uc.ChatId });
 
             builder.Property(uc => uc.ImagePath)
                 .HasMaxLength(500)
@@ -16,7 +16,7 @@ namespace Repository.Configuration
 
             builder.HasOne(uc => uc.User)
                 .WithMany()
-                .HasForeignKey(uc => uc.UserID)
+                .HasForeignKey(uc => uc.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(uc => uc.Chat)
@@ -24,8 +24,8 @@ namespace Repository.Configuration
                 .HasForeignKey(uc => uc.ChatId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(uc => new { uc.UserID, uc.ChatId })
-                .HasDatabaseName("IX_UserChat_UserID_ChatId");
+            builder.HasIndex(uc => new { uc.UserId, uc.ChatId })
+                .HasDatabaseName("IX_UserChat_UserId_ChatId");
         }
     }
 }
