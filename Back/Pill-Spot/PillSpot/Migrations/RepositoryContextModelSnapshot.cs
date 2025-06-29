@@ -39,7 +39,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("AdminId", "PermissionId")
                         .HasDatabaseName("IX_AdminPermission_AdminId_PermissionId");
 
-                    b.ToTable("AdminPermissions");
+                    b.ToTable("AdminPermissions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Batch", b =>
@@ -85,7 +85,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Batch_IsDeleted");
 
-                    b.ToTable("Batches");
+                    b.ToTable("Batches", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Cart", b =>
@@ -134,7 +134,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.CartItem", b =>
@@ -199,7 +199,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("PharmacyId", "ProductId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItem", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
@@ -234,7 +234,7 @@ namespace PillSpot.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Category_Name");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Chat", b =>
@@ -259,7 +259,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Chat_IsDeleted");
 
-                    b.ToTable("Chats");
+                    b.ToTable("Chats", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.City", b =>
@@ -299,7 +299,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_City_IsDeleted");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Doctor", b =>
@@ -339,7 +339,7 @@ namespace PillSpot.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Doctor_LicenseId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.DoctorFeedback", b =>
@@ -358,7 +358,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_DoctorFeedback_UserId");
 
-                    b.ToTable("DoctorFeedbacks");
+                    b.ToTable("DoctorFeedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.DoctorPrescription", b =>
@@ -392,7 +392,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_DP_UsrId");
 
-                    b.ToTable("DoctorPrescriptions");
+                    b.ToTable("DoctorPrescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Feedback", b =>
@@ -438,7 +438,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("SenderId")
                         .HasDatabaseName("IX_Feedback_SenderId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Government", b =>
@@ -473,7 +473,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Government_IsDeleted");
 
-                    b.ToTable("Governments");
+                    b.ToTable("Governments", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Ingredient", b =>
@@ -508,7 +508,7 @@ namespace PillSpot.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Ingredient_Name");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Location", b =>
@@ -553,7 +553,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("Longitude", "Latitude")
                         .HasDatabaseName("IX_Location_Coordinates");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Message", b =>
@@ -598,7 +598,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("ChatId", "SentDate")
                         .HasDatabaseName("IX_Message_ChatId_SentDate");
 
-                    b.ToTable("Message");
+                    b.ToTable("Message", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Notification", b =>
@@ -677,7 +677,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Order", b =>
@@ -742,7 +742,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_Order_UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.OrderItem", b =>
@@ -778,7 +778,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("OrderId", "ProductId")
                         .HasDatabaseName("IX_OrderItem_OrderId_ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Permission", b =>
@@ -799,7 +799,7 @@ namespace PillSpot.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Permission_Name");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Pharmacy", b =>
@@ -883,7 +883,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("ParentPharmacyId");
 
-                    b.ToTable("Pharmacies");
+                    b.ToTable("Pharmacies", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployee", b =>
@@ -928,7 +928,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId", "PharmacyId")
                         .HasDatabaseName("IX_PharmacyEmployee_UserId_PharmacyId");
 
-                    b.ToTable("PharmacyEmployees");
+                    b.ToTable("PharmacyEmployees", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeePermission", b =>
@@ -948,7 +948,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("EmployeeId", "PermissionId")
                         .HasDatabaseName("IX_PharmacyEmployeePermission_EmployeeId_PermissionId");
 
-                    b.ToTable("PharmacyEmployeePermissions");
+                    b.ToTable("PharmacyEmployeePermissions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeeRequest", b =>
@@ -984,7 +984,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PharmacyEmployeeRequests");
+                    b.ToTable("PharmacyEmployeeRequests", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyEmployeeRole", b =>
@@ -1014,7 +1014,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("PharmacyEmployeeRoles");
+                    b.ToTable("PharmacyEmployeeRoles", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyFeedback", b =>
@@ -1030,7 +1030,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("PharmacyId")
                         .HasDatabaseName("IX_PharmacyFeedback_PharmacyId");
 
-                    b.ToTable("PharmacyFeedbacks");
+                    b.ToTable("PharmacyFeedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyProduct", b =>
@@ -1070,7 +1070,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("ProductId", "PharmacyId")
                         .HasDatabaseName("IX_PharmacyProduct_ProductId_PharmacyId");
 
-                    b.ToTable("ProductPharmacies");
+                    b.ToTable("ProductPharmacies", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyProductNotificationPreference", b =>
@@ -1208,7 +1208,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_PharmacyRequest_UserId");
 
-                    b.ToTable("PharmacyRequests");
+                    b.ToTable("PharmacyRequests", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Prescription", b =>
@@ -1247,7 +1247,7 @@ namespace PillSpot.Migrations
 
                     b.HasKey("PrescriptionId");
 
-                    b.ToTable("Prescriptions");
+                    b.ToTable("Prescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.PrescriptionProduct", b =>
@@ -1282,7 +1282,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPrescriptions");
+                    b.ToTable("ProductPrescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -1380,7 +1380,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("ProductId", "IngredientsId")
                         .HasDatabaseName("IX_ProductIngredient_ProductId_IngredientsId");
 
-                    b.ToTable("ProductIngredients");
+                    b.ToTable("ProductIngredients", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.SearchHistory", b =>
@@ -1422,7 +1422,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("SearchHistories");
+                    b.ToTable("SearchHistories", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.SubCategory", b =>
@@ -1461,7 +1461,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("Name")
                         .HasDatabaseName("IX_SubCategory_Name");
 
-                    b.ToTable("SubCategories");
+                    b.ToTable("SubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.Support", b =>
@@ -1525,7 +1525,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_Support_UserId");
 
-                    b.ToTable("Supports");
+                    b.ToTable("Supports", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
@@ -1644,8 +1644,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8b55f1c5-e6ad-41a3-b22c-b56a803bfc24",
-                            CreatedDate = new DateTime(2025, 6, 29, 23, 27, 6, 228, DateTimeKind.Utc).AddTicks(3850),
+                            ConcurrencyStamp = "fc402798-cc97-4f66-8e0b-62f4bb1b8b7b",
+                            CreatedDate = new DateTime(2025, 6, 29, 7, 13, 54, 107, DateTimeKind.Utc).AddTicks(3628),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1656,7 +1656,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFVEpfFFjusrFyw0mhoCu1Zy5RD0NVRsRYh3xwjhLBToU/JQOppDpnweiCIbXHfmIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELejh6eo6wbVkiOHOZrqIz4riz2FJm5CoWJbbpH3BQNoRmv2G+5E+2C1FWufLDvdyA==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -1722,7 +1722,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("UserId", "ChatId")
                         .HasDatabaseName("IX_UserChat_UserId_ChatId");
 
-                    b.ToTable("UserChats");
+                    b.ToTable("UserChats", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.UserNotification", b =>
@@ -1742,7 +1742,7 @@ namespace PillSpot.Migrations
                     b.HasIndex("ReceiverId", "NotificationId")
                         .HasDatabaseName("IX_UserNotification_ReceiverId_NotificationId");
 
-                    b.ToTable("UserNotifications");
+                    b.ToTable("UserNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Models.UserPrescription", b =>
@@ -1759,7 +1759,7 @@ namespace PillSpot.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPrescriptions");
+                    b.ToTable("UserPrescriptions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
