@@ -69,10 +69,8 @@ namespace Service
             );
 
             // Send notification to admin by usernames
-            var adminUsers = await _repository.UserRepository.GetUsersByRoleAsync("Admin");
-            var adminUsernames = adminUsers.Select(u => u.UserName).ToList();
-            await _notificationService.SendBulkNotificationByUsernamesAsync(
-                adminUsernames,
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
                 "New Order Received",
                 $"New order #{order.OrderId} has been placed.",
                 NotificationType.NewOrder,

@@ -67,8 +67,8 @@ namespace Service
             await _repository.SaveAsync();
 
             // Notify admins about new pharmacy request
-            await _notificationService.SendNotificationToRoleAsync(
-                "Admin",
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
                 "New Pharmacy Request",
                 $"A new pharmacy request has been submitted by {userName} for '{pharmacyRequest.Name}'",
                 NotificationType.RequestUpdate,
@@ -140,8 +140,8 @@ namespace Service
             );
 
             // Notify admins about the approval
-            await _notificationService.SendNotificationToRoleAsync(
-                "Admin",
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
                 "Pharmacy Request Approved",
                 $"Pharmacy request for '{pharmacy.Name}' has been approved",
                 NotificationType.RequestUpdate,
@@ -195,8 +195,8 @@ namespace Service
             );
 
             // Notify admins about the rejection
-            await _notificationService.SendNotificationToRoleAsync(
-                "Admin",
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
                 "Pharmacy Request Rejected",
                 $"Pharmacy request for '{request.Name}' has been rejected",
                 NotificationType.RequestUpdate,

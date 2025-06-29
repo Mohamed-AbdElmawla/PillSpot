@@ -36,6 +36,7 @@ namespace Service.Contracts
 
         // Role-based notifications
         Task SendNotificationToRoleAsync(string role, string title, string message, NotificationType type, string? data = null);
+        Task SendNotificationToRolesAsync(IEnumerable<string> roles, string title, string message, NotificationType type, string? data = null);
         Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null);
 
         // Request-related notifications
