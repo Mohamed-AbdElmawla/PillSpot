@@ -44,6 +44,7 @@ interface IInitialState {
 interface IData {
   PageNumber: string;
   PageSize: string;
+  Name?: string;
 }
 
 const initialState: IInitialState = {
@@ -58,9 +59,11 @@ export const FetchHomeProducts = createAsyncThunk(
   "/fetchHomeProducts",
   async (data: IData, thunkAPI) => {
     try {
-      const response = await axiosInstance.get(
-        `api/pharmacyproducts?PageNumber=${data.PageNumber}&PageSize=${data.PageSize}`
-      );
+      let url = `api/pharmacyproducts?PageNumber=${data.PageNumber}&PageSize=${data.PageSize}`;
+      if (data.Name) {
+        url += `&searchterm=${encodeURIComponent(data.Name)}`;
+      }
+      const response = await axiosInstance.get(url);
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {

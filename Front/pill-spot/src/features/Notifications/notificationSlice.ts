@@ -36,12 +36,27 @@ export interface Notification {
     avatarUrl?: string;
 }
 
+
+export interface NotificationPreference {
+    preferenceId: string;
+    userId: string;
+    productId: string;
+    pharmacyId: string | null;
+    pharmacyName: string | null;
+    productName: string;
+    isEnabled: boolean;
+    notificationTypes: string[];
+    createdAt: string;
+    lastNotifiedAt: string | null;
+}
+
 interface NotificationState {
     notifications: Notification[];
     isLoading: boolean;
     isError: boolean;
     errorMessage: string;
     unreadCount: number;
+    preferences: NotificationPreference[];
 }
 
 const initialState: NotificationState = {
@@ -50,6 +65,7 @@ const initialState: NotificationState = {
     isError: false,
     errorMessage: "",
     unreadCount: 0,
+    preferences: [],
 };
 
 export const getNotifications = createAsyncThunk<
@@ -155,6 +171,10 @@ export const getNotificationByIdThunk = createAsyncThunk<
     }
 );
 
+
+
+////////////////////////////////////////////////////////////////////////////////  ProducPreference
+
 export const getProductNotificationPreferenceThunk = createAsyncThunk<
     unknown,
     string,
@@ -173,7 +193,7 @@ export const getProductNotificationPreferenceThunk = createAsyncThunk<
 );
 
 export const getAllNotificationPreferencesThunk = createAsyncThunk<
-    unknown[],
+    NotificationPreference[],
     void,
     { rejectValue: string }
 >(
@@ -281,6 +301,54 @@ export const notificationSlice = createSlice({
             })
             .addCase(getUnreadNotificationCountThunk.fulfilled, (state, action) => {
                 state.unreadCount = action.payload;
+            })
+            .addCase(getAllNotificationPreferencesThunk.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.errorMessage = "";
+            })
+            .addCase(getAllNotificationPreferencesThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.preferences = action.payload;
+            })
+            .addCase(getAllNotificationPreferencesThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.errorMessage = action.payload || "Failed to get all notification preferences";
+            })
+            .addCase(updateProductNotificationPreferenceThunk.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.errorMessage = "";
+            })
+            .addCase(updateProductNotificationPreferenceThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const updatedPref = action.payload as NotificationPreference;
+                if (updatedPref && updatedPref.productId) {
+                    const idx = state.preferences.findIndex(p => p.productId === updatedPref.productId);
+                    if (idx !== -1) {
+                        state.preferences[idx] = { ...state.preferences[idx], ...updatedPref };
+                    }
+                }
+            })
+            .addCase(updateProductNotificationPreferenceThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.errorMessage = action.payload || "Failed to update product notification preference";
+            })
+            .addCase(deleteProductNotificationPreferenceThunk.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.errorMessage = "";
+            })
+            .addCase(deleteProductNotificationPreferenceThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.preferences = state.preferences.filter(p => p.productId !== action.payload);
+            })
+            .addCase(deleteProductNotificationPreferenceThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.errorMessage = action.payload || "Failed to delete product notification preference";
             });
     },
 });

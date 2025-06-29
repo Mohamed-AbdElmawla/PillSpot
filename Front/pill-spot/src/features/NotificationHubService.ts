@@ -17,8 +17,6 @@ export const startConnection = async () => {
     console.log("[SignalR] Creating new connection...");
     connection = new HubConnectionBuilder()
       .withUrl(hubUrl, {
-        // If you need to send access tokens, add an accessTokenFactory here
-        // accessTokenFactory: () => "your-jwt-token"
       })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
@@ -32,7 +30,6 @@ export const startConnection = async () => {
       console.log("[SignalR] Attempting to start connection...");
       await connection.start();
       console.log("[SignalR] Connected to hub at", hubUrl);
-      // Make connection available globally for debugging
       (window).signalRConnection = connection;
     } catch (err) {
       console.error("[SignalR] Connection Error: ", err);
