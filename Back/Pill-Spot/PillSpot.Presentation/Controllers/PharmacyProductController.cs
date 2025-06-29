@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -27,12 +24,15 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
 
+        
         [HttpGet("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
         public async Task<IActionResult> GetPharmacyProduct(Guid pharmacyId, Guid productId)
         {
             var pharmacyProduct = await _service.PharmacyProductService.GetPharmacyProductAsync(productId, pharmacyId, trackChanges: false);
             return Ok(pharmacyProduct);
         }
+
+        
         [HttpGet("pharmacy/{pharmacyId:Guid}/products")]
         public async Task<IActionResult> GetPharmacyProducts(Guid pharmacyId, [FromQuery] PharmacyProductParameters pharmacyProductParameters)
         {
@@ -41,6 +41,7 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
 
+        
         [HttpGet("product/{productId:Guid}/pharmacies")]
         public async Task<IActionResult> GetProductPharmacies(Guid productId, [FromQuery] PharmacyProductParameters pharmacyProductParameters)
         {
@@ -48,8 +49,10 @@ namespace PillSpot.Presentation.Controllers
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
             return Ok(pagedResult.pharmacyProducts);
         }
+        
+
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
         public async Task<IActionResult> CreatePharmacyProduct([FromBody] PharmacyProductForCreationDto pharmacyProductDto)
@@ -69,7 +72,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
-       // [Authorize(Roles = "Admin")]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
         [ValidateCsrfToken]
         public async Task<IActionResult> DeletePharmacyProduct(Guid pharmacyId, Guid productId)
         {
