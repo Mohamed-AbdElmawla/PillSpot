@@ -44,7 +44,7 @@ namespace PillSpot.Repository
 
         public async Task<IEnumerable<PharmacyProductNotificationPreference>> GetPreferencesForNotificationTypeAsync(string notificationType, bool trackChanges)
         {
-            return await FindByCondition(p => p.IsEnabled && p.NotificationTypes.Contains(notificationType), trackChanges)
+            return await FindByCondition(p => p.IsEnabled && ("," + p.NotificationTypes + ",").Contains("," + notificationType + ","), trackChanges)
                 .Include(p => p.Pharmacy)
                 .Include(p => p.Product)
                 .ToListAsync();
@@ -62,7 +62,7 @@ namespace PillSpot.Repository
         {
             return await FindByCondition(p => p.ProductId == productId && 
                                              p.IsEnabled && 
-                                             p.NotificationTypes.Contains(notificationType), trackChanges)
+                                             ("," + p.NotificationTypes + ",").Contains("," + notificationType + ","), trackChanges)
                 .Include(p => p.Pharmacy)
                 .Include(p => p.Product)
                 .Include(p => p.User)
