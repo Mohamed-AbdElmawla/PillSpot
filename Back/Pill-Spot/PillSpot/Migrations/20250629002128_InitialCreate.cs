@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPharmacyProductNotificationPreference : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,7 @@ namespace PillSpot.Migrations
                     IsEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
                     NotificationTypes = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "(UTC_TIMESTAMP())"),
                     LastNotifiedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -55,7 +55,7 @@ namespace PillSpot.Migrations
                 keyColumn: "Id",
                 keyValue: "superadmin-user-id1",
                 columns: new[] { "ConcurrencyStamp", "CreatedDate", "PasswordHash" },
-                values: new object[] { "affc317e-ce1f-4163-8708-b2d1009dfc9a", new DateTime(2025, 6, 28, 23, 41, 38, 160, DateTimeKind.Utc).AddTicks(1433), "AQAAAAIAAYagAAAAEK8Ystjout9XjTmCdiqESeguesfkERYAW0BowFUvH0kjfXrPqEJMRtww6eZ/JQXulg==" });
+                values: new object[] { "e9c5828b-1efa-49ca-b938-655d63ce92cf", new DateTime(2025, 6, 29, 0, 21, 21, 845, DateTimeKind.Utc).AddTicks(4157), "AQAAAAIAAYagAAAAELxRzXd0AR8XfJFBXySmngS9cWdphWRLdmABBFlqUr7xdvaS4bfdjCmTd/MJD6YJVA==" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PharmacyProductNotificationPreference_IsEnabled",

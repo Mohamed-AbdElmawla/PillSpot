@@ -1082,7 +1082,7 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("(UTC_TIMESTAMP())");
 
                     b.Property<bool>("IsEnabled")
                         .ValueGeneratedOnAdd()
@@ -1644,8 +1644,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "affc317e-ce1f-4163-8708-b2d1009dfc9a",
-                            CreatedDate = new DateTime(2025, 6, 28, 23, 41, 38, 160, DateTimeKind.Utc).AddTicks(1433),
+                            ConcurrencyStamp = "e9c5828b-1efa-49ca-b938-655d63ce92cf",
+                            CreatedDate = new DateTime(2025, 6, 29, 0, 21, 21, 845, DateTimeKind.Utc).AddTicks(4157),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1656,7 +1656,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK8Ystjout9XjTmCdiqESeguesfkERYAW0BowFUvH0kjfXrPqEJMRtww6eZ/JQXulg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELxRzXd0AR8XfJFBXySmngS9cWdphWRLdmABBFlqUr7xdvaS4bfdjCmTd/MJD6YJVA==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
