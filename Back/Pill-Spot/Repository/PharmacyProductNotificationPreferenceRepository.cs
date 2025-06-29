@@ -42,7 +42,7 @@ namespace PillSpot.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<PharmacyProductNotificationPreference>> GetPreferencesForNotificationTypeAsync(string notificationType, bool trackChanges)
+        public async Task<IEnumerable<PharmacyProductNotificationPreference>> GetPreferencesForNotificationTypeAsync(NotificationType notificationType, bool trackChanges)
         {
             return await FindByCondition(p => p.IsEnabled && p.NotificationTypes.Contains(notificationType), trackChanges)
                 .Include(p => p.Pharmacy)
@@ -58,7 +58,7 @@ namespace PillSpot.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<PharmacyProductNotificationPreference>> GetPreferencesForProductAndTypeAsync(Guid productId, string notificationType, bool trackChanges)
+        public async Task<IEnumerable<PharmacyProductNotificationPreference>> GetPreferencesForProductAndTypeAsync(Guid productId, NotificationType notificationType, bool trackChanges)
         {
             // First, filter in the database for ProductId and IsEnabled, then filter NotificationTypes in memory
             var preferences = await FindByCondition(p => p.ProductId == productId && p.IsEnabled, trackChanges)
@@ -85,7 +85,7 @@ namespace PillSpot.Repository
             Delete(preference);
         }
 
-        public async Task<bool> HasActivePreferenceAsync(string userId, Guid productId, Guid? pharmacyId, string notificationType)
+        public async Task<bool> HasActivePreferenceAsync(string userId, Guid productId, Guid? pharmacyId, NotificationType notificationType)
         {
             // Check for specific pharmacy preference
             if (pharmacyId.HasValue)

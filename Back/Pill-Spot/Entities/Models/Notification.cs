@@ -91,6 +91,10 @@ namespace Entities.Models
         CartItemApprovalStatusExpired,
         OrderCreated,
         NewOrder,
-        RequestUpdate
+        RequestUpdate,
+        ProductAvailable,
+        ProductUnavailable,
+        LowStock,
+        ProductRemoved
     }
 }

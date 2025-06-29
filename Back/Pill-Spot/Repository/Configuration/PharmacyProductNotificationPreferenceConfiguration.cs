@@ -31,8 +31,10 @@ namespace Repository.Configuration
 
             builder.Property(p => p.NotificationTypes)
                 .HasConversion(
-                    v => string.Join(',', v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
+                    v => string.Join(',', v.Select(nt => nt.ToString())),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                          .Select(s => (NotificationType)Enum.Parse(typeof(NotificationType), s))
+                          .ToList())
                 .HasColumnType("longtext");
 
             builder.Property(p => p.CreatedAt)
