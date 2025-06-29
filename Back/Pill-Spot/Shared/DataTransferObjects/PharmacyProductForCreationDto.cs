@@ -9,5 +9,7 @@ namespace Shared.DataTransferObjects
         [Required(ErrorMessage = "Quantity is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
         public int Quantity { get; init; }
+        public bool IsAvailable { get; init; } = true;
+        public int MinimumStockThreshold { get; init; } = 0;
     }
 }
