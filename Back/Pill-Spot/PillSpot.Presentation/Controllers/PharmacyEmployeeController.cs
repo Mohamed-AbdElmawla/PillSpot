@@ -20,7 +20,6 @@ namespace PillSpot.Presentation.Controllers
         public async Task<IActionResult> GetUserPharmacies([FromQuery] EmployeesParameters employeesParameters)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
             var pagedResult = await _service.PharmacyEmployeeService.GetUserPharmaciesAsync(userId, employeesParameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
@@ -50,7 +49,6 @@ namespace PillSpot.Presentation.Controllers
             var (pharmacyEmployeeRequests, metaData) = await _service.PharmacyEmployeeRequestService.GetRequestsAsync(pharmacyRequestParameters,userId, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
-
             return Ok(pharmacyEmployeeRequests);
         }
 
@@ -62,6 +60,7 @@ namespace PillSpot.Presentation.Controllers
             var employees = await _service.PharmacyEmployeeService.GetEmployeesByPharmacyAsync(pharmacyId);
             return Ok(employees);
         }
+        
         /*
         [HttpGet("employees/{employeeId}")]
         public async Task<IActionResult> GetEmployeeById(Guid employeeId)
