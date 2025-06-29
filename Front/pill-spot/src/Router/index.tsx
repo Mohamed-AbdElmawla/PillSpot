@@ -8,7 +8,7 @@ import {
 
 import Home from "../pages/Landing";
 import RootPage from "../layouts/RootPage";
-import ResultPage from "../pages/ResultPage";
+// import ResultPage from "../pages/ResultPage";
 import PharManagementLayout from "../pages/PharmacyManagement";
 import InventoryPage from "../pages/PharmacyManagement/Inventory";
 import PharManagementHome from "../pages/PharmacyManagement/ManagementHome";
@@ -29,8 +29,10 @@ import UserEditInofPage from "../pages/UserSettings/UserEditInfo";
 import UserPharmacies from "../pages/UserSettings/UserPharmacies";
 import UserSettingPage from "../layouts/UserPage";
 import AdminCategories from "../layouts/tempAdmin/tempAdmin";
-import ProductPage from "../pages/ProductsPage/ProductPage";
+
 import UserNotifications from "../pages/UserSettings/userNotifications";
+import ProductPharmacySearch from "../pages/ProductPharmacySearch";
+import SearchByDistance from "../pages/SearchByDistance";
 
 // Define the router
 const router = createBrowserRouter(
@@ -38,12 +40,13 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootPage />}>
       <Route index element={<Navigate to="landing" replace />} />
       <Route path="landing" element={<Home />} />
-      <Route path="result" element={<ResultPage />} />
+      <Route path="result" element={<SearchByDistance/>} />
 
       // main home page layout and routes
       <Route element={<UserHomePage />}>  // this is for protect router
         <Route path="homepage" element={<HomePageMain />} />
-        <Route path="productpage" element={<ProductPage />} /> 
+        <Route path="productpage" element={<ProductPharmacySearch/>} /> 
+        {/* <Route path="productpage" element={<ProductPage />} />  */}
         <Route path="pharmacymanagement" element={<PharManagementLayout />}>
           <Route path="pharmanhome" element={<PharManagementHome />} />
           <Route path="pharmaninventory" element={<InventoryPage />} />
@@ -78,7 +81,7 @@ const router = createBrowserRouter(
   )
 );
 
-// Main Router Component
+
 const Router = () => {
   return <RouterProvider router={router} />;
 };

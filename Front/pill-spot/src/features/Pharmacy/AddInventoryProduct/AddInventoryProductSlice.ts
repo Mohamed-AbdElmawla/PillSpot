@@ -47,6 +47,45 @@ export const FetchInventoryData = createAsyncThunk(
         `api/pharmacyproducts/pharmacy/${data!}/products`
       );
       console.log(response.data);
+      // Only return quantity, productDto, and pharmacyDto
+      const filtered = Array.isArray(response.data)
+        ? response.data.map((item) => ({
+            quantity: item.quantity,
+            productDto: item.productDto,
+            pharmacyDto: item.pharmacyDto,
+          }))
+        : [];
+      return filtered;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const message =
+          err.response?.data?.message || err.message || "Unknown error";
+        return thunkAPI.rejectWithValue(message);
+      }
+      return thunkAPI.rejectWithValue("An unknown error occurred");
+    }
+  }
+);
+
+export const UpdateProductQuantity = createAsyncThunk(
+  "inventory/updateProductQuantity",
+  async (
+    {
+      pharmacyId,
+      productId,
+      body,
+    }: {
+      pharmacyId: string;
+      productId: string;
+      body: { quantity: number; isAvailable: boolean; minimumStockThreshold: number };
+    },
+    thunkAPI
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `/api/pharmacyproducts/pharmacy/${pharmacyId}/product/${productId}`,
+        body
+      );
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {

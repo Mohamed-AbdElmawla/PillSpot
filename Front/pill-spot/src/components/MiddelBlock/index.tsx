@@ -34,7 +34,7 @@ const MiddleBlock = ({ title, button, t }: MiddleBlockProps) => {
                 </div>
                 
                 {button && (
-                  <Button name="submit" onClick={()=>{nav("/result", { state: { data: medecineToSearch } });}}>
+                  <Button name="submit" onClick={()=>{nav(`/result?medecinetosearch=${encodeURIComponent(medecineToSearch)}`);}}>
                     {t(button)}
                   </Button>
                 )}

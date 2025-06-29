@@ -2,6 +2,7 @@ import ImageUpload from "../../../UI/ImageUpload";
 import { IoMdAddCircle } from "react-icons/io";
 
 import { setLogo } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
+import { clearProfilePicture } from "../../../features/uploadPhoto/upload";
 import { RootState } from "../../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -11,6 +12,10 @@ import { useEffect } from "react";
 const PharPic = () => {
   const photo = useSelector((state: RootState) => state.imgaeUploadSlice.profilePicture);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearProfilePicture());
+  }, [dispatch]);
 
   useEffect(() => {
     if (photo) {
