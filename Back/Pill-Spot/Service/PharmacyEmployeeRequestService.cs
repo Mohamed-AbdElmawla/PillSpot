@@ -27,9 +27,9 @@ namespace Service
 
         public async Task SendRequestAsync(PharmacyEmployeeRequestCreateDto requestDto, string userId, bool trackChanges)
         {
-            var user = await _userManager.FindByEmailAsync(requestDto.Email);
+            var user = await _userManager.FindByNameAsync(requestDto.UserName);
             if (user == null)
-                throw new UserNotFoundException(requestDto.Email);
+                throw new UserNotFoundException(requestDto.UserName);
 
             var existingPindingRequest = await _repository.PharmacyEmployeeRequestRepository
                 .GetRequestToEmployeeByStatusAsync(user.Id, requestDto.PharmacyId, RequestStatus.Pending, trackChanges);
