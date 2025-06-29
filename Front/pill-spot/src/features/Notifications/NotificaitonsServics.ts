@@ -81,7 +81,7 @@ export const getUnreadNotifications = async () => {
 
 export const getProductNotificationPreference = async (productId: string) => {
   try {
-    const response = await axiosInstance.get(`api/ProductNotificationPreference/product/${productId}`);
+    const response = await axiosInstance.get(`api/PharmacyProductNotificationPreference/product/${productId}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching notification preference for product ${productId}:`, error);
@@ -91,7 +91,7 @@ export const getProductNotificationPreference = async (productId: string) => {
 
 export const getAllNotificationPreferences = async () => {
   try {
-    const response = await axiosInstance.get(`api/ProductNotificationPreference`);
+    const response = await axiosInstance.get(`api/PharmacyProductNotificationPreference`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching all notification preferences:`, error);
@@ -105,7 +105,7 @@ export const createProductNotificationPreference = async (
 ) => {
   try {
     const response = await axiosInstance.post(
-      `api/ProductNotificationPreference/product/${productId}`,
+      `api/PharmacyProductNotificationPreference/product/${productId}`,
       body
     );
     return response.data;
@@ -122,7 +122,7 @@ export const updateProductNotificationPreference = async (
 ) => {
   try {
     const response = await axiosInstance.put(
-      `api/ProductNotificationPreference/product/${productId}`,
+      `api/PharmacyProductNotificationPreference/product/${productId}`,
       body
     );
     return response.data;
@@ -135,7 +135,7 @@ export const updateProductNotificationPreference = async (
 
 export const deleteProductNotificationPreference = async (productId: string) => {
   try {
-    const response = await axiosInstance.delete(`api/ProductNotificationPreference/product/${productId}`);
+    const response = await axiosInstance.delete(`api/PharmacyProductNotificationPreference/product/${productId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting notification preference for product ${productId}:`, error);
