@@ -4,7 +4,6 @@ import {
   Navigate,
   Route,
   RouterProvider,
-  useLocation,
 } from "react-router-dom";
 
 import Home from "../pages/Landing";
@@ -41,12 +40,12 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootPage />}>
       <Route index element={<Navigate to="landing" replace />} />
       <Route path="landing" element={<Home />} />
-      <Route path="result" element={<SearchByDistance searchTerm="asd" />} />
+      <Route path="result" element={<SearchByDistance/>} />
 
       // main home page layout and routes
       <Route element={<UserHomePage />}>  // this is for protect router
         <Route path="homepage" element={<HomePageMain />} />
-        <Route path="productpage" element={<ProductPharmacySearch searchParam="asdfasdf"/>} /> 
+        <Route path="productpage" element={<ProductPharmacySearch/>} /> 
         {/* <Route path="productpage" element={<ProductPage />} />  */}
         <Route path="pharmacymanagement" element={<PharManagementLayout />}>
           <Route path="pharmanhome" element={<PharManagementHome />} />

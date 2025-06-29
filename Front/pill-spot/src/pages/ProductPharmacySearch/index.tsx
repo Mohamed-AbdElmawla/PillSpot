@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FetchHomeProducts } from '../../features/HomePage/Products/fetchProdcuts';
 import { RootState, AppDispatch } from '../../app/store';
 import SearchHeader from './SearchHeader';
 import FilterSidebar from './FilterSidebar';
 import ProductGrid from './ProductGrid';
-
-interface ProductPharmacySearchProps {
-  searchParam: string;
-}
+import SearchByDistance from '../SearchByDistance';
 
 const PAGE_SIZE = 15; // 5 per row, 3 rows
 
-const ProductPharmacySearch: React.FC<ProductPharmacySearchProps> = ({ searchParam }) => {
-  const [searchInput, setSearchInput] = useState(searchParam || '');
-  const [search, setSearch] = useState(searchParam || '');
+const ProductPharmacySearch: React.FC = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const initialSearch = params.get('medecinetosearch') || '';
+
+  const [searchInput, setSearchInput] = useState(initialSearch);
+  const [search, setSearch] = useState(initialSearch);
   const [searchType, setSearchType] = useState<'products' | 'pharmacies'>('products');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 100]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,12 +28,14 @@ const ProductPharmacySearch: React.FC<ProductPharmacySearchProps> = ({ searchPar
   const loadingProducts = useSelector((state: RootState) => state.fetchHomeProductSlice.LoadingProducts);
 
   useEffect(() => {
-    if (search.trim()) {
-      dispatch(FetchHomeProducts({ PageNumber: String(currentPage), PageSize: String(PAGE_SIZE), Name: search.trim() }));
-    } else {
-      dispatch(FetchHomeProducts({ PageNumber: String(currentPage), PageSize: String(PAGE_SIZE) }));
+    if (searchType === 'products') {
+      if (search.trim()) {
+        dispatch(FetchHomeProducts({ PageNumber: String(currentPage), PageSize: String(PAGE_SIZE), Name: search.trim() }));
+      } else {
+        dispatch(FetchHomeProducts({ PageNumber: String(currentPage), PageSize: String(PAGE_SIZE) }));
+      }
     }
-  }, [dispatch, currentPage, search]);
+  }, [dispatch, currentPage, search, searchType]);
 
   const paginatedProducts = products || [];
   const totalProducts = products ? products.length : 0;
@@ -83,7 +86,7 @@ const ProductPharmacySearch: React.FC<ProductPharmacySearchProps> = ({ searchPar
                 onPageChange={handlePageChange}
               />
             ) : (
-              <div className="p-8 text-center text-[#334c83] font-semibold text-lg">Pharmacy search coming soon...</div>
+              <SearchByDistance searchTerm={searchInput} />
             )}
           </div>
         </div>

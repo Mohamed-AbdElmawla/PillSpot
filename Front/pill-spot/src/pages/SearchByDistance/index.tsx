@@ -6,6 +6,10 @@ import ProductRow from './ProductRow';
 import StickyHeader from './StickyHeader';
 import { useLocation } from 'react-router-dom';
 
+interface SearchByDistanceProps {
+  searchTerm?: string;
+}
+
 // Helper: Group items by productId
 function groupByProduct(items: ProductItem[]) {
   const map = new Map<string, { product: ProductItem['productDto']; pharmacies: ProductItem[] }>();
@@ -37,16 +41,16 @@ const SkeletonProduct: React.FC = () => (
   </div>
 );
 
-const SearchByDistance: React.FC = () => {
+const SearchByDistance: React.FC<SearchByDistanceProps> = ({ searchTerm: propSearchTerm }) => {
   const { lat, lng } = useGeolocation();
   const location = useLocation();
+  // Use prop if provided, otherwise fallback to query string
+  const params = new URLSearchParams(location.search);
+  const searchTerm = propSearchTerm ?? params.get('medecinetosearch') ?? '';
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [items, setItems] = useState<ProductItem[]>([]);
-
-  // Get search term from query string
-  const params = new URLSearchParams(location.search);
-  const searchTerm = params.get('medecinetosearch') || '';
 
   useEffect(() => {
     if (!searchTerm || lat == null || lng == null) return;
