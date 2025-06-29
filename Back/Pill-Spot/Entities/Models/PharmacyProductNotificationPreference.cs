@@ -14,7 +14,7 @@ namespace Entities.Models
         public Guid ProductId { get; set; }
         public Guid? PharmacyId { get; set; } // null means any pharmacy
         public bool IsEnabled { get; set; }
-        public List<string> NotificationTypes { get; set; } = new List<string>();
+        public List<NotificationType> NotificationTypes { get; set; } = new List<NotificationType>();
         public DateTime CreatedAt { get; set; }
         public DateTime? LastNotifiedAt { get; set; }
 

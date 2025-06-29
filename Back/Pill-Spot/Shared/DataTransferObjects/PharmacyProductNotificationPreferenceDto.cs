@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Entities.Models;
 
 namespace Shared.DataTransferObjects
 {
@@ -12,7 +13,7 @@ namespace Shared.DataTransferObjects
         public string? PharmacyName { get; set; }
         public string ProductName { get; set; }
         public bool IsEnabled { get; set; }
-        public List<string> NotificationTypes { get; set; }
+        public List<NotificationType> NotificationTypes { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastNotifiedAt { get; set; }
     }
@@ -21,12 +22,12 @@ namespace Shared.DataTransferObjects
     {
         public Guid? PharmacyId { get; set; }
         public bool IsEnabled { get; set; }
-        public List<string> NotificationTypes { get; set; }
+        public List<NotificationType> NotificationTypes { get; set; }
     }
 
     public class PharmacyProductNotificationPreferenceForUpdateDto
     {
         public bool IsEnabled { get; set; }
-        public List<string> NotificationTypes { get; set; }
+        public List<NotificationType> NotificationTypes { get; set; }
     }
 } 
