@@ -1,4 +1,5 @@
 using Shared.DataTransferObjects;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace PillSpot.Service.Contracts
         Task<PharmacyProductNotificationPreferenceDto> CreatePreferenceAsync(string userId, Guid productId, Guid? pharmacyId, PharmacyProductNotificationPreferenceForCreationDto preferenceDto);
         Task UpdatePreferenceAsync(string userId, Guid productId, Guid? pharmacyId, PharmacyProductNotificationPreferenceForUpdateDto preferenceDto);
         Task DeletePreferenceAsync(string userId, Guid productId, Guid? pharmacyId);
-        Task<bool> ShouldNotifyUserAsync(string userId, Guid productId, Guid? pharmacyId, string notificationType);
-        Task<IEnumerable<PharmacyProductNotificationPreferenceDto>> GetPreferencesForProductAndTypeAsync(Guid productId, string notificationType);
+        Task<bool> ShouldNotifyUserAsync(string userId, Guid productId, Guid? pharmacyId, NotificationType notificationType);
+        Task<IEnumerable<PharmacyProductNotificationPreferenceDto>> GetPreferencesForProductAndTypeAsync(Guid productId, NotificationType notificationType);
     }
 } 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PillSpot.Service.Contracts;
 using Shared.DataTransferObjects;
 using System.Security.Claims;
+using Entities.Models;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -91,7 +92,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("product/{productId}/type/{notificationType}")]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> GetPreferencesForProductAndType(Guid productId, string notificationType)
+        public async Task<IActionResult> GetPreferencesForProductAndType(Guid productId, NotificationType notificationType)
         {
             var preferences = await _preferenceService.GetPreferencesForProductAndTypeAsync(productId, notificationType);
             return Ok(preferences);

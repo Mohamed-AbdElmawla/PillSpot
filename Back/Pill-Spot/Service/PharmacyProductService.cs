@@ -65,8 +65,8 @@ namespace Service
                 pharmacyProductEntity.ProductId,
                 pharmacyProductEntity.PharmacyId,
                 pharmacyProductEntity.Product.Name,
-                "NewProduct",
-                $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock."
+                NotificationType.ProductInfo,
+                $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock"
             );
 
             // Notify admins about new pharmacy product
@@ -136,7 +136,7 @@ namespace Service
                 pharmacyProduct.ProductId,
                 pharmacyProduct.PharmacyId,
                 pharmacyProduct.Product.Name,
-                "ProductRemoved",
+                NotificationType.ProductRemoved,
                 $"Product '{pharmacyProduct.Product.Name}' is no longer available at {pharmacyProduct.Pharmacy.Name}."
             );
 
@@ -189,7 +189,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "ProductAvailable",
+                    NotificationType.ProductAvailable,
                     $"'{pharmacyProduct.Product.Name}' is now available again at {pharmacyProduct.Pharmacy.Name}"
                 );
             }
@@ -201,7 +201,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "LowStock",
+                    NotificationType.LowStock,
                     $"Low stock alert: '{pharmacyProduct.Product.Name}' at {pharmacyProduct.Pharmacy.Name} has only {pharmacyProduct.Quantity} items remaining."
                 );
             }
@@ -213,7 +213,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "ProductUnavailable",
+                    NotificationType.ProductUnavailable,
                     $"'{pharmacyProduct.Product.Name}' is temporarily unavailable at {pharmacyProduct.Pharmacy.Name}"
                 );
             }

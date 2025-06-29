@@ -63,7 +63,7 @@ namespace Service.Contracts
         Task SendProductSpecificNotificationByUsernameAsync(string username, string productId, string productName, string infoType);
 
         // Pharmacy-specific product notifications
-        Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message);
+        Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, NotificationType notificationType, string message);
 
         // Grouped notification methods
         Task SendGroupedProductNotificationsAsync(string userId, IEnumerable<(string productId, string productName, string infoType)> updates);

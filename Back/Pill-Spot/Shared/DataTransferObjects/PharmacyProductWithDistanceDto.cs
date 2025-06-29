@@ -9,6 +9,5 @@ namespace Shared.DataTransferObjects
     public record PharmacyProductWithDistanceDto : PharmacyProductDto
     {
         public double Distance { get; set; }
-
     }
 }
