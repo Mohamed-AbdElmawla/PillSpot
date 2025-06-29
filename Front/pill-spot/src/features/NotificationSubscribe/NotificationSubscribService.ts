@@ -7,6 +7,6 @@ export interface NotificationPreferencePayload {
 }
 
 export async function subscribeToProductAvailability(productId: string, payload: NotificationPreferencePayload) {
-  const response = await axiosInstance.post(`/api/ProductNotificationPreference/product/${productId}`, payload);
+  const response = await axiosInstance.post(`/api/PharmacyProductNotificationPreference/product/${productId}`, payload);
   return response.data;
 }
