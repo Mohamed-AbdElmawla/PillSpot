@@ -1,5 +1,4 @@
 import { FaRegHeart } from "react-icons/fa6";
-import { TbShoppingCartPlus } from "react-icons/tb";
 import { toast } from "sonner";
 import { subscribeToProductAvailability } from "../../../../../features/NotificationSubscribe/NotificationSubscribService";
 
@@ -59,10 +58,7 @@ interface ContextMenuProps {
 const ContextMenu = ({ x, y, visible, productDto, pharmacyDto, onClose }: ContextMenuProps) => {
 
 
-  const handleAddToCart = () => {
-    toast.success("Added to cart");
-    onClose();
-  };
+
 
   const handleAddToWishlist = () => {
     toast.success("Added to wishlist");
@@ -78,7 +74,7 @@ const ContextMenu = ({ x, y, visible, productDto, pharmacyDto, onClose }: Contex
     try {
       await subscribeToProductAvailability(productDto.productId, {
         isEnabled: true,
-        notificationTypes: ["string"]
+        notificationTypes : ["Restock"]
       });
       toast.success("You will be notified when this product is available.");
     } catch {
@@ -117,13 +113,6 @@ const ContextMenu = ({ x, y, visible, productDto, pharmacyDto, onClose }: Contex
         top: y,
       }}
     >
-      <button
-        onClick={handleAddToCart}
-        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-      >
-        <TbShoppingCartPlus className="text-lg" />
-        Add to Cart
-      </button>
       <button
         onClick={handleAddToWishlist}
         className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"

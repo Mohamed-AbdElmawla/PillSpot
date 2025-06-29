@@ -89,6 +89,7 @@ const OneProduct = ({
     daysOpen: "N/A",
   },
   hover = false,
+  quantity,
 }: IProduct) => {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({
     x: 0,
@@ -130,7 +131,6 @@ const OneProduct = ({
       {hover ? (
         <div 
           className="flex items-center justify-center relative w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg border h-90 text-gray-600 border-gray-200 rounded-lg shadow-md p-5 overflow-hidden mt-20 hover:scale-105 duration-200"
-          onContextMenu={handleContextMenu}
         >
           <div className="absolute inset-0 bg-cover bg-center opacity-50">
             <img src={img} alt="Product background" className="w-100 h-90" />
@@ -144,9 +144,14 @@ const OneProduct = ({
         </div>
       ) : (
         <div 
-          className="w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-5"
+          className="relative w-full max-w-xs sm:max-w-sm lg:max-w-md xl:max-w-lg bg-white border border-gray-200 rounded-lg shadow-md p-5"
           onContextMenu={handleContextMenu}
         >
+          {quantity === 0 && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full z-20 shadow-lg">
+              Not Available
+            </div>
+          )}
           <div className="w-full h-56 flex justify-center">
             <img
               className="object-cover w-80 h-59 rounded-tl-3xl rounded-br-3xl"
@@ -217,8 +222,9 @@ const OneProduct = ({
             <div className="mt-4 flex items-center justify-between">
               <p className="text-2xl font-extrabold text-[#334c83]">${productDto.price}</p>
               <button
-                className="flex items-center bg-[#334c83] text-white px-5 py-2.5 text-sm font-medium rounded-lg hover:bg-[#99aeda] duration-100 cursor-pointer hover:text-[#334c83] focus:ring-4 focus:ring-blue-300"
+                className={`flex items-center px-5 py-2.5 text-sm font-medium rounded-lg duration-100 focus:ring-4 focus:ring-blue-300 ${quantity === 0 ? 'bg-gray-300 text-gray-400 cursor-not-allowed' : 'bg-[#334c83] text-white hover:bg-[#99aeda] hover:text-[#334c83] cursor-pointer'}`}
                 onClick={handleAddToCart}
+                disabled={quantity === 0}
               >
                 <TbShoppingCartPlus className="text-xl mr-2" />
                 Add to Cart
