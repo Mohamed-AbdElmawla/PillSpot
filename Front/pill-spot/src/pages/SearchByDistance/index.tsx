@@ -4,10 +4,7 @@ import axios from 'axios';
 import { ProductItem } from '../../components/Result/types';
 import ProductRow from './ProductRow';
 import StickyHeader from './StickyHeader';
-
-interface SearchByDistanceProps {
-  searchTerm: string;
-}
+import { useLocation } from 'react-router-dom';
 
 // Helper: Group items by productId
 function groupByProduct(items: ProductItem[]) {
@@ -40,11 +37,16 @@ const SkeletonProduct: React.FC = () => (
   </div>
 );
 
-const SearchByDistance: React.FC<SearchByDistanceProps> = ({ searchTerm }) => {
+const SearchByDistance: React.FC = () => {
   const { lat, lng } = useGeolocation();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [items, setItems] = useState<ProductItem[]>([]);
+
+  // Get search term from query string
+  const params = new URLSearchParams(location.search);
+  const searchTerm = params.get('medecinetosearch') || '';
 
   useEffect(() => {
     if (!searchTerm || lat == null || lng == null) return;
