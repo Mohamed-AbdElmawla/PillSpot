@@ -17,6 +17,8 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public SuperAdminController(IServiceManager service) => _service = service;
 
+        //========================================== SYSTEM-MANAGEMENT ==========================================
+
         [HttpGet("system/get-logs")]
         [Authorize(Roles ="SuperAdmin,Admin")]
         [PermissionAuthorize("GetLogs")]
@@ -58,6 +60,8 @@ namespace PillSpot.Presentation.Controllers
             return Ok($"Logs for {date:yyyy-MM-dd} have been deleted.");
         }
 
+
+        //========================================== PERMISSION-MANAGEMENT ==========================================
 
         [HttpGet("permissions-management/get-all")]
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -120,7 +124,16 @@ namespace PillSpot.Presentation.Controllers
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
             return NoContent();
         }
-        
+
+        //========================================== ADMIN-PERMISSION-MANAGEMENT ==========================================
+
+        [HttpGet("admin-permission/{adminId}", Name = "GetAdminPermissions")]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> GetPermissionsFromAdmin(string adminId)
+        {
+            var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
+            return Ok(result);
+        }
 
         [HttpPost("admin-permission/assign")]
         [Authorize(Roles = "SuperAdmin")]
@@ -138,14 +151,6 @@ namespace PillSpot.Presentation.Controllers
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
             return CreatedAtRoute("GetAdminPermissions", new { adminId = adminId }, result);
-        }
-
-        [HttpGet("admin-permission/{adminId}", Name = "GetAdminPermissions")]
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetPermissionsFromAdmin(string adminId)
-        {
-            var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
-            return Ok(result);
         }
 
         [HttpDelete("admin-permission/remove/{adminId}/{permissionId:Guid}")]

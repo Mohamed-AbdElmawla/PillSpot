@@ -25,18 +25,9 @@ namespace PillSpot.Presentation.Controllers
             return Ok(user);
         }
 
-        [HttpDelete("{userName}")]
-        [ServiceFilter(typeof(UserAuthorizationFilter))]
-        [ValidateCsrfToken]
-        public async Task<IActionResult> DeleteUser(string userName)
-        {
-            await _service.UserService.DeleteUserAsync(userName, trackChanges: true);
-            return NoContent();
-        }
-
         [HttpPatch("{userName}")]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
-        //[Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("UserManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateUser(string userName, [FromForm] UserForUpdateDto userForUpdateDto)
@@ -45,10 +36,12 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
+
         [HttpPut("{userName}/update-password")]
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PermissionAuthorize("UserManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdatePassword(string userName, [FromBody] PasswordUpdateDto passwordDto)
         {
@@ -56,10 +49,12 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
+
         [HttpPut("{userName}/update-email")]
         [Authorize]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PermissionAuthorize("UserManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateEmail(string userName, [FromBody] EmailUpdateDto emailDto)
         {
@@ -67,13 +62,16 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
+
         [HttpGet("{userName}/roles")]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
+        [PermissionAuthorize("UserManagement")]
         public async Task<IActionResult> GetUserRoles(string userName)
         {
             var roles = await _service.UserService.GetUserRolesAsync(userName);
             return Ok(roles);
         }
+
 
         // admin
         [HttpGet]
@@ -115,6 +113,15 @@ namespace PillSpot.Presentation.Controllers
         public async Task<IActionResult> UnlockUser(string userName)
         {
             await _service.UserService.UnlockUserAsync(userName);
+            return NoContent();
+        }
+
+        [HttpDelete("{userName}")]
+        [ServiceFilter(typeof(UserAuthorizationFilter))]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> DeleteUser(string userName)
+        {
+            await _service.UserService.DeleteUserAsync(userName, trackChanges: true);
             return NoContent();
         }
     }   

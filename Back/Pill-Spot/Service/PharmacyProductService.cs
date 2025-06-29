@@ -69,6 +69,23 @@ namespace Service
                 $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock."
             );
 
+            // Notify admins about new pharmacy product
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "New Pharmacy Product Added",
+                $"New product '{pharmacyProductEntity.Product.Name}' has been added to {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock",
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(new { 
+                    productId = pharmacyProductEntity.ProductId,
+                    productName = pharmacyProductEntity.Product.Name,
+                    pharmacyId = pharmacyProductEntity.PharmacyId,
+                    pharmacyName = pharmacyProductEntity.Pharmacy.Name,
+                    quantity = pharmacyProductEntity.Quantity,
+                    action = "Added",
+                    timestamp = DateTime.UtcNow
+                })
+            );
+
             return _mapper.Map<PharmacyProductDto>(pharmacyProductEntity);
         }
 
@@ -121,6 +138,22 @@ namespace Service
                 pharmacyProduct.Product.Name,
                 "ProductRemoved",
                 $"Product '{pharmacyProduct.Product.Name}' is no longer available at {pharmacyProduct.Pharmacy.Name}."
+            );
+
+            // Notify admins about product removal
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "Pharmacy Product Removed",
+                $"Product '{pharmacyProduct.Product.Name}' has been removed from {pharmacyProduct.Pharmacy.Name}",
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(new { 
+                    productId = pharmacyProduct.ProductId,
+                    productName = pharmacyProduct.Product.Name,
+                    pharmacyId = pharmacyProduct.PharmacyId,
+                    pharmacyName = pharmacyProduct.Pharmacy.Name,
+                    action = "Removed",
+                    timestamp = DateTime.UtcNow
+                })
             );
         }
 

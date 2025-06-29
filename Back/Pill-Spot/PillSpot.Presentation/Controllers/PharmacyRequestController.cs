@@ -17,6 +17,18 @@ namespace PillSpot.Presentation.Controllers
         private readonly IServiceManager _service;
         public PharmacyRequestController(IServiceManager service) => _service = service;
 
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("GetPharmacyRequests")]
+        public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
+        {
+            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+
+            return Ok(pharmacyRequests);
+        }
+
         [HttpPost("submit")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
@@ -48,18 +60,5 @@ namespace PillSpot.Presentation.Controllers
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);
             return NoContent();
         }
-
-        [HttpGet]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("GetPharmacyRequests")]
-        public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
-        {
-            var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
-
-            return Ok(pharmacyRequests);
-        }
     }
-    
 }

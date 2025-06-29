@@ -186,6 +186,21 @@ namespace Service
             await SendBulkNotificationAsync(userIds, title, message, type, data);
         }
 
+        public async Task SendNotificationToRolesAsync(IEnumerable<string> roles, string title, string message, NotificationType type, string? data = null)
+        {
+            var allUserIds = new List<string>();
+            foreach (var role in roles)
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(role);
+                var userIds = usersInRole.Select(u => u.Id).ToList();
+                allUserIds.AddRange(userIds);
+            }
+            
+            // Remove duplicates in case a user has multiple roles
+            var uniqueUserIds = allUserIds.Distinct().ToList();
+            await SendBulkNotificationAsync(uniqueUserIds, title, message, type, data);
+        }
+
         public async Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null)
         {
             // Get pharmacy employees with manager/owner roles for this specific pharmacy
