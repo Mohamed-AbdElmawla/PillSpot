@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -1458,7 +1457,7 @@ namespace PillSpot.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "162decea-de99-4bfc-b23a-66a34dca2d60", new DateTime(2025, 6, 29, 0, 3, 46, 692, DateTimeKind.Utc).AddTicks(4170), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEBZJmDndgyhb5LLgeMuTEgKz5Nkdhd5hSM8xk7D178ZHGpwgdcHlyKQy3f9wVpMitw==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "3d9dcf49-d104-4147-bffb-c0169975dab9", new DateTime(2025, 6, 29, 2, 42, 4, 172, DateTimeKind.Utc).AddTicks(7719), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEFYHH2KM7EvAzV1/xoKBhOCqIQCuWhW+e2LEMug3l3IQ4sz2jp8Ho5p/DiPpev4mqg==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

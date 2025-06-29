@@ -12,7 +12,7 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250629000348_InitialCreate")]
+    [Migration("20250629024206_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1647,8 +1647,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "162decea-de99-4bfc-b23a-66a34dca2d60",
-                            CreatedDate = new DateTime(2025, 6, 29, 0, 3, 46, 692, DateTimeKind.Utc).AddTicks(4170),
+                            ConcurrencyStamp = "3d9dcf49-d104-4147-bffb-c0169975dab9",
+                            CreatedDate = new DateTime(2025, 6, 29, 2, 42, 4, 172, DateTimeKind.Utc).AddTicks(7719),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1659,7 +1659,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBZJmDndgyhb5LLgeMuTEgKz5Nkdhd5hSM8xk7D178ZHGpwgdcHlyKQy3f9wVpMitw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFYHH2KM7EvAzV1/xoKBhOCqIQCuWhW+e2LEMug3l3IQ4sz2jp8Ho5p/DiPpev4mqg==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
