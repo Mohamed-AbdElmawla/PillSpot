@@ -81,6 +81,25 @@ namespace Service
                     timestamp = DateTime.UtcNow
                 })
             );
+
+            // Notify admins about the new employee request
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "New Pharmacy Employee Request",
+                $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"} by {requester?.UserName ?? "Pharmacy Manager"}",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = requestEntity.RequestId,
+                    userId = user.Id,
+                    userName = user.UserName,
+                    requesterId = userId,
+                    requesterName = requester?.UserName,
+                    pharmacyId = requestDto.PharmacyId,
+                    pharmacyName = pharmacy?.Name,
+                    status = "Pending",
+                    timestamp = DateTime.UtcNow
+                })
+            );
         }
 
         public async Task ApproveRequestAsync(Guid requestId, string currentUserId, bool trackChanges)
@@ -117,6 +136,25 @@ namespace Service
                 "Approved"
             );
 
+            // Notify admins about the employee request approval
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "Pharmacy Employee Request Approved",
+                $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been approved",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = request.RequestId,
+                    userId = request.UserId,
+                    userName = user?.UserName,
+                    requesterId = request.RequesterId,
+                    requesterName = requester?.UserName,
+                    pharmacyId = request.PharmacyId,
+                    pharmacyName = pharmacy?.Name,
+                    status = "Approved",
+                    timestamp = DateTime.UtcNow
+                })
+            );
+
             // Notify the user about their approval
             await _notificationService.SendRequestStatusUpdateNotificationAsync(
                 request.UserId,
@@ -150,6 +188,25 @@ namespace Service
                 pharmacy?.Name ?? "Pharmacy",
                 user?.UserName ?? "User",
                 "Rejected"
+            );
+
+            // Notify admins about the employee request rejection
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "Pharmacy Employee Request Rejected",
+                $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been rejected",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = request.RequestId,
+                    userId = request.UserId,
+                    userName = user?.UserName,
+                    requesterId = request.RequesterId,
+                    requesterName = requester?.UserName,
+                    pharmacyId = request.PharmacyId,
+                    pharmacyName = pharmacy?.Name,
+                    status = "Rejected",
+                    timestamp = DateTime.UtcNow
+                })
             );
 
             // Notify the user about their rejection
