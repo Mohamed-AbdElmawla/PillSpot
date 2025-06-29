@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Entities.Models;
-using PillSpot.Contracts;
+using Repository;
 using PillSpot.Repository;
 
 namespace Repository
@@ -36,7 +36,7 @@ namespace Repository
         private readonly Lazy<ICartItemRepository> _cartItemRepository;
         private readonly Lazy<IUserAddressRepository> _userAddressRepository;
         private readonly Lazy<IPharmacyEmployeeRoleRepository> _pharmacyEmployeeRoleRepository;
-        private readonly Lazy<IProductNotificationPreferenceRepository> _productNotificationPreferenceRepository;
+        private readonly Lazy<IPharmacyProductNotificationPreferenceRepository> _pharmacyProductNotificationPreferenceRepository;
         private readonly Lazy<IPrescriptionRepository> _prescriptionRepository;
         private readonly Lazy<IPrescriptionProductRepository> _prescriptionProductRepository;
         public RepositoryManager(RepositoryContext repositoryContext, UserManager<User> userManager)
@@ -69,7 +69,7 @@ namespace Repository
             _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryContext));
             _userAddressRepository = new Lazy<IUserAddressRepository>(() => new UserAddressRepository(repositoryContext));
             _pharmacyEmployeeRoleRepository = new Lazy<IPharmacyEmployeeRoleRepository>(() => new PharmacyEmployeeRoleRepository(repositoryContext));
-            _productNotificationPreferenceRepository = new Lazy<IProductNotificationPreferenceRepository>(() => new ProductNotificationPreferenceRepository(repositoryContext));
+            _pharmacyProductNotificationPreferenceRepository = new Lazy<IPharmacyProductNotificationPreferenceRepository>(() => new PharmacyProductNotificationPreferenceRepository(repositoryContext));
             _prescriptionRepository = new Lazy<IPrescriptionRepository>(() => new PrescriptionRepository(repositoryContext));
             _prescriptionProductRepository = new Lazy<IPrescriptionProductRepository>(() => new PrescriptionProductRepository(repositoryContext));
         }
@@ -99,7 +99,7 @@ namespace Repository
         public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
         public IUserAddressRepository UserAddressRepository => _userAddressRepository.Value;
         public IPharmacyEmployeeRoleRepository PharmacyEmployeeRoleRepository => _pharmacyEmployeeRoleRepository.Value;
-        public IProductNotificationPreferenceRepository ProductNotificationPreferenceRepository => _productNotificationPreferenceRepository.Value;
+        public IPharmacyProductNotificationPreferenceRepository PharmacyProductNotificationPreferenceRepository => _pharmacyProductNotificationPreferenceRepository.Value;
         public IPrescriptionRepository PrescriptionRepository => _prescriptionRepository.Value;
         public IPrescriptionProductRepository PrescriptionProductRepository => _prescriptionProductRepository.Value;
 

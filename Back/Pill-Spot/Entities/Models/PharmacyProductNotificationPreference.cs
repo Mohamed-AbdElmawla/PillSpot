@@ -5,13 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    public class ProductNotificationPreference
+    public class PharmacyProductNotificationPreference
     {
         [Key]
         public Guid PreferenceId { get; set; }
         
         public string UserId { get; set; }
-        public string ProductId { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid? PharmacyId { get; set; } // null means any pharmacy
         public bool IsEnabled { get; set; }
         public List<string> NotificationTypes { get; set; } = new List<string>();
         public DateTime CreatedAt { get; set; }
@@ -22,5 +23,8 @@ namespace Entities.Models
 
         [ForeignKey(nameof(ProductId))]
         public Product Product { get; set; }
+
+        [ForeignKey(nameof(PharmacyId))]
+        public Pharmacy? Pharmacy { get; set; }
     }
 } 

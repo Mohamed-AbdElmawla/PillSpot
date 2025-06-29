@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace Service
 {
@@ -17,8 +18,11 @@ namespace Service
         private readonly ILocationService _locationService;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly INotificationService _notificationService;
+
         public PharmacyRequestService(IRepositoryManager repository, IMapper mapper,
-            UserManager<User> userManager, IFileService fileService, ILocationService locationService, RoleManager<IdentityRole> roleManager)
+            UserManager<User> userManager, IFileService fileService, ILocationService locationService, 
+            RoleManager<IdentityRole> roleManager, INotificationService notificationService)
         {
             _repository = repository;
             _mapper = mapper;
@@ -26,6 +30,7 @@ namespace Service
             _fileService = fileService;
             _locationService = locationService;
             _roleManager = roleManager;
+            _notificationService = notificationService;
         }
         public async Task SubmitRequestAsync(string userName, PharmacyRequestCreateDto pharmacyRequestCreateDto, bool trackChanges)
         {
@@ -60,6 +65,29 @@ namespace Service
             pharmacyRequest.Location = null;
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
             await _repository.SaveAsync();
+
+            // Notify admins about new pharmacy request
+            await _notificationService.SendNotificationToRoleAsync(
+                "Admin",
+                "New Pharmacy Request",
+                $"A new pharmacy request has been submitted by {userName} for '{pharmacyRequest.Name}'",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = pharmacyRequest.RequestId,
+                    userName,
+                    pharmacyName = pharmacyRequest.Name,
+                    status = "Pending",
+                    timestamp = DateTime.UtcNow
+                })
+            );
+
+            // Notify the user about their request submission
+            await _notificationService.SendPharmacyRequestNotificationAsync(
+                user.Id,
+                pharmacyRequest.RequestId,
+                pharmacyRequest.Name,
+                "Submitted"
+            );
         }
         public async Task ApproveRequestAsync(Guid requestId, bool trackChanges)
         {
@@ -103,6 +131,28 @@ namespace Service
 
             await _repository.SaveAsync();
 
+            // Notify the user about their pharmacy request approval
+            await _notificationService.SendPharmacyRequestNotificationAsync(
+                request.UserId,
+                request.RequestId,
+                pharmacy.Name,
+                "Approved"
+            );
+
+            // Notify admins about the approval
+            await _notificationService.SendNotificationToRoleAsync(
+                "Admin",
+                "Pharmacy Request Approved",
+                $"Pharmacy request for '{pharmacy.Name}' has been approved",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = request.RequestId,
+                    pharmacyName = pharmacy.Name,
+                    userId = request.UserId,
+                    status = "Approved",
+                    timestamp = DateTime.UtcNow
+                })
+            );
         }
         private async Task EnsureUserInRoleAsync(string userId, string roleName)
         {
@@ -135,6 +185,29 @@ namespace Service
             request.Status = PharmacyRequestStatus.Rejected;
 
             await _repository.SaveAsync();
+
+            // Notify the user about their pharmacy request rejection
+            await _notificationService.SendPharmacyRequestNotificationAsync(
+                request.UserId,
+                request.RequestId,
+                request.Name,
+                "Rejected"
+            );
+
+            // Notify admins about the rejection
+            await _notificationService.SendNotificationToRoleAsync(
+                "Admin",
+                "Pharmacy Request Rejected",
+                $"Pharmacy request for '{request.Name}' has been rejected",
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId = request.RequestId,
+                    pharmacyName = request.Name,
+                    userId = request.UserId,
+                    status = "Rejected",
+                    timestamp = DateTime.UtcNow
+                })
+            );
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20250628222923_AddSmartNotificationFiltering")]
+    partial class AddSmartNotificationFiltering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1073,61 +1076,6 @@ namespace PillSpot.Migrations
                     b.ToTable("ProductPharmacies");
                 });
 
-            modelBuilder.Entity("Entities.Models.PharmacyProductNotificationPreference", b =>
-                {
-                    b.Property<Guid>("PreferenceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<bool>("IsEnabled")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("LastNotifiedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NotificationTypes")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid?>("PharmacyId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("varchar(450)");
-
-                    b.HasKey("PreferenceId");
-
-                    b.HasIndex("IsEnabled")
-                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_IsEnabled");
-
-                    b.HasIndex("PharmacyId")
-                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_PharmacyId");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_ProductId");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_UserId");
-
-                    b.HasIndex("UserId", "ProductId", "PharmacyId")
-                        .IsUnique()
-                        .HasDatabaseName("IX_PharmacyProductNotificationPreference_User_Product_Pharmacy");
-
-                    b.ToTable("PharmacyProductNotificationPreferences", (string)null);
-                });
-
             modelBuilder.Entity("Entities.Models.PharmacyRequest", b =>
                 {
                     b.Property<Guid>("RequestId")
@@ -1644,8 +1592,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "affc317e-ce1f-4163-8708-b2d1009dfc9a",
-                            CreatedDate = new DateTime(2025, 6, 28, 23, 41, 38, 160, DateTimeKind.Utc).AddTicks(1433),
+                            ConcurrencyStamp = "426427f0-8522-423a-a893-998cb20e65d6",
+                            CreatedDate = new DateTime(2025, 6, 28, 22, 29, 16, 420, DateTimeKind.Utc).AddTicks(6158),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1656,7 +1604,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK8Ystjout9XjTmCdiqESeguesfkERYAW0BowFUvH0kjfXrPqEJMRtww6eZ/JQXulg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPtgKW6GQdwkclj0CuB2XZImjlOUmevD1MLC81P/vjkkGCOUsBrgCsTXUnZUibdxCQ==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -2379,32 +2327,6 @@ namespace PillSpot.Migrations
                     b.Navigation("Pharmacy");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Entities.Models.PharmacyProductNotificationPreference", b =>
-                {
-                    b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
-                        .WithMany()
-                        .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Entities.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pharmacy");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.PharmacyRequest", b =>

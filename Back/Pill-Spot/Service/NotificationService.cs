@@ -179,6 +179,35 @@ namespace Service
             await SendBulkNotificationAsync(userIds, title, message, type, data);
         }
 
+        public async Task SendNotificationToRoleAsync(string role, string title, string message, NotificationType type, string? data = null)
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role);
+            var userIds = usersInRole.Select(u => u.Id).ToList();
+            await SendBulkNotificationAsync(userIds, title, message, type, data);
+        }
+
+        public async Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null)
+        {
+            // Get pharmacy employees with manager/owner roles for this specific pharmacy
+            var pharmacyEmployees = await _repository.PharmacyEmployeeRepository
+                .GetEmployeesByPharmacyAsync(pharmacyId, false);
+
+            var managerUserIds = new List<string>();
+            foreach (var employee in pharmacyEmployees)
+            {
+                var userRoles = await _userManager.GetRolesAsync(employee.User);
+                if (userRoles.Contains("PharmacyManager") || userRoles.Contains("PharmacyOwner"))
+                {
+                    managerUserIds.Add(employee.UserId);
+                }
+            }
+
+            if (managerUserIds.Any())
+            {
+                await SendBulkNotificationAsync(managerUserIds, title, message, type, data);
+            }
+        }
+
         public async Task DeleteNotificationAsync(Guid notificationId, bool trackChanges)
         {
             var notification = await GetNotificationByIdAndCheckIfExists(notificationId, trackChanges);
@@ -334,8 +363,25 @@ namespace Service
             );
         }
 
+        // Helper: Get all users to notify for a product event (pharmacy-specific or any pharmacy)
+        private async Task<List<string>> GetUsersToNotifyForProductEvent(Guid productId, Guid? pharmacyId, string notificationType)
+        {
+            var preferences = await _repository.PharmacyProductNotificationPreferenceRepository.GetPreferencesForProductAndTypeAsync(productId, notificationType, false);
+            var userIds = new List<string>();
+            foreach (var pref in preferences)
+            {
+                // Notify if preference is for this pharmacy or for any pharmacy
+                if ((pharmacyId != null && pref.PharmacyId == pharmacyId) || pref.PharmacyId == null)
+                {
+                    userIds.Add(pref.UserId);
+                }
+            }
+            return userIds.Distinct().ToList();
+        }
+
         public async Task SendPriceChangeNotificationAsync(string userId, Guid productId, string productName, decimal oldPrice, decimal newPrice)
         {
+            // This method is now for a single user; use the new helper for bulk notification
             await SendNotificationAsync(
                 userId,
                 "Price Change Alert",
@@ -343,6 +389,16 @@ namespace Service
                 NotificationType.PriceChange,
                 JsonSerializer.Serialize(new { productId, productName, oldPrice, newPrice })
             );
+        }
+
+        // New: Notify all users with preference for this product (in this pharmacy or any pharmacy)
+        public async Task SendPriceChangeNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, decimal oldPrice, decimal newPrice)
+        {
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, NotificationType.PriceChange.ToString());
+            foreach (var userId in userIds)
+            {
+                await SendPriceChangeNotificationAsync(userId, productId, productName, oldPrice, newPrice);
+            }
         }
 
         public async Task SendPriceChangeNotificationByUsernameAsync(string username, Guid productId, string productName, decimal oldPrice, decimal newPrice)
@@ -414,6 +470,16 @@ namespace Service
                 NotificationType.ProductInfo,
                 JsonSerializer.Serialize(notificationData)
             );
+        }
+
+        // New: Notify all users with preference for this product info type (in this pharmacy or any pharmacy)
+        public async Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message)
+        {
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, infoType);
+            foreach (var userId in userIds)
+            {
+                await SendProductInfoNotificationAsync(userId, productId.ToString(), productName, infoType, message);
+            }
         }
 
         public async Task SendProductSpecificNotificationAsync(string userId, string productId, string productName, string infoType)
@@ -549,6 +615,62 @@ namespace Service
                 pagedNotifications.MetaData.TotalCount,
                 pagedNotifications.MetaData.CurrentPage,
                 pagedNotifications.MetaData.PageSize
+            );
+        }
+
+        public async Task SendEmployeeRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string requesterName, string action)
+        {
+            var title = $"Employee Request {action}";
+            var message = $"{requesterName} has {action.ToLower()} an employee request for {pharmacyName}";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    pharmacyName, 
+                    requesterName, 
+                    action,
+                    timestamp = DateTime.UtcNow
+                })
+            );
+        }
+
+        public async Task SendPharmacyRequestNotificationAsync(string userId, Guid requestId, string pharmacyName, string action)
+        {
+            var title = $"Pharmacy Request {action}";
+            var message = $"Your pharmacy request for '{pharmacyName}' has been {action.ToLower()}";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    pharmacyName, 
+                    action,
+                    timestamp = DateTime.UtcNow
+                })
+            );
+        }
+
+        public async Task SendRequestStatusUpdateNotificationAsync(string userId, Guid requestId, string status, string message)
+        {
+            var title = $"Request Status Update";
+            
+            await SendNotificationAsync(
+                userId,
+                title,
+                message,
+                NotificationType.RequestUpdate,
+                JsonSerializer.Serialize(new { 
+                    requestId, 
+                    status,
+                    timestamp = DateTime.UtcNow
+                })
             );
         }
 

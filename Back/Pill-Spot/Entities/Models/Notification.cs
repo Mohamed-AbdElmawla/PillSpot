@@ -90,6 +90,7 @@ namespace Entities.Models
         CartItemApprovalStatusCancelled,
         CartItemApprovalStatusExpired,
         OrderCreated,
-        NewOrder
+        NewOrder,
+        RequestUpdate
     }
 }
