@@ -4,11 +4,12 @@ import {
   Navigate,
   Route,
   RouterProvider,
+  useLocation,
 } from "react-router-dom";
 
 import Home from "../pages/Landing";
 import RootPage from "../layouts/RootPage";
-import ResultPage from "../pages/ResultPage";
+// import ResultPage from "../pages/ResultPage";
 import PharManagementLayout from "../pages/PharmacyManagement";
 import InventoryPage from "../pages/PharmacyManagement/Inventory";
 import PharManagementHome from "../pages/PharmacyManagement/ManagementHome";
@@ -32,6 +33,7 @@ import AdminCategories from "../layouts/tempAdmin/tempAdmin";
 
 import UserNotifications from "../pages/UserSettings/userNotifications";
 import ProductPharmacySearch from "../pages/ProductPharmacySearch";
+import SearchByDistance from "../pages/SearchByDistance";
 
 // Define the router
 const router = createBrowserRouter(
@@ -39,7 +41,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootPage />}>
       <Route index element={<Navigate to="landing" replace />} />
       <Route path="landing" element={<Home />} />
-      <Route path="result" element={<ResultPage />} />
+      <Route path="result" element={<SearchByDistance searchTerm="asd" />} />
 
       // main home page layout and routes
       <Route element={<UserHomePage />}>  // this is for protect router
@@ -80,7 +82,7 @@ const router = createBrowserRouter(
   )
 );
 
-// Main Router Component
+
 const Router = () => {
   return <RouterProvider router={router} />;
 };
