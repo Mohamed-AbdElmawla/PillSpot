@@ -12,7 +12,7 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250629024206_InitialCreate")]
+    [Migration("20250629071357_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1085,7 +1085,7 @@ namespace PillSpot.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("(UTC_TIMESTAMP())");
 
                     b.Property<bool>("IsEnabled")
                         .ValueGeneratedOnAdd()
@@ -1647,8 +1647,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3d9dcf49-d104-4147-bffb-c0169975dab9",
-                            CreatedDate = new DateTime(2025, 6, 29, 2, 42, 4, 172, DateTimeKind.Utc).AddTicks(7719),
+                            ConcurrencyStamp = "fc402798-cc97-4f66-8e0b-62f4bb1b8b7b",
+                            CreatedDate = new DateTime(2025, 6, 29, 7, 13, 54, 107, DateTimeKind.Utc).AddTicks(3628),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1659,7 +1659,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFYHH2KM7EvAzV1/xoKBhOCqIQCuWhW+e2LEMug3l3IQ4sz2jp8Ho5p/DiPpev4mqg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELejh6eo6wbVkiOHOZrqIz4riz2FJm5CoWJbbpH3BQNoRmv2G+5E+2C1FWufLDvdyA==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",

@@ -37,7 +37,7 @@ namespace Repository.Configuration
 
             builder.Property(p => p.CreatedAt)
                 .IsRequired()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("(UTC_TIMESTAMP())");
 
             builder.Property(p => p.LastNotifiedAt)
                 .IsRequired(false);
