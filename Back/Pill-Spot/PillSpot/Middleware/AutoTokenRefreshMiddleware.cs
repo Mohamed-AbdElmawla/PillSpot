@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Http;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using System.IdentityModel.Tokens.Jwt;
 using Entities.ConfigurationModels;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
 
 namespace PillSpot.Middleware
 {
@@ -63,14 +60,11 @@ namespace PillSpot.Middleware
                                 }
 
                                 // Determine if we're in development or production
-                                var env = (IWebHostEnvironment)context.RequestServices.GetService(typeof(IWebHostEnvironment));
-                                var isDevelopment = env != null && env.IsDevelopment();
-
                                 var baseCookieOptions = new CookieOptions
                                 {
-                                    HttpOnly = true,
-                                    Secure = !isDevelopment, // Only require HTTPS in production
-                                    SameSite = SameSiteMode.Strict,
+                                    HttpOnly = false,
+                                    Secure = true, // Only require HTTPS in production
+                                    SameSite = SameSiteMode.None,
                                     Path = "/",
                                     Domain = cookieSettings.Domain,
                                     Expires = DateTime.UtcNow.AddMinutes(cookieSettings.ExpirationMinutes)
