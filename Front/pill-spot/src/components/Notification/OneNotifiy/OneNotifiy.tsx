@@ -1,5 +1,12 @@
 import React from "react";
 import { FaCheckCircle, FaTrash, FaRegBell, FaRegCheckCircle, FaRegTimesCircle, FaExclamationCircle, FaInfoCircle } from "react-icons/fa";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+
 
 export type NotificationType = "info" | "success" | "warning" | "error";
 
@@ -41,6 +48,7 @@ const OneNotifiy: React.FC<OneNotifiyProps> = ({
   const Icon = typeIconMap[type] || FaRegBell;
   const iconColor = typeColorMap[type] || "text-blue-500";
 
+  
   return (
     <div
       className={`
@@ -68,8 +76,11 @@ const OneNotifiy: React.FC<OneNotifiyProps> = ({
             {title}
           </span>
         </div>
+
         {time && (
-          <span className="text-xs text-gray-400 ml-2 shrink-0">{time}</span>
+          <span className="text-xs text-gray-400 ml-2 shrink-0">
+            {dayjs.utc(time).add(3, 'hour').isValid() ? dayjs.utc(time).add(3, 'hour').fromNow(true) + " ago" : "erro calc time"}
+          </span>
         )}
       </div>
       {/* Content */}
