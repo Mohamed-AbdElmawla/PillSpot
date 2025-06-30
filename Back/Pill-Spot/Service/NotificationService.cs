@@ -186,6 +186,21 @@ namespace Service
             await SendBulkNotificationAsync(userIds, title, message, type, data);
         }
 
+        public async Task SendNotificationToRolesAsync(IEnumerable<string> roles, string title, string message, NotificationType type, string? data = null)
+        {
+            var allUserIds = new List<string>();
+            foreach (var role in roles)
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(role);
+                var userIds = usersInRole.Select(u => u.Id).ToList();
+                allUserIds.AddRange(userIds);
+            }
+            
+            // Remove duplicates in case a user has multiple roles
+            var uniqueUserIds = allUserIds.Distinct().ToList();
+            await SendBulkNotificationAsync(uniqueUserIds, title, message, type, data);
+        }
+
         public async Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null)
         {
             // Get pharmacy employees with manager/owner roles for this specific pharmacy
@@ -364,7 +379,7 @@ namespace Service
         }
 
         // Helper: Get all users to notify for a product event (pharmacy-specific or any pharmacy)
-        private async Task<List<string>> GetUsersToNotifyForProductEvent(Guid productId, Guid? pharmacyId, string notificationType)
+        private async Task<List<string>> GetUsersToNotifyForProductEvent(Guid productId, Guid? pharmacyId, NotificationType notificationType)
         {
             var preferences = await _repository.PharmacyProductNotificationPreferenceRepository.GetPreferencesForProductAndTypeAsync(productId, notificationType, false);
             var userIds = new List<string>();
@@ -394,7 +409,7 @@ namespace Service
         // New: Notify all users with preference for this product (in this pharmacy or any pharmacy)
         public async Task SendPriceChangeNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, decimal oldPrice, decimal newPrice)
         {
-            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, NotificationType.PriceChange.ToString());
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, NotificationType.PriceChange);
             foreach (var userId in userIds)
             {
                 await SendPriceChangeNotificationAsync(userId, productId, productName, oldPrice, newPrice);
@@ -473,12 +488,12 @@ namespace Service
         }
 
         // New: Notify all users with preference for this product info type (in this pharmacy or any pharmacy)
-        public async Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message)
+        public async Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, NotificationType notificationType, string message)
         {
-            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, infoType);
+            var userIds = await GetUsersToNotifyForProductEvent(productId, pharmacyId, notificationType);
             foreach (var userId in userIds)
             {
-                await SendProductInfoNotificationAsync(userId, productId.ToString(), productName, infoType, message);
+                await SendProductInfoNotificationAsync(userId, productId.ToString(), productName, notificationType.ToString(), message);
             }
         }
 

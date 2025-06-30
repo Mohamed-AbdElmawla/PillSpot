@@ -36,6 +36,7 @@ namespace Service.Contracts
 
         // Role-based notifications
         Task SendNotificationToRoleAsync(string role, string title, string message, NotificationType type, string? data = null);
+        Task SendNotificationToRolesAsync(IEnumerable<string> roles, string title, string message, NotificationType type, string? data = null);
         Task SendNotificationToPharmacyManagersAsync(Guid pharmacyId, string title, string message, NotificationType type, string? data = null);
 
         // Request-related notifications
@@ -62,7 +63,7 @@ namespace Service.Contracts
         Task SendProductSpecificNotificationByUsernameAsync(string username, string productId, string productName, string infoType);
 
         // Pharmacy-specific product notifications
-        Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, string infoType, string message);
+        Task SendProductInfoNotificationForProduct(Guid productId, Guid? pharmacyId, string productName, NotificationType notificationType, string message);
 
         // Grouped notification methods
         Task SendGroupedProductNotificationsAsync(string userId, IEnumerable<(string productId, string productName, string infoType)> updates);

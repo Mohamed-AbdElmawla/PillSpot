@@ -41,10 +41,8 @@ namespace Service
             await _repository.SaveAsync();
 
             // Notify admin users about new product by usernames
-            var adminUsers = await _repository.UserRepository.GetUsersByRoleAsync("Admin");
-            var adminUsernames = adminUsers.Select(u => u.UserName).ToList();
-            await _notificationService.SendBulkNotificationByUsernamesAsync(
-                adminUsernames,
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
                 "New Product Added",
                 $"A new product '{productEntity.Name}' has been added to the inventory.",
                 NotificationType.ProductInfo,
@@ -105,10 +103,8 @@ namespace Service
             // Notify admin users about stock update by usernames
             if (quantity <= 10)
             {
-                var adminUsers = await _repository.UserRepository.GetUsersByRoleAsync("Admin");
-                var adminUsernames = adminUsers.Select(u => u.UserName).ToList();
-                await _notificationService.SendBulkNotificationByUsernamesAsync(
-                    adminUsernames,
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
                     "Low Stock Alert",
                     $"Product '{product.Name}' is running low on stock. Only {quantity} items left.",
                     NotificationType.StockAlert,

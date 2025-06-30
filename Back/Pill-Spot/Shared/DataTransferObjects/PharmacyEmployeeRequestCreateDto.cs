@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shared.DataTransferObjects
+﻿namespace Shared.DataTransferObjects
 {
     public record PharmacyEmployeeRequestCreateDto
     {
-        [Required]
-        public required string Email { get; init; }
-
-        [Required]
         public Guid PharmacyId { get; init; }
+        public required string UserName { get; init; }
+        public required string RoleName { get; init; }
+        public IEnumerable<string>? Permissions { get; init; }
     }
 }

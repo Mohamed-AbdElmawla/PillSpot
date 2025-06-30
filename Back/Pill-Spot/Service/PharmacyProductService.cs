@@ -65,8 +65,25 @@ namespace Service
                 pharmacyProductEntity.ProductId,
                 pharmacyProductEntity.PharmacyId,
                 pharmacyProductEntity.Product.Name,
-                "NewProduct",
-                $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock."
+                NotificationType.ProductInfo,
+                $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock"
+            );
+
+            // Notify admins about new pharmacy product
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "New Pharmacy Product Added",
+                $"New product '{pharmacyProductEntity.Product.Name}' has been added to {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock",
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(new { 
+                    productId = pharmacyProductEntity.ProductId,
+                    productName = pharmacyProductEntity.Product.Name,
+                    pharmacyId = pharmacyProductEntity.PharmacyId,
+                    pharmacyName = pharmacyProductEntity.Pharmacy.Name,
+                    quantity = pharmacyProductEntity.Quantity,
+                    action = "Added",
+                    timestamp = DateTime.UtcNow
+                })
             );
 
             return _mapper.Map<PharmacyProductDto>(pharmacyProductEntity);
@@ -119,8 +136,24 @@ namespace Service
                 pharmacyProduct.ProductId,
                 pharmacyProduct.PharmacyId,
                 pharmacyProduct.Product.Name,
-                "ProductRemoved",
+                NotificationType.ProductRemoved,
                 $"Product '{pharmacyProduct.Product.Name}' is no longer available at {pharmacyProduct.Pharmacy.Name}."
+            );
+
+            // Notify admins about product removal
+            await _notificationService.SendNotificationToRolesAsync(
+                new[] { "Admin", "SuperAdmin" },
+                "Pharmacy Product Removed",
+                $"Product '{pharmacyProduct.Product.Name}' has been removed from {pharmacyProduct.Pharmacy.Name}",
+                NotificationType.ProductInfo,
+                JsonSerializer.Serialize(new { 
+                    productId = pharmacyProduct.ProductId,
+                    productName = pharmacyProduct.Product.Name,
+                    pharmacyId = pharmacyProduct.PharmacyId,
+                    pharmacyName = pharmacyProduct.Pharmacy.Name,
+                    action = "Removed",
+                    timestamp = DateTime.UtcNow
+                })
             );
         }
 
@@ -156,7 +189,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "ProductAvailable",
+                    NotificationType.ProductAvailable,
                     $"'{pharmacyProduct.Product.Name}' is now available again at {pharmacyProduct.Pharmacy.Name}"
                 );
             }
@@ -168,7 +201,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "LowStock",
+                    NotificationType.LowStock,
                     $"Low stock alert: '{pharmacyProduct.Product.Name}' at {pharmacyProduct.Pharmacy.Name} has only {pharmacyProduct.Quantity} items remaining."
                 );
             }
@@ -180,7 +213,7 @@ namespace Service
                     pharmacyProduct.ProductId,
                     pharmacyProduct.PharmacyId,
                     pharmacyProduct.Product.Name,
-                    "ProductUnavailable",
+                    NotificationType.ProductUnavailable,
                     $"'{pharmacyProduct.Product.Name}' is temporarily unavailable at {pharmacyProduct.Pharmacy.Name}"
                 );
             }

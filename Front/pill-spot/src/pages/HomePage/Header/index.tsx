@@ -6,21 +6,32 @@ import Notifications from "./Notifications";
 import WishList from "./WishList";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCurUser } from "../../../features/User/UserSlcie";
-
+import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
-
   const dispatch = useDispatch<AppDispatch>() ;
-  const userName : string = useSelector((state: RootState) => state.authLogin.userLogin);
+  const userName : string = useSelector((state: RootState) => state.authLogin.userLogin) || "";
   const curUserState = useSelector((state:RootState)=> state.CurUserSlice) ;
-  console.log(userName)
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   useEffect(()=>{
     dispatch(getCurUser(userName)) ;
   },[])
 
+  const handleSearch = () => {
+    if (searchValue.trim()) {
+      navigate(`/productpage?medecinetosearch=${encodeURIComponent(searchValue.trim())}`);
+    }
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
 if(curUserState.isLoading === true){
   return (
@@ -29,7 +40,6 @@ if(curUserState.isLoading === true){
     </div>
   )
 }
-
 
   return (
    
@@ -51,8 +61,14 @@ if(curUserState.isLoading === true){
               type="text"
               placeholder="Search"
               className="w-full  placeholder:text-black border-0 bg-[#e3eaf6] shadow-sm focus:border-gray-400 outline-none rounded-2xl indent-6 h-11 pr-12"
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              onKeyDown={handleInputKeyDown}
             />
-            <FiSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            <FiSearch
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+              onClick={handleSearch}
+            />
           </div>
         </div>
         <div id="info" className="flex-2 w-full text-[#242a47]">

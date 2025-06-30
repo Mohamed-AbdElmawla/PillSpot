@@ -48,7 +48,7 @@ export const addMedicine: IMedicineInputs[] = [
 ];
 
 
-export const addEmployee : IStaffInput[] = [{name:InputStaff.Email,type:"text",title:"Employee Email"}] ;
+export const addEmployee : IStaffInput[] = [{name:InputStaff.Email,type:"text",title:"User Name"}] ;
 export const editEmployee : IStaffInput[] = [
   {name:InputStaff.JobTitle,type:"text",title:"Jop Title"},
   {name:InputStaff.PhoneNumber,type:"text",title:"Phone Number"},

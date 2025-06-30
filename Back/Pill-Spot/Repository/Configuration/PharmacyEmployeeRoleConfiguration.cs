@@ -15,10 +15,10 @@ namespace Repository.Configuration
                 .HasForeignKey(per => per.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(per => per.Pharmacy)
-                .WithMany(Pe => Pe.PharmacyEmployeeRoles)
-                .HasForeignKey(per => per.PharmacyId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne(per => per.Pharmacy)
+            //    .WithMany(Pe => Pe.PharmacyEmployeeRoles)
+            //    .HasForeignKey(per => per.PharmacyId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(per => per.Role)
                 .WithMany()

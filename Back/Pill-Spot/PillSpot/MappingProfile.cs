@@ -67,14 +67,20 @@ namespace PillSpot
              .ForMember(dest => dest.DaysOpen, opt => opt.MapFrom(src => src.Pharmacy.DaysOpen))
              .ForMember(dest => dest.logo, opt => opt.Ignore());
 
+
+            CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>()
+                .ForMember(dest => dest.RequesterId, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => RequestStatus.Pending));
+
             CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>()
                .ForMember(dest => dest.RequesterId, opt => opt.Ignore())
                .ForMember(dest => dest.UserId, opt => opt.Ignore())
                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => RequestStatus.Pending));
 
             CreateMap<PharmacyEmployeeRequest, PharmacyEmployee>()
-               .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-               .ForMember(dest => dest.Role, opt => opt.MapFrom(src => "PharmacyEmployee"));
+               .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+
             CreateMap<PharmacyEmployeeRequest, PharmacyEmployeeRequestDto>();
 
             CreateMap<PharmacyEmployee, PharmacyEmployeeDto>()
