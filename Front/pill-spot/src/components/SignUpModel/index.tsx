@@ -21,8 +21,7 @@ import { RootState, AppDispatch } from "../../app/store";
 import ImageUpload from "../../UI/ImageUpload";
 import { clearProfilePicture } from "../../features/uploadPhoto/upload";
 import { toast } from "sonner";
-import { setColor, setSignupState} from "../../features/Toasts/toastSlice";
-import { FetchHomeProducts } from "../../features/HomePage/Products/fetchProdcuts";
+import { setColor} from "../../features/Toasts/toastSlice";
 
 
 

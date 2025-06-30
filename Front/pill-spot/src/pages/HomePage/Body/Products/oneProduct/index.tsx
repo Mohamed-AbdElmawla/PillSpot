@@ -155,7 +155,7 @@ const OneProduct = ({
           <div className="w-full h-56 flex justify-center">
             <img
               className="object-cover w-80 h-59 rounded-tl-3xl rounded-br-3xl"
-              src={`https://localhost:7298${productDto.imageURL}`}
+              src={`${import.meta.env.VITE_BASE_URL}${productDto.imageURL}`}
               alt="Product"
             />
           </div>

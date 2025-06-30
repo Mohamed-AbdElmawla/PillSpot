@@ -1,6 +1,5 @@
 import { ProductItem } from "../types";
 import TableRow from "../TableRow/TableRow";
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useGeolocation from "../../../hooks/GetLocation";
 import axios from "axios";
@@ -23,7 +22,7 @@ const ResultTable = ({data,curPage}:Iprops) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `https://localhost:7298/api/pharmacyproducts?SearchTerm=${data}&UserLatitude=${curLocation.lat}&UserLongitude=${curLocation.lng}&PageNumber=${curPage}&PageSize=5`
+          `${import.meta.env.VITE_BASE_URL}api/pharmacyproducts?SearchTerm=${data}&UserLatitude=${curLocation.lat}&UserLongitude=${curLocation.lng}&PageNumber=${curPage}&PageSize=5`
         );
         setCurData(response.data);
         console.log(response.data);

@@ -56,7 +56,7 @@ const login = async (userData: IloginData) => {
 const logout = async()=>{
   console.log("iam in s erve") ;
   const response = await axiosInstance.post(
-    "/api/authentication/logout" , {
+    "api/authentication/logout" , {
 
       withCredentials: true,
     }

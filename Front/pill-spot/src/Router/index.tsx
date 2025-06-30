@@ -28,7 +28,7 @@ import UserOrderedOrders from "../pages/UserSettings/OrderedOrders";
 import UserEditInofPage from "../pages/UserSettings/UserEditInfo";
 import UserPharmacies from "../pages/UserSettings/UserPharmacies";
 import UserSettingPage from "../layouts/UserPage";
-import AdminCategories from "../layouts/tempAdmin/tempAdmin";
+// import AdminCategories from "../layouts/tempAdmin/tempAdmin";
 
 import UserNotifications from "../pages/UserSettings/userNotifications";
 import ProductPharmacySearch from "../pages/ProductPharmacySearch";
@@ -56,9 +56,11 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
-      <Route path="tempAdminPage" element={<AdminCategories />}>  // this is for protect router
+      {/* <Route path="tempAdminPage" element={<AdminCategories />}>
+      
+        // this is for protect router
        
-      </Route>
+      </Route> */}
 
 
 

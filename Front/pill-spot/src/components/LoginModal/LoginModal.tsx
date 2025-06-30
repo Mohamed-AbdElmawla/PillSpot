@@ -16,9 +16,7 @@ import { login, resetLogin } from "../../features/auth/authLogin";
 import { AppDispatch, RootState } from "../../app/store";
 import { toast } from "sonner";
 import {
-  setColor,
-  setLoginState,
-  clearColor,
+  setColor
 } from "../../features/Toasts/toastSlice";
 import { useNavigate } from "react-router-dom";
 import { FetchHomeCategory, FetchHomeProducts } from "../../features/HomePage/Products/fetchProdcuts";

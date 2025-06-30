@@ -13,7 +13,7 @@ const PharManagemetDetails = ({ imgSrc, name, email, dataColor }: IProps) => {
       <div className="flex items-center gap-3 sm:gap-5">
         <div className="avatar">
           <div className="w-16 sm:w-24 rounded-full">
-            <img src={`https://localhost:7298/${imgSrc}`} alt="Profile" />
+            <img src={`${import.meta.env.VITE_BASE_URL}${imgSrc}`} alt="Profile" />
           </div>
         </div>
 

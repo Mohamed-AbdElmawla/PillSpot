@@ -2,13 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { getUnreadNotificationCountThunk } from "../../features/Notifications/notificationSlice";
 import { subscribeToNotificationEvents, unsubscribeFromNotificationEvents, startConnection } from "../../features/NotificationHubService";
+import { AppDispatch } from "../../app/store";
 
 const useUnreadCount = () => {
   const [unreadCount, setUnreadCount] = useState(0);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const fetchUnreadCount = useCallback(() => {
-    dispatch(getUnreadNotificationCountThunk()).then((action: any) => {
+    dispatch(getUnreadNotificationCountThunk()).then((action) => {
       if (action && typeof action.payload === 'number') {
         setUnreadCount(action.payload);
       }
