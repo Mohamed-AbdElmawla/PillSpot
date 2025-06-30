@@ -1,14 +1,14 @@
 import bk from "../../assets/image.png";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { iconMap, secondPage } from "./common";
 import FirstPage from "./FirstPage";
 import PharPic from "./PicturePage";
 import Map from "./SecondPage";
 import TimeDetails from "./ThirdPage";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocationInfo } from "../../features/Pharmacy/Register/PharmacyRegisterSlice";
+import { setLocationInfo, resetPharmacyForm } from "../../features/Pharmacy/Register/PharmacyRegisterSlice";
 import { RootState } from "../../app/store";
 import OneInput from "./oneInput";
 import { PiCityLight } from "react-icons/pi";
@@ -17,6 +17,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { toast } from "sonner";
 import { setColor } from "../../features/Toasts/toastSlice";
 import PharmacyDetailsModal from "./ComfirmationModal";
+import { resetPharmacyRequest } from "../../features/Pharmacy/Register/PharmacyRequestToBack";
 
 
 const RegPharmacy = () => {
@@ -43,6 +44,28 @@ const RegPharmacy = () => {
   
   const PharData = useSelector((state: RootState) => state.pharRegister);
   const dispatch = useDispatch();
+
+  // Reset all pharmacy registration data on mount
+  useEffect(() => {
+    dispatch(resetPharmacyForm());
+    dispatch(resetPharmacyRequest());
+    setaddressInfo({ CityName: "", AdditionalInfo: "" });
+    setErrors({
+      Name: { required: "", invalid: "" },
+      ContactNumber: { required: "", invalid: "" },
+      LicenseId: { required: "", invalid: "" },
+      AdditionalInfo: { required: "", invalid: "" },
+      OpeningTime: { required: "", invalid: "" },
+      ClosingTime: { required: "", invalid: "" },
+      Longitude: { required: "", invalid: "" },
+      Latitude: { required: "", invalid: "" },
+      DaysOpen: { required: "", invalid: "" },
+      CityName: { required: "", invalid: "" },
+    });
+    setShowError(false);
+    setCurPage(1);
+    setOpenModal(false);
+  }, [dispatch]);
 
   const newData = { ...PharData, AdditionalInfo: addressInfo.AdditionalInfo };
   dispatch(setLocationInfo(newData));
