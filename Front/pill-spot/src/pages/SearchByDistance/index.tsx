@@ -58,7 +58,7 @@ const SearchByDistance: React.FC<SearchByDistanceProps> = ({ searchTerm: propSea
     setError(null);
     axios
       .get<ProductItem[]>(
-        `https://localhost:7298/api/pharmacyproducts`,
+        `${import.meta.env.VITE_BASE_URL}api/pharmacyproducts`,
         {
           params: {
             SearchTerm: searchTerm,

@@ -1,5 +1,3 @@
-import React from "react";
-import ImgIcon from "../../../UI/ImgIcon";
 
 const MedicineDetails = () => {
   return (

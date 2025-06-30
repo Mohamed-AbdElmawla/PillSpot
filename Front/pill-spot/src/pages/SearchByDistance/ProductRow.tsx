@@ -22,7 +22,7 @@ const ProductRow: React.FC<{
       <div className="md:w-1/4 w-full bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl border border-slate-200 p-6 flex flex-col items-center justify-start relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#49708f] to-[#02457a] rounded-t-2xl" />
         <img
-          src={product.imageURL.startsWith('http') ? product.imageURL : `https://localhost:7298${product.imageURL}`}
+          src={product.imageURL.startsWith('http') ? product.imageURL : `${import.meta.env.VITE_BASE_URL}${product.imageURL}`}
           alt={product.name}
           className="w-40 h-40 object-contain rounded-xl border-4 border-blue-100 shadow-lg mb-4 mt-2 bg-white"
         />

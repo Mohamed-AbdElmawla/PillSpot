@@ -1,4 +1,3 @@
-
 import { MdEdit } from "react-icons/md";
 import FormModal from "../EditAddModal";
 import { editEmployee, InputStaff } from "../EditAddModal/data";
@@ -24,6 +23,11 @@ const StaffCard = () => {
       ...prev,
       [name]: value,
     }));
+  }
+
+  function handleSubmitFormData() {
+    // Your submit logic here (e.g., send empData to backend)
+    console.log(empData);
   }
 
   console.log(empData)
@@ -60,7 +64,7 @@ const StaffCard = () => {
         buttonText=""
         closeButonTitle="Save Changes"
         handleChange={handleChange}
-        
+        handleSubmitFormData={handleSubmitFormData}
         >
           <button className="cursor-pointer">
             <MdEdit />

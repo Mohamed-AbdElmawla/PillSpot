@@ -63,7 +63,7 @@ const SearchBar = ({ setSearchStaff }: Iprops) => {
     };
     try {
       await axiosInstance.post(
-        "/api/pharmacy-employees/SendRequest",
+        "api/pharmacy-employees/SendRequest",
         data,
         { withCredentials: true }
       );

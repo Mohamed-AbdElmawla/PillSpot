@@ -2,7 +2,6 @@ import { Row, Col } from "antd";
 import { Fade } from "react-awesome-reveal";
 import { withTranslation } from "react-i18next";
 import { ContentBlockProps } from "./types";
-import { Button } from "../../UI/Button";
 import { SvgIcon } from "../../UI/SvgIcon";
 import SignUpModal from "../SignUpModel";
 

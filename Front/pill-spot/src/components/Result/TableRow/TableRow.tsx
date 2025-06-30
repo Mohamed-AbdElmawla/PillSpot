@@ -20,7 +20,7 @@ const TableRow = ({ name, price, distance, rating, imgSrc , lng,lat }: Iprops ) 
       <td>
         <div className="flex items-center gap-3">
           <div className="avatar w-30">
-            <ImgIcon src={`https://localhost:7298${imgSrc}`} />
+            <ImgIcon src={`${import.meta.env.VITE_BASE_URL}${imgSrc}`} />
           </div>
           <div>
             <div className="font-bold">{name}</div>

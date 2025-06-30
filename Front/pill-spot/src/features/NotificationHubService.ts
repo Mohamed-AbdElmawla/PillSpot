@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-const hubUrl = "https://localhost:7298/hubs/notifications";
+const hubUrl = import.meta.env.VITE_BASE_URL + import.meta.env.VITE_HUB_URL ;
 
 let connection: HubConnection | null = null;
 
