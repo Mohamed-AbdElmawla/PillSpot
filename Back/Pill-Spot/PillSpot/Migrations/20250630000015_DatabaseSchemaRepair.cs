@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PillSpot.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateNotificationTypesToEnum : Migration
+    public partial class DatabaseSchemaRepair : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace PillSpot.Migrations
                 keyColumn: "Id",
                 keyValue: "superadmin-user-id1",
                 columns: new[] { "ConcurrencyStamp", "CreatedDate", "PasswordHash" },
-                values: new object[] { "8b55f1c5-e6ad-41a3-b22c-b56a803bfc24", new DateTime(2025, 6, 29, 23, 27, 6, 228, DateTimeKind.Utc).AddTicks(3850), "AQAAAAIAAYagAAAAEFVEpfFFjusrFyw0mhoCu1Zy5RD0NVRsRYh3xwjhLBToU/JQOppDpnweiCIbXHfmIQ==" });
+                values: new object[] { "d7475de9-2a5a-4f82-bad9-f058a4676698", new DateTime(2025, 6, 30, 0, 0, 12, 163, DateTimeKind.Utc).AddTicks(7827), "AQAAAAIAAYagAAAAEM4B7Ki5OG0LzkdawA3iN+Dsg1qzvC/FCFPEYzcNivya/2LhuT+mtKM0hXZzzUV08A==" });
         }
 
         /// <inheritdoc />

@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250629232716_UpdateNotificationTypesToEnum")]
-    partial class UpdateNotificationTypesToEnum
+    [Migration("20250630000015_DatabaseSchemaRepair")]
+    partial class DatabaseSchemaRepair
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1647,8 +1647,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8b55f1c5-e6ad-41a3-b22c-b56a803bfc24",
-                            CreatedDate = new DateTime(2025, 6, 29, 23, 27, 6, 228, DateTimeKind.Utc).AddTicks(3850),
+                            ConcurrencyStamp = "d7475de9-2a5a-4f82-bad9-f058a4676698",
+                            CreatedDate = new DateTime(2025, 6, 30, 0, 0, 12, 163, DateTimeKind.Utc).AddTicks(7827),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1659,7 +1659,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFVEpfFFjusrFyw0mhoCu1Zy5RD0NVRsRYh3xwjhLBToU/JQOppDpnweiCIbXHfmIQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM4B7Ki5OG0LzkdawA3iN+Dsg1qzvC/FCFPEYzcNivya/2LhuT+mtKM0hXZzzUV08A==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
