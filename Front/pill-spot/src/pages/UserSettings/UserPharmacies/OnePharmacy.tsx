@@ -37,7 +37,7 @@ const OnePharmacy = ({name,location,contNumber,openTime,closeTime,pharmacyId,ima
         className="bg-gray-50 shadow-md rounded-lg p-4 flex flex-col items-center w-70 hover:scale-103 duration-150"
       >
         <img
-             src={`https://localhost:7298${imageUrl}`}
+             src={`${import.meta.env.VITE_BASE_URL}${imageUrl}`}
          // src={img}
           alt="Pharmacy Logo"
           className="w-24 h-24 rounded-full object-cover mb-3 border border-gray-300"

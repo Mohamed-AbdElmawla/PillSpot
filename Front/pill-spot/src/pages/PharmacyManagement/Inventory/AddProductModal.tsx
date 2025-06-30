@@ -67,16 +67,16 @@ export default function AddProductModal<T extends IInputsData[]>({
       }
       try {
         const [medResponse, cosResponse] = await Promise.all([
-          axios.get(`https://localhost:7298/api/medicines?SearchTerm=${searchItem}&PageNumber=${pagenation.page}&PageSize=${pagenation.pageSize}`),
-          axios.get(`https://localhost:7298/api/cosmetics?SearchTerm=${searchItem}&PageNumber=${pagenation.page}&PageSize=${pagenation.pageSize}`),
+          axios.get(`${import.meta.env.VITE_BASE_URL}api/medicines?SearchTerm=${searchItem}&PageNumber=${pagenation.page}&PageSize=${pagenation.pageSize}`),
+          axios.get(`${import.meta.env.VITE_BASE_URL}api/cosmetics?SearchTerm=${searchItem}&PageNumber=${pagenation.page}&PageSize=${pagenation.pageSize}`),
         ]);
     
         setMedecines(medResponse.data || []);
         setCosmatics(cosResponse.data || []);
         setDataToShow(medResponse.data || []);
         
-      } catch (e) {
-        toast.error(e.message || "Something went wrong");
+      } catch{
+        toast.error("Something went wrong");
       }
     }
 

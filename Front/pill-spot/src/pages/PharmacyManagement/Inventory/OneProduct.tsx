@@ -44,7 +44,7 @@ const OneProduct: React.FC<OneProductProps> = ({ medicine }) => {
     console.log({productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity})
     const fetchData = async () => {
       const response = await axiosInstance
-            .post("/api/pharmacyproducts" , {productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity});
+            .post("api/pharmacyproducts" , {productId:medicine.productId,pharmacyId:PharmacyId,quantity:quantity});
         return response.data;
     };
 
@@ -65,7 +65,7 @@ const OneProduct: React.FC<OneProductProps> = ({ medicine }) => {
     <div className="flex flex-col flex-wrap m-4 justify-between items-center bg-gray-100 shadow-md p-3 rounded-lg gap-4 sm:gap-2">
       <div className="flex flex-col items-center">
         <img
-          src={`https://localhost:7298/${medicine.imageURL}`}
+          src={`${import.meta.env.VITE_BASE_URL}${medicine.imageURL}`}
           className="w-30 h-30 rounded-full"
           alt={medicine.name}
         />

@@ -5,7 +5,7 @@ import OneCategory from "./oneCategory";
 import img from "../Products/oneCategory/image.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../app/store";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   // const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +18,6 @@ const Products = () => {
   );
 
   const loadingProducts = useSelector((state:RootState)=>state.fetchHomeProductSlice.LoadingProducts) ; 
-  const loadingCategroies = useSelector((state:RootState)=>state.fetchHomeProductSlice.LoadingCategories) ; 
 
   const handleGoToProductPage = ()=>{
       navigate('/productpage',{replace:true}) ;

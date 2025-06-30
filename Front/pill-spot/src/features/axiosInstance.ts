@@ -4,7 +4,7 @@ let csrfPromise: Promise<string> | null = null;
 
 const fetchCsrfToken = async (): Promise<string> => {
     try {
-        const response = await axios.get(import.meta.env.VITE_CSRF, {
+        const response = await axios.get(import.meta.env.BASE_URL + import.meta.env.VITE_CSRF, {
             withCredentials: true
         });
         const token = response.data.csrfToken || response.data;
@@ -17,7 +17,7 @@ const fetchCsrfToken = async (): Promise<string> => {
 };
 
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:7298/',
+    baseURL: import.meta.env.VITE_BASE_URL,
     withCredentials: true,
 });
 

@@ -51,9 +51,12 @@ export const pharmacyRegisterSlice = createSlice({
     },
     setTimingInfo(state,action: PayloadAction<IInitialState>){
         Object.assign(state, action.payload);
+    },
+    resetPharmacyForm(state) {
+      Object.assign(state, initialState);
     }
   },
 });
 
-export const {setMainInfo,setLogo,setLocationInfo,setTimingInfo} = pharmacyRegisterSlice.actions ;
+export const {setMainInfo,setLogo,setLocationInfo,setTimingInfo, resetPharmacyForm} = pharmacyRegisterSlice.actions ;
 export default pharmacyRegisterSlice.reducer ;

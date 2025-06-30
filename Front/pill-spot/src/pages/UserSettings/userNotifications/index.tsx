@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../app/store';
 import {
   getNotifications,
   markNotificationAsReadThunk,
-  markAllNotificationsAsReadThunk,
   deleteNotificationThunk,
   getUnreadNotificationCountThunk,
 } from '../../../features/Notifications/notificationSlice';
@@ -28,12 +27,12 @@ const UserNotifications = () => {
     });
   };
 
-  const handleMarkAllAsRead = () => {
-    dispatch(markAllNotificationsAsReadThunk()).then(() => {
-      dispatch(getNotifications(false));
-      dispatch(getUnreadNotificationCountThunk());
-    });
-  };
+  // const handleMarkAllAsRead = () => {
+  //   dispatch(markAllNotificationsAsReadThunk()).then(() => {
+  //     dispatch(getNotifications(false));
+  //     dispatch(getUnreadNotificationCountThunk());
+  //   });
+  // };
 
   const handleDelete = (id: string) => {
     dispatch(deleteNotificationThunk(id)).then(() => {
