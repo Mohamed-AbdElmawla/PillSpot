@@ -22,7 +22,7 @@ namespace Service
             _userManager = userManager;
         }
 
-        public async Task<EmployeePermissionDto> AssignPermissionToEmployeeAsync(AssignEmployeePermissionDto assignEmployeePermissionDto)
+        public async Task<PharmacyEmployeePermissionDto> AssignPermissionToEmployeeAsync(AssignEmployeePermissionDto assignEmployeePermissionDto)
         {
 
             if (!await IsEmployeeAsync(assignEmployeePermissionDto.EmployeeId))
@@ -31,10 +31,10 @@ namespace Service
             var employeePermissionEntity = _mapper.Map<PharmacyEmployeePermission>(assignEmployeePermissionDto);
             _repository.EmployeePermissionRepository.AssignPermissionToEmployeeAsync(employeePermissionEntity);
             await _repository.SaveAsync();
-            return _mapper.Map<EmployeePermissionDto>(employeePermissionEntity);
+            return _mapper.Map<PharmacyEmployeePermissionDto>(employeePermissionEntity);
         }
 
-        public async Task<IEnumerable<EmployeePermissionDto>> AssignPermissionsToEmployeeAsync(Guid employeeId, IEnumerable<Guid> permissionIds)
+        public async Task<IEnumerable<PharmacyEmployeePermissionDto>> AssignPermissionsToEmployeeAsync(Guid employeeId, IEnumerable<Guid> permissionIds)
         {
             if (permissionIds == null || !permissionIds.Any())
                 throw new EmployeePermissionCollectionBadRequestException();
@@ -45,7 +45,7 @@ namespace Service
             _repository.EmployeePermissionRepository.AssignPermissionsToEmployeeAsync(epmloyeePermissions);
             await _repository.SaveAsync();
 
-            return _mapper.Map<IEnumerable<EmployeePermissionDto>>(epmloyeePermissions);
+            return _mapper.Map<IEnumerable<PharmacyEmployeePermissionDto>>(epmloyeePermissions);
         }
 
         public async Task<IEnumerable<PermissionDto>> GetPermissionsToEmployeeAsync(Guid employeeId, bool trackChanges)
@@ -119,12 +119,12 @@ namespace Service
 
             return await _repository.EmployeePermissionRepository.ExistsAsync(employeeId, permission.PermissionId,trackChanges);
         }
-        public async Task<(IEnumerable<EmployeePermissionDto> employeePermissions, MetaData metaData)> GetAllEmployeePermissionsAsync(EmployeePermissionParameters employeePermissionParameters, bool trackChanges)
+        public async Task<(IEnumerable<PharmacyEmployeePermissionDto> employeePermissions, MetaData metaData)> GetAllEmployeePermissionsAsync(EmployeePermissionParameters employeePermissionParameters, bool trackChanges)
         {
             var employeePermissionsPagedList = await _repository.EmployeePermissionRepository
                 .GetAllEmployeePermissionsAsync(employeePermissionParameters, trackChanges);
 
-            var employeePermissionDto = _mapper.Map<IEnumerable<EmployeePermissionDto>>(employeePermissionsPagedList);
+            var employeePermissionDto = _mapper.Map<IEnumerable<PharmacyEmployeePermissionDto>>(employeePermissionsPagedList);
 
             return (employeePermissions: employeePermissionDto, employeePermissionsPagedList.MetaData);
         }

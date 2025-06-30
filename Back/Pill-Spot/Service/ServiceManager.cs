@@ -96,7 +96,7 @@ namespace Service
             _cartItemService = new Lazy<ICartItemService>(() => new CartItemService(repositoryManager, mapper, userManager, fileService));
             _pharmacyEmployeeRoleService = new Lazy<IPharmacyEmployeeRoleService>(() => new PharmacyEmployeeRoleService(repositoryManager));
             _prescriptionService = new Lazy<IPrescriptionService>(() => new PrescriptionService(repositoryManager, mapper,fileService));
-            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper, userManager, _notificationService.Value));
+            _pharmacyEmployeeRequestService = new Lazy<IPharmacyEmployeeRequestService>(() => new PharmacyEmployeeRequestService(repositoryManager, mapper, userManager, _notificationService.Value,roleManager));
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService.Value;

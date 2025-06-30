@@ -106,7 +106,6 @@ namespace Service
 
             var newEmployee = new PharmacyEmployee
             {
-                Role = "PharmacyOwner",
                 PharmacyId = pharmacy.PharmacyId,
                 UserId = request.UserId
             };

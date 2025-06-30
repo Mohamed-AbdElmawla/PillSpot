@@ -18,11 +18,6 @@ namespace Repository.Configuration
             builder.Property(pe => pe.PharmacyId)
                 .IsRequired();
 
-            builder.Property(pe => pe.Role)
-                .IsRequired()
-                .HasMaxLength(100)
-                .IsUnicode(true);
-
             builder.Property(pe => pe.HireDate)
                 .IsRequired();
 

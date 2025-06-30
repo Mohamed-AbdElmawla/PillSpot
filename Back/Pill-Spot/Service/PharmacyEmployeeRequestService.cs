@@ -16,13 +16,15 @@ namespace Service
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly INotificationService _notificationService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public PharmacyEmployeeRequestService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager, INotificationService notificationService)
+        public PharmacyEmployeeRequestService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManager, INotificationService notificationService, RoleManager<IdentityRole> roleManager)
         {
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
             _notificationService = notificationService;
+            _roleManager = roleManager;
         }
 
         public async Task SendRequestAsync(PharmacyEmployeeRequestCreateDto requestDto, string userId, bool trackChanges)
@@ -43,10 +45,27 @@ namespace Service
             if (existingApprovedRequest.Count() > 0)
                 throw new EmployeeApprovedBadRequestException();
 
+            // التحقق من وجود الـ Role
+            var roleExists = await _roleManager.RoleExistsAsync(requestDto.RoleName);
+            if (!roleExists)
+                throw new RoleNameNotFoundException(requestDto.RoleName);
+
+            // التحقق من الـ Permissions
+            if (requestDto.Permissions != null)
+            {
+                foreach (var permissionName in requestDto.Permissions)
+                {
+                    var permission = await _repository.PermissionRepository.GetByNameAsync(permissionName,false);
+                    if (permission == null)
+                        throw new PermissionNotFoundException(permission.PermissionId);
+                }
+            }
+
+
             var requestEntity = _mapper.Map<PharmacyEmployeeRequest>(requestDto);
             requestEntity.UserId = user.Id;
             requestEntity.RequesterId = userId;
-            requestEntity.Status = RequestStatus.Pending;
+            requestEntity.Permissions = requestDto.Permissions != null ? string.Join(", ", requestDto.Permissions) : null;
 
             _repository.PharmacyEmployeeRequestRepository.CreateRequestToEmployee(requestEntity);
             await _repository.SaveAsync();
@@ -117,14 +136,53 @@ namespace Service
 
             request.Status = RequestStatus.Approved;
 
-            var employee = _mapper.Map<PharmacyEmployee>(request);
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user == null)
+                throw new UserNotFoundException(user.Id);
 
+            var role = await _roleManager.FindByNameAsync(request.RoleName);
+            if (role == null)
+                throw new RoleNameNotFoundException(request.RoleName);
+
+            //Create PharmacyEmployee
+            var employee = _mapper.Map<PharmacyEmployee>(request);
             _repository.PharmacyEmployeeRepository.AddPharmacyEmployee(employee);
+            await _repository.SaveAsync(); // This will generate the EmployeeId
+
+            //Add Role to PharmacyEmployeeRoles
+            var employeeRole = new PharmacyEmployeeRole
+            {
+                EmployeeId = employee.EmployeeId,
+                PharmacyId = request.PharmacyId,
+                RoleId = role.Id
+            };
+            _repository.PharmacyEmployeeRoleRepository.AddPharmacyEmployeeRole(employeeRole);
+
+            //Add Permissions
+            var permissions = request.Permissions?
+                .Split(",", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+            if (permissions != null)
+            {
+                foreach (var permissionName in permissions)
+                {
+                    var permission = await _repository.PermissionRepository.GetByNameAsync(permissionName,false);
+                    if (permission != null)
+                    {
+                        var employeePermission = new PharmacyEmployeePermission
+                        {
+                            EmployeeId = employee.EmployeeId,
+                            PermissionId = permission.PermissionId
+                        };
+                        _repository.EmployeePermissionRepository.AssignPermissionToEmployeeAsync(employeePermission);
+                    }
+                }
+            }
+
             await _repository.SaveAsync();
 
             // Get pharmacy and user details for notifications
             var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(request.PharmacyId, false);
-            var user = await _userManager.FindByIdAsync(request.UserId);
             var requester = await _userManager.FindByIdAsync(request.RequesterId);
 
             // Notify the requester (pharmacy manager) about approval
