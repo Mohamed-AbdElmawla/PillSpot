@@ -18,9 +18,11 @@ import { toast } from "sonner";
 import { setColor } from "../../features/Toasts/toastSlice";
 import PharmacyDetailsModal from "./ComfirmationModal";
 import { resetPharmacyRequest } from "../../features/Pharmacy/Register/PharmacyRequestToBack";
+import { useNavigate } from "react-router-dom";
 
 
 const RegPharmacy = () => {
+  const navigate = useNavigate();
   const [curPage, setCurPage] = useState(1);
   const [openModal,setOpenModal] = useState(false) ;
   const [addressInfo, setaddressInfo] = useState({
@@ -172,6 +174,15 @@ const RegPharmacy = () => {
 
   return (
     <div style={{ backgroundImage: `url(${bk})` }}>
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-white rounded-full shadow text-gray-700 font-semibold text-base transition"
+        aria-label="Go back"
+      >
+        <IoIosArrowBack className="text-xl" />
+        Back
+      </button>
       <div className="container bg-cover bg-center m-auto h-screen flex">
         <div className="flex-[3] flex items-center justify-center flex-col gap-10">
           <span className="text-9xl text-white font-bold">Hello !</span>
