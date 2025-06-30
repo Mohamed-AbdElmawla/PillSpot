@@ -30,7 +30,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("SendRequest")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
-        [PermissionAuthorize("SendEmployeeRequest")]
+       // [PermissionAuthorize("SendEmployeeRequest")]
         [ValidateCsrfToken]
         public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
         {

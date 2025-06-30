@@ -27,7 +27,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPatch("{userName}")]
         [ServiceFilter(typeof(UserAuthorizationFilter))]
-        [PermissionAuthorize("UserManagement")]
+     //   [PermissionAuthorize("UserManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateUser(string userName, [FromForm] UserForUpdateDto userForUpdateDto)
