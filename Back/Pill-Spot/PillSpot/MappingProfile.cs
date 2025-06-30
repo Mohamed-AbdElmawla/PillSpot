@@ -16,14 +16,14 @@ namespace PillSpot
             CreateMap<Permission, PermissionDto>();
             CreateMap<UpdatePermissionDto, Permission>();
 
-            CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>()
+            CreateMap<PharmacyEmployeePermission, PharmacyEmployeePermissionDto>()
                 .ForMember(dest => dest.PermissionName, opt => opt.MapFrom(src => src.Permission.Name));
 
             CreateMap<AssignAdminPermissionDto, AdminPermission>();
             CreateMap<AdminPermission, AdminPermissionDto>();
 
             CreateMap<AssignEmployeePermissionDto, PharmacyEmployeePermission>();
-            CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>().ReverseMap();
+            CreateMap<PharmacyEmployeePermission, PharmacyEmployeePermissionDto>().ReverseMap();
 
             CreateMap<Government, GovernmentDto>();
 

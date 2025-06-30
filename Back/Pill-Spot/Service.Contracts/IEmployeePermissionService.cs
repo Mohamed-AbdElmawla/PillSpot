@@ -4,8 +4,8 @@ namespace Service.Contracts
 {
     public interface IEmployeePermissionService
     {
-        Task<EmployeePermissionDto> AssignPermissionToEmployeeAsync(AssignEmployeePermissionDto assignEmployeePermissionDto);
-        Task<IEnumerable<EmployeePermissionDto>> AssignPermissionsToEmployeeAsync(Guid employeeId, IEnumerable<Guid> permissionIds);
+        Task<PharmacyEmployeePermissionDto> AssignPermissionToEmployeeAsync(AssignEmployeePermissionDto assignEmployeePermissionDto);
+        Task<IEnumerable<PharmacyEmployeePermissionDto>> AssignPermissionsToEmployeeAsync(Guid employeeId, IEnumerable<Guid> permissionIds);
         Task<IEnumerable<PermissionDto>> GetPermissionsToEmployeeAsync(Guid EmployeeId, bool trackChanges);
         Task<Guid> GetEmployeeIdByUserIdAsync(string userId, bool trackChanges);
         Task RemovePermissionFromEmployeeAsync(Guid EmployeeId, Guid permissionId);
