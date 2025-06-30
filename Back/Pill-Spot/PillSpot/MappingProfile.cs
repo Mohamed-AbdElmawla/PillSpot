@@ -16,14 +16,14 @@ namespace PillSpot
             CreateMap<Permission, PermissionDto>();
             CreateMap<UpdatePermissionDto, Permission>();
 
-            CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>()
+            CreateMap<PharmacyEmployeePermission, PharmacyEmployeePermissionDto>()
                 .ForMember(dest => dest.PermissionName, opt => opt.MapFrom(src => src.Permission.Name));
 
             CreateMap<AssignAdminPermissionDto, AdminPermission>();
             CreateMap<AdminPermission, AdminPermissionDto>();
 
             CreateMap<AssignEmployeePermissionDto, PharmacyEmployeePermission>();
-            CreateMap<PharmacyEmployeePermission, EmployeePermissionDto>().ReverseMap();
+            CreateMap<PharmacyEmployeePermission, PharmacyEmployeePermissionDto>().ReverseMap();
 
             CreateMap<Government, GovernmentDto>();
 
@@ -67,14 +67,20 @@ namespace PillSpot
              .ForMember(dest => dest.DaysOpen, opt => opt.MapFrom(src => src.Pharmacy.DaysOpen))
              .ForMember(dest => dest.logo, opt => opt.Ignore());
 
+
+            CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>()
+                .ForMember(dest => dest.RequesterId, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => RequestStatus.Pending));
+
             CreateMap<PharmacyEmployeeRequestCreateDto, PharmacyEmployeeRequest>()
                .ForMember(dest => dest.RequesterId, opt => opt.Ignore())
                .ForMember(dest => dest.UserId, opt => opt.Ignore())
                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => RequestStatus.Pending));
 
             CreateMap<PharmacyEmployeeRequest, PharmacyEmployee>()
-               .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow))
-               .ForMember(dest => dest.Role, opt => opt.MapFrom(src => "PharmacyEmployee"));
+               .ForMember(dest => dest.HireDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+
             CreateMap<PharmacyEmployeeRequest, PharmacyEmployeeRequestDto>();
 
             CreateMap<PharmacyEmployee, PharmacyEmployeeDto>()

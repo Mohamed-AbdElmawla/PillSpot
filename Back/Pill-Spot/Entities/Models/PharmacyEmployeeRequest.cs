@@ -9,11 +9,14 @@ namespace Entities.Models
         public Guid RequestId { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public required string UserId { get; set; }
         [Required]
-        public string RequesterId { get; set; }
+        public required string RequesterId { get; set; }
         [Required]
-        public Guid PharmacyId { get; set; }
+        public required Guid PharmacyId { get; set; }
+        [Required]
+        public required string RoleName { get; set; }
+        public string? Permissions { get; set; }
 
         [Required]
         public RequestStatus Status { get; set; } = RequestStatus.Pending;

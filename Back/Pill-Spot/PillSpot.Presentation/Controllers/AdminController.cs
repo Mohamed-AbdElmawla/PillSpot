@@ -38,17 +38,5 @@ namespace PillSpot.Presentation.Controllers
             await _service.AdminService.AssignUserRoleAsync(dto, currentUserId, trackChanges: true);
             return NoContent();
         }
-
-        [HttpPost("pharmacy-employee/SendRequest")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [PharmacyRoleAuthorize("PharmacyOwner","PharmacyManager","PharmacyEmployee")]
-        [PermissionAuthorize("SendEmployeeRequest")]
-        [ValidateCsrfToken]
-        public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
-        {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto, currentUserId, trackChanges: false);
-            return Ok("Request sent successfully.");
-        }
     }
 }

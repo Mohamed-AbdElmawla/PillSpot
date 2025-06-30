@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System.Security.Claims;
 using System.Text.Json;
@@ -24,6 +25,18 @@ namespace PillSpot.Presentation.Controllers
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
             return Ok(pagedResult.pharmacies);
+        }
+
+        [HttpPost("SendRequest")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
+        [PermissionAuthorize("SendEmployeeRequest")]
+        [ValidateCsrfToken]
+        public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto, currentUserId, trackChanges: false);
+            return Ok("Request sent successfully.");
         }
 
         [HttpPut("{requestId}/approve")]

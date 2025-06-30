@@ -14,10 +14,6 @@ namespace Entities.Models
         [Required(ErrorMessage = "Pharmacy ID is required.")]
         public Guid PharmacyId { get; set; }
 
-        [Required(ErrorMessage = "Role is required.")]
-        [MaxLength(100, ErrorMessage = "Role cannot exceed 100 characters.")]
-        public required string Role { get; set; }
-
         [Required(ErrorMessage = "Hire date is required.")]
         public DateTime HireDate { get; set; } = DateTime.UtcNow;
 

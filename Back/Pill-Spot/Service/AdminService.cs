@@ -77,12 +77,12 @@ namespace Service
         {
             switch (action.ToLower())
             {
-                case "activate":
+                case "lockout":
                     if (user.LockoutEnd == null)
                         throw new ActivateUserBadRequestException();
                     user.LockoutEnd = null;
                     break;
-                case "deactivate":
+                case "unlock":
                     if (user.LockoutEnd != null && user.LockoutEnd.Value == DateTimeOffset.MaxValue)
                         throw new DeactivateUserBadRequestException();
                     user.LockoutEnd = DateTimeOffset.MaxValue;
