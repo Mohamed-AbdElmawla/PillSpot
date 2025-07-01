@@ -12,8 +12,8 @@ using Repository;
 namespace PillSpot.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250630000015_DatabaseSchemaRepair")]
-    partial class DatabaseSchemaRepair
+    [Migration("20250701140806_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -909,12 +909,6 @@ namespace PillSpot.Migrations
                     b.Property<Guid>("PharmacyId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("varchar(100)");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(450)
@@ -960,6 +954,9 @@ namespace PillSpot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Permissions")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("PharmacyId")
                         .HasColumnType("char(36)");
 
@@ -969,6 +966,10 @@ namespace PillSpot.Migrations
                     b.Property<string>("RequesterId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -1647,8 +1648,8 @@ namespace PillSpot.Migrations
                         {
                             Id = "superadmin-user-id1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d7475de9-2a5a-4f82-bad9-f058a4676698",
-                            CreatedDate = new DateTime(2025, 6, 30, 0, 0, 12, 163, DateTimeKind.Utc).AddTicks(7827),
+                            ConcurrencyStamp = "0b886f46-dc3b-498b-ba90-c1ef1900b3a4",
+                            CreatedDate = new DateTime(2025, 7, 1, 14, 8, 3, 571, DateTimeKind.Utc).AddTicks(8240),
                             DateOfBirth = new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
@@ -1659,7 +1660,7 @@ namespace PillSpot.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM4B7Ki5OG0LzkdawA3iN+Dsg1qzvC/FCFPEYzcNivya/2LhuT+mtKM0hXZzzUV08A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAG2g+l3D8bYKnvnDJNrpo+RFNiRSnJ4R32HNNO5YPhALbERNIyhLV6Sqc3xs6Dk0w==",
                             PhoneNumber = "01095832905",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -2326,7 +2327,7 @@ namespace PillSpot.Migrations
                     b.HasOne("Entities.Models.Pharmacy", "Pharmacy")
                         .WithMany("PharmacyEmployeeRoles")
                         .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")

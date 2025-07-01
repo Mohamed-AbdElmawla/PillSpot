@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -32,8 +33,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryForCreateDto categoryForCreateDto)
         {
@@ -42,8 +44,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{id:Guid}")]
-       // [Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] CategoryForUpdateDto categoryForUpdateDto)
         {
@@ -52,7 +55,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {

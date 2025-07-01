@@ -34,8 +34,9 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [RateLimit("UploadPolicy")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> CreateMedicine([FromForm] MedicineForCreationDto medicineDto)
         {
@@ -44,8 +45,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{id:Guid}")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateMedicine(Guid id, [FromForm] MedicineForUpdateDto medicineForUpdateDto)
         {
@@ -55,6 +57,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> DeleteMedicine(Guid id)
         {

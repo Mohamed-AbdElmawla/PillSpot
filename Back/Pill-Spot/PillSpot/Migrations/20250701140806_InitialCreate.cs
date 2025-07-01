@@ -973,6 +973,10 @@ namespace PillSpot.Migrations
                     RequesterId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RoleName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Permissions = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     RequestDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -1008,8 +1012,6 @@ namespace PillSpot.Migrations
                     UserId = table.Column<string>(type: "varchar(450)", maxLength: 450, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PharmacyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Role = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     HireDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
@@ -1304,7 +1306,7 @@ namespace PillSpot.Migrations
                         column: x => x.PharmacyId,
                         principalTable: "Pharmacies",
                         principalColumn: "PharmacyId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PharmacyEmployeeRoles_PharmacyEmployees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -1458,7 +1460,7 @@ namespace PillSpot.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "fc402798-cc97-4f66-8e0b-62f4bb1b8b7b", new DateTime(2025, 6, 29, 7, 13, 54, 107, DateTimeKind.Utc).AddTicks(3628), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAELejh6eo6wbVkiOHOZrqIz4riz2FJm5CoWJbbpH3BQNoRmv2G+5E+2C1FWufLDvdyA==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "0b886f46-dc3b-498b-ba90-c1ef1900b3a4", new DateTime(2025, 7, 1, 14, 8, 3, 571, DateTimeKind.Utc).AddTicks(8240), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEAG2g+l3D8bYKnvnDJNrpo+RFNiRSnJ4R32HNNO5YPhALbERNIyhLV6Sqc3xs6Dk0w==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

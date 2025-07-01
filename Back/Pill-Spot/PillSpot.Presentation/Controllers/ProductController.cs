@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.RequestFeatures;
 using System.Text.Json;
-
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -34,9 +34,10 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [RateLimit("UploadPolicy")]
-        // [Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [Authorize(Roles ="SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateProduct([FromForm] ProductForCreationDto productDto)
         {
             var createdProduct = await _service.ProductService.CreateProductAsync(productDto, trackChanges: true);
@@ -44,9 +45,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductForUpdateDto productForUpdateDto)
         {
             await _service.ProductService.UpdateProductAsync(id, productForUpdateDto, trackChanges: true);
@@ -54,8 +56,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             await _service.ProductService.DeleteProductAsync(id, trackChanges: true);

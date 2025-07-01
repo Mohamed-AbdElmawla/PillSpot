@@ -28,17 +28,18 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("SendRequest")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
         [PermissionAuthorize("SendEmployeeRequest")]
-        [ValidateCsrfToken]
-        public async Task<IActionResult> SendRequest([FromBody] PharmacyEmployeeRequestCreateDto requestDto)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> SendRequest(Guid PharmacyId, [FromBody] PharmacyEmployeeRequestCreateDto requestDto)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            await _service.PharmacyEmployeeRequestService.SendRequestAsync(requestDto, currentUserId, trackChanges: false);
+            await _service.PharmacyEmployeeRequestService.SendRequestAsync(PharmacyId ,requestDto, currentUserId, trackChanges: false);
             return Ok("Request sent successfully.");
         }
 
+        
         [HttpPut("{requestId}/approve")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {

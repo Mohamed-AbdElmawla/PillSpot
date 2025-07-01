@@ -30,8 +30,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> CreateCosmetic([FromForm] CosmeticForCreationDto cosmeticForCreationDto)
         {
@@ -40,8 +41,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> UpdateCosmetic(Guid id,[FromForm] CosmeticForUpdateDto cosmeticForUpdateDto)
         {
@@ -50,7 +52,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> DeleteCosmetic(Guid id)
         {
