@@ -27,30 +27,30 @@ namespace Service
             _roleManager = roleManager;
         }
 
-        public async Task SendRequestAsync(PharmacyEmployeeRequestCreateDto requestDto, string userId, bool trackChanges)
+        public async Task SendRequestAsync(Guid PharmacyId, PharmacyEmployeeRequestCreateDto requestDto, string userId, bool trackChanges)
         {
             var user = await _userManager.FindByNameAsync(requestDto.UserName);
             if (user == null)
                 throw new UserNotFoundException(requestDto.UserName);
 
             var existingPindingRequest = await _repository.PharmacyEmployeeRequestRepository
-                .GetRequestToEmployeeByStatusAsync(user.Id, requestDto.PharmacyId, RequestStatus.Pending, trackChanges);
+                .GetRequestToEmployeeByStatusAsync(user.Id, PharmacyId, RequestStatus.Pending, trackChanges);
 
             if (existingPindingRequest.Count() > 0)
                 throw new DuplicateBadRequestException();
 
             var existingApprovedRequest = await _repository.PharmacyEmployeeRequestRepository
-                .GetRequestToEmployeeByStatusAsync(user.Id, requestDto.PharmacyId, RequestStatus.Approved, trackChanges);
+                .GetRequestToEmployeeByStatusAsync(user.Id, PharmacyId, RequestStatus.Approved, trackChanges);
 
             if (existingApprovedRequest.Count() > 0)
                 throw new EmployeeApprovedBadRequestException();
 
-            // التحقق من وجود الـ Role
+            
             var roleExists = await _roleManager.RoleExistsAsync(requestDto.RoleName);
             if (!roleExists)
                 throw new RoleNameNotFoundException(requestDto.RoleName);
 
-            // التحقق من الـ Permissions
+            
             if (requestDto.Permissions != null)
             {
                 foreach (var permissionName in requestDto.Permissions)
@@ -66,12 +66,13 @@ namespace Service
             requestEntity.UserId = user.Id;
             requestEntity.RequesterId = userId;
             requestEntity.Permissions = requestDto.Permissions != null ? string.Join(", ", requestDto.Permissions) : null;
+            requestEntity.PharmacyId = PharmacyId;
 
             _repository.PharmacyEmployeeRequestRepository.CreateRequestToEmployee(requestEntity);
             await _repository.SaveAsync();
 
             // Get pharmacy name for notification
-            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(requestDto.PharmacyId, false);
+            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(PharmacyId, false);
             var requester = await _userManager.FindByIdAsync(userId);
 
             // Notify the user about the request
@@ -84,7 +85,7 @@ namespace Service
 
             // Notify pharmacy managers about the new request
             await _notificationService.SendNotificationToPharmacyManagersAsync(
-                requestDto.PharmacyId,
+                PharmacyId,
                 "New Employee Request",
                 $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"}",
                 NotificationType.RequestUpdate,
@@ -94,7 +95,7 @@ namespace Service
                     userName = user.UserName,
                     requesterId = userId,
                     requesterName = requester?.UserName,
-                    pharmacyId = requestDto.PharmacyId,
+                    pharmacyId = PharmacyId,
                     pharmacyName = pharmacy?.Name,
                     status = "Pending",
                     timestamp = DateTime.UtcNow
@@ -113,7 +114,7 @@ namespace Service
                     userName = user.UserName,
                     requesterId = userId,
                     requesterName = requester?.UserName,
-                    pharmacyId = requestDto.PharmacyId,
+                    pharmacyId = PharmacyId,
                     pharmacyName = pharmacy?.Name,
                     status = "Pending",
                     timestamp = DateTime.UtcNow

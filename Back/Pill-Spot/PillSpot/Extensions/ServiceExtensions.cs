@@ -53,7 +53,7 @@ namespace PillSpot.Extensions
         public static void ConfigureFilterServices(this IServiceCollection services)
         {
             services.AddScoped<ValidationFilterAttribute>();
-            services.AddScoped<UserAuthorizationFilter>();
+            //services.AddScoped<UserAuthorizationAttribute>();
         }
         public static void ConfigureIISIntegration(this IServiceCollection services)
         {

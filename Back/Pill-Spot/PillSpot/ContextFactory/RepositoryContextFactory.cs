@@ -20,6 +20,7 @@ namespace PillSpot.ContextFactory
                     {
                         options.MigrationsAssembly("PillSpot");
                         options.UseNetTopologySuite(); // For spatial support
+                        options.EnableRetryOnFailure(); // New by khaled
                     });
 
             builder.EnableSensitiveDataLogging();

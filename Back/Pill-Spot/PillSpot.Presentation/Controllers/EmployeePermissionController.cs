@@ -15,7 +15,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("{employeeId}", Name = "GetEmployeePermissions")]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("GetPermissionsFromEmployee")]
+        [PermissionAuthorize("PharmacyEmployeePermissionManagement")]
         public async Task<IActionResult> GetPermissionsFromEmployee(Guid employeeId)
         {
             var result = await _service.EmployeePermissionService.GetPermissionsToEmployeeAsync(employeeId, trackChanges: false);
@@ -26,7 +26,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("assign")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("AssignPermissionToEmployee")]
+        [PermissionAuthorize("PharmacyEmployeePermissionManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> AssignPermissionToEmployee([FromBody] AssignEmployeePermissionDto assignEmployeePermissionDto)
         {
@@ -37,7 +37,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("assign-multiple/{employeeId}")]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("AssignPermissionToEmployee")]
+        [PermissionAuthorize("PharmacyEmployeePermissionManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> AssignPermissionsToEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> permissionIds)
         {
@@ -48,7 +48,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("remove/{employeeId}/{permissionId}")]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("RemovePermissionFromEmployee")]
+        [PermissionAuthorize("PharmacyEmployeePermissionManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> RemovePermissionFromEmployee(Guid employeeId, Guid permissionId)
         {
@@ -59,7 +59,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("remove-multiple/{employeeId}")]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [PermissionAuthorize("RemovePermissionFromEmployee")]
+        [PermissionAuthorize("PharmacyEmployeePermissionManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> RemovePermissionsFromEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> permissionIds)
         {

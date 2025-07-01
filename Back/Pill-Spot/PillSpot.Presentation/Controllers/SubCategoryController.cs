@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -32,9 +33,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateSubCategory(Guid categoryId, [FromBody] SubCategoryForCreateDto subCategoryDto)
         {
             await _service.SubCategoryService.CreateSubCategory(categoryId, subCategoryDto, trackChanges: true);
@@ -42,9 +44,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{subCategoryId:Guid}")]
-        //[Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateSubCategory(Guid categoryId, Guid subCategoryId, [FromBody] SubCategoryForUpdateDto subCategoryDto)
         {
             await _service.SubCategoryService.UpdateSubCategory(categoryId, subCategoryId, subCategoryDto, trackChanges: true);
@@ -52,8 +55,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{subCategoryId:Guid}")]
-       // [Authorize(Roles = "Admin")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("ProductManagement")]
         public async Task<IActionResult> DeleteSubCategory(Guid categoryId, Guid subCategoryId)
         {
             await _service.SubCategoryService.DeleteSubCategory(categoryId, subCategoryId, trackChanges: true);

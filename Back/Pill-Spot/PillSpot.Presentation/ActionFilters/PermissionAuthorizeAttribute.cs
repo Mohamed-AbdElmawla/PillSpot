@@ -25,7 +25,7 @@ namespace PillSpot.Presentation.ActionFilters
             }
 
             var userRoles = user.Claims
-                .Where(c => c.Type == ClaimTypes.Role)
+                .Where(c => c.Type.Equals(ClaimTypes.Role))
                 .Select(c => c.Value)
                 .ToList();
 

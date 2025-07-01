@@ -30,7 +30,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("assign-user-role")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("AssignUserRole")]
+        [PermissionAuthorize("UserManagement")]
         [ValidateCsrfToken]
         public async Task<IActionResult> AssignUserRole([FromBody] AssignUserRoleDto dto)
         {
