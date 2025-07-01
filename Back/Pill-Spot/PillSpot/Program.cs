@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using PillSpot.Extensions;
-using PillSpot.Presentation.ActionFilters;
 using PillSpot.Middleware;
 using Serilog;
-using Microsoft.AspNetCore.SignalR;
-using MediatR;
 using Service.Contracts;
 using Service.Hubs;
 using PillSpot.Presentation.ModelBinders;
