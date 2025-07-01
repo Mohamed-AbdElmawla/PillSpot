@@ -64,7 +64,6 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("permissions-management/get-all")]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         public async Task<IActionResult> GetAllPermissions([FromQuery] PermissionParameters permissionParameters)
         {
             var pagedResult = await _service.PermissionService.GetAllPermissionsAsync(permissionParameters, trackChanges: false);
@@ -74,7 +73,6 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("permissions-management/get-by-/{id:Guid}")]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         public async Task<IActionResult> GetPermissionbyId(Guid id)
         {
             var permissions = await _service.PermissionService.GetPermissionByIdAsync(id, trackChanges: false);
@@ -84,7 +82,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("permissions-management/create")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePermission([FromBody] CreatePermissionDto permissionDto)
         {
@@ -95,7 +92,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("permissions-management/create-collection")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePermissionCollection([FromBody] IEnumerable<CreatePermissionDto> permissions)
         {
@@ -106,7 +102,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpPut("permissions-management/update/{id:Guid}")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdatePermission(Guid id, [FromBody] UpdatePermissionDto permissionDto)
         {
@@ -117,7 +112,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("permissions-management/delete-permission/{id:Guid}")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("PermissionsManagement")]
         public async Task<IActionResult> DeletePermission(Guid id)
         {
             await _service.PermissionService.DeletePermissionAsync(id, trackChanges: true);
@@ -128,7 +122,6 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("admin-permission/{adminId}", Name = "GetAdminPermissions")]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("AdminPermissionsManagement")]
         public async Task<IActionResult> GetPermissionsFromAdmin(string adminId)
         {
             var result = await _service.AdminPermissionService.GetPermissionsToAdminAsync(adminId, trackChanges: false);
@@ -138,7 +131,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("admin-permission/assign")]        
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("AdminPermissionsManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AssignPermissionToAdmin([FromBody] AssignAdminPermissionDto assignAdminPermissionDto)
         {
@@ -149,7 +141,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("admin-permission/assign-multiple/{adminId}")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("AdminPermissionsManagement")]
         public async Task<IActionResult> AssignPermissionsToAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             var result = await _service.AdminPermissionService.AssignPermissionsToAdminAsync(adminId, permissionIds);
@@ -159,7 +150,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("admin-permission/remove/{adminId}/{permissionId:Guid}")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("AdminPermissionsManagement")]
         public async Task<IActionResult> RemovePermissionFromAdmin(string adminId, Guid permissionId)
         {
             await _service.AdminPermissionService.RemovePermissionFromAdminAsync(adminId, permissionId);
@@ -169,7 +159,6 @@ namespace PillSpot.Presentation.Controllers
         [HttpDelete("admin-permission/remove-multiple/{adminId}")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin")]
-        [UserAuthorization("AdminPermissionsManagement")]
         public async Task<IActionResult> RemovePermissionsFromAdmin(string adminId, [FromBody] IEnumerable<Guid> permissionIds)
         {
             await _service.AdminPermissionService.RemovePermissionsFromAdminAsync(adminId, permissionIds);

@@ -73,7 +73,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.users);
         }
 
-
         [HttpPut("{userName}/role")]
         [ValidateCsrfToken]
         [UserAuthorization("UserManagement")]

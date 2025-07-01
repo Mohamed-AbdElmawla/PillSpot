@@ -19,7 +19,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("PharmacyManagement")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
@@ -42,9 +42,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{requestId}/approve")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("PharmacyManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
@@ -54,7 +54,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPatch("{requestId}/reject")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("PharmacyManagement")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);

@@ -34,10 +34,10 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [RateLimit("UploadPolicy")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("MedicinesManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateMedicine([FromForm] MedicineForCreationDto medicineDto)
         {
             var createdMedicine = await _service.MedicineService.CreateMedicineAsync(medicineDto, trackChanges: true);
@@ -45,10 +45,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{id:Guid}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("MedicinesManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateMedicine(Guid id, [FromForm] MedicineForUpdateDto medicineForUpdateDto)
         {
             await _service.MedicineService.UpdateMedicineAsync(id, medicineForUpdateDto, trackChanges: true);
@@ -56,9 +56,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("MedicinesManagement")]
         public async Task<IActionResult> DeleteMedicine(Guid id)
         {
             await _service.MedicineService.DeleteMedicineAsync(id, trackChanges: true);
