@@ -27,7 +27,7 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacies);
         }
 
-        [HttpPost("SendRequest")]
+        [HttpPost("SendRequest/{PharmacyId:Guid}")]
         [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
         [PermissionAuthorize("PharmacyEmployeeManagement")]

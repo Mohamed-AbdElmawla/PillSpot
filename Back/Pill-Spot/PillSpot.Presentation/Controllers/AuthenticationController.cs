@@ -48,14 +48,11 @@ namespace PillSpot.Presentation.Controllers
         
         private void SetBothTokensCookies(string accessToken, string refreshToken)
         {
-            // Determine if we're in development or production
-            var env = (IWebHostEnvironment)HttpContext.RequestServices.GetService(typeof(IWebHostEnvironment));
-            var isDevelopment = env != null && env.IsDevelopment();
             
             var baseCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false, 
+                Secure = true, 
                 SameSite = SameSiteMode.None,
                 Path = "/"
             };
@@ -67,7 +64,7 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Expires = DateTime.UtcNow.AddMinutes(30)
+                Expires = DateTime.UtcNow.AddDays(30)
             };
             Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
 
@@ -78,7 +75,7 @@ namespace PillSpot.Presentation.Controllers
                 Secure = baseCookieOptions.Secure,
                 SameSite = baseCookieOptions.SameSite,
                 Path = baseCookieOptions.Path,
-                Expires = DateTime.UtcNow.AddDays(7)
+                Expires = DateTime.UtcNow.AddDays(60)
             };
             Response.Cookies.Append("refreshToken", refreshToken, refreshCookieOptions);
         }

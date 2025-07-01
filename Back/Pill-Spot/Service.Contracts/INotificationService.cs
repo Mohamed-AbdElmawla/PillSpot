@@ -20,7 +20,7 @@ namespace Service.Contracts
         Task DeleteNotificationAsync(Guid notificationId, bool trackChanges);
         
         // Read status operations
-        Task MarkNotificationAsReadAsync(Guid notificationId);
+        Task MarkNotificationAsReadAsync(Guid notificationId, string userName);
         Task MarkAllNotificationsAsReadAsync(string userId);
         Task MarkAllNotificationsAsReadByUsernameAsync(string username);
         Task<int> GetUnreadNotificationCountAsync(string userId);
