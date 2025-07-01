@@ -7,12 +7,11 @@ import { CiFlag1 } from "react-icons/ci";
 import { PiCityLight } from "react-icons/pi";
 import { FaBarcode } from "react-icons/fa";
 import { GrContactInfo } from "react-icons/gr";
-import { RiUserLocationLine } from "react-icons/ri";
 import { PiPasswordBold } from "react-icons/pi";
 import { CgUserRemove } from "react-icons/cg";
 import img from "./image copy.png";
 import { Input } from "antd";
-import { IcurUser, IeditUser } from "../../../features/User/types";
+import { IcurUser } from "../../../features/User/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
 import Swal from "sweetalert2";
@@ -22,7 +21,7 @@ import {
   getCurUser,
 } from "../../../features/User/UserSlcie";
 import { validateInput } from "../../../helper/Validation";
-import { deleteAccount, logOut , logout } from "../../../features/auth/authLogin";
+import { deleteAccount , logout } from "../../../features/auth/authLogin";
 
 interface IInputs {
   label: string;
@@ -208,12 +207,13 @@ const UserEditInofPage = () => {
 
 
 
-    const dataToSend: {
-      curUser: IeditUser;
-      userImage: File | null;
-      userName: string;
-    } = {
-      curUser: UserData,
+    const dataToSend = {
+      curUser: {
+        FirstName: UserData.FirstName,
+        LastName: UserData.LastName,
+        DateOfBirth: UserData.DateOfBirth,
+        PhoneNumber: UserData.PhoneNumber,
+      },
       userImage: userImageFile,
       userName: userNm,
     };
@@ -258,8 +258,7 @@ const UserEditInofPage = () => {
     try {
       const res = await dispatch(editCurUserPassword(dataToSend));
       console.log(res) ;
-      console.log(res.meta.rejectedWithValue)
-      if(res.meta.rejectedWithValue){
+      if (res.type.endsWith('rejected') && res.payload) {
         console.log("Ok sir");
         return;
       }
@@ -301,7 +300,7 @@ const UserEditInofPage = () => {
             <img
               src={
                 selectedImage ||
-                `https://localhost:7298${curUser.profilePictureUrl}`
+                `${import.meta.env.VITE_BASE_URL}${curUser.profilePictureUrl}`
               }
               alt="Profile"
               className="w-full h-full object-cover"

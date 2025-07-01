@@ -5,7 +5,35 @@ import { NotificationPreference, updateProductNotificationPreferenceThunk } from
 import { MdNotificationsActive } from "react-icons/md";
 
 const NOTIFICATION_TYPE_OPTIONS = [
-  "General", "PrescriptionExpiry", "PaymentConfirmation", "DeliveryStatus", "PriceChange", "Promotion", "ProductInfo", "GroupedProductInfo", "GroupedNotification", "StockAlert", "PriceDrop", "NewReview", "SideEffect", "Alternative", "Recall", "Restock", "Discount", "CartItemAdded", "CartItemRemoved", "CartItemQuantityUpdated", "CartItemApprovalStatusUpdated", "CartItemApprovalStatusRejected", "CartItemApprovalStatusApproved", "CartItemApprovalStatusPending", "CartItemApprovalStatusCancelled", "CartItemApprovalStatusExpired", "OrderCreated", "NewOrder", "RequestUpdate"
+  "General",
+  "PrescriptionExpiry",
+  "PaymentConfirmation",
+  "DeliveryStatus",
+  "PriceChange",
+  "Promotion",
+  "ProductInfo",
+  "GroupedProductInfo",
+  "GroupedNotification",
+  "StockAlert",
+  "PriceDrop",
+  "NewReview",
+  "SideEffect",
+  "Alternative",
+  "Recall",
+  "Restock",
+  "Discount",
+  "CartItemAdded",
+  "CartItemRemoved",
+  "CartItemQuantityUpdated",
+  "CartItemApprovalStatusUpdated",
+  "CartItemApprovalStatusRejected",
+  "CartItemApprovalStatusApproved",
+  "CartItemApprovalStatusPending",
+  "CartItemApprovalStatusCancelled",
+  "CartItemApprovalStatusExpired",
+  "OrderCreated",
+  "NewOrder",
+  "RequestUpdate"
 ];
 
 interface EditPreferenceModalProps {

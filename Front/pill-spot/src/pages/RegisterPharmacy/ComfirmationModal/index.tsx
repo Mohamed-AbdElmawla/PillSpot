@@ -10,6 +10,7 @@ import {
 } from "../../../features/Pharmacy/Register/PharmacyRequestToBack";
 import { useNavigate } from "react-router-dom";
 import { setColor } from "../../../features/Toasts/toastSlice";
+import { resetPharmacyForm } from "../../../features/Pharmacy/Register/PharmacyRegisterSlice";
 
 interface Iprops {
   canOpen: boolean;
@@ -68,10 +69,9 @@ function PharmacyDetailsModal({ canOpen }: Iprops) {
   }
 
   function close() {
-    // convert some data to form data
     dispatch(SendPharmacyRegisterRequest(pharmacyData));
-
-    // setIsOpen(false);
+    dispatch(resetPharmacyForm());
+    dispatch(resetPharmacyRequest());
   }
 
   return (

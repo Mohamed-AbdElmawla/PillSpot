@@ -2,7 +2,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { logout } from "../../../features/auth/authLogin";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppDispatch } from "../../../app/store";
 
 interface Iprops{
@@ -12,7 +12,6 @@ interface Iprops{
 
 const InfoOptions = ({name,email}:Iprops) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate() ;
 
   function handleLogOut(){
       // navigate("/") ;

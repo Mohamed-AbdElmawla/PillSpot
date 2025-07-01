@@ -98,7 +98,7 @@ const MainInfo = () => {
       >
         <div className="flex flex-col justify-center items-center gap-5 sm:gap-10 w-full md:w-auto">
           <img
-            src={`https://localhost:7298${curUser!.profilePictureUrl}`}
+            src={`${import.meta.env.VITE_BASE_URL}${curUser!.profilePictureUrl}`}
             alt="User Avatar"
             className="w-40 h-40 sm:w-40 sm:h-40 md:w-60 md:h-60 rounded-full object-cover"
           />

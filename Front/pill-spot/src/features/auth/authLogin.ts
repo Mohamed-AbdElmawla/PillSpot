@@ -84,7 +84,7 @@ export const login = createAsyncThunk(
 
 export const checkAuth = createAsyncThunk('auth/checkAuth', async (userName : string|null, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.get(`https://localhost:7298/api/users/${userName}`); // API should return user info if token is valid
+    const response = await axiosInstance.get(`${import.meta.env.VITE_BASE_URL}api/users/${userName}`); // API should return user info if token is valid
     console.log(response.data);
     return response.data;
   } catch (error) {

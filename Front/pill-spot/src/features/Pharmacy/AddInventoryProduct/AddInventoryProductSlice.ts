@@ -83,7 +83,7 @@ export const UpdateProductQuantity = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.put(
-        `/api/pharmacyproducts/pharmacy/${pharmacyId}/product/${productId}`,
+        `api/pharmacyproducts/pharmacy/${pharmacyId}/product/${productId}`,
         body
       );
       return response.data;

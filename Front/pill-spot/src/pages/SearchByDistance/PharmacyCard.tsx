@@ -15,7 +15,7 @@ const PharmacyCard: React.FC<{ item: ProductItem }> = ({ item }) => {
   return (
     <div className="bg-white rounded-lg shadow p-3 flex flex-row gap-3 items-center mb-2 border border-slate-100 min-h-[64px]">
       <img
-        src={item.pharmacyDto.logoURL.startsWith('http') ? item.pharmacyDto.logoURL : `https://localhost:7298${item.pharmacyDto.logoURL}`}
+        src={item.pharmacyDto.logoURL.startsWith('http') ? item.pharmacyDto.logoURL : `${import.meta.env.VITE_BASE_URL}${item.pharmacyDto.logoURL}`}
         alt={item.pharmacyDto.name}
         className="w-12 h-12 object-cover rounded-full border"
       />
