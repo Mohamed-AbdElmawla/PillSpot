@@ -40,7 +40,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [UserAuthorization("NotificationManagement", "username")]
+        [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> GetNotification(Guid id)
         {
             var notification = await _service.NotificationService.GetNotificationByIdAsync(id, false);

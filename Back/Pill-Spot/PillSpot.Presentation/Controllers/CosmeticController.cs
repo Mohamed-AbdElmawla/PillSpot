@@ -30,10 +30,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("CosmeticsManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateCosmetic([FromForm] CosmeticForCreationDto cosmeticForCreationDto)
         {
             var createdCosmetic = await _service.CosmeticService.CreateCosmeticAsync(cosmeticForCreationDto, trackChanges: true);
@@ -41,10 +41,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{id:Guid}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("CosmeticsManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateCosmetic(Guid id,[FromForm] CosmeticForUpdateDto cosmeticForUpdateDto)
         {
             await _service.CosmeticService.UpdateCosmeticAsync(id, cosmeticForUpdateDto, trackChanges: true);
@@ -52,9 +52,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ProductManagement")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [UserAuthorization("CosmeticsManagement")]
         public async Task<IActionResult> DeleteCosmetic(Guid id)
         {
             await _service.CosmeticService.DeleteCosmeticAsync(id, trackChanges: true);

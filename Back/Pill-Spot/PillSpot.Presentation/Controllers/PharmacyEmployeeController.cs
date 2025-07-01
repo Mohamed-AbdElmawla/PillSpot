@@ -30,7 +30,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost("SendRequest")]
         [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
-        [PermissionAuthorize("SendEmployeeRequest")]
+        [PermissionAuthorize("PharmacyEmployeeManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SendRequest(Guid PharmacyId, [FromBody] PharmacyEmployeeRequestCreateDto requestDto)
         {
@@ -38,7 +38,6 @@ namespace PillSpot.Presentation.Controllers
             await _service.PharmacyEmployeeRequestService.SendRequestAsync(PharmacyId ,requestDto, currentUserId, trackChanges: false);
             return Ok("Request sent successfully.");
         }
-
         
         [HttpPut("{requestId}/approve")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
@@ -68,7 +67,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet("{pharmacyId}/employees")]
         [PharmacyRoleAuthorize("PharmacyOwner","PharmacyManager")]
-        [PermissionAuthorize("GetEmployeeByPharmacy")]
+        [PermissionAuthorize("PharmacyEmployeeManagement")]
         public async Task<IActionResult> GetEmployeesByPharmacy(Guid pharmacyId)
         {
             var employees = await _service.PharmacyEmployeeService.GetEmployeesByPharmacyAsync(pharmacyId);
