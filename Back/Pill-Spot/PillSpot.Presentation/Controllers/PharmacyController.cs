@@ -70,7 +70,7 @@ namespace PillSpot.Presentation.Controllers
         //}
         */
 
-        [HttpPut("{id:Guid}")]
+        [HttpPut("{pharmacyId:Guid}")]
         [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner")]
         [PermissionAuthorize("PharmacyManagement")]
@@ -81,7 +81,7 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{pharmacyId:Guid}")]
         [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner")]
         [PermissionAuthorize("PharmacyManagement")]
@@ -91,7 +91,7 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id:Guid}/suspend")]
+        [HttpPut("{pharmacyId:Guid}/suspend")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("PharmacyManagement")]
@@ -101,7 +101,7 @@ namespace PillSpot.Presentation.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id:Guid}/activate")]
+        [HttpPut("{pharmacyId:Guid}/activate")]
         [ValidateCsrfToken]
         [Authorize(Roles = "SuperAdmin,Admin")]
         [PermissionAuthorize("ActivatePharmacy")]

@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 using Shared.DataTransferObjects.Notifications;
@@ -240,11 +241,19 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task MarkNotificationAsReadAsync(Guid notificationId)
+        public async Task MarkNotificationAsReadAsync(Guid notificationId, string userName)
         {
             var notification = await _repository.NotificationRepository.GetNotificationByIdAsync(notificationId, true);
+
             if (notification == null)
                 throw new NotificationNotFoundException(notificationId);
+
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if(notification.UserId != user.Id)
+            {
+                throw new UserNotAuthorizedException();
+            }
 
             notification.IsRead = true;
             notification.ModifiedDate = DateTime.UtcNow;

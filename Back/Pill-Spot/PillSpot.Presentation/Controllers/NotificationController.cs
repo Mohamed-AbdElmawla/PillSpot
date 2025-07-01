@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Entities.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PillSpot.Presentation.ActionFilters;
 using Service.Contracts;
@@ -77,7 +78,10 @@ namespace PillSpot.Presentation.Controllers
         [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> MarkAsRead(Guid id)
         {
-            await _service.NotificationService.MarkNotificationAsReadAsync(id);
+            var userName = User.Identity?.Name;
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new UserNameBadRequestException();
+            await _service.NotificationService.MarkNotificationAsReadAsync(id, userName);
             return NoContent();
         }
 
