@@ -55,7 +55,7 @@ namespace PillSpot.Presentation.Controllers
             var baseCookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, 
+                Secure = false, 
                 SameSite = SameSiteMode.None,
                 Path = "/"
             };
