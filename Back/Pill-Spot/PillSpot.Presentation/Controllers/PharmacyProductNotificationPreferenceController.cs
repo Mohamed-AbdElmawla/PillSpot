@@ -91,7 +91,6 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("product/{productId}/type/{notificationType}")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> GetPreferencesForProductAndType(Guid productId, NotificationType notificationType)
         {
             var preferences = await _preferenceService.GetPreferencesForProductAndTypeAsync(productId, notificationType);

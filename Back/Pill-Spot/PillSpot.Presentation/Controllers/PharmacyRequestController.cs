@@ -19,7 +19,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("GetPharmacyRequests")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> GetRequests([FromQuery] PharmacyRequestParameters pharmacyRequestParameters)
         {
             var (pharmacyRequests, metaData) = await _service.PharmacyRequestService.GetRequestsAsync(pharmacyRequestParameters, trackChanges: false);
@@ -30,8 +30,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost("submit")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SubmitRequest([FromForm] PharmacyRequestCreateDto pharmacyRequestCreateDto)
         {
             var userName = User.Identity?.Name;
@@ -42,9 +42,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{requestId}/approve")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("ApprovePharmacyRequest")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> ApproveRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.ApproveRequestAsync(requestId, trackChanges: true);
@@ -52,9 +52,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPatch("{requestId}/reject")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
-        [PermissionAuthorize("RejectPharmacyRequest")]
         [ValidateCsrfToken]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        [PermissionAuthorize("PharmacyRequestManagement")]
         public async Task<IActionResult> RejectRequest(Guid requestId)
         {
             await _service.PharmacyRequestService.RejectRequestAsync(requestId, trackChanges: true);

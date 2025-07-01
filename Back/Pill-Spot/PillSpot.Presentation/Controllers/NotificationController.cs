@@ -32,7 +32,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("user/{username}")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement", "username")]
         public async Task<IActionResult> GetUserNotificationsByUsername(string username, [FromQuery] NotificationRequestParameters parameters)
         {
             var notifications = await _service.NotificationService.GetUserNotificationsByUsernameAsync(username, parameters, false);
@@ -40,6 +40,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> GetNotification(Guid id)
         {
             var notification = await _service.NotificationService.GetNotificationByIdAsync(id, false);
@@ -48,6 +49,8 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost]
         [ValidateCsrfToken]
+        [UserAuthorization("NotificationManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateNotification([FromBody] NotificationForCreationByUsernameDto dto)
         {
             var notification = await _service.NotificationService.SendNotificationByUsernameAsync(
@@ -62,6 +65,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpDelete("{id:guid}")]
         [ValidateCsrfToken]
+        [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> DeleteNotification(Guid id)
         {
             await _service.NotificationService.DeleteNotificationAsync(id, false);
@@ -70,6 +74,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("{id:guid}/read")]
         [ValidateCsrfToken]
+        [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> MarkAsRead(Guid id)
         {
             await _service.NotificationService.MarkNotificationAsReadAsync(id);
@@ -78,6 +83,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("read-all")]
         [ValidateCsrfToken]
+        [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> MarkAllAsRead()
         {
             var username = User.Identity?.Name;
@@ -90,7 +96,7 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("user/{username}/read-all")]
         [ValidateCsrfToken]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement", "username")]
         public async Task<IActionResult> MarkAllAsReadByUsername(string username)
         {
             await _service.NotificationService.MarkAllNotificationsAsReadByUsernameAsync(username);
@@ -109,7 +115,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("user/{username}/unread/count")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement", "username")]
         public async Task<IActionResult> GetUnreadCountByUsername(string username)
         {
             var count = await _service.NotificationService.GetUnreadNotificationCountByUsernameAsync(username);
@@ -128,7 +134,7 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpGet("user/{username}/unread")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement", "username")]
         public async Task<IActionResult> GetUnreadNotificationsByUsername(string username)
         {
             var notifications = await _service.NotificationService.GetUnreadNotificationsByUsernameAsync(username);
@@ -137,7 +143,8 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("send-by-username")]
         [ValidateCsrfToken]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SendNotificationByUsername([FromBody] NotificationForCreationByUsernameDto dto)
         {
             var notification = await _service.NotificationService.SendNotificationByUsernameAsync(
@@ -152,7 +159,8 @@ namespace PillSpot.Presentation.Controllers
 
         [HttpPost("send-bulk-by-usernames")]
         [ValidateCsrfToken]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [UserAuthorization("NotificationManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> SendBulkNotificationByUsernames([FromBody] SendBulkNotificationByUsernamesRequest request)
         {
             await _service.NotificationService.SendBulkNotificationByUsernamesAsync(

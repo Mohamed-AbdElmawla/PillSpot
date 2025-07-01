@@ -24,7 +24,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
 
-        
         [HttpGet("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
         public async Task<IActionResult> GetPharmacyProduct(Guid pharmacyId, Guid productId)
         {
@@ -32,7 +31,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pharmacyProduct);
         }
 
-        
         [HttpGet("pharmacy/{pharmacyId:Guid}/products")]
         public async Task<IActionResult> GetPharmacyProducts(Guid pharmacyId, [FromQuery] PharmacyProductParameters pharmacyProductParameters)
         {
@@ -41,7 +39,6 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
 
-        
         [HttpGet("product/{productId:Guid}/pharmacies")]
         public async Task<IActionResult> GetProductPharmacies(Guid productId, [FromQuery] PharmacyProductParameters pharmacyProductParameters)
         {
@@ -50,11 +47,11 @@ namespace PillSpot.Presentation.Controllers
             return Ok(pagedResult.pharmacyProducts);
         }
         
-
         [HttpPost]
-        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
+        [PermissionAuthorize("PharmacyProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePharmacyProduct([FromBody] PharmacyProductForCreationDto pharmacyProductDto)
         {
             var createdPharmacyProduct = await _service.PharmacyProductService.CreatePharmacyProductAsync(pharmacyProductDto, trackChanges: true);
@@ -62,9 +59,10 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
-        //[Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
+        [PermissionAuthorize("PharmacyProductManagement")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdatePharmacyProduct(Guid pharmacyId, Guid productId, [FromBody] PharmacyProductForUpdateDto pharmacyProductForUpdateDto)
         {
             await _service.PharmacyProductService.UpdatePharmacyProductAsync(productId, pharmacyId, pharmacyProductForUpdateDto, trackChanges: true);
@@ -72,8 +70,9 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpDelete("pharmacy/{pharmacyId:Guid}/product/{productId:Guid}")]
-        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager")]
         [ValidateCsrfToken]
+        [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
+        [PermissionAuthorize("PharmacyProductManagement")]
         public async Task<IActionResult> DeletePharmacyProduct(Guid pharmacyId, Guid productId)
         {
             await _service.PharmacyProductService.DeletePharmacyProductAsync(productId, pharmacyId, trackChanges: true);

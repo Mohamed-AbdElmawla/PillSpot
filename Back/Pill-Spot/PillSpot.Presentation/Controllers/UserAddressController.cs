@@ -49,8 +49,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateUserAddress(string userId, [FromBody] UserAddressForCreationDto addressDto)
         {
             var address = await _service.UserAddressService
@@ -62,8 +62,8 @@ namespace PillSpot.Presentation.Controllers
         }
 
         [HttpPut("{addressId:guid}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [ValidateCsrfToken]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateUserAddress(string userId, Guid addressId,
             [FromBody] UserAddressForUpdateDto addressDto)
         {
