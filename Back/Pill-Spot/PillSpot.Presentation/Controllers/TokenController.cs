@@ -37,15 +37,12 @@ namespace PillSpot.Presentation.Controllers
             var tokenDto = new TokenDto(accessToken, refreshToken);
             var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
             
-            // Determine if we're in development or production
-            var env = (IWebHostEnvironment)HttpContext.RequestServices.GetService(typeof(IWebHostEnvironment));
-            var isDevelopment = env != null && env.IsDevelopment();
             
             var baseCookieOptions = new CookieOptions
             {
-                HttpOnly = true,
-                Secure = !isDevelopment, // Only require HTTPS in production
-                SameSite = SameSiteMode.Strict,
+                HttpOnly = false,
+                Secure = true, // Only require HTTPS in production
+                SameSite = SameSiteMode.None,
                 Path = "/"
             };
 
