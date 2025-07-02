@@ -63,7 +63,7 @@ namespace PillSpot.Middleware
                                 var baseCookieOptions = new CookieOptions
                                 {
                                     HttpOnly = false,
-                                    Secure = true, // Only require HTTPS in production
+                                    Secure = false, // Only require HTTPS in production
                                     SameSite = SameSiteMode.None,
                                     Path = "/",
                                     Domain = cookieSettings.Domain,

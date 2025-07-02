@@ -5,6 +5,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace PillSpot.Presentation.Controllers
 {
@@ -51,7 +52,7 @@ namespace PillSpot.Presentation.Controllers
             
             var baseCookieOptions = new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = true, 
                 SameSite = SameSiteMode.None,
                 Path = "/"
