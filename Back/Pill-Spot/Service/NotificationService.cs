@@ -241,19 +241,12 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task MarkNotificationAsReadAsync(Guid notificationId, string userName)
+        public async Task MarkNotificationAsReadAsync(Guid notificationId)
         {
             var notification = await _repository.NotificationRepository.GetNotificationByIdAsync(notificationId, true);
 
             if (notification == null)
                 throw new NotificationNotFoundException(notificationId);
-
-            var user = await _userManager.FindByNameAsync(userName);
-
-            if(notification.UserId != user.Id)
-            {
-                throw new UserNotAuthorizedException();
-            }
 
             notification.IsRead = true;
             notification.ModifiedDate = DateTime.UtcNow;

@@ -78,10 +78,7 @@ namespace PillSpot.Presentation.Controllers
         [UserAuthorization("NotificationManagement")]
         public async Task<IActionResult> MarkAsRead(Guid id)
         {
-            var userName = User.Identity?.Name;
-            if (string.IsNullOrWhiteSpace(userName))
-                throw new UserNameBadRequestException();
-            await _service.NotificationService.MarkNotificationAsReadAsync(id, userName);
+            await _service.NotificationService.MarkNotificationAsReadAsync(id);
             return NoContent();
         }
 

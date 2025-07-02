@@ -57,7 +57,7 @@ namespace Service.Hubs
                     var notificationUsername = await GetUsernameFromUserIdAsync(notification.UserId);
                     if (notificationUsername == username)
                     {
-                        await _serviceManager.NotificationService.MarkNotificationAsReadAsync(notificationId, username);
+                        await _serviceManager.NotificationService.MarkNotificationAsReadAsync(notificationId);
                     }
                 }
                 catch (Exception ex)
