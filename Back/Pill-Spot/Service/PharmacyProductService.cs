@@ -56,26 +56,18 @@ namespace Service
             var pharmacyProductEntity = _mapper.Map<PharmacyProduct>(pharmacyProductForCreationDto);
 
             _repository.PharmacyProductRepository.CreatePharmacyProduct(pharmacyProductEntity);
-            await _repository.SaveAsync();
-            pharmacyProductEntity.Product = product;
-            pharmacyProductEntity.Pharmacy = pharmacy;
-
-            // Notify users about new product availability
-            await _notificationService.SendProductInfoNotificationForProduct(
-                pharmacyProductEntity.ProductId,
-                pharmacyProductEntity.PharmacyId,
-                pharmacyProductEntity.Product.Name,
-                NotificationType.ProductInfo,
-                $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock"
-            );
-
-            // Notify admins about new pharmacy product
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "New Pharmacy Product Added",
-                $"New product '{pharmacyProductEntity.Product.Name}' has been added to {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock",
-                NotificationType.ProductInfo,
-                JsonSerializer.Serialize(new { 
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                pharmacyProductEntity.Product = product;
+                pharmacyProductEntity.Pharmacy = pharmacy;
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     productId = pharmacyProductEntity.ProductId,
                     productName = pharmacyProductEntity.Product.Name,
                     pharmacyId = pharmacyProductEntity.PharmacyId,
@@ -83,8 +75,18 @@ namespace Service
                     quantity = pharmacyProductEntity.Quantity,
                     action = "Added",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendPharmacyProductCreationNotificationsAfterTransactionAsync(pharmacyProductEntity, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
 
             return _mapper.Map<PharmacyProductDto>(pharmacyProductEntity);
         }
@@ -113,10 +115,22 @@ namespace Service
             if (pharmacyProductForUpdateDto.MinimumStockThreshold.HasValue)
                 pharmacyProduct.MinimumStockThreshold = pharmacyProductForUpdateDto.MinimumStockThreshold.Value;
 
-            await _repository.SaveAsync();
-
-            // Send notifications based on what changed
-            await SendUpdateNotifications(pharmacyProduct, oldQuantity, oldIsAvailable, oldMinimumStockThreshold);
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendUpdateNotifications(pharmacyProduct, oldQuantity, oldIsAvailable, oldMinimumStockThreshold);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task DeletePharmacyProductAsync(Guid productId, Guid pharmacyId, bool trackChanges)
@@ -129,32 +143,33 @@ namespace Service
                 throw new PharmacyProductNotFoundException(productId, pharmacyId);
 
             _repository.PharmacyProductRepository.DeletePharmacyProduct(pharmacyProduct);
-            await _repository.SaveAsync();
-
-            // Notify users about product removal
-            await _notificationService.SendProductInfoNotificationForProduct(
-                pharmacyProduct.ProductId,
-                pharmacyProduct.PharmacyId,
-                pharmacyProduct.Product.Name,
-                NotificationType.ProductRemoved,
-                $"Product '{pharmacyProduct.Product.Name}' is no longer available at {pharmacyProduct.Pharmacy.Name}."
-            );
-
-            // Notify admins about product removal
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "Pharmacy Product Removed",
-                $"Product '{pharmacyProduct.Product.Name}' has been removed from {pharmacyProduct.Pharmacy.Name}",
-                NotificationType.ProductInfo,
-                JsonSerializer.Serialize(new { 
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     productId = pharmacyProduct.ProductId,
                     productName = pharmacyProduct.Product.Name,
                     pharmacyId = pharmacyProduct.PharmacyId,
                     pharmacyName = pharmacyProduct.Pharmacy.Name,
                     action = "Removed",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendPharmacyProductDeletionNotificationsAfterTransactionAsync(pharmacyProduct, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         public async Task<(IEnumerable<PharmacyProductWithDistanceDto> pharmacyProducts, MetaData metaData)> GetPharmacyProductsByPharmacyIdAsync(Guid pharmacyId, PharmacyProductParameters pharmacyProductParameters, bool trackChanges)
@@ -295,6 +310,64 @@ namespace Service
                         pharmacyName = pharmacyProduct.Pharmacy.Name
                     })
                 );
+            }
+        }
+
+        private async Task SendPharmacyProductCreationNotificationsAfterTransactionAsync(PharmacyProduct pharmacyProductEntity, string notificationData)
+        {
+            try
+            {
+                // Notify users about new product availability
+                await _notificationService.SendProductInfoNotificationForProduct(
+                    pharmacyProductEntity.ProductId,
+                    pharmacyProductEntity.PharmacyId,
+                    pharmacyProductEntity.Product.Name,
+                    NotificationType.ProductInfo,
+                    $"New product '{pharmacyProductEntity.Product.Name}' is now available at {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock"
+                );
+
+                // Notify admins about new pharmacy product
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "New Pharmacy Product Added",
+                    $"New product '{pharmacyProductEntity.Product.Name}' has been added to {pharmacyProductEntity.Pharmacy.Name} with {pharmacyProductEntity.Quantity} items in stock",
+                    NotificationType.ProductInfo,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send pharmacy product creation notifications: {ex.Message}");
+            }
+        }
+
+        private async Task SendPharmacyProductDeletionNotificationsAfterTransactionAsync(PharmacyProduct pharmacyProduct, string notificationData)
+        {
+            try
+            {
+                // Notify users about product removal
+                await _notificationService.SendProductInfoNotificationForProduct(
+                    pharmacyProduct.ProductId,
+                    pharmacyProduct.PharmacyId,
+                    pharmacyProduct.Product.Name,
+                    NotificationType.ProductRemoved,
+                    $"Product '{pharmacyProduct.Product.Name}' is no longer available at {pharmacyProduct.Pharmacy.Name}."
+                );
+
+                // Notify admins about product removal
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "Pharmacy Product Removed",
+                    $"Product '{pharmacyProduct.Product.Name}' has been removed from {pharmacyProduct.Pharmacy.Name}",
+                    NotificationType.ProductInfo,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send pharmacy product deletion notifications: {ex.Message}");
             }
         }
 

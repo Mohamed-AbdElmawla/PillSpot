@@ -64,30 +64,61 @@ namespace Service
             pharmacyRequest.LocationId = await _locationService.CreateLocationAsync(pharmacyRequestCreateDto.Location, trackChanges);
             pharmacyRequest.Location = null;
             _repository.PharmacyRequestRepository.CreatePharmacyRequest(pharmacyRequest);
-            await _repository.SaveAsync();
-
-            // Notify admins about new pharmacy request
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "New Pharmacy Request",
-                $"A new pharmacy request has been submitted by {userName} for '{pharmacyRequest.Name}'",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = pharmacyRequest.RequestId,
                     userName,
                     pharmacyName = pharmacyRequest.Name,
                     status = "Pending",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
 
-            // Notify the user about their request submission
-            await _notificationService.SendPharmacyRequestNotificationAsync(
-                user.Id,
-                pharmacyRequest.RequestId,
-                pharmacyRequest.Name,
-                "Submitted"
-            );
+                // Send notifications after database transaction is committed
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendNotificationsAfterTransactionAsync(user.Id, pharmacyRequest, userName, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendNotificationsAfterTransactionAsync(string userId, PharmacyRequest pharmacyRequest, string userName, string notificationData)
+        {
+            try
+            {
+                // Notify admins about new pharmacy request
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "New Pharmacy Request",
+                    $"A new pharmacy request has been submitted by {userName} for '{pharmacyRequest.Name}'",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+
+                // Notify the user about their request submission
+                await _notificationService.SendPharmacyRequestNotificationAsync(
+                    userId,
+                    pharmacyRequest.RequestId,
+                    pharmacyRequest.Name,
+                    "Submitted"
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send notifications: {ex.Message}");
+            }
         }
         public async Task ApproveRequestAsync(Guid requestId, bool trackChanges)
         {
@@ -111,13 +142,10 @@ namespace Service
             };
 
             _repository.PharmacyEmployeeRepository.AddPharmacyEmployee(newEmployee);
-            await _repository.SaveAsync();
             
             var role = await _roleManager.FindByNameAsync("PharmacyOwner");
             if (role == null)
                 throw new Exception($"Role PharmacyOwner not found.");
-
-            // await EnsureUserInRoleAsync(request.UserId, "pharmacyOwner");
 
             var pharmacyEmployeeRole = new PharmacyEmployeeRole
             {
@@ -128,30 +156,60 @@ namespace Service
 
             _repository.PharmacyEmployeeRoleRepository.AddPharmacyEmployeeRole(pharmacyEmployeeRole);
 
-            await _repository.SaveAsync();
-
-            // Notify the user about their pharmacy request approval
-            await _notificationService.SendPharmacyRequestNotificationAsync(
-                request.UserId,
-                request.RequestId,
-                pharmacy.Name,
-                "Approved"
-            );
-
-            // Notify admins about the approval
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "Pharmacy Request Approved",
-                $"Pharmacy request for '{pharmacy.Name}' has been approved",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = request.RequestId,
                     pharmacyName = pharmacy.Name,
                     userId = request.UserId,
                     status = "Approved",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
+
+                // Send notifications after database transaction is committed
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendApprovalNotificationsAfterTransactionAsync(request, pharmacy, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendApprovalNotificationsAfterTransactionAsync(PharmacyRequest request, Pharmacy pharmacy, string notificationData)
+        {
+            try
+            {
+                // Notify the user about their pharmacy request approval
+                await _notificationService.SendPharmacyRequestNotificationAsync(
+                    request.UserId,
+                    request.RequestId,
+                    pharmacy.Name,
+                    "Approved"
+                );
+
+                // Notify admins about the approval
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "Pharmacy Request Approved",
+                    $"Pharmacy request for '{pharmacy.Name}' has been approved",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send approval notifications: {ex.Message}");
+            }
         }
         private async Task EnsureUserInRoleAsync(string userId, string roleName)
         {
@@ -183,30 +241,60 @@ namespace Service
 
             request.Status = PharmacyRequestStatus.Rejected;
 
-            await _repository.SaveAsync();
-
-            // Notify the user about their pharmacy request rejection
-            await _notificationService.SendPharmacyRequestNotificationAsync(
-                request.UserId,
-                request.RequestId,
-                request.Name,
-                "Rejected"
-            );
-
-            // Notify admins about the rejection
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "Pharmacy Request Rejected",
-                $"Pharmacy request for '{request.Name}' has been rejected",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = request.RequestId,
                     pharmacyName = request.Name,
                     userId = request.UserId,
                     status = "Rejected",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
+
+                // Send notifications after database transaction is committed
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendRejectionNotificationsAfterTransactionAsync(request, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendRejectionNotificationsAfterTransactionAsync(PharmacyRequest request, string notificationData)
+        {
+            try
+            {
+                // Notify the user about their pharmacy request rejection
+                await _notificationService.SendPharmacyRequestNotificationAsync(
+                    request.UserId,
+                    request.RequestId,
+                    request.Name,
+                    "Rejected"
+                );
+
+                // Notify admins about the rejection
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "Pharmacy Request Rejected",
+                    $"Pharmacy request for '{request.Name}' has been rejected",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send rejection notifications: {ex.Message}");
+            }
         }
     }
 }

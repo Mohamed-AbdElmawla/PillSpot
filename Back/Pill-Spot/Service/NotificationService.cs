@@ -165,8 +165,68 @@ namespace Service
 
         public async Task SendBulkNotificationAsync(IEnumerable<string> userIds, string title, string message, NotificationType type, string? data = null)
         {
-            var tasks = userIds.Select(userId => SendNotificationAsync(userId, title, message, type, data));
-            await Task.WhenAll(tasks);
+            // Create all notifications in memory first
+            var notifications = new List<Notification>();
+            var notificationDtos = new List<NotificationDto>();
+            
+            foreach (var userId in userIds)
+            {
+                var notification = new Notification
+                {
+                    NotificationId = Guid.NewGuid(),
+                    UserId = userId,
+                    ActorId = null,
+                    Title = title,
+                    Message = message,
+                    Content = title + ": " + message,
+                    Type = type,
+                    Data = data,
+                    IsBroadcast = false,
+                    CreatedDate = DateTime.UtcNow,
+                    IsRead = false,
+                    IsNotified = false,
+                    IsDeleted = false
+                };
+                
+                notifications.Add(notification);
+                notificationDtos.Add(_mapper.Map<NotificationDto>(notification));
+            }
+            
+            // Batch create all notifications in a single database operation
+            foreach (var notification in notifications)
+            {
+                _repository.NotificationRepository.CreateNotification(notification);
+            }
+            
+            // Single SaveAsync call for all notifications
+            await _repository.SaveAsync();
+            
+            // Send real-time notifications in the background to avoid blocking
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var realTimeTasks = new List<Task>();
+                    foreach (var notification in notificationDtos)
+                    {
+                        try
+                        {
+                            var username = await GetUsernameFromUserIdAsync(notification.UserId);
+                            realTimeTasks.Add(_realTimeNotificationService.SendNotificationAsync(username, notification));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Failed to send real-time notification: {ex.Message}");
+                        }
+                    }
+                    
+                    await Task.WhenAll(realTimeTasks);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Background notification sending failed: {ex.Message}");
+                }
+            });
         }
 
         public async Task SendBulkNotificationByUsernamesAsync(IEnumerable<string> usernames, string title, string message, NotificationType type, string? data = null)

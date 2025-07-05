@@ -38,18 +38,48 @@ namespace Service
             var productEntity = _mapper.Map<Product>(productForCreationDto);
             _repository.ProductRepository.CreateProduct(productEntity);
             productEntity.ImageURL = await _fileService.AddProductImageIfNotNull(productForCreationDto.Image);
-            await _repository.SaveAsync();
-
-            // Notify admin users about new product by usernames
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "New Product Added",
-                $"A new product '{productEntity.Name}' has been added to the inventory.",
-                NotificationType.ProductInfo,
-                JsonSerializer.Serialize(new { productId = productEntity.ProductId })
-            );
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { productId = productEntity.ProductId });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendProductCreationNotificationAfterTransactionAsync(productEntity, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
 
             return _mapper.Map<ProductDto>(productEntity);
+        }
+        
+        private async Task SendProductCreationNotificationAfterTransactionAsync(Product productEntity, string notificationData)
+        {
+            try
+            {
+                // Notify admin users about new product by usernames
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "New Product Added",
+                    $"A new product '{productEntity.Name}' has been added to the inventory.",
+                    NotificationType.ProductInfo,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send product creation notification: {ex.Message}");
+            }
         }
 
         public async Task DeleteProductAsync(Guid productId, bool trackChanges)
@@ -98,18 +128,48 @@ namespace Service
         {
             var product = await GetProductByIdAndCheckIfExists(productId, trackChanges: true);
             product.StockQuantity = quantity;
-            await _repository.SaveAsync();
-
-            // Notify admin users about stock update by usernames
-            if (quantity <= 10)
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
             {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { productId = product.ProductId, stockQuantity = quantity });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                if (quantity <= 10)
+                {
+                    await SendStockAlertNotificationAfterTransactionAsync(product, quantity, notificationData);
+                }
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendStockAlertNotificationAfterTransactionAsync(Product product, int quantity, string notificationData)
+        {
+            try
+            {
+                // Notify admin users about stock update by usernames
                 await _notificationService.SendNotificationToRolesAsync(
                     new[] { "Admin", "SuperAdmin" },
                     "Low Stock Alert",
                     $"Product '{product.Name}' is running low on stock. Only {quantity} items left.",
                     NotificationType.StockAlert,
-                    JsonSerializer.Serialize(new { productId = product.ProductId, stockQuantity = quantity })
+                    notificationData
                 );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send stock alert notification: {ex.Message}");
             }
         }
         

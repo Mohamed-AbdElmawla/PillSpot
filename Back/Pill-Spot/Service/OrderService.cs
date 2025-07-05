@@ -57,27 +57,57 @@ namespace Service
             order.TotalPrice = totalPrice;
 
             _repository.OrderRepository.CreateOrder(order);
-            await _repository.SaveAsync();
-
-            // Send notification to user by username
-            await _notificationService.SendNotificationByUsernameAsync(
-                user.UserName,
-                "New Order Created",
-                $"Your order #{order.OrderId} has been created successfully.",
-                NotificationType.OrderCreated,
-                JsonSerializer.Serialize(new { orderId = order.OrderId })
-            );
-
-            // Send notification to admin by usernames
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "New Order Received",
-                $"New order #{order.OrderId} has been placed.",
-                NotificationType.NewOrder,
-                JsonSerializer.Serialize(new { orderId = order.OrderId })
-            );
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { orderId = order.OrderId });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendOrderNotificationsAfterTransactionAsync(user, order, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
 
             return _mapper.Map<OrderDto>(order);
+        }
+        
+        private async Task SendOrderNotificationsAfterTransactionAsync(User user, Order order, string notificationData)
+        {
+            try
+            {
+                // Send notification to user by username
+                await _notificationService.SendNotificationByUsernameAsync(
+                    user.UserName,
+                    "New Order Created",
+                    $"Your order #{order.OrderId} has been created successfully.",
+                    NotificationType.OrderCreated,
+                    notificationData
+                );
+
+                // Send notification to admin by usernames
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "New Order Received",
+                    $"New order #{order.OrderId} has been placed.",
+                    NotificationType.NewOrder,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send order notifications: {ex.Message}");
+            }
         }
 
         public async Task<OrderDto> GetOrderByIdAsync(Guid orderId, bool trackChanges)
@@ -122,11 +152,37 @@ namespace Service
         {
             var order = await GetOrderByIdAndCheckIfExists(orderId, trackChanges: true);
             order.Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), status);
-            await _repository.SaveAsync();
-
-            // Get user by ID to get username
-            var user = await _userManager.FindByIdAsync(order.UserId);
-            if (user != null)
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Get user by ID to get username
+                var user = await _userManager.FindByIdAsync(order.UserId);
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { orderId = order.OrderId, status });
+                
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                if (user != null)
+                {
+                    await SendOrderStatusNotificationAfterTransactionAsync(user, order, status, notificationData);
+                }
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendOrderStatusNotificationAfterTransactionAsync(User user, Order order, string status, string notificationData)
+        {
+            try
             {
                 // Send notification to user by username
                 await _notificationService.SendNotificationByUsernameAsync(
@@ -134,8 +190,13 @@ namespace Service
                     "Order Status Updated",
                     $"Your order #{order.OrderId} status has been updated to {status}.",
                     NotificationType.DeliveryStatus,
-                    JsonSerializer.Serialize(new { orderId = order.OrderId, status })
+                    notificationData
                 );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send order status notification: {ex.Message}");
             }
         }
 
@@ -147,12 +208,15 @@ namespace Service
             var user = await _userManager.FindByIdAsync(order.UserId);
             if (user != null)
             {
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { orderId, amount });
+                
                 await _notificationService.SendNotificationByUsernameAsync(
                     user.UserName,
                     "Payment Confirmed",
                     $"Your payment of ${amount:F2} for order {orderId} has been confirmed",
                     NotificationType.PaymentConfirmation,
-                    JsonSerializer.Serialize(new { orderId, amount })
+                    notificationData
                 );
             }
         }

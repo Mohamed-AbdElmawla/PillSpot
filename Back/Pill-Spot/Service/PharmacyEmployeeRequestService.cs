@@ -69,27 +69,19 @@ namespace Service
             requestEntity.PharmacyId = PharmacyId;
 
             _repository.PharmacyEmployeeRequestRepository.CreateRequestToEmployee(requestEntity);
-            await _repository.SaveAsync();
-
-            // Get pharmacy name for notification
-            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(PharmacyId, false);
-            var requester = await _userManager.FindByIdAsync(userId);
-
-            // Notify the user about the request
-            await _notificationService.SendRequestStatusUpdateNotificationAsync(
-                user.Id,
-                requestEntity.RequestId,
-                "Pending",
-                $"You have received an employee request from {requester?.UserName ?? "Pharmacy Manager"} for {pharmacy?.Name ?? "Pharmacy"}. Please review and respond."
-            );
-
-            // Notify pharmacy managers about the new request
-            await _notificationService.SendNotificationToPharmacyManagersAsync(
-                PharmacyId,
-                "New Employee Request",
-                $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"}",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Get pharmacy name for notification
+                var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(PharmacyId, false);
+                var requester = await _userManager.FindByIdAsync(userId);
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = requestEntity.RequestId,
                     userId = user.Id,
                     userName = user.UserName,
@@ -99,27 +91,57 @@ namespace Service
                     pharmacyName = pharmacy?.Name,
                     status = "Pending",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
 
-            // Notify admins about the new employee request
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "New Pharmacy Employee Request",
-                $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"} by {requester?.UserName ?? "Pharmacy Manager"}",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
-                    requestId = requestEntity.RequestId,
-                    userId = user.Id,
-                    userName = user.UserName,
-                    requesterId = userId,
-                    requesterName = requester?.UserName,
-                    pharmacyId = PharmacyId,
-                    pharmacyName = pharmacy?.Name,
-                    status = "Pending",
-                    timestamp = DateTime.UtcNow
-                })
-            );
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendEmployeeRequestNotificationsAfterTransactionAsync(
+                    user, requestEntity, pharmacy, requester, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendEmployeeRequestNotificationsAfterTransactionAsync(
+            User user, PharmacyEmployeeRequest requestEntity, Pharmacy pharmacy, User requester, string notificationData)
+        {
+            try
+            {
+                // Notify the user about the request
+                await _notificationService.SendRequestStatusUpdateNotificationAsync(
+                    user.Id,
+                    requestEntity.RequestId,
+                    "Pending",
+                    $"You have received an employee request from {requester?.UserName ?? "Pharmacy Manager"} for {pharmacy?.Name ?? "Pharmacy"}. Please review and respond."
+                );
+
+                // Notify pharmacy managers about the new request
+                await _notificationService.SendNotificationToPharmacyManagersAsync(
+                    requestEntity.PharmacyId,
+                    "New Employee Request",
+                    $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"}",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+
+                // Notify admins about the new employee request
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "New Pharmacy Employee Request",
+                    $"A new employee request has been sent to {user.UserName} for {pharmacy?.Name ?? "Pharmacy"} by {requester?.UserName ?? "Pharmacy Manager"}",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send employee request notifications: {ex.Message}");
+            }
         }
 
         public async Task ApproveRequestAsync(Guid requestId, string currentUserId, bool trackChanges)
@@ -148,7 +170,6 @@ namespace Service
             //Create PharmacyEmployee
             var employee = _mapper.Map<PharmacyEmployee>(request);
             _repository.PharmacyEmployeeRepository.AddPharmacyEmployee(employee);
-            await _repository.SaveAsync(); // This will generate the EmployeeId
 
             //Add Role to PharmacyEmployeeRoles
             var employeeRole = new PharmacyEmployeeRole
@@ -180,28 +201,18 @@ namespace Service
                 }
             }
 
-            await _repository.SaveAsync();
-
-            // Get pharmacy and user details for notifications
-            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(request.PharmacyId, false);
-            var requester = await _userManager.FindByIdAsync(request.RequesterId);
-
-            // Notify the requester (pharmacy manager) about approval
-            await _notificationService.SendEmployeeRequestNotificationAsync(
-                request.RequesterId,
-                request.RequestId,
-                pharmacy?.Name ?? "Pharmacy",
-                user?.UserName ?? "User",
-                "Approved"
-            );
-
-            // Notify admins about the employee request approval
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "Pharmacy Employee Request Approved",
-                $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been approved",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Get pharmacy and user details for notifications
+                var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(request.PharmacyId, false);
+                var requester = await _userManager.FindByIdAsync(request.RequesterId);
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = request.RequestId,
                     userId = request.UserId,
                     userName = user?.UserName,
@@ -211,16 +222,57 @@ namespace Service
                     pharmacyName = pharmacy?.Name,
                     status = "Approved",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
 
-            // Notify the user about their approval
-            await _notificationService.SendRequestStatusUpdateNotificationAsync(
-                request.UserId,
-                request.RequestId,
-                "Approved",
-                $"Your employee request for {pharmacy?.Name ?? "Pharmacy"} has been approved! You are now an employee."
-            );
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendEmployeeApprovalNotificationsAfterTransactionAsync(
+                    request, user, pharmacy, requester, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendEmployeeApprovalNotificationsAfterTransactionAsync(
+            PharmacyEmployeeRequest request, User user, Pharmacy pharmacy, User requester, string notificationData)
+        {
+            try
+            {
+                // Notify the requester (pharmacy manager) about approval
+                await _notificationService.SendEmployeeRequestNotificationAsync(
+                    request.RequesterId,
+                    request.RequestId,
+                    pharmacy?.Name ?? "Pharmacy",
+                    user?.UserName ?? "User",
+                    "Approved"
+                );
+
+                // Notify admins about the employee request approval
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "Pharmacy Employee Request Approved",
+                    $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been approved",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+
+                // Notify the user about their approval
+                await _notificationService.SendRequestStatusUpdateNotificationAsync(
+                    request.UserId,
+                    request.RequestId,
+                    "Approved",
+                    $"Your employee request for {pharmacy?.Name ?? "Pharmacy"} has been approved! You are now an employee."
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send employee approval notifications: {ex.Message}");
+            }
         }
 
         public async Task RejectRequestAsync(Guid requestId, string currentUserId, bool trackChanges)
@@ -233,29 +285,20 @@ namespace Service
                 throw new UnauthorizedApprovalException();
 
             request.Status = RequestStatus.Rejected;
-            await _repository.SaveAsync();
-
-            // Get pharmacy and user details for notifications
-            var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(request.PharmacyId, false);
-            var user = await _userManager.FindByIdAsync(request.UserId);
-            var requester = await _userManager.FindByIdAsync(request.RequesterId);
-
-            // Notify the requester (pharmacy manager) about rejection
-            await _notificationService.SendEmployeeRequestNotificationAsync(
-                request.RequesterId,
-                request.RequestId,
-                pharmacy?.Name ?? "Pharmacy",
-                user?.UserName ?? "User",
-                "Rejected"
-            );
-
-            // Notify admins about the employee request rejection
-            await _notificationService.SendNotificationToRolesAsync(
-                new[] { "Admin", "SuperAdmin" },
-                "Pharmacy Employee Request Rejected",
-                $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been rejected",
-                NotificationType.RequestUpdate,
-                JsonSerializer.Serialize(new { 
+            
+            // Use transaction to ensure data consistency
+            await _repository.BeginTransactionAsync();
+            try
+            {
+                await _repository.SaveAsync();
+                
+                // Get pharmacy and user details for notifications
+                var pharmacy = await _repository.PharmacyRepository.GetPharmacyAsync(request.PharmacyId, false);
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                var requester = await _userManager.FindByIdAsync(request.RequesterId);
+                
+                // Prepare notification data
+                var notificationData = JsonSerializer.Serialize(new { 
                     requestId = request.RequestId,
                     userId = request.UserId,
                     userName = user?.UserName,
@@ -265,16 +308,57 @@ namespace Service
                     pharmacyName = pharmacy?.Name,
                     status = "Rejected",
                     timestamp = DateTime.UtcNow
-                })
-            );
+                });
 
-            // Notify the user about their rejection
-            await _notificationService.SendRequestStatusUpdateNotificationAsync(
-                request.UserId,
-                request.RequestId,
-                "Rejected",
-                $"Your employee request for {pharmacy?.Name ?? "Pharmacy"} has been rejected."
-            );
+                await _repository.CommitTransactionAsync();
+                
+                // Send notifications outside of the transaction to avoid DbContext conflicts
+                await SendEmployeeRejectionNotificationsAfterTransactionAsync(
+                    request, user, pharmacy, requester, notificationData);
+            }
+            catch
+            {
+                await _repository.RollbackTransactionAsync();
+                throw;
+            }
+        }
+        
+        private async Task SendEmployeeRejectionNotificationsAfterTransactionAsync(
+            PharmacyEmployeeRequest request, User user, Pharmacy pharmacy, User requester, string notificationData)
+        {
+            try
+            {
+                // Notify the requester (pharmacy manager) about rejection
+                await _notificationService.SendEmployeeRequestNotificationAsync(
+                    request.RequesterId,
+                    request.RequestId,
+                    pharmacy?.Name ?? "Pharmacy",
+                    user?.UserName ?? "User",
+                    "Rejected"
+                );
+
+                // Notify admins about the employee request rejection
+                await _notificationService.SendNotificationToRolesAsync(
+                    new[] { "Admin", "SuperAdmin" },
+                    "Pharmacy Employee Request Rejected",
+                    $"Employee request for {user?.UserName ?? "User"} at {pharmacy?.Name ?? "Pharmacy"} has been rejected",
+                    NotificationType.RequestUpdate,
+                    notificationData
+                );
+
+                // Notify the user about their rejection
+                await _notificationService.SendRequestStatusUpdateNotificationAsync(
+                    request.UserId,
+                    request.RequestId,
+                    "Rejected",
+                    $"Your employee request for {pharmacy?.Name ?? "Pharmacy"} has been rejected."
+                );
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the main operation
+                Console.WriteLine($"Failed to send employee rejection notifications: {ex.Message}");
+            }
         }
 
         public async Task<(IEnumerable<PharmacyEmployeeRequestDto> pharmacyEmployeeRequests, MetaData metaData)> GetRequestsAsync(EmployeesRequestParameters employeeRequestParameters, string userId, bool trackChanges)

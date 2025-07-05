@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Entities.Models;
 using Repository;
 using PillSpot.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
