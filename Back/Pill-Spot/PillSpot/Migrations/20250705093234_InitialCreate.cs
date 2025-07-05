@@ -1460,7 +1460,7 @@ namespace PillSpot.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedDate", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "Gender", "LastName", "LocationId", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "superadmin-user-id1", 0, "0b886f46-dc3b-498b-ba90-c1ef1900b3a4", new DateTime(2025, 7, 1, 14, 8, 3, 571, DateTimeKind.Utc).AddTicks(8240), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEAG2g+l3D8bYKnvnDJNrpo+RFNiRSnJ4R32HNNO5YPhALbERNIyhLV6Sqc3xs6Dk0w==", "01095832905", false, null, null, null, "", false, "superadmin" });
+                values: new object[] { "superadmin-user-id1", 0, "e7b7adef-afdb-483c-b046-c83a2ef48db1", new DateTime(2025, 7, 5, 9, 32, 20, 247, DateTimeKind.Utc).AddTicks(915), new DateTime(2025, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "superadmin@gmail.com", true, "Super", 0, "Admin", null, false, null, "SUPERADMIN@GMAIL.COM", "SUPERADMIN", "AQAAAAIAAYagAAAAEJMAUES9cv9GsfMsmPGi5iZBkkXZE+D6If5eg7dIZbSZhk1T1PKEfD1LPAUAxmXFEg==", "01095832905", false, null, null, null, "", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
