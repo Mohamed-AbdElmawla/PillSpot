@@ -50,7 +50,7 @@ namespace PillSpot.Presentation.Controllers
         [HttpPost]
         [ValidateCsrfToken]
         [PharmacyRoleAuthorize("PharmacyOwner", "PharmacyManager", "PharmacyEmployee")]
-        [PermissionAuthorize("PharmacyProductManagement")]
+        //[PermissionAuthorize("PharmacyProductManagement")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePharmacyProduct([FromBody] PharmacyProductForCreationDto pharmacyProductDto)
         {
